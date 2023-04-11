@@ -1,25 +1,33 @@
--- ---------------------------------------------------------------- --
--- Archivo: 01_DDL_Mauri.sql                                       -- 
--- Version: 1.0                                                     --
--- Autores: Simón Zendejas, Maria Gutiérrez, Sergio Hernandez,		--
---			Carlos De Pro, Brenda Gutiérrez			                --
--- Fecha de elaboracion: 22-03-2023                                 --
--- ---------------------------------------------------------------- --
+-- =============================================
+-- Author:	Simón Zendejas, Maria Gutiérrez, 
+--			Sergio Hernandez, Carlos De Pro, 
+--			Brenda Gutiérrez
+-- Create date: 22-03-2023
+-- Description:	Son los Scripts DDL para la base 
+--				del datos del proyecto Mauri
+-- =============================================
 
 DROP DATABASE IF EXISTS mauri;
 
 CREATE DATABASE mauri;
 
+-- ------------- TABLA AREA -------------- --
+CREATE TABLE area(
+	idArea INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	nombreArea VARCHAR(100)
+);
+
 -- ------------- TABLA PROYECTO -------------- --
 CREATE TABLE proyecto(
 	idProyecto INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	area VARCHAR(50) NOT NULL,
-	nombreProyecto VARCHAR(45),
-	fechaRegistro DATETIME,
+	idArea INT NOT NULL,
+	nombreProyecto VARCHAR(100),
+	fechaRegistro DATE,
 	ObjetivoProyecto VARCHAR(150),
 	DescripcionProyecto VARCHAR(250),
 	RecursosNecesarios VARCHAR(100),
-	AcuerdosEstablecidos VARCHAR(100)
+	AcuerdosEstablecidos VARCHAR(100),
+	estatus BIT
 );
 
 -- ------------- TABLA ACADEMIA -------------- --
@@ -102,8 +110,7 @@ CREATE TABLE curso(
 	nombreCurso VARCHAR(50),
 	fechaCurso DATE,
 	horaCurso TIME,
-	lugar VARCHAR(150),
-	curso VARCHAR(50)
+	lugar VARCHAR(150)
 );
 
 -- ------------- TABLA DOCENTE -------------- --
@@ -124,7 +131,7 @@ CREATE TABLE calificacion(
 	calificacionDiagnostico FLOAT,
 	calificacionFinal FLOAT,
 	examenFinal FLOAT,
-	aisstencia FLOAT,
+	asistencia FLOAT,
 	participacion FLOAT, 
 	desempenioActividades FLOAT
 );
@@ -222,15 +229,32 @@ CREATE TABLE viaticos (
 	origenRecursoViaticos VARCHAR(50)
 );
 
+-- ------------- TABLA FACILITADOR -------------- --
+CREATE TABLE facilitador(
+	idFacilitador INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	IdArea INT NOT NULL,
+	nombreFacilitador VARCHAR(50),
+	programaEducativo VARCHAR(50),
+	CONSTRAINT fk_facilitador_area FOREIGN KEY (idArea)REFERENCES area(idArea),
+);
+
+-- ------------- TABLA SOLICIANTE -------------- --
+CREATE TABLE solicitante(
+	idSolicitante INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	idArea INT NOT NULL,
+	nombreSolicitante VARCHAR(50),
+	programaEducativo VARCHAR(50),
+	puesto VARCHAR(45),
+	tipoCompetencias VARCHAR(25)
+	CONSTRAINT fk_solicitante_area FOREIGN KEY (idArea)REFERENCES area(idArea)
+);
+
 -- ------------- TABLA SOLICITUD DE REGISTRO DE CAPACITACIÓN INTERNA -------------- --
 CREATE TABLE srci(
-	idSolicitante INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	idSolicitante INT NOT NULL,
+	idFacilitador INT NOT NULL,
 	idCurso INT NOT NULL,
-	area VARCHAR(50) NOT NULL,
-	programaEducativo VARCHAR(50),
-	nombreSolicitante VARCHAR(50),
-	puesto VARCHAR(50),
-	tipoCompetencias VARCHAR(25),
+	tipoCurso VARCHAR(45),
 	totalDias INT,
 	totalHoras INT,
 	numeroParticipantes INT,
@@ -241,10 +265,9 @@ CREATE TABLE srci(
 	horasPorTema INT,
 	resultadoDeAprendizaje TEXT,
 	perfilDeParticipante TEXT,
-	idFacilitador INT,
-	nombreFacilitador VARCHAR(50),
-	areaAcademicaDeFacilitador VARCHAR(50),
-	CONSTRAINT fk_solicitante_curso FOREIGN KEY (idCurso)REFERENCES curso(idCurso)
+	CONSTRAINT fk_solicitud_facilitador FOREIGN KEY (idFacilitador)REFERENCES facilitador(idFacilitador),
+	CONSTRAINT fk_solicitud_curso FOREIGN KEY (idCurso)REFERENCES curso(idCurso),
+	CONSTRAINT fk_solicitud_solicitante FOREIGN KEY (idSolicitante)REFERENCES solicitante(idSolicitante)
 );
 
 -- ------------- TABLA SOLICITUD CAPACITACION -------------- --
