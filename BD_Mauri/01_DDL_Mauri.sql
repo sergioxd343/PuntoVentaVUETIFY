@@ -7,24 +7,33 @@
 --				del datos del proyecto Mauri
 -- =============================================
 
+USE master;
+GO
+
+IF DB_ID('mauri') IS NOT NULL
+DROP DATABASE mauri;
+GO
+
+CREATE DATABASE mauri;
+GO
+
+USE mauri;
+GO
 -- ------------- TABLA PERSONA -------------- --
 CREATE TABLE persona(
-	idPersona			INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	cve_persona			INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	nombre				VARCHAR(50),
-	primerApellido		VARCHAR(50) NOT NULL,
-	segundoApellido		VARCHAR(50),
-	genero              CHAR(1) NOT NULL DEFAULT 'O', -- Genero: M; F; O;
-	fechaNacimiento 	DATE NOT NULL,
-	calle 				VARCHAR(129) NOT NULL DEFAULT '',
-	numero 				VARCHAR(20)  NOT NULL DEFAULT '',
-	colonia 			VARCHAR(40) NOT NULL DEFAULT '',
-	cp 					VARCHAR(25) NOT NULL DEFAULT '', -- Aunque el CP es un numero, se maneja como cadena por la internacionalización
-	ciudad 				VARCHAR(40) NOT NULL DEFAULT '',
-	estado 				VARCHAR(40) NOT NULL DEFAULT '',
-	telcasa             VARCHAR(20) NOT NULL DEFAULT '',
-	telmovil            VARCHAR(20) NOT NULL DEFAULT '',
-    email               VARCHAR(129) NOT NULL DEFAULT '',
-    rfc 				VARCHAR(13) NOT NULL DEFAULT ''
+	apellido_peterno	VARCHAR(50) NOT NULL,
+	apellido_materno	VARCHAR(50),
+	email               VARCHAR(129) NOT NULL DEFAULT '',
+	movil            	VARCHAR(20) NOT NULL DEFAULT '',
+	curp 				VARCHAR(18) NOT NULL DEFAULT '',
+	rfc 				VARCHAR(13) NOT NULL DEFAULT '',
+	sexo              	VARCHAR(10) NOT NULL, -- Genero: M; F; O;
+	fecha_nacimiento 	DATE NOT NULL,	        
+	activo 				BIT,
+	fecha_registro 		DATETIME,
+	usuario_registro 	INT
 );
 
 -- ------------- TABLA UNIDAD ACADEMICA ------------- --
@@ -60,8 +69,15 @@ CREATE TABLE curso(
 -- ----------------- TABLA PUESTO ------------------- --
 -- CREACION: 21/04/23 por Carlos René Andrade
 CREATE TABLE puesto(
-	idPuesto INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	tipoPuesto VARCHAR(50)
+	cve_puesto INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	nombre_puesto VARCHAR(50),
+	nivel_tabulador_puesto VARCHAR(25)
+);
+
+-- ----------------- TABLA TIPO PUESTO ------------------- --
+CREATE TABLE tipo_puesto(
+	cve_tipo_pesto INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	nombre_tipo_puesto VARCHAR(50),
 );
 
 -- ------------- TABLA CATEGORIA EVENTO -------------- --
@@ -70,25 +86,107 @@ CREATE TABLE categoriaEvento(
 	nombreCategoria VARCHAR(50), -- Diplomado, Competencias digitales, Tecnicos,Estrategicos, Institucionales, Certificaciones
 );
 
+-- ------------- TABLA EMPLEADO -------------- --
+CREATE TABLE empleado(
+	cve_empleado		INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	cve_persona			INT NOT NULL,
+	cve_puesto			INT NOT NULL,
+	cve_tipo_pesto		INT NOT NULL,
+	fecha_ingreso		DATE,
+	titulo_recibido		VARCHAR(50),
+	grado_estudio		VARCHAR(25),
+    estatus             BIT NOT NULL DEFAULT 1,
+	CONSTRAINT fk_empleado_persona FOREIGN KEY (idPersona) REFERENCES persona(idPersona),
+	CONSTRAINT fk_empleado_area FOREIGN KEY (idArea) REFERENCES area(idArea)
+);
+
+-- ------------- TABLA DANC -------------- --
+CREATE TABLE danc (
+	idDanc INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	idEmpleado INT NOT NULL,
+	anioEjercicio DATETIME,
+	direccionSubdireccion VARCHAR(140),
+	fechaElaboracion DATETIME,
+	unidadAcademica VARCHAR(45),
+	nivelEducativo VARCHAR(45),
+	direccionArea VARCHAR(140),
+	programaEducativo VARCHAR(50),
+	responsable VARCHAR(50),
+	necesidadesDetectadas TEXT,
+	nombreEvento VARCHAR(50),
+	objetivoEvento TEXT,
+	orientacionEvento TEXT,
+	justificacion TEXT,
+	tipoEvento VARCHAR(50),
+	otroTipoEvento VARCHAR(50),
+	tipoPrograma VARCHAR(50),
+	proveedor VARCHAR(50),
+	costoCapacitacion FLOAT,
+	origenCurso VARCHAR(50),
+	mes VARCHAR(15),
+	fechaInicio DATETIME,
+	fechaTemino DATETIME,
+	numDias INT,
+	numHorasEfectivas INT,
+	CONSTRAINT fk_danc_empleado FOREIGN KEY (idEmpleado) REFERENCES empleado(idEmpleado)
+);
+
+-- ------------- TABLA MODALIDAD EVENTO -------------- --
+CREATE TABLE modalidadEvento(
+	idModalidad INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	nombreModalidad VARCHAR(50), -- Presencial, Virtual sincronica, Vitual asincronica
+);
+
+-- ------------- TABLA ASESORIA PEDAGOGICA -------------- --
+CREATE TABLE asesoriaPedagogica(
+	idAsesoriaPedagogica INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	nombreAsasoriaPedagogica VARCHAR(50)
+);
+
+-- ------------- TABLA DESARROLLO DE PROYECTOS -------------- --
+CREATE TABLE desarrolloProyecto(
+	idDesarrolloProyecto INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	nombreDesarrolloProyecto VARCHAR(50)
+);
+
+-- ------------- TABLA MATERIAS DIPLOMADO -------------- --
+CREATE TABLE materiasDiplomado(
+	idMateriaDiplomado INT NOT NULL PRIMARY KEY,
+	nombreMateriaDiplomado VARCHAR(50),
+	grado INT
+);
+
+-- ------------- TABLA CUMPLE PROGRAMA OBLIGATORIO -------------- --
+CREATE TABLE cumpleProgramaObligatorio(
+	idCumpleProgramaObligatorio INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	idMateriaDiplomado INT NOT NULL,
+	CONSTRAINT fk_cumpleProgramaObligatorio_materiasDiplomado FOREIGN KEY (idMateriaDiplomado) REFERENCES materiasDiplomado(idMateriaDiplomado),
+);
+
+
+-- ------------- TABLA OTROS EVENTOS -------------- --
+CREATE TABLE otroEvento(
+	idOtroEvento INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	nombreOtroEvento VARCHAR(50)
+);
+
 -- ------------- TABLA EVENTO -------------- --
 CREATE TABLE evento(
 	idEvento INT NOT NULL PRIMARY KEY IDENTITY(1,1),
 	idCategoriaEvento INT NOT NULL,
 	idModalidad INT NOT NULL,
+	idAsesoriaPedagogica INT NOT NULL,
+	idDesarrolloProyecto INT NOT NULL,
+	idMateriaDiplomado INT NOT NULL,
+	idOtroEvento INT NOT NULL,
 	idDanc INT NOT NULL,
-	CONSTRAINT fk_evento_categoriaEvento FOREIGN KEY (idCategoriaEvento) REFERENCES categoriaEvento(idCategoriaEvento)
-);
-
--- ------------- TABLA EMPLEADO -------------- --
-CREATE TABLE empleado(
-	idEmpleado			INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	idPersona			INT NOT NULL,
-	idArea				INT NOT NULL,
-	idCarrera			INT NOT NULL,
-	numeroUnico         VARCHAR(65) NOT NULL DEFAULT '',
-    estatus             INT NOT NULL DEFAULT 1,
-	CONSTRAINT fk_empleado_persona FOREIGN KEY (idPersona) REFERENCES persona(idPersona),
-	CONSTRAINT fk_empleado_area FOREIGN KEY (idArea) REFERENCES area(idArea)
+	CONSTRAINT fk_evento_categoriaEvento FOREIGN KEY (idCategoriaEvento) REFERENCES categoriaEvento(idCategoriaEvento),
+	CONSTRAINT fk_evento_modalidadEvento FOREIGN KEY (idModalidad) REFERENCES modalidadEvento(idModalidad),
+	CONSTRAINT fk_evento_asesoriaPedagogica FOREIGN KEY (idAsesoriaPedagogica) REFERENCES asesoriaPedagogica(idAsesoriaPedagogica),
+	CONSTRAINT fk_evento_desarrolloProyecto FOREIGN KEY (idDesarrolloProyecto) REFERENCES desarrolloProyecto(idDesarrolloProyecto),
+	CONSTRAINT fk_evento_materiasDiplomado FOREIGN KEY (idMateriaDiplomado) REFERENCES materiasDiplomado(idMateriaDiplomado),
+	CONSTRAINT fk_evento_otroEvento FOREIGN KEY (idOtroEvento) REFERENCES otroEvento(idOtroEvento),
+	CONSTRAINT fk_evento_danc FOREIGN KEY (idDanc) REFERENCES danc(idDanc)
 );
 
 -- ------------- TABLA SOLICITUD PROYECTO -------------- --
@@ -149,14 +247,16 @@ CREATE TABLE observacionClase(
 );
 
 -- ------------- TABLA ENCUESTA DE SATISFACCIÓN Y EVALUACION DE RESULTADOS -------------- --
-CREATE TABLE encuestaSatisfaccionEvaluacio(
+CREATE TABLE encuestaSatisfaccionEvaluacion(
 	idEmpleado			INT NOT NULL,
 	idEvaluacionServicios INT NOT NULL,
 	idArea				INT NOT NULL,
 	nombreEvaluador		VARCHAR(50),
 	cuatrimestre		VARCHAR(8),
 	fecha				DATETIME,
-	comentariosSegerencias TEXT
+	comentariosSugerencias TEXT,
+	CONSTRAINT fk_encuestaSatisfaccionEvaluacio_area FOREIGN KEY (idArea) REFERENCES area(idArea),
+	CONSTRAINT fk_encuestaSatisfaccionEvaluacio_empleado FOREIGN KEY (idEmpleado) REFERENCES empleado(idEmpleado)
 );
 
 -- ------------- TABLA ANALISIS SITUACIONAL DOCENTE -------------- --
@@ -208,37 +308,6 @@ CREATE TABLE evalucionCapacitacion(
 	CONSTRAINT fk_evaluacionCapacitacion_empleado FOREIGN KEY (idEmpleado) REFERENCES empleado(idEmpleado)
 );
 
--- ------------- TABLA DANC -------------- --
-CREATE TABLE danc (
-	idDanc INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	idEmpleado INT NOT NULL,
-	anioEjercicio DATETIME,
-	direccionSubdireccion VARCHAR(140),
-	fechaElaboracion DATETIME,
-	unidadAcademica VARCHAR(45),
-	nivelEducativo VARCHAR(45),
-	direccionArea VARCHAR(140),
-	programaEducativo VARCHAR(50),
-	responsable VARCHAR(50),
-	necesidadesDetectadas TEXT,
-	nombreEvento VARCHAR(50),
-	objetivoEvento TEXT,
-	orientacionEvento TEXT,
-	justificacion TEXT,
-	tipoEvento VARCHAR(50),
-	otroTipoEvento VARCHAR(50),
-	tipoPrograma VARCHAR(50),
-	proveedor VARCHAR(50),
-	costoCapacitacion FLOAT,
-	origenCurso VARCHAR(50),
-	mes VARCHAR(15),
-	fechaInicio DATETIME,
-	fechaTemino DATETIME,
-	numDias INT,
-	numHorasEfectivas INT,
-	CONSTRAINT fk_danc_empleado FOREIGN KEY (idEmpleado) REFERENCES empleado(idEmpleado)
-);
-
 -- ------------- TABLA LISTA DE ASISTENCIA DE CAPACITACION -------------- --
 CREATE TABLE lac(
 	idAsistencia INT IDENTITY (1,1) PRIMARY KEY,
@@ -255,7 +324,7 @@ CREATE TABLE lac(
     tipoActividad VARCHAR(50),
 	numControl INT NOT NULL,
 	discapacidad VARCHAR(50),
-	Direccion VARCHAR(50),
+	direccion VARCHAR(50),
 	programaEducativo VARCHAR(50),
 	CONSTRAINT fk_lac_evento FOREIGN KEY (idEvento) REFERENCES evento(idEvento),
 	CONSTRAINT fk_lac_puesto FOREIGN KEY (idPuesto) REFERENCES puesto(idPuesto),
@@ -281,25 +350,7 @@ CREATE TABLE solicitudCapacitacion (
 	costoTotal FLOAT,
 	CONSTRAINT fk_solicitudCapacitacion_puesto FOREIGN KEY (idPuesto) REFERENCES puesto(idPuesto),
 	CONSTRAINT fk_solicitudCapacitacion_persona FOREIGN KEY (idPersona) REFERENCES persona(idPersona),
-	CONSTRAINT fk_solicitudCapacitacion_puesto FOREIGN KEY (idArea) REFERENCES area(idArea)
-);
-
--- ------------- TABLA EVALUACION -------------- --
-CREATE TABLE evaluacion (
-    idEvaluacion		INT IDENTITY(1,1)NOT NULL PRIMARY KEY,
-    numeroEmpleado		VARCHAR(50),
-    eaEvaluacion		VARCHAR(50),
-    nivel				FLOAT,
-    descripcionNivelRetroalimentacion TEXT
-);
-
--- ------------- TABLA RESULTADO -------------- --
-CREATE TABLE resultado (
-    idresultado			INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-    cuatrimestre		VARCHAR(50),
-    promedioEvaluacion	FLOAT,
-    mediaInstitucional	FLOAT,
-    retroalimentacionDesempenio TEXT
+	CONSTRAINT fk_solicitudCapacitacion_area FOREIGN KEY (idArea) REFERENCES area(idArea)
 );
 
 -- ------------- TABLA SOLICIANTE -------------- --
@@ -326,6 +377,7 @@ CREATE TABLE facilitador(
 
 -- ------------- TABLA SOLICITUD DE REGISTRO DE CAPACITACI�N INTERNA -------------- --
 CREATE TABLE srci(
+	idSrci 				INT NOT NULL PRIMARY KEY IDENTITY(1,1),
 	idSolicitante 		INT NOT NULL,
 	idFacilitador 		INT NOT NULL,
 	idCurso 			INT NOT NULL,
@@ -346,62 +398,27 @@ CREATE TABLE srci(
 );
 
 -- ------------- CUESTIONARIO DE EVALUCACION DE CURSOS -------------- --
-CREATE TABLE cuestionarioEvalucionCursos(
-	idSolicitante INT NOT NULL IDENTITY(1,1),
+CREATE TABLE cuestionarioEvalucionCurso(
+	idCuestionarioEvalucionCurso INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	idSolicitante INT NOT NULL,
 	idAcademia INT NOT NULL,
 	idCurso INT NOT NULL,
-	nombreSolicitante VARCHAR(50),
 	noParticipantes INT, 
-	nombreCurso VARCHAR(50),
 	fechaEvaluacion DATE,
 	cumplimientoProgramaC BIT,
-	contenidoCurso VARCHAR(10),
+	contenidoCurso TEXT,
 	aprendizajeObtenido BIT, 
-	expliacacionAprendizajeObtenido VARCHAR(50),
+	expliacacionAprendizajeObtenido TEXT,
 	recomendarCurso BIT, 
-	explicacionRecomeendacion VARCHAR(50)
-);
-
--- ------------- TABLA MODALIDAD EVENTO -------------- --
-CREATE TABLE modalidadEvento(
-	idModalidad INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	nombreModalidad VARCHAR(50), -- Presencial, Virtual sincronica, Vitual asincronica
-);
-
--- ------------- TABLA ASESORIA PEDAGOGICA -------------- --
-CREATE TABLE asesoriaPedagogica(
-	idAsesoriaPedagogica INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	nombreAsosoriaPedagogica VARCHAR(50)
-);
-
--- ------------- TABLA DESARROLLO DE PROYECTOS -------------- --
-CREATE TABLE desarrolloProyecto(
-	idDesarrolloProyecto INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	nombreDesarrolloProyecto VARCHAR(50)
-);
-
--- ------------- TABLA MATERIAS DIPLOMADO -------------- --
-CREATE TABLE materiasDiplomado(
-	idMateriaDiplomado INT NOT NULL,
-	nombreMateriaDiplomado VARCHAR(50),
-	grado INT
-);
-
--- ------------- TABLA CUMPLE PROGRAMA OBLIGATORIO -------------- --
-CREATE TABLE cumpleProgramaObligatorio(
-	idCumpleProgramaObligatorio INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	idProgramaObligatorio INT NOT NULL
-);
-
--- ------------- TABLA OTROS EVENTOS -------------- --
-CREATE TABLE otroEvento(
-	idOtroEvento INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	nombreOtroEvento VARCHAR(50)
+	explicacionRecomeendacion TEXT,
+	CONSTRAINT fk_cuestionarioEvalucionCursos_solicitante FOREIGN KEY (idSolicitante)REFERENCES solicitante(idSolicitante),
+	CONSTRAINT fk_cuestionarioEvalucionCursos_academia FOREIGN KEY (idAcademia)REFERENCES academia(idAcademia),
+	CONSTRAINT fk_cuestionarioEvalucionCursos_curso FOREIGN KEY (idCurso)REFERENCES curso(idCurso)
 );
 
 -- ------------- TABLA ESPACIOS -------------- --
 CREATE TABLE espacio(
-	idEpacio INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	idEspacio INT NOT NULL PRIMARY KEY IDENTITY(1,1),
 	nombreEspacio VARCHAR(25) -- Aula, Auditorio, Sala
 );
 
@@ -414,7 +431,7 @@ CREATE TABLE horario(
 
 -- ------------- TABLA TIPO INSTRUCTOR -------------- --
 CREATE TABLE tipoInstructor(
-	idTipoInstructor INT NOT NULL IDENTITY(1,1),
+	idTipoInstructor INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	nombreTipoInstructor VARCHAR(50)
 );
 
@@ -423,6 +440,7 @@ CREATE TABLE instructor(
 	idInstructor INT NOT NULL PRIMARY KEY IDENTITY(1,1),
 	idTipoInstructor INT NOT NULL,
 	nombreInstructor VARCHAR(50),
+	CONSTRAINT fk_instructor_tipoInstructor FOREIGN KEY (idTipoInstructor) REFERENCES tipoInstructor(idTipoInstructor),
 );
 
 -- ------------- TABLA GRUPO EVENTOS -------------- --
@@ -433,7 +451,11 @@ CREATE TABLE grupoEvento(
 	idEspacio INT NOT NULL,
 	idHorario INT NOT NULL,
 	fechaInicio DATE,
-	fechaFin DATE
+	fechaFin DATE,
+	CONSTRAINT fk_grupoEvento_evento FOREIGN KEY (idEvento) REFERENCES evento(idEvento),
+	CONSTRAINT fk_grupoEvento_instructor FOREIGN KEY (idInstructor) REFERENCES instructor(idInstructor),
+	CONSTRAINT fk_grupoEvento_espacio FOREIGN KEY (idEspacio) REFERENCES espacio(idEspacio),
+	CONSTRAINT fk_grupoEvento_horario FOREIGN KEY (idHorario) REFERENCES horario(idHorario)
 );
 
 -- ------------- TABLA GRUPO EVENTOS INSCRITOS -------------- --
@@ -453,5 +475,6 @@ CREATE TABLE grupoEventosInscritos(
 	fechaCalificacionCurso DATE,
 	calificacionAutoevaluacion INT,
 	evidenciaAplicacionCurso TEXT,
-	fechaAutoevaluacio DATE
+	fechaAutoevaluacio DATE,
+	CONSTRAINT fk_agrupoEventosInscritos_empleado FOREIGN KEY (idEmpleado) REFERENCES empleado(idEmpleado)
 );
