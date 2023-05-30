@@ -1,0 +1,42 @@
+body{
+
+}
+.container{
+    width: 600px;
+    margin: 150px auto;
+    background: #FFF;
+    padding: 10px;
+}
+.notify{
+    background-color: #333;
+    color: #FFF;
+    width: 250px;
+    -moz-border-radius:100px;
+    -webkit-border-radius:10px;
+    border-radius:10px;
+	text-align:center;
+	font-size:14px;
+	
+}
+.notify p{
+    padding: 10px;
+    margin: 0;
+	text-align:center;
+	font-size:14px;
+}
+.notify.error{
+    background-color: #F00;
+	text-align:center;
+	font-size:14px;
+}
+.notify.guardar{
+    background-color: #008800;
+	text-align:center;
+	font-size:14px;
+}
+div.code{
+    background: #DDD;
+    margin: 10px 10px 20px 20px;
+    padding: 5px;
+    font-family: monospace;
+}

@@ -1,0 +1,6 @@
+Para hacer uso de la libreria de validaciones se requiere crear el 
+siguiente div en la plantilla:  
+
+<div id="msj_v_valid"></div>
+
+ademas de importar el estilo de "v_valid.css" ubicado en style2

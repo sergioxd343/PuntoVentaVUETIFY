@@ -1,0 +1,36 @@
+/* 
+    Document   : barraProgreso
+    Created on : 2/07/2012, 01:40:37 PM
+    Author     : Mario
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/*border de la barra de progreso*/
+.progressTable
+{
+    border: solid 1px #e1e1e1;
+}
+
+/*tamaño de las celdas ancho-alto*/
+.size, .cell1, .cell2, .cell3
+{
+    width: 15px;
+    height: 15px;    
+}
+/*colores de las celdas*/
+.cell1
+{        
+    background-color: #22dd22;
+    display: none;
+}
+.cell2
+{        
+    background-color: #dd2222;
+    display: none;
+}
+.cell3
+{        
+    background-color: #2222dd;
+    display: none;
+}

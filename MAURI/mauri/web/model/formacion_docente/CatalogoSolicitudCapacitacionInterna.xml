@@ -1,0 +1,77 @@
+<CatalogoSolicitudCapacitacionInterna>
+    <tablaSolicitud>
+        <query>
+        SELECT
+            ROW_NUMBER() OVER (ORDER BY idSolicitudCapacitacionI) AS numero_fila, 
+            srci.idSolicitudCapacitacionI, 
+            srci.idSolicitante, 
+            srci.idFacilitador, 
+            srci.idCurso, 
+            srci.tipoCurso, 
+            srci.totalDias, 
+            srci.totalHoras, 
+            srci.numeroParticipantes, 
+            srci.objetivo, 
+            srci.alcance, 
+            srci.metodologia, 
+            srci.programaDelCurso, 
+            srci.horasPorTema, 
+            srci.resultadoDeAprendizaje, 
+            srci.perfilDeParticipante, 
+            solicitante.nombreSolicitante, 
+            solicitante.programaEducativo AS programaEducativoS, 
+            solicitante.tipoCompetencias, 
+            solicitante.puesto, 
+            curso.nombreCurso, 
+            curso.fechaCurso, 
+            curso.horaCurso, 
+            curso.lugar, 
+            facilitador.nombreFacilitador, 
+            facilitador.programaEducativo AS programaEducativoF, 
+            facilitador.IdArea AS IdAreaF, 
+            solicitante.idArea AS IdAreaS,
+            areaF.nombreArea AS nombreAreaF, 
+            areaS.nombreArea AS nombreAreaS
+        FROM            
+        srci INNER JOIN
+                        solicitante ON srci.idSolicitante = solicitante.idSolicitante INNER JOIN
+                        facilitador ON srci.idFacilitador = facilitador.idFacilitador INNER JOIN
+                        curso ON srci.idCurso = curso.idCurso INNER JOIN
+                        area AS areaF ON facilitador.IdArea = areaF.idArea AND facilitador.IdArea = areaF.idArea INNER JOIN
+                        area AS areaS ON solicitante.idArea = areaS.idArea AND solicitante.idArea = areaS.idArea
+        </query>
+    </tablaSolicitud>
+    <insertarSolicitud>
+        <query>
+            EXEC insertarSolicitudRegistroCapacitacionInterna 
+	            @idAreaF = ?,
+	            @idAreaS = ?,
+                @nombreCurso = ?,
+                @fechaCurso = ?,
+                @horaCurso = ?,
+                @lugar = ?,
+                @nombreFacilitador = ?,
+                @programaEducativoS = ?,
+	            @programaEducativoF = ?,
+                @nombreSolicitante = ?,
+                @tipoCurso = ?,
+                @puesto = ?,
+                @tipoCompetencias = ?,
+                @totalDias = ?,
+                @totalHoras = ?,
+                @numeroParticipantes = ?,
+                @objetivo = ?,
+                @alcance = ?,
+                @metodologia = ?,
+                @programaDelCurso = ?,
+                @horasPorTema = ?,
+                @resultadoDeAprendizaje = ?,
+                @perfilDeParticipante = ?
+        </query>
+    </insertarSolicitud>
+    <area>
+		<query>
+			SELECT idArea, nombreArea FROM area
+		</query>
+	</area>
+</CatalogoSolicitudCapacitacionInterna>

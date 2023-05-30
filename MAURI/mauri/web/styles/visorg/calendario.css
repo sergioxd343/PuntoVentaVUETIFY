@@ -1,0 +1,113 @@
+th {
+    background-color: #2E9AFE;
+    color: #F0FFFF;
+    font-family: arial,sans-serif,verdana;
+    font-size: 24px;
+    height: 50px;
+}
+td {
+    font-family: arial,sans-serif,verdana;
+    font-size: 64px;
+    height: 80px;
+    text-align: center;
+    width: 180px;
+	cursor: pointer;
+}
+.blank {
+    background-color: #FFFFFF;
+    display: none;
+}
+.no-disponible {
+    background-color: #6E6E6E;
+}
+.inhabil {
+    background-color: #DF7401;
+}
+.fin-semana {
+    background-color: #D8D8D8;
+}
+.disponible {
+    background-color: #FAFAFA;
+}
+.pendiente {
+    background-color: #F3F781;
+}
+.solicitada {
+    background-color: #81F7F3;
+}
+.autorizada {
+    background-color: #81F781;
+}
+.rechazada {
+    background-color: #FE2E2E;
+}
+.gestion-terminada {
+    background-color: #819FF7;
+}
+.realizada {
+    background-color: #A9F5BC;
+}
+.cancelada {
+    background-color: #F78181;
+}
+.countbox {
+    background-color: #2E9AFE;
+    color: #FFFFFF;
+    font-family: arial,sans-serif,verdana;
+    font-size: 24px;
+    height: 24px;
+    left: 0;
+    right: 95%;
+    text-align: center;
+    width: 24px;
+
+}
+.infobox {
+    background-color: #819FF7;
+    color: #2E2E2E;
+    font-family: arial,sans-serif,verdana;
+    font-size: 18px;
+    font-weight: bold;
+    left: 35%;
+    position: absolute;
+    right: 35%;
+}
+.label-name {
+    background-color: #819FF7;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+.label-text {
+    background-color: #FFFFFF;
+    left: 20%;
+    position: absolute;
+    text-align: right;
+    width: 78%;
+}
+.control{
+    background-color: #2E9AFE;
+    color: white;
+    width: 32px;
+    height: 32px;
+    font-family: arial,sans-serif,verdana;
+    font-size: 32px;
+}
+.control:hover{
+    background-color: #84C4FF;
+}
+#mc, #yc {
+    color: #2E9AFE;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: arial,sans-serif,verdana;
+    text-align: center;
+}
+#blackscreen {
+    background-color: rgba(0, 0, 0, 0.698);
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 1001;
+}

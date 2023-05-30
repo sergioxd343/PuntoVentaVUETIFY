@@ -29,7 +29,7 @@ CREATE TABLE persona(
 	movil            	VARCHAR(20) NOT NULL DEFAULT '',
 	curp 				VARCHAR(18) NOT NULL DEFAULT '',
 	rfc 				VARCHAR(13) NOT NULL DEFAULT '',
-	sexo              	VARCHAR(10) NOT NULL, -- Genero: M; F; O;
+	sexo              	VARCHAR(20) NOT NULL, -- Genero: M; F; O;
 	fecha_nacimiento 	DATE NOT NULL,	        
 	activo 				BIT,
 	fecha_registro 		DATETIME,
@@ -37,12 +37,12 @@ CREATE TABLE persona(
 );
 
 -- ------------- TABLA UNIDAD ACADEMICA ------------- --
--- Creacion: 21/04/23 por Carlos René Andrade
-CREATE TABLE unidadAcademica(
-	idUnidadAcademica INT  NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	direccionArea VARCHAR(50),
-	programaEducativo VARCHAR(50),
-	nombreGestorResponsable VARCHAR(50),	
+CREATE TABLE unidad_academica(
+	cve_unidad_academica INT  NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	nombre_unidad_academica VARCHAR(50),
+	activo 				BIT,
+	fecha_registro 		DATETIME,
+	usuario_registro 	INT	
 );
 
 -- ------------- TABLA ACADEMIA -------------- --
@@ -56,9 +56,23 @@ CREATE TABLE academia(
 
 -- ------------- TABLA AREA -------------- --
 CREATE TABLE area(
-	idArea				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	nombreArea			VARCHAR(100)
+	cve_area				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	nombre_area			VARCHAR(100),
+	activo 				BIT,
+	fecha_registro 		DATETIME,
+	usuario_registro 	INT
 );
+
+-- ----------------- TABLA UGAC ------------------- --
+CREATE TABLE ugac(
+	cve_ugac INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	nombre_ugac VARCHAR(50),
+	activo 				BIT,
+	fecha_registro 		DATETIME,
+	usuario_registro 	INT
+);
+
+
 
 -- ------------- TABLA CURSO -------------- --
 CREATE TABLE curso(
@@ -67,18 +81,33 @@ CREATE TABLE curso(
 );
 
 -- ----------------- TABLA PUESTO ------------------- --
--- CREACION: 21/04/23 por Carlos René Andrade
 CREATE TABLE puesto(
 	cve_puesto INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	nombre_puesto VARCHAR(50),
-	nivel_tabulador_puesto VARCHAR(25)
+	nivel_tabulador_puesto VARCHAR(25),
+	activo 				BIT,
+	fecha_registro 		DATETIME,
+	usuario_registro 	INT
 );
 
 -- ----------------- TABLA TIPO PUESTO ------------------- --
 CREATE TABLE tipo_puesto(
 	cve_tipo_pesto INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	nombre_tipo_puesto VARCHAR(50),
+	activo 				BIT,
+	fecha_registro 		DATETIME,
+	usuario_registro 	INT
 );
+
+-- ----------------- TABLA DEPARTAMENTO ------------------- --
+CREATE TABLE departamento(
+	cve_departamento INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	nombre_departamento VARCHAR(50),
+	activo 				BIT,
+	fecha_registro 		DATETIME,
+	usuario_registro 	INT
+);
+
 
 -- ------------- TABLA CATEGORIA EVENTO -------------- --
 CREATE TABLE categoriaEvento(
@@ -92,42 +121,56 @@ CREATE TABLE empleado(
 	cve_persona			INT NOT NULL,
 	cve_puesto			INT NOT NULL,
 	cve_tipo_pesto		INT NOT NULL,
+	cve_departamento	INT NOT NULL,
+	cve_area			INT NOT NULL,
+	cve_ugac			INT NOT NULL,
+	cve_unidad_academica 	INT NOT NULL,
 	fecha_ingreso		DATE,
 	titulo_recibido		VARCHAR(50),
 	grado_estudio		VARCHAR(25),
-    estatus             BIT NOT NULL DEFAULT 1,
+    activo 				BIT,
+	fecha_registro 		DATETIME,
+	usuario_registro 	INT
 	CONSTRAINT fk_empleado_persona FOREIGN KEY (idPersona) REFERENCES persona(idPersona),
 	CONSTRAINT fk_empleado_area FOREIGN KEY (idArea) REFERENCES area(idArea)
 );
 
 -- ------------- TABLA DANC -------------- --
-CREATE TABLE danc (
-	idDanc INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	idEmpleado INT NOT NULL,
-	anioEjercicio DATETIME,
-	direccionSubdireccion VARCHAR(140),
-	fechaElaboracion DATETIME,
-	unidadAcademica VARCHAR(45),
-	nivelEducativo VARCHAR(45),
-	direccionArea VARCHAR(140),
-	programaEducativo VARCHAR(50),
-	responsable VARCHAR(50),
-	necesidadesDetectadas TEXT,
-	nombreEvento VARCHAR(50),
-	objetivoEvento TEXT,
-	orientacionEvento TEXT,
+CREATE TABLE necesidad_capacitacion_anual (
+	cve_nec_cap_anual INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	cve_area_registro INT NOT NULL,
+	cve_unidad_academica INT NOT NULL,
+	cve_nivel_academico INT NOT NULL,
+	cve_area INT NOT NULL,
+	cve_departamento INT NOT NULL,
+	cve_empleado_responsable INT NOT NULL,
+	cve_orientacion_evento INT NOT NULL,
+	cve_tipo_evento INT NOT NULL,
+	cve_tipo_capacitacion INT NOT NULL,
+	cve_origen_evento INT NOT NULL,
+	anio_ejercicio DATETIME,
+	necesidades_detectadas TEXT,
+	nombre_evento VARCHAR(50),
+	objetivo_evento TEXT,
 	justificacion TEXT,
-	tipoEvento VARCHAR(50),
-	otroTipoEvento VARCHAR(50),
-	tipoPrograma VARCHAR(50),
+	otro_tipo_evento VARCHAR(50),
 	proveedor VARCHAR(50),
-	costoCapacitacion FLOAT,
-	origenCurso VARCHAR(50),
+	costo_capacitacion FLOAT,
 	mes VARCHAR(15),
-	fechaInicio DATETIME,
-	fechaTemino DATETIME,
-	numDias INT,
-	numHorasEfectivas INT,
+	fecha_inicio DATETIME,
+	fecha_temino DATETIME,
+	num_dias INT,
+	num_horas_efectivas INT,
+	participantes_ptc INT,
+	participantes_laboratoristas INT,
+	participantes_administrativo INT,
+	otros_participantes INT,
+	total_participantes INT,
+	total_hombres INT,
+	total_mujeres INT,
+	activo 				BIT,
+	fecha_registro 		DATETIME,
+	usuario_registro 	INT,	
 	CONSTRAINT fk_danc_empleado FOREIGN KEY (idEmpleado) REFERENCES empleado(idEmpleado)
 );
 
@@ -190,71 +233,95 @@ CREATE TABLE evento(
 );
 
 -- ------------- TABLA SOLICITUD PROYECTO -------------- --
-CREATE TABLE solicitudProyecto(
-	idSolicitudProyecto INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	idEmpleado			INT NOT NULL,
-	idArea				INT NOT NULL,
-	nombreProyecto		VARCHAR(100),
-	fechaRegistro		DATE,
-	ObjetivoProyecto	TEXT,
-	DescripcionProyecto TEXT,
-	RecursosNecesarios	TEXT,
-	AcuerdosEstablecidos TEXT,
+CREATE TABLE solicitud_proyecto(
+	cve_solicitud_proyecto INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	cve_area				INT NOT NULL,
+	nombre_proyecto		VARCHAR(100),
+	objetivo_proyecto	TEXT,
+	descripcion_proyecto TEXT,
+	recursos_necesarios	TEXT,
+	acuerdos_establecidos TEXT,
 	estatus				BIT DEFAULT 1, -- El estatus puede tener 2 valores, (0-Cancelado, 1-Revisado)
+	sexo				VARCHAR(20),
+	activo 				BIT,
+	fecha_registro 		DATETIME,
+	usuario_registro 	INT
 	CONSTRAINT fk_solicitudProyecto_empleado FOREIGN KEY (idEmpleado) REFERENCES empleado(idEmpleado),
 	CONSTRAINT fk_solicitudProyecto_area FOREIGN KEY (idArea) REFERENCES area(idArea)
 );
 
--- ------------- TABLA ASESORAMIENTO -------------- --
-CREATE TABLE asesoramiento(
-	idAsesoaramiento	INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	idEmpleado			INT NOT NULL,
-	nombreSolicitante	VARCHAR(50),
+-- ------------- TABLA ASESORIA -------------- --
+CREATE TABLE asesoria(
+	cve_asesoria	INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	cve_empleado			INT NOT NULL,
+	materia	VARCHAR(50),
 	fecha				DATE,
-	motivoSolicitud		VARCHAR(50),
-	compromisos			VARCHAR(100),
-	fechaSeguimiento	DATE,
-	responsable			VARCHAR(50),
+	motivo_solicitud		VARCHAR(50),
+	sugerencias			TEXT,
+	entrevista	TEXT,
+	activo 				BIT,
+	fecha_registro 		DATETIME,
+	usuario_registro 	INT
 	CONSTRAINT fk_asesoramiento_empleado FOREIGN KEY (idEmpleado) REFERENCES empleado(idEmpleado)
+);
+
+-- ----------------- TABLA ASESORIA_D ------------------- --
+CREATE TABLE asesoria_d(
+	cve_asesoria INT NOT NULL,
+	cve_compromiso INT NOT NULL,
+	cve_responsable INT NOT NULL,
+	compromiso TEXT,
+	fecha_seguimiento DATE,
+	activo 				BIT,
+	fecha_registro 		DATETIME,
+	usuario_registro 	INT
 );
 
 -- ------------- TABLA RUBRICA -------------- --
 CREATE TABLE rubrica(
-	idRubrica			INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	idEmpleado			INT NOT NULL,
-	nombreRubica		Varchar(45),
+	cve_rubrica			INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	cve_empleado			INT NOT NULL,
+	nombre_rubica		Varchar(45),
 	filas				VARCHAR(25),
 	columnas			VARCHAR(25),
-	nombreSeccion		VARCHAR(45),
-	seccionaFilaInicio	VARCHAR(25),
-	seccionFilaFin		VARCHAR(25),
-	nombreColumna		VARCHAR(45),
-	criteriosPorCelda	TEXT,
+	nombre_seccion		VARCHAR(45),
+	secciona_fila_inicio	VARCHAR(25),
+	seccion_fila_fin		VARCHAR(25),
+	nombre_columna		VARCHAR(45),
+	criterios_por_celda	TEXT,
+	activo 				BIT,
+	fecha_registro 		DATETIME,
+	usuario_registro 	INT
 	CONSTRAINT fk_rubrica_empleado FOREIGN KEY (idEmpleado) REFERENCES empleado(idEmpleado)
 );
 
--- ------------- TABLA OBSERVACIÓN DE CLASE -------------- --
-CREATE TABLE observacionClase(
-	idEmpleado			INT NOT NULL,
-	idEmpleadoDocente	INT NOT NULL,
-	idMateria			INT NOT NULL,
-	idRubrica			INT NOT NULL,
+-- ------------- TABLA RUBRICA OBSERVACIÓN DE CLASE -------------- --
+CREATE TABLE rubrica_observacion_clase(
+	cve_empleado_docente	INT NOT NULL,
+	cve_rubrica			INT NOT NULL,
 	seccion				VARCHAR(45),
-	calificacionSeccion INT,
-	calificacionTotal	INT,
+	calificacion_seccion INT,
+	calificacion_total	INT,
+	cometario 			TEXT,
+	activo 				BIT,
+	fecha_registro 		DATETIME,
+	usuario_registro 	INT
 	CONSTRAINT fk_observacionClase_empleado FOREIGN KEY (idEmpleado) REFERENCES empleado(idEmpleado),
 	CONSTRAINT fk_observacionClase_rubrica FOREIGN KEY (idRubrica) REFERENCES rubrica(idRubrica)
 );
 
 -- ------------- TABLA ENCUESTA DE SATISFACCIÓN Y EVALUACION DE RESULTADOS -------------- --
-CREATE TABLE encuestaSatisfaccionEvaluacion(
-	idEmpleado			INT NOT NULL,
-	idEvaluacionServicios INT NOT NULL,
-	idArea				INT NOT NULL,
-	nombreEvaluador		VARCHAR(50),
+CREATE TABLE evaluacion_resultado(
+	cve_eval_resul			INT NOT NULL,
+	cve_t_servicio INT NOT NULL,
+	cve_asesoria_proyecto				INT NOT NULL,
+	suma		INT,
+	porcentaje FLOAT,
 	cuatrimestre		VARCHAR(8),
-	fecha				DATETIME,
-	comentariosSugerencias TEXT,
+	comentarios TEXT,
+	activo 				BIT,
+	fecha_registro 		DATETIME,
+	usuario_registro 	INT
 	CONSTRAINT fk_encuestaSatisfaccionEvaluacio_area FOREIGN KEY (idArea) REFERENCES area(idArea),
 	CONSTRAINT fk_encuestaSatisfaccionEvaluacio_empleado FOREIGN KEY (idEmpleado) REFERENCES empleado(idEmpleado)
 );
@@ -331,6 +398,44 @@ CREATE TABLE lac(
 	CONSTRAINT fk_lac_persona FOREIGN KEY (idPersona) REFERENCES persona(idPersona)
 );
 
+-- ----------------- TABLA SOLICITUD FORMACION DOCENTE ------------------- --
+CREATE TABLE solicitud_formacion_docente(
+	cve_sol_form_doc 	INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	cve_unidad_academica INT NOT NULL,
+	cve_area 	INT NOT NULL,
+	cve_departamento INT NOT NULL,
+	cve_ugac INT NOT NULL,
+	cve_tipo_evento INT NOT NULL,
+	cve_tipo_orientacion INT NOT NULL,
+	cve_empleado_valida	INT NOT NULL,
+	cve_empleado_responsable INT NOT NULL,
+	cve_empleado_autoriza INT NOT NULL,
+	lugar VARCHAR(129),
+	fecha DATE,
+	horario DATETIME,
+	numero_horas INT,
+	centro_gestor VARCHAR(50),
+	proyecto_presupuesto FLOAT,
+	costo_total FLOAT,
+	transferencia_nombre VARCHAR(50),
+	transferencia_cuenta VARCHAR(25),
+	transferencia_plaza VARCHAR(20),
+	transferencia_banco VARCHAR(20),
+	transferencia_clave VARCHAR(25),
+	observaciones TEXT,
+	activo 				BIT,
+	fecha_registro 		DATETIME,
+	usuario_registro 	INT
+);
+
+-- ----------------- TABLA SOLICITUD FORMACION DOCENTE_D ------------------- --
+CREATE TABLE solicitud_formacion_docente_d(
+	cve_sol_form_doc INT NOT NULL,
+	cve_empleado_anotado INT NOT NULL,
+	activo 				BIT,
+	fecha_registro 		DATETIME,
+	usuario_registro 	INT
+);
 -- ------------- TABLA SOLICITUD APOYO PARA LA FORMACION DOCENTE -------------- --
 CREATE TABLE solicitudCapacitacion (
 	idSolicitudCapacitacion INT PRIMARY KEY,
@@ -376,22 +481,24 @@ CREATE TABLE facilitador(
 );
 
 -- ------------- TABLA SOLICITUD DE REGISTRO DE CAPACITACI�N INTERNA -------------- --
-CREATE TABLE srci(
-	idSrci 				INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	idSolicitante 		INT NOT NULL,
-	idFacilitador 		INT NOT NULL,
-	idCurso 			INT NOT NULL,
-	tipoCurso 			VARCHAR(45),
-	totalDias 			INT,
-	totalHoras 			INT,
-	numeroParticipantes INT,
+CREATE TABLE solicitud_capacitacion_interna(
+	cve_sol_cap_int 				INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	cve_instructor 		INT NOT NULL,
+	cve_orientacion_evento 		INT NOT NULL,
+	cve_curso 			INT NOT NULL,
+	total_dias 			INT,
+	total_horas 			INT,
+	numero_participantes INT,
 	objetivo 			TEXT,
 	alcance 			TEXT,
 	metodologia 		VARCHAR(50),
-	programaDelCurso 	VARCHAR(50),
-	horasPorTema 		INT,
-	resultadoDeAprendizaje TEXT,
-	perfilDeParticipante TEXT,
+	programa_evento 	VARCHAR(50),
+	horas_tema 		INT,
+	resultado_aprendizaje TEXT,
+	perfil_participante TEXT,
+	activo 				BIT,
+	fecha_registro 		DATETIME,
+	usuario_registro 	INT
 	CONSTRAINT fk_solicitud_facilitador FOREIGN KEY (idFacilitador)REFERENCES facilitador(idFacilitador),
 	CONSTRAINT fk_solicitud_curso FOREIGN KEY (idCurso)REFERENCES curso(idCurso),
 	CONSTRAINT fk_solicitud_solicitante FOREIGN KEY (idSolicitante)REFERENCES solicitante(idSolicitante)

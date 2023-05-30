@@ -1,0 +1,177 @@
+/* 
+    Document   : stilo
+    Created on : 5/07/2013, 10:56:06 AM
+    Author     : Emmanuel Espitia Rea <eespitia.rea@gmail.com>
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+* {
+    font-family: arial, verdana;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+p {
+    color: #222;
+    -moz-box-shadow: 5px 5px 5px #888;
+    -webkit-box-shadow: 5px 5px 5px #888;
+    box-shadow: 5px 5px 5px #888;
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+legend {
+    font-size: 11px;
+    font-weight: normal;
+}
+
+td {
+    width: 50px;
+    height: 20px;
+}
+
+.etiqueta {
+    color: whitesmoke;
+    text-align: right;
+    background-color: steelblue;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+}
+
+.valor {
+    text-align: center;
+    background-color: whitesmoke;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+}
+
+.actuador {
+    text-align: center;
+    background-color: lightskyblue;
+    -webkit-border-radius: 2px;
+    border-radius: 10px;
+}
+
+.actuador:hover {
+    text-align: center;
+    background-color: lightblue;
+    -webkit-border-radius: 2px;
+    border-radius: 10px;
+}
+
+#controls {
+    text-align: center;
+    top: 0px;
+    background-color: steelblue;
+    color: white;
+    -moz-box-shadow: 5px 5px 5px #888;
+    -webkit-box-shadow: 5px 5px 5px #888;
+    box-shadow: 5px 5px 5px #888;
+    position: absolute;
+    width: 320px;
+    height: 25px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+#pizarra {
+    position: fixed;
+    width: 280px;
+    height: 400px;
+    right: 0px;
+}
+
+.cabecera {
+    text-align: center;
+    top: 35px;
+    background-color: steelblue;
+    color: white;
+    -moz-box-shadow: 5px 5px 5px #888;
+    -webkit-box-shadow: 5px 5px 5px #888;
+    box-shadow: 5px 5px 5px #888;
+    position: absolute;
+    width: 145px;
+    height: 20px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.domingo {
+    left: 10px;
+}
+
+.lunes {
+    left: 195px;
+}
+
+.martes {
+    left: 380px;
+}
+
+.miércoles {
+    left: 565px;
+}
+
+.jueves {
+    left: 750px;
+}
+
+.viernes {
+    left: 935px;
+}
+
+.sábado {
+    left: 1120px;
+}
+
+.semana0 {
+    top: 50px;
+}
+
+.semana1 {
+    top: 235px;
+}
+
+.semana2{
+    top: 420px;
+}
+
+.semana3 {
+    top: 605px;
+}
+
+.semana4 {
+    top: 790px;
+}
+
+.semana5 {
+    top: 975px;
+}
+
+.disponible {
+    background-color: whitesmoke;
+}
+
+.solicitada {
+    background-color: lightgoldenrodyellow;
+}
+
+.autorizada {
+    background-color: lightskyblue;
+}
+
+.rechazada {
+    background-color: lightcoral;
+}
+
+.gestionada {
+    background-color: limegreen;
+}

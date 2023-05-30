@@ -1,0 +1,60 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,300italic,400,400italic,500,500italic);
+
+/*!
+ * material icons v2.2.0
+ * http://google.github.io/material-design-icons/#icon-font-for-the-web
+ */
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: url("./fonts/MaterialIcons-Regular.eot?v=2.2.0");
+    src: local("Material Icons"), local("MaterialIcons-Regular"), url("./fonts/MaterialIcons-Regular.woff2?v=2.2.0") format("woff2"), url("./fonts/MaterialIcons-Regular.woff?v=2.2.0") format("woff"), url("./fonts/MaterialIcons-Regular.ttf?v=2.2.0") format("truetype");
+}
+.icon, .breadcrumb > li + li:before {
+    display: inline-block;
+    font-family: 'Material Icons';
+    -webkit-font-feature-settings: 'liga';
+    font-feature-settings: 'liga';
+    font-size: inherit;
+    font-style: normal;
+    font-weight: normal;
+    height: 1em;
+    letter-spacing: normal;
+    line-height: 1;
+    overflow: hidden;
+    text-rendering: optimizeLegibility;
+    text-transform: none;
+    vertical-align: -16%;
+    white-space: nowrap;
+    width: 1em;
+    word-wrap: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-2x {
+    font-size: 2em;
+}
+
+.icon-3x {
+    font-size: 3em;
+}
+
+.icon-4x {
+    font-size: 4em;
+}
+
+.icon-5x {
+    font-size: 5em;
+}
+
+.icon-lg {
+    font-size: 1.4em;
+    vertical-align: -20%;
+}
+@media only screen and (min--moz-device-pixel-ratio: 0) {
+    .icon-lg {
+        vertical-align: -26%;
+    }
+}

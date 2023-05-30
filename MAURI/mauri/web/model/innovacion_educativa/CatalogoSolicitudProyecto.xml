@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<CatalogoSolicitudProyecto>
+    <tablaProyecto>
+		<query>
+			SELECT 
+			ROW_NUMBER() OVER (ORDER BY idProyecto) AS numero_fila,
+			proyecto.idProyecto,
+			proyecto.nombreProyecto, 
+			proyecto.fechaRegistro, 
+			proyecto.ObjetivoProyecto, 
+			proyecto.DescripcionProyecto, 
+			proyecto.RecursosNecesarios, 
+			proyecto.AcuerdosEstablecidos,
+			proyecto.estatus, 
+			area.nombreArea 
+			FROM proyecto INNER JOIN area ON proyecto.idArea = area.idArea
+		</query>
+	</tablaProyecto>
+    <guardarProyecto>
+		<query>
+			INSERT INTO proyecto 
+			(idArea, 
+			nombreProyecto, 
+			fechaRegistro, 
+			ObjetivoProyecto, 
+			DescripcionProyecto, 
+			RecursosNecesarios, 
+			AcuerdosEstablecidos) 
+			VALUES (?, ?, ?, ?, ?, ?, ?)
+		</query>
+	</guardarProyecto>
+    <tipoProyecto>
+		<query>
+			SELECT idArea, nombreArea FROM area
+		</query>
+	</tipoProyecto>
+    <editarProyecto>
+		<query>
+			UPDATE Proyecto
+			SET 
+				id_tipo_Proyecto = ?,
+				nombre = ?,
+				fecha = ?
+			WHERE id_Proyecto = ?
+		</query>
+	</editarProyecto>
+    <eliminarProyecto>
+		<query>
+			DELETE FROM Proyecto WHERE id_Proyecto = ?
+		</query>
+	</eliminarProyecto>
+	<cambiarEstatus>
+		<query>
+			UPDATE proyecto
+			SET 
+				estatus = ?
+			WHERE idProyecto = ?
+		</query>
+	</cambiarEstatus>
+</CatalogoSolicitudProyecto>
