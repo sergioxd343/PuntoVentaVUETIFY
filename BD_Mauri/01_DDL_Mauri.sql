@@ -20,333 +20,347 @@ GO
 
 -- ------------- TABLA MENU -------------- --
 CREATE TABLE menu(
-    cve_menu INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-    cve_padre INT NOT NULL,
-    nombre VARCHAR(50),
-    ruta VARCHAR(120),
-    orden INT,
-    activo BIT
+    cve_menu 				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+    cve_padre 				INT NOT NULL,
+    nombre	 				VARCHAR(50),
+    ruta 					VARCHAR(120),
+    orden 					INT,
+    activo 					BIT,
+	fecha_registro 			DATETIME,
+	usuario_registro 		INT
 );
 
 -- ------------- TABLA SUBMENU -------------- --
 CREATE TABLE submenu(
-    cve_menu INT NOT NULL,
-    cve_padre INT NOT NULL,
-    nombre VARCHAR(50),
-    ruta VARCHAR(120),
-    orden INT,
-    activo BIT
+    cve_menu 				INT NOT NULL,
+    cve_padre 				INT NOT NULL,
+    nombre 					VARCHAR(70),
+    ruta 					VARCHAR(120),
+    orden 					INT,
+    activo 					BIT,
+	fecha_registro 			DATETIME,
+	usuario_registro 		INT
 );
 
 -- ------------- TABLA GRUPO_SEGURIDAD -------------- --
 CREATE TABLE grupo_seguridad(
-    cve_grupo_seguridad INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-    nombre VARCHAR(50),
-    tiempo_sesion INT,
-    activo BIT
+    cve_grupo_seguridad 	INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+    nombre 					VARCHAR(50),
+    tiempo_sesion 			INT,
+    activo 					BIT,
+	fecha_registro 			DATETIME,
+	usuario_registro 		INT
 );
 
 -- ------------- TABLA MENU_PERMISOS -------------- --
 CREATE TABLE menu_permisos(
-    cve_grupo_seguridad INT NOT NULL,
-    cve_menu INT NOT NULL
+    cve_grupo_seguridad 	INT NOT NULL,
+    cve_menu 				INT NOT NULL,
+	activo					BIT,
+	fecha_registro 			DATETIME,
+	usuario_registro 		INT
 );
 
 -- ------------- TABLA USUARIO_GRUPO_SEGURIDAD -------------- --
 CREATE TABLE usuario_grupo_seguridad(
-    cve_grupo_seguridad INT NOT NULL,
-    cve_persona INT NOT NULL
+    cve_grupo_seguridad 	INT NOT NULL,
+    cve_persona 			INT NOT NULL,
+	activo					BIT,
+	fecha_registro 			DATETIME,
+	usuario_registro 		INT
 );
 
 -- ------------- TABLA USUARIO_GRUPO_SEGURIDAD -------------- --
 CREATE TABLE usuario(
-	cve_persona INT NOT NULL,
-	nombre_usuario VARCHAR(50),
-	contrasenia VARCHAR(50),
-	activo BIT
+	cve_persona 			INT NOT NULL,
+	nombre_usuario 			VARCHAR(50),
+	contrasenia 			VARCHAR(50),
+	activo 					BIT,
+	fecha_registro 			DATETIME,
+	usuario_registro 		INT
 );
 
 -- ------------- TABLA PERSONA -------------- --
 CREATE TABLE persona(
-	cve_persona			INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	nombre				VARCHAR(50),
-	apellido_peterno	VARCHAR(50) NOT NULL,
-	apellido_materno	VARCHAR(50),
-	email               VARCHAR(129) NOT NULL DEFAULT '',
-	movil            	VARCHAR(20) NOT NULL DEFAULT '',
-	curp 				VARCHAR(18) NOT NULL DEFAULT '',
-	rfc 				VARCHAR(13) NOT NULL DEFAULT '',
-	sexo              	VARCHAR(20) NOT NULL, -- Genero: M; F; O;
-	fecha_nacimiento 	DATE NOT NULL,	        
-	activo 				BIT,
-	fecha_registro 		DATETIME,
-	usuario_registro 	INT
+	cve_persona				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	nombre					VARCHAR(50),
+	apellido_peterno		VARCHAR(50) NOT NULL,
+	apellido_materno		VARCHAR(50),
+	email               	VARCHAR(129) NOT NULL DEFAULT '',
+	movil            		VARCHAR(20) NOT NULL DEFAULT '',
+	curp 					VARCHAR(18) NOT NULL DEFAULT '',
+	rfc 					VARCHAR(13) NOT NULL DEFAULT '',
+	sexo              		VARCHAR(20) NOT NULL, -- Genero: M; F; O;
+	fecha_nacimiento 		DATE NOT NULL,	        
+	activo 					BIT,
+	fecha_registro 			DATETIME,
+	usuario_registro 		INT
 );
 
 -- ------------- TABLA UNIDAD ACADEMICA ------------- --
 CREATE TABLE unidad_academica(
-	cve_unidad_academica INT  NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	cve_unidad_academica 	INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	nombre_unidad_academica VARCHAR(50),
-	activo 				BIT,
-	fecha_registro 		DATETIME,
-	usuario_registro 	INT	
+	activo 					BIT,
+	fecha_registro 			DATETIME,
+	usuario_registro 		INT	
 );
 
 -- ------------- TABLA ACADEMIA -------------- --
 -- Modificacion: 21/04/23 por Carlos René Andrade
 CREATE TABLE academia(
-	idAcademia INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	idUnidadAcademica INT,
-	nombreAcademia VARCHAR(50),
-	activo 				BIT,
-	fecha_registro 		DATETIME,
-	usuario_registro 	INT
+	idAcademia 				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	idUnidadAcademica 		INT,
+	nombreAcademia 			VARCHAR(50),
+	activo 					BIT,
+	fecha_registro 			DATETIME,
+	usuario_registro 		INT
 );
 
 -- ------------- TABLA AREA -------------- --
 CREATE TABLE area(
 	cve_area				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	nombre_area			VARCHAR(100),
-	activo 				BIT,
-	fecha_registro 		DATETIME,
-	usuario_registro 	INT
+	nombre_area				VARCHAR(100),
+	activo 					BIT,
+	fecha_registro 			DATETIME,
+	usuario_registro 		INT
 );
 
 -- ----------------- TABLA UGAC ------------------- --
 CREATE TABLE ugac(
-	cve_ugac INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	nombre_ugac VARCHAR(50),
-	activo 				BIT,
-	fecha_registro 		DATETIME,
-	usuario_registro 	INT
+	cve_ugac 				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	nombre_ugac 			VARCHAR(50),
+	activo 					BIT,
+	fecha_registro 			DATETIME,
+	usuario_registro 		INT
 );
 
 -- ------------- TABLA CURSO -------------- --
 CREATE TABLE curso(
-	cve_curso INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	nombre_curso VARCHAR(50),
-	activo 				BIT,
-	fecha_registro 		DATETIME,
-	usuario_registro 	INT
+	cve_curso 				INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	nombre_curso 			VARCHAR(50),
+	activo 					BIT,
+	fecha_registro 			DATETIME,
+	usuario_registro 		INT
 );
 
 -- ----------------- TABLA PUESTO ------------------- --
 CREATE TABLE puesto(
-	cve_puesto INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	nombre_puesto VARCHAR(50),
-	nivel_tabulador_puesto VARCHAR(25),
-	activo 				BIT,
-	fecha_registro 		DATETIME,
-	usuario_registro 	INT
+	cve_puesto 				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	nombre_puesto 			VARCHAR(50),
+	nivel_tabulador_puesto 	VARCHAR(25),
+	activo 					BIT,
+	fecha_registro 			DATETIME,
+	usuario_registro 		INT
 );
 
 -- ----------------- TABLA TIPO PUESTO ------------------- --
 CREATE TABLE tipo_puesto(
-	cve_tipo_pesto INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	nombre_tipo_puesto VARCHAR(50),
-	activo 				BIT,
-	fecha_registro 		DATETIME,
-	usuario_registro 	INT
+	cve_tipo_pesto 			INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	nombre_tipo_puesto 		VARCHAR(50),
+	activo 					BIT,
+	fecha_registro 			DATETIME,
+	usuario_registro 		INT
 );
 
 -- ----------------- TABLA DEPARTAMENTO ------------------- --
 CREATE TABLE departamento(
-	cve_departamento INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	nombre_departamento VARCHAR(50),
-	activo 				BIT,
-	fecha_registro 		DATETIME,
-	usuario_registro 	INT
+	cve_departamento 		INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	nombre_departamento 	VARCHAR(50),
+	activo 					BIT,
+	fecha_registro 			DATETIME,
+	usuario_registro 		INT
 );
 
 
 -- ------------- TABLA CATEGORIA EVENTO -------------- --
 CREATE TABLE categoria_evento(
-	cve_categoria_evento INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	nombre_categoria VARCHAR(50), -- Diplomado, Competencias digitales, Tecnicos,Estrategicos, Institucionales, Certificaciones
-	activo 				BIT,
-	fecha_registro 		DATETIME,
-	usuario_registro 	INT
+	cve_categoria_evento 	INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	nombre_categoria 		VARCHAR(50), -- Diplomado, Competencias digitales, Tecnicos,Estrategicos, Institucionales, Certificaciones
+	activo 					BIT,
+	fecha_registro 			DATETIME,
+	usuario_registro 		INT
 );
 
 -- ------------- TABLA EMPLEADO -------------- --
 CREATE TABLE empleado(
-	cve_empleado		INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	cve_persona			INT NOT NULL,
-	cve_puesto			INT NOT NULL,
-	cve_tipo_pesto		INT NOT NULL,
-	cve_departamento	INT NOT NULL,
-	cve_area			INT NOT NULL,
-	cve_ugac			INT NOT NULL,
+	cve_empleado			INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	cve_persona				INT NOT NULL,
+	cve_puesto				INT NOT NULL,
+	cve_tipo_pesto			INT NOT NULL,
+	cve_departamento		INT NOT NULL,
+	cve_area				INT NOT NULL,
+	cve_ugac				INT NOT NULL,
 	cve_unidad_academica 	INT NOT NULL,
-	fecha_ingreso		DATE,
-	titulo_recibido		VARCHAR(50),
-	grado_estudio		VARCHAR(25),
-    activo 				BIT,
-	fecha_registro 		DATETIME,
-	usuario_registro 	INT
+	fecha_ingreso			DATE,
+	titulo_recibido			VARCHAR(50),
+	grado_estudio			VARCHAR(25),
+    activo 					BIT,
+	fecha_registro 			DATETIME,
+	usuario_registro 		INT
 );
 
 -- ------------- TABLA SOLICITUD PROYECTO -------------- --
 CREATE TABLE solicitud_proyecto(
-	cve_solicitud_proyecto INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	cve_solicitud_proyecto 	INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	cve_area				INT NOT NULL,
-	nombre_proyecto		VARCHAR(100),
-	objetivo_proyecto	TEXT,
-	descripcion_proyecto TEXT,
-	recursos_necesarios	TEXT,
-	acuerdos_establecidos TEXT,
-	estatus				BIT DEFAULT 1, -- El estatus puede tener 2 valores, (0-Cancelado, 1-Revisado)
-	sexo				VARCHAR(20),
-	activo 				BIT,
-	fecha_registro 		DATETIME,
-	usuario_registro 	INT
+	nombre_proyecto			VARCHAR(100),
+	objetivo_proyecto		TEXT,
+	descripcion_proyecto 	TEXT,
+	recursos_necesarios		TEXT,
+	acuerdos_establecidos 	TEXT,
+	estatus					BIT DEFAULT 1, -- El estatus puede tener 2 valores, (0-Cancelado, 1-Revisado)
+	sexo					VARCHAR(20),
+	activo 					BIT,
+	fecha_registro 			DATETIME,
+	usuario_registro 		INT
 );
 
 -- ------------- TABLA ASESORIA -------------- --
 CREATE TABLE asesoria(
-	cve_asesoria	INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	cve_asesoria			INT NOT NULL PRIMARY KEY IDENTITY(1,1),
 	cve_empleado			INT NOT NULL,
-	materia	VARCHAR(50),
-	fecha				DATE,
+	materia					VARCHAR(50),
+	fecha					DATE,
 	motivo_solicitud		VARCHAR(50),
-	sugerencias			TEXT,
-	entrevista	TEXT,
-	activo 				BIT,
-	fecha_registro 		DATETIME,
-	usuario_registro 	INT
+	sugerencias				TEXT,
+	entrevista				TEXT,
+	activo 					BIT,
+	fecha_registro 			DATETIME,
+	usuario_registro 		INT
 );
 
 -- ----------------- TABLA ASESORIA_D ------------------- --
 CREATE TABLE asesoria_d(
-	cve_asesoria INT NOT NULL,
-	cve_compromiso INT NOT NULL,
-	cve_responsable INT NOT NULL,
-	compromiso TEXT,
-	fecha_seguimiento DATE,
-	activo 				BIT,
-	fecha_registro 		DATETIME,
-	usuario_registro 	INT
+	cve_asesoria 			INT NOT NULL,
+	cve_compromiso 			INT NOT NULL,
+	cve_responsable 		INT NOT NULL,
+	compromiso 				TEXT,
+	fecha_seguimiento 		DATE,
+	activo 					BIT,
+	fecha_registro 			DATETIME,
+	usuario_registro 		INT
 );
 
 -- ------------- TABLA RUBRICA -------------- --
 CREATE TABLE rubrica(
-	cve_rubrica			INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	cve_rubrica				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	cve_empleado			INT NOT NULL,
-	nombre_rubica		Varchar(45),
-	filas				VARCHAR(25),
-	columnas			VARCHAR(25),
-	nombre_seccion		VARCHAR(45),
+	nombre_rubica			VARCHAR(45),
+	filas					VARCHAR(25),
+	columnas				VARCHAR(25),
+	nombre_seccion			VARCHAR(45),
 	secciona_fila_inicio	VARCHAR(25),
 	seccion_fila_fin		VARCHAR(25),
-	nombre_columna		VARCHAR(45),
-	criterios_por_celda	TEXT,
-	activo 				BIT,
-	fecha_registro 		DATETIME,
-	usuario_registro 	INT
+	nombre_columna			VARCHAR(45),
+	criterios_por_celda		TEXT,
+	activo 					BIT,
+	fecha_registro 			DATETIME,
+	usuario_registro 		INT
 );
 
 -- ------------- TABLA RUBRICA OBSERVACIÓN DE CLASE -------------- --
 CREATE TABLE rubrica_observacion_clase(
 	cve_empleado_docente	INT NOT NULL,
-	cve_rubrica			INT NOT NULL,
-	seccion				VARCHAR(45),
-	calificacion_seccion INT,
-	calificacion_total	INT,
-	cometario 			TEXT,
-	activo 				BIT,
-	fecha_registro 		DATETIME,
-	usuario_registro 	INT
+	cve_rubrica				INT NOT NULL,
+	seccion					VARCHAR(45),
+	calificacion_seccion 	INT,
+	calificacion_total		INT,
+	cometario 				TEXT,
+	activo 					BIT,
+	fecha_registro 			DATETIME,
+	usuario_registro 		INT
 );
 
 -- ------------- TABLA ENCUESTA DE SATISFACCIÓN Y EVALUACION DE RESULTADOS -------------- --
 CREATE TABLE evaluacion_resultado(
 	cve_eval_resul			INT NOT NULL,
-	cve_t_servicio INT NOT NULL,
-	cve_asesoria_proyecto				INT NOT NULL,
-	suma		INT,
-	porcentaje FLOAT,
-	cuatrimestre		VARCHAR(8),
-	comentarios TEXT,
-	activo 				BIT,
-	fecha_registro 		DATETIME,
-	usuario_registro 	INT
+	cve_t_servicio 			INT NOT NULL,
+	cve_asesoria_proyecto	INT NOT NULL,
+	suma					INT,
+	porcentaje 				FLOAT,
+	cuatrimestre			VARCHAR(8),
+	comentarios 			TEXT,
+	activo 					BIT,
+	fecha_registro 			DATETIME,
+	usuario_registro 		INT
 );
 
 -- ----------------- TABLA SOLICITUD FORMACION DOCENTE ------------------- --
 CREATE TABLE solicitud_formacion_docente(
-	cve_sol_form_doc 	INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	cve_unidad_academica INT NOT NULL,
-	cve_area 	INT NOT NULL,
-	cve_departamento INT NOT NULL,
-	cve_ugac INT NOT NULL,
-	cve_tipo_evento INT NOT NULL,
-	cve_tipo_orientacion INT NOT NULL,
-	cve_empleado_valida	INT NOT NULL,
+	cve_sol_form_doc 		INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	cve_unidad_academica 	INT NOT NULL,
+	cve_area 				INT NOT NULL,
+	cve_departamento 		INT NOT NULL,
+	cve_ugac 				INT NOT NULL,
+	cve_tipo_evento 		INT NOT NULL,
+	cve_tipo_orientacion 	INT NOT NULL,
+	cve_empleado_valida		INT NOT NULL,
 	cve_empleado_responsable INT NOT NULL,
-	cve_empleado_autoriza INT NOT NULL,
-	lugar VARCHAR(129),
-	fecha DATE,
-	horario DATETIME,
-	numero_horas INT,
-	centro_gestor VARCHAR(50),
-	proyecto_presupuesto FLOAT,
-	costo_total FLOAT,
-	transferencia_nombre VARCHAR(50),
-	transferencia_cuenta VARCHAR(25),
-	transferencia_plaza VARCHAR(20),
-	transferencia_banco VARCHAR(20),
-	transferencia_clave VARCHAR(25),
-	observaciones TEXT,
-	activo 				BIT,
-	fecha_registro 		DATETIME,
-	usuario_registro 	INT
+	cve_empleado_autoriza 	INT NOT NULL,
+	lugar 					VARCHAR(129),
+	fecha 					DATE,
+	horario 				DATETIME,
+	numero_horas 			INT,
+	centro_gestor 			VARCHAR(50),
+	proyecto_presupuesto 	FLOAT,
+	costo_total 			FLOAT,
+	transferencia_nombre 	VARCHAR(50),
+	transferencia_cuenta 	VARCHAR(25),
+	transferencia_plaza 	VARCHAR(20),
+	transferencia_banco 	VARCHAR(20),
+	transferencia_clave 	VARCHAR(25),
+	observaciones 			TEXT,
+	activo 					BIT,
+	fecha_registro 			DATETIME,
+	usuario_registro 		INT
 );
 
 -- ----------------- TABLA SOLICITUD FORMACION DOCENTE_D ------------------- --
 CREATE TABLE solicitud_formacion_docente_d(
-	cve_sol_form_doc INT NOT NULL,
-	cve_empleado_anotado INT NOT NULL,
-	activo 				BIT,
-	fecha_registro 		DATETIME,
-	usuario_registro 	INT
+	cve_sol_form_doc 		INT NOT NULL,
+	cve_empleado_anotado 	INT NOT NULL,
+	activo 					BIT,
+	fecha_registro 			DATETIME,
+	usuario_registro 		INT
 );
 
 -- ------------- TABLA DANC -------------- --
 CREATE TABLE necesidad_capacitacion_anual (
-	cve_nec_cap_anual INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	cve_area_registro INT NOT NULL,
-	cve_unidad_academica INT NOT NULL,
-	cve_nivel_academico INT NOT NULL,
-	cve_area INT NOT NULL,
-	cve_departamento INT NOT NULL,
+	cve_nec_cap_anual 		INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	cve_area_registro 		INT NOT NULL,
+	cve_unidad_academica 	INT NOT NULL,
+	cve_nivel_academico 	INT NOT NULL,
+	cve_area 				INT NOT NULL,
+	cve_departamento 		INT NOT NULL,
 	cve_empleado_responsable INT NOT NULL,
-	cve_orientacion_evento INT NOT NULL,
-	cve_tipo_evento INT NOT NULL,
-	cve_tipo_capacitacion INT NOT NULL,
-	cve_origen_evento INT NOT NULL,
-	anio_ejercicio DATETIME,
-	necesidades_detectadas TEXT,
-	nombre_evento VARCHAR(50),
-	objetivo_evento TEXT,
-	justificacion TEXT,
-	otro_tipo_evento VARCHAR(50),
-	proveedor VARCHAR(50),
-	costo_capacitacion FLOAT,
-	mes VARCHAR(15),
-	fecha_inicio DATETIME,
-	fecha_temino DATETIME,
-	num_dias INT,
-	num_horas_efectivas INT,
-	participantes_ptc INT,
+	cve_orientacion_evento 	INT NOT NULL,
+	cve_tipo_evento 		INT NOT NULL,
+	cve_tipo_capacitacion 	INT NOT NULL,
+	cve_origen_evento 		INT NOT NULL,
+	anio_ejercicio 			DATETIME,
+	necesidades_detectadas 	TEXT,
+	nombre_evento 			VARCHAR(50),
+	objetivo_evento 		TEXT,
+	justificacion 			TEXT,
+	otro_tipo_evento 		VARCHAR(50),
+	proveedor 				VARCHAR(50),
+	costo_capacitacion 		FLOAT,
+	mes 					VARCHAR(15),
+	fecha_inicio 			DATETIME,
+	fecha_temino 			DATETIME,
+	num_dias 				INT,
+	num_horas_efectivas 	INT,
+	participantes_ptc 		INT,
 	participantes_laboratoristas INT,
 	participantes_administrativo INT,
-	otros_participantes INT,
-	total_participantes INT,
-	total_hombres INT,
-	total_mujeres INT,
-	activo 				BIT,
-	fecha_registro 		DATETIME,
-	usuario_registro 	INT
+	otros_participantes 	INT,
+	total_participantes 	INT,
+	total_hombres 			INT,
+	total_mujeres 			INT,
+	activo 					BIT,
+	fecha_registro 			DATETIME,
+	usuario_registro 		INT
 );
 
 -- ------------- TABLA SOLICITUD DE REGISTRO DE CAPACITACI�N INTERNA -------------- --

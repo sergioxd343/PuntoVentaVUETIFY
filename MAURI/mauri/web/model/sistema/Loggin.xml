@@ -1,0 +1,10 @@
+<Loggin>
+    <LogIn>
+        <query>
+            SELECT *
+            FROM v_menu
+            WHERE
+                nombre_usuario = 'sjonathan'
+        </query>
+    </LogIn>
+</Loggin>
