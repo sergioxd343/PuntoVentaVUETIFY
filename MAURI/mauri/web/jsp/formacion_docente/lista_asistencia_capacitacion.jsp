@@ -77,8 +77,8 @@
                                     ></v-text-field>
                                 </v-col>
 
-                                  <!-- FECHA DEL EVENTO -->
-                                  <v-col cols="12" sm="6" md="2" >
+                                  <!-- FECHA DE INICIO DEL EVENTO -->
+                                <v-col cols="12" sm="6" md="2" >
                                     <v-dialog
                                         ref="dialog"
                                         :return-value.sync="fecha"
@@ -118,7 +118,7 @@
                                     </v-dialog>
                                 </v-col>
 
-                                <!-- FECHA DEL EVENTO -->
+                                <!-- FECHA DEL FIN DEL EVENTO -->
                                 <v-col cols="12" sm="6" md="2" >
                                     <v-dialog
                                         ref="dialog"
@@ -226,6 +226,7 @@
                             </v-row>
 
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+                               <!-- OTRA ACTIVIDAD -->
                                 <v-col md=3>
                                     <v-text-field 
                                     v-if="tipoActividad === 7"
@@ -238,8 +239,6 @@
                                         :error="errors.has('otraAct')"
                                         :error-messages="errors.first('otraAct')"
                                     ></v-text-field>
-                                    
-                    
                                 </v-col>
                             </v-row>
 
@@ -258,9 +257,9 @@
                                             label="Número de control"
                                             persistent-hint
                                             v-validate="'required|max:200'"
-                                            data-vv-name="nombre corto"
-                                            :error="errors.has('nombre corto')"
-                                            :error-messages="errors.first('nombre corto')"
+                                            data-vv-name="numeroControl"
+                                            :error="errors.has('numeroControl')"
+                                            :error-messages="errors.first('numeroControl')"
                                         ></v-text-field>
                                     </v-col>
 
@@ -340,27 +339,28 @@
                                     </v-col>
 
                                      <!-- DISCAPACIDAD -->
-                                <v-col md=3 >   
-                                    <p>¿Tiene alguna discapacidad?</p>                                 
-                                    <v-radio-group
-                                        v-model="discapacidad"
-                                    
-                                        class="mt-1"
-                                        v-validate="'required'"
-                                        data-vv-name="tipo de persona"
-                                        :error="errors.has('tipo de persona')"
-                                        :error-messages="errors.first('tipo de persona')"
-                                        row>
-                                        <v-radio
-                                            label="Si"
-                                            value='true'
-                                        ></v-radio>
-                                        <v-radio
-                                            label="No"
-                                            value='false'
-                                        ></v-radio>
-                                    </v-radio-group>
+                                    <v-col md=3 >   
+                                        <p>¿Tiene alguna discapacidad?</p>                                 
+                                        <v-radio-group
+                                            v-model="discapacidad"
+                                        
+                                            class="mt-1"
+                                            v-validate="'required'"
+                                            data-vv-name="discapacidad"
+                                            :error="errors.has('discapacidad')"
+                                            :error-messages="errors.first('discapacidad')"
+                                            row>
+                                            <v-radio
+                                                label="Si"
+                                                value='true'
+                                            ></v-radio>
+                                            <v-radio
+                                                label="No"
+                                                value='false'
+                                            ></v-radio>
+                                        </v-radio-group>
                                 </v-col>
+                                    <!--TIPO DE DISCAPACIDAD -->
                                     <v-col md=3>
                                     <v-text-field 
                                                 v-if="discapacidad === 'true'"
@@ -375,24 +375,23 @@
                                     ></v-text-field>
                                 </v-col>
 
-                                <!-- DIRECCION -->
                                 
                             </v-row>
 
-                                <v-row  class="align-center" style="padding: 0px 50px 0px 50px">
-
-                                    <v-col md=3>
-                                        <v-text-field 
-                                            v-model="direccion"
-                                            outlined
-                                            label="Dirección en la que se encuentra"
-                                            persistent-hint
-                                            v-validate="'required|max:200'"
-                                            data-vv-name="direccion"
-                                            :error="errors.has('direccion')"
-                                            :error-messages="errors.first('direccion')"
-                                        ></v-text-field>
-                                    </v-col>
+                            <v-row  class="align-center" style="padding: 0px 50px 0px 50px">
+                                <!-- DIRECCION -->
+                                <v-col md=3>
+                                    <v-text-field 
+                                        v-model="direccion"
+                                        outlined
+                                        label="Dirección en la que se encuentra"
+                                        persistent-hint
+                                        v-validate="'required|max:200'"
+                                        data-vv-name="direccion"
+                                        :error="errors.has('direccion')"
+                                        :error-messages="errors.first('direccion')"
+                                    ></v-text-field>
+                                </v-col>
                         
                                 <!-- PUESTO -->
                                     <v-col md=2>
@@ -409,6 +408,7 @@
                                             :error-messages="errors.first('puesto')"
                                         ></v-select>
                                     </v-col>
+
                                     <v-col md="5">
                                         <v-text-field 
                                           v-if="puesto === 1 || puesto === 2"
@@ -417,9 +417,9 @@
                                           label="Programa educativo en el que te encuentras"
                                           persistent-hint
                                           v-validate="'required|max:200'"
-                                          data-vv-name="puesto"
-                                          :error="errors.has('puesto')"
-                                          :error-messages="errors.first('puesto')"
+                                          data-vv-name="informacionAdicional"
+                                          :error="errors.has('informacionAdicional')"
+                                          :error-messages="errors.first('informacionAdicional')"
                                         ></v-text-field>                
                                       </v-col>
                                 </v-row>

@@ -47,10 +47,31 @@
     
     int accion = request.getParameter("accion") != null && !request.getParameter("accion").equals("") ? Integer.parseInt(request.getParameter("accion")) : 0;
     
-    String tipoActividad = request.getParameter("tipoActividad") != null && !request.getParameter("tipoActividad").equals("") ? request.getParameter("tipoActividad") : "-";
-    String horario = request.getParameter("horario") != null && !request.getParameter("horario").equals("") ? request.getParameter("horario") : "-";
-    String nombreUsuario = request.getParameter("nombreUsuario") != null && !request.getParameter("nombreUsuario").equals("") ? request.getParameter("nombreUsuario") : "-";
+    String nombreEvento = request.getParameter("nombreEvento") != null && ! request.getParameter("nombreEvento").equals("") ? request.getParameter("nombreEvento") : "-";
+    String sesiones = request.getParameter("sesiones") != null && !request.getParameter("sesiones").equals("") ? request.getParameter("sesiones") : "-";
+    String horas = request.getParameter("horas") != null && !request.getParameter("horas").equals("") ? request.getParameter("horas") : "-";
     String fecha = request.getParameter("fecha") != null && !request.getParameter("fecha").equals("") ? request.getParameter("fecha") : "-";
+    String fecha1 = request.getParameter("fecha1") != null && !request.getParameter("fecha1").equals("") ? request.getParameter("fecha1") : "-";
+    String nombreInstructor = request.getParameter("nombreInstructor") != null && !request.getParameter("nombreInstructor").equals("") ? request.getParameter("nombreInstructor") : "-";
+    String horario = request.getParameter("horario") != null && !request.getParameter("horario").equals("") ? request.getParameter("horario") : "-";
+    String lugar = request.getParameter("lugar") != null && !request.getParameter("lugar").equals("") ? request.getParameter("lugar") : "-";
+    String tipoActividad = request.getParameter("tipoActividad") != null && !request.getParameter("tipoActividad").equals("") ? request.getParameter("tipoActividad") : "-";
+    String otraAct = request.getParameter("otraAct") != null && !request.getParameter("otraAct").equals("") ? request.getParameter("otraAct") : "-";
+    String numeroControl = request.getParameter("numeroControl") != null && !request.getParameter("numeroControl").equals("") ? request.getParameter("numeroControl") : "-";
+    String nombreAsistente = request.getParameter("nombreAsistente") != null && !request.getParameter("nombreAsistente").equals("") ? request.getParameter("nombreAsistente") : "-";
+    String primerApellidoA = request.getParameter("primerApellidoA") != null && !request.getParameter("primerApellidoA").equals("") ? request.getParameter("primerApellidoA") : "-";
+    String segundoApellidoA = request.getParameter("segundoApellidoA") != null && !request.getParameter("segundoApellidoA").equals("") ? request.getParameter("segundoApellidoA") : "-";
+    String sexo = request.getParameter("sexo") != null && !request.getParameter("sexo").equals("") ? request.getParameter("sexo") : "-";
+    String discapacidad = request.getParameter("discapacidad") != null && !request.getParameter("discapacidad").equals("") ? request.getParameter("discapacidad") : "-";
+    String tipoDiscapacidad = request.getParameter("tipoDiscapacidad") != null && !request.getParameter("tipoDiscapacidad").equals("") ? request.getParameter("tipoDiscapacidad") : "-";
+    String direccion = request.getParameter("direccion") != null && !request.getParameter("direccion").equals("") ? request.getParameter("direccion") : "-";
+    String puesto = request.getParameter("puesto") != null && !request.getParameter("puesto").equals("") ? request.getParameter("puesto") : "-";
+    String informacionAdicional = request.getParameter("informacionAdicional") != null && !request.getParameter("informacionAdicional").equals("") ? request.getParameter("informacionAdicional") : "-";
+
+
+
+
+
     String activo = request.getParameter("activo") != null && !request.getParameter("activo").equals("") ? request.getParameter("activo") : "-";
    
     int idUsuario = request.getParameter("idUsuario") != null && !request.getParameter("idUsuario").equals("") ? Integer.parseInt(request.getParameter("idUsuario")) : 0;

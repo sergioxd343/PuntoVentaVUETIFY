@@ -42,9 +42,10 @@
                                             label="Número de control"
                                             persistent-hint
                                             v-validate="'required|max:200'"
-                                            data-vv-name="nombre corto"
-                                            :error="errors.has('nombre corto')"
-                                            :error-messages="errors.first('nombre corto')"
+                                            data-vv-name="numeroControl"
+                                            :error="errors.has('numeroControl')"
+                                            :error-messages="errors.first('numeroControl')"
+                                            @keyup.enter="fnBuscarDocente()"
                                         ></v-text-field>
                                     </v-col>
 
@@ -107,19 +108,19 @@
                                         row> 
                                         <v-radio
                                             label="Masculino"
-                                            value='M'
+                                            value='Masculino'
                                         ></v-radio>
                                         <v-radio
                                             label="Femenino"
-                                            value='F'
+                                            value='Femenino'
                                         ></v-radio>
                                         <v-radio
                                             label="No binario"
-                                            value='Nb'
+                                            value='No binario'
                                         ></v-radio>
                                         <v-radio
                                             label="Otro"
-                                            value='O'
+                                            value='Otro'
                                         ></v-radio>
                                     </v-radio-group>
                                 </v-col>
@@ -162,6 +163,7 @@
                                         :error-messages="errors.first('area')"
                                     ></v-select>
                                 </v-col>
+                                
                                 <!--CARRERA-->
                                 <v-col md=2>
                                     <v-select 
@@ -543,54 +545,30 @@
                         </v-container>
                     </v-card>
                 </v-container>
-                <%-- <v-dialog v-model="dialogBuscador" width="70%" scrollable transition="dialog-bottom-transition">
-                    <v-card>
-                        <v-card-title class="text-h5 grey lighten-2">
+
+                
+                <v-card>
+                    <v-card-title class="text-h5 grey lighten-2">
                             Búsqueda Avanzada
-                        </v-card-title>
-                        <v-card-text>
-                            <v-row justify="center">
-                                <v-col md=8>
-                                    <v-text-field outlined label="Nombre" v-model="nombreBuscar" @keyup.enter="fnBusquedaNombre()"></v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row justify="center">
-                                <v-col md=4 offset-md=8>
-                                    <v-text-field label="Filtrar" v-model="searchBusqueda"></v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row justify="center">
-                                <v-col md=12>
-                                    <v-data-table
-                                        :headers="headersBusqueda"
-                                        :items="dataBusqueda"
-                                        :search="searchBusqueda"
-                                        class="elevation-2"
-                                        no-data-text="No se encontro ningun registro"
-                                        :hide-default-header="dataBusqueda.length < 1"
-                                        :hide-default-footer="dataBusqueda.length < 1"
-                                        locale="es-ES"
-                                        :mobile-breakpoint="NaN"
-                                        items-per-page="10"
-                                        @click:row="seleccionarUsuario"
-                                    >
-                                    </v-data-table>
-                                </v-col>
-                            </v-row>
-                        </v-card-text>
-                        <v-divider></v-divider>
-                        <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn
-                                color="primary"
-                                text
-                                @click="dialogBuscador = false"
-                            >
-                                Cerrar
-                            </v-btn>
-                        </v-card-actions>
-                    </v-card>
-                </v-dialog> --%>
+                    </v-card-title>
+                  
+                    <v-card-text>
+                        <v-row justify="center">
+                            <v-col md=8>
+                                <v-text-field outlined label="Nombre" v-model="nombreBuscar" @keyup.enter="fnBusquedaNombre()"></v-text-field>
+                            </v-col>
+                        </v-row>
+                  
+                        <v-row justify="center">
+                            <v-col md=4 offset-md=8>
+                                <v-text-field label="Filtrar" v-model="searchBusqueda"></v-text-field>
+                            </v-col>
+                        </v-row>
+                            
+                    </v-card-text>
+                </v-card>
+                
+
                 <!-- TODO: ALERTAS DE SISTEMA-->
                 <v-snackbar v-model="snackbar" top="top" :bottom="true" :multi-line="true" :color="color_snackbar">
                     {{mensaje_snackbar}}
@@ -682,7 +660,9 @@
                 const color_snackbar = ref('');
                 //Loaders
                 //Dialogs
-                const dialogBuscador = ref(false);
+                const dialogBuscador = ref(true);
+                const nombreBuscar = ref('');
+                const searchBusqueda = ref('');
 
                 const dialogDetallesCotizacion = ref(false);
                 const dialogProveedor = ref(false);
@@ -704,14 +684,56 @@
                 ]);
                 const searchProveedores = ref([]);
 
+                const dataBusqueda = ref([]);
+
                 onMounted(() => {
                     
                     fnAreasC();
                     fnEscalas();
+                    fnbuscar_cve_docente();
                 });
                 
                 
                 
+                async function fnbuscar_cve_docente(){
+                    try{
+                        preloader("../../");
+                        let parametros = new URLSearchParams();
+                        parametros.append("accion", 3);
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                dataBusqueda.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                }
+
+                async function fnBuscarDocente() {
+
+                    const numeroControl = this.numeroControl;
+                    console.log(numeroControl);
+
+                    for (let i = 0; i < this.dataBusqueda.length; i++) {
+                        if (numeroControl === this.dataBusqueda[i].cve_persona.toString()) {
+                            this.nombreDocente = this.dataBusqueda[i].nombre;
+                            this.primerApellidoD = this.dataBusqueda[i].apellido_peterno;
+                            this.segundoApellidoD = this.dataBusqueda[i].apellido_materno;
+                        break; 
+                        }
+                    }
+
+                }
+
+                function fnBusquedaNombre(){
+                    this.dataBusqueda = this.dataBusqueda.filter(item => item.nombre === this.nombreBuscar);
+                }
+
                 async function fnAreasC(){
                     try{
                         preloader("../../");
@@ -781,8 +803,12 @@
                         mensaje_snackbar.value = texto; 
                 }
 
+                
+
                 return{
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
+                    nombreBuscar,
+
                     numeroControl, nombreDocente, primerApellidoD, segundoApellidoD, sexo, puesto, area, carrera, tema,
                     objetivo, alcance, periodo, fecha, areaCapacitacion, escala1, escala2, escala3, escala4, escala5,  otraAct,
                     option, option1, option2, option3, option4,
@@ -793,7 +819,8 @@
                     
                     dataProveedores, headersProveedores, searchProveedores, arrayTiposProveedores, 
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor,
-                    fnLimpiarCampos, itemEditar
+                    fnLimpiarCampos, itemEditar, searchBusqueda, fnBusquedaNombre, fnBuscarDocente,
+                    dataBusqueda
                 }
             },
             
