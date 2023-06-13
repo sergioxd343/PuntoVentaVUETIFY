@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<CatalogoProveedores>
+    <tablaCatalogo>
+		<query>
+SELECT docente.idDocente, docente.nombreDocente, docente.puesto
+FROM     docente INNER JOIN
+                  curso ON docente.idDocente = curso.idDocente INNER JOIN
+                  calificacionesCurso ON curso.idCursoCalificaciones = calificacionesCurso.idCursoCalificaciones
+
+		</query>
+	</tablaCatalogo>
+    <guardarUsuario>
+		<query>
+			
+			INSERT INTO usuario (idTipoUsuario, nombre, fecha, activo) VALUES (?,?,?,1) 
+
+		</query>
+	</guardarUsuario>
+    <tipoPuesto>
+		<query>
+	SELECT idAcademia, nombreAcademia
+FROM     academia
+
+		</query>
+	</tipoPuesto>
+    <editarProveedor>
+		<query>
+			DECLARE @pass VARCHAR(6) = ?;
+			DECLARE @cv_usuario INT = ?;
+
+			UPDATE usuario
+			SET 
+				idTipoUsuario = ?,
+				nombreUsuario = ?,
+				fecha = ?
+
+			WHERE cv_usuario  = @cv_usuario
+
+			IF (SELECT password FROM usuario WHERE cv_usuario = @cv_usuario) IS NULL
+			BEGIN
+				UPDATE usuario SET password = @pass WHERE cv_usuario = @cv_usuario
+			END
+		</query>
+	</editarProveedor>
+    <eliminarProveedor>
+		<query>
+			DELETE FROM proveedor WHERE cve_proveedor = ?
+		</query>
+	</eliminarProveedor>
+
+	
+
+</CatalogoProveedores>

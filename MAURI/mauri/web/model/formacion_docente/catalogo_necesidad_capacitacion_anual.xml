@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<CatalogoProveedores>
+    <tablaEventos>
+		<query>
+			SELECT TOP (200) evento.idEvento AS Expr2, evento.idAcademia, evento.nombreEventoCapacitacion, evento.objetivoEvento, evento.orientacionEvento, evento.justificacionEvento, evento.tipoEvento, evento.otroTipoEvento, evento.tipoPrograma, 
+                  evento.proveedorSugerido, evento.costoCapacitacionSugerido, evento.origenRecursoEvento, periodo.mes AS Expr3, periodo.idEvento AS Expr1, periodo.fechaInicio AS Expr4, periodo.fechaTermino AS Expr5, periodo.numDias AS Expr6, 
+                  periodo.numHorasEfectivas AS Expr7, periodo.idPeriodo AS Expr8
+					FROM     evento INNER JOIN
+                  periodo ON evento.idEvento = periodo.idEvento
+		</query>
+	</tablaEventos>
+    <guardarEvento>
+		<query>
+			BEGIN TRY
+    BEGIN TRANSACTION
+    
+   DECLARE @idEvento INT;
+    INSERT INTO evento (idAcademia, nombreEventoCapacitacion, objetivoEvento, orientacionEvento, justificacionEvento, tipoEvento, otroTipoEvento, tipoPrograma, proveedorSugerido, costoCapacitacionSugerido, origenRecursoEvento)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+    SET @idEvento = SCOPE_IDENTITY();
+    
+    INSERT INTO periodo (idEvento, mes, fechaInicio, fechaTermino, numDias, numHorasEfectivas)
+    VALUES (@idEvento, ?, ?, ?, ?, ?);
+    
+    COMMIT TRANSACTION;
+END TRY
+BEGIN CATCH
+    ROLLBACK TRANSACTION;
+    THROW;
+END CATCH
+
+		</query>
+	</guardarEvento>
+    <academia>
+		<query>
+			SELECT     idAcademia, unidadAcademica 
+			FROM         academia   
+			ORDER BY idAcademia;
+		</query>
+	</academia>
+    <ActualizarEvento>
+		<query>
+			BEGIN TRANSACTION
+			UPDATE evento SET idAcademia = ?, nombreEventoCapacitacion = ?, objetivoEvento = ?, orientacionEvento= ?, justificacionEvento= ?, tipoEvento=?, otroTipoEvento=?, tipoPrograma=?, proveedorSugerido=?, costoCapacitacionSugerido=?, origenRecursoEvento=? WHERE idEvento = ?;
+			UPDATE periodo SET mes = ?, fechaInicio = ?, fechaTermino=?, numDias=?,numHorasEfectivas=? WHERE idPeriodo = ?;
+			COMMIT TRANSACTION
+		</query>
+	</ActualizarEvento>
+    <eliminarEvento>
+		<query>
+			BEGIN TRANSACTION
+			DELETE FROM periodo WHERE idPeriodo =?;	
+			DELETE FROM evento WHERE idEvento=  ?;
+			COMMIT TRANSACTION; 	
+		</query>
+	</eliminarEvento>
+
+	
+
+</CatalogoProveedores>

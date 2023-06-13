@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<CatalogoProveedores>
+    <tablaProveedores>
+		<query>
+			SELECT Usuario.id_usuario, Tipo_usuario.id_tipo_usuario, Tipo_usuario.nombre, Usuario.nombreUsuario, Usuario.fecha, Usuario.activo
+			FROM Tipo_usuario INNER JOIN
+            Usuario ON Tipo_usuario.id_tipo_usuario = Usuario.id_tipo_usuario
+		</query>
+	</tablaProveedores>
+
+    <guardarUsuario>
+		<query>
+			INSERT INTO Usuario (id_tipo_usuario,nombreUsuario,fecha,activo) values (?,?,?,1)
+		</query>
+	</guardarUsuario>
+
+    <tipoActividad>
+		<query>
+			SELECT       idTipoActividad, nombre
+			FROM         TipoActividad
+		</query>
+	</tipoActividad>
+	<horarios>
+		<query>
+			SELECT       idHorario, horario
+			FROM         evento_horari
+		</query>
+	</horarios>
+	<puesto>
+		<query>
+			SELECT idPuesto, nombrePuesto
+			FROM         puesto
+		</query>
+	</puesto>
+	<instructores>
+		<query>
+			SELECT idInstructor, nombreInstructor, primerApellidoInstructor
+			FROM  instructor
+		</query>
+	</instructores>
+	<lugar>
+		<query>
+			SELECT idLugar, nombreLugar
+			FROM  lugar
+		</query>
+	</lugar>
+
+    <editarUsuario>
+		<query>
+			
+		DECLARE @id_Usuario INT = ?;		
+			UPDATE Usuario
+			SET 
+				id_tipo_usuario = ?,
+				nombreUsuario = ?,
+				fecha = ?
+			WHERE id_Usuario = @id_Usuario
+	
+		</query>
+	</editarUsuario>
+	
+    <eliminarUsuario>
+		<query>
+			DELETE FROM Usuario WHERE id_usuario = ?
+		</query>
+	</eliminarUsuario>
+
+	<cambiarEstatus>
+		<query>
+			UPDATE Usuario
+			SET 
+				activo = ?
+			WHERE id_usuario = ?
+		</query>
+	</cambiarEstatus>
+
+	
+
+</CatalogoProveedores>
