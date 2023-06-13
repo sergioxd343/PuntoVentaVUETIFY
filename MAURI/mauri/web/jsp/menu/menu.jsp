@@ -6,7 +6,9 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
         <link href="../../styles/icon_material_design_4495/css/materialdesignicons.min.css" rel="stylesheet">
         <link href="../../javascript/VueJs/vuetify/vuetify.min.css" rel="stylesheet">
+        <link rel="shortcut icon" href="../../images/favicon.ico" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sistema de Mejora de la Aplicación Única del Registro de la Información</title>
         <style>
             html {
                 overflow-y: hidden !important;

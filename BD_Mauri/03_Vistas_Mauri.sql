@@ -25,3 +25,28 @@ SELECT
                 menu_permisos ON grupo_seguridad.cve_grupo_seguridad = menu_permisos.cve_grupo_seguridad INNER JOIN
                 usuario_grupo_seguridad ON grupo_seguridad.cve_grupo_seguridad = usuario_grupo_seguridad.cve_grupo_seguridad INNER JOIN
                 usuario ON usuario_grupo_seguridad.cve_persona = usuario.cve_persona ON menu.cve_menu = menu_permisos.cve_menu ON submenu.cve_menu = menu.cve_menu 
+GO
+
+IF OBJECT_ID('v_usuario_persona', 'V') IS NOT NULL
+    DROP VIEW v_usuario_persona;
+GO
+CREATE VIEW v_usuario_persona AS
+SELECT			
+				ROW_NUMBER() OVER (ORDER BY usuario.cve_persona) AS numero_fila,
+				usuario.cve_persona, 
+				usuario.nombre_usuario, 
+				usuario.contrasenia, 
+				usuario.activo, 
+				persona.nombre, 
+				persona.apellido_peterno, 
+				persona.apellido_materno, 
+				persona.email, 
+				persona.movil, 
+				persona.rfc,
+				persona.curp, 
+                persona.sexo, 
+				persona.fecha_nacimiento
+FROM            
+				usuario INNER JOIN
+                persona ON usuario.cve_persona = persona.cve_persona
+GO
