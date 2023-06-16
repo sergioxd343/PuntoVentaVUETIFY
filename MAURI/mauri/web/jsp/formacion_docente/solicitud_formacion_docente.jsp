@@ -94,6 +94,124 @@
                                             <v-radio label="Acámbaro" value="Acámbaro"></v-radio>
                                         </v-radio-group>
                                     </v-col>
+                                    
+                                    
+                                </v-row>
+                                
+                                <template>
+                                    <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+                                        <v-col md="12">
+                                            <p class="tituloTh" style="margin-bottom: 0px;">
+                                                Dirección Académica</p>
+                                            <table id="tabla">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="th">Área</th>
+                                                        <th class="th">EA</th>
+                                                        <th class="th">TEEI</th>
+                                                        <th class="th">DAyD</th>
+                                                        <th class="th">Idiomas</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="th">Programa Educativo</th>
+                                                        <td class="td"><v-text-field v-model="ea" outlined
+                                                                persistent-hint></v-text-field></td>
+                                                        <td class="td"><v-text-field v-model="teei" outlined
+                                                                persistent-hint></v-text-field></td>
+                                                        <td class="td"><v-text-field v-model="dayd" outlined
+                                                                persistent-hint></v-text-field></td>
+                                                        <td class="td"><v-text-field v-model="idiomas" outlined
+                                                                persistent-hint></v-text-field></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </v-col>
+                                    </v-row>
+                                </template>
+
+                                <template>
+                                    <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+                                        <v-col md="12">
+                                            <table id="tabla">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="th">N°</th>
+                                                        <th class="th">Número de empleado(a) o alumnado</th>
+                                                        <th class="th">Nombre completo del participante</th>
+                                                        <th class="th">Sexo</th>
+                                                        <th class="th">PTC</th>
+                                                        <th class="th">Tecnico docente</th>
+                                                        <th class="th">Alumnado</th>
+                                                        <th class="th">Personal administrativo o del área academica</th>
+                                                        <th class="th">Otro</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="th"> 1 </th>
+                                                        <td class="td">
+                                                            <v-text-field 
+                                                                v-model="ea" 
+                                                                outlined
+                                                                persistent-hint
+                                                            ></v-text-field>
+                                                        </td>
+                                                        <td class="td">
+                                                            <v-text-field 
+                                                                v-model="teei" 
+                                                                outlined
+                                                                persistent-hint>
+                                                            </v-text-field>
+                                                        </td>
+                                                        <td class="td">
+                                                            <v-text-field 
+                                                                v-model="dayd" 
+                                                                outlined
+                                                                persistent-hint>
+                                                            </v-text-field>
+                                                        </td>
+                                                        <td class="td">
+                                                            <v-text-field 
+                                                                v-model="idiomas" 
+                                                                outlined
+                                                                persistent-hint>
+                                                            </v-text-field>
+                                                        </td>
+                                                        <td class="td">
+                                                            <v-text-field 
+                                                                v-model="idiomas" 
+                                                                outlined
+                                                                persistent-hint>
+                                                            </v-text-field>
+                                                        </td>
+                                                        <td class="td">
+                                                            <v-text-field 
+                                                                v-model="idiomas" 
+                                                                outlined
+                                                                persistent-hint>
+                                                            </v-text-field>
+                                                        </td>
+                                                        <td class="td">
+                                                            <v-text-field 
+                                                                v-model="idiomas" 
+                                                                outlined
+                                                                persistent-hint>
+                                                            </v-text-field>
+                                                        </td>
+                                                        <td class="td">
+                                                            <v-text-field 
+                                                                v-model="idiomas" 
+                                                                outlined
+                                                                persistent-hint>
+                                                            </v-text-field>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </v-col>
+                                    </v-row>
+                                </template>
+
+                                <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+
                                     <v-col md="3">
                                         <v-text-field v-model="nombrePrograma" outlined
                                             label="Nombre del programa solicitado" persistent-hint
@@ -102,7 +220,8 @@
                                             :error="errors.has('nombre del programa solicitado')"
                                             :error-messages="errors.first('nombre del programa solicitado')"></v-text-field>
                                     </v-col>
-                                    <v-col md="4">
+
+                                    <v-col md="9">
                                         <p>Seleccione Tipo de Evento:</p>
                                         <v-row class="light--text">
                                             <v-col cols="4">
@@ -135,38 +254,7 @@
                                             </v-col>
                                         </v-row>
                                     </v-col>
-                                </v-row>
-                                <template>
-                                    <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-                                        <v-col md="12">
-                                            <p class="th tituloTh" style="margin-bottom: 0px;">
-                                                Dirección Académica</p>
-                                            <table id="tabla">
-                                                <tbody>
-                                                    <tr>
-                                                        <th class="th">Área</th>
-                                                        <th class="th">EA</th>
-                                                        <th class="th">TEEI</th>
-                                                        <th class="th">DAyD</th>
-                                                        <th class="th">Idiomas</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="th">Programa Educativo</th>
-                                                        <td class="td"><v-text-field v-model="ea" outlined
-                                                                persistent-hint></v-text-field></td>
-                                                        <td class="td"><v-text-field v-model="teei" outlined
-                                                                persistent-hint></v-text-field></td>
-                                                        <td class="td"><v-text-field v-model="dayd" outlined
-                                                                persistent-hint></v-text-field></td>
-                                                        <td class="td"><v-text-field v-model="idiomas" outlined
-                                                                persistent-hint></v-text-field></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </v-col>
-                                    </v-row>
-                                </template>
-                                <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+                                    
                                     <v-col md="3" justify="center" class="align-center">
                                         <v-radio-group v-model="modalidad" label="Modalidad" v-validate="'required'"
                                             data-vv-name="modalidad" :error="errors.has('modalidad')"

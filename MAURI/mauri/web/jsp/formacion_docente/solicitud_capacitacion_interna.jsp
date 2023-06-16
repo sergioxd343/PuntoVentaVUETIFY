@@ -15,7 +15,7 @@
             content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" />
         <script src="../../javascript/VueJs/vue/vue.js"></script>
         <script type="" src="../../javascript/VueJs/vue/vue-composition-api.prod.js"></script>
-        <title>Solicitud De registro de capacitacíon interna</title>
+        <title>Solicitud de registro de capacitacíon interna</title>
     </head>
     <style>
         body {
@@ -29,56 +29,87 @@
                 <v-container fluid>
                     <v-card>
                         <v-card-title style="background-color: #00b293; color:#ffffff;">
-                            Solicitud De registro de capacitacíon interna
+                            Solicitud de registro de capacitacíon interna
                         </v-card-title>
                         <v-container fluid>
                             <v-row justify="center" dense>
                                 <v-col class="text-center"><b>Datos del Solicitante</b></v-col>
                             </v-row>
                             <v-divider></v-divider>
+
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-                                <v-col md="6">
-                                    <v-autocomplete v-model="area" outlined label="Dirección académica"
-                                        v-validate="'required'" :items="areas" item-value="idArea"
-                                        item-text="nombreArea" data-vv-name="dirección académica"
-                                        :error="errors.has('dirección académica')"
-                                        :error-messages="errors.first('dirección académica')"></v-autocomplete>
-                                </v-col>
-                                <v-col md="6">
-                                    <v-text-field v-model="programa" outlined label="Programa educativo" persistent-hint
-                                        v-validate="'required|max:500'" data-vv-name="programa educativo"
-                                        :error="errors.has('programa educativo')"
-                                        :error-messages="errors.first('programa educativo')"></v-text-field>
-                                </v-col>
                                 <v-col md="4">
-                                    <v-text-field v-model="nombre" outlined label="Nombre del solicitante"
+                                    <v-autocomplete 
+                                        v-model="area" 
+                                        outlined label="Dirección académica"
+                                        v-validate="'required'" 
+                                        :items="areas" 
+                                        item-value="idArea"
+                                        item-text="nombreArea" 
+                                        data-vv-name="dirección académica"
+                                        :error="errors.has('dirección académica')"
+                                        :error-messages="errors.first('dirección académica')">
+                                    </v-autocomplete>
+                                </v-col>
+
+                                <v-col md="4">
+                                    <v-text-field 
+                                        v-model="programa" 
+                                        outlined label="Programa educativo" 
+                                        persistent-hint
+                                        v-validate="'required|max:500'" 
+                                        data-vv-name="programa educativo"
+                                        :error="errors.has('programa educativo')"
+                                        :error-messages="errors.first('programa educativo')">
+                                    </v-text-field>
+                                </v-col>
+
+                                <v-col md="4">
+                                    <v-text-field 
+                                        v-model="nombre" 
+                                        outlined label="Nombre del solicitante"
                                         persistent-hint v-validate="'required|max:500'"
                                         data-vv-name="nombre del solicitante"
                                         :error="errors.has('nombre del solicitante')"
-                                        :error-messages="errors.first('nombre del solicitante')"></v-text-field>
+                                        :error-messages="errors.first('nombre del solicitante')">
+                                    </v-text-field>
                                 </v-col>
+                            </v-row>
+
+                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+
                                 <v-col md="4">
-                                    <v-autocomplete v-model="puesto" outlined label="Puesto" persistent-hint
-                                        v-validate="'required|max:500'" :items="puestos" data-vv-name="puesto"
+                                    <v-autocomplete 
+                                        v-model="puesto" 
+                                        outlined label="Puesto" 
+                                        v-validate="'required|max:500'" 
+                                        :items="puestos" 
+                                        data-vv-name="puesto"
                                         :error="errors.has('puesto')"
-                                        :error-messages="errors.first('puesto')"></v-autocomplete>
+                                        :error-messages="errors.first('puesto')">
+                                    </v-autocomplete>
                                 </v-col>
-                                <v-col md="4">
-                                    <v-radio-group v-model="tipoCompetencia" label="Tipo de Competencia"
-                                        v-validate="'required'" data-vv-name="tipo de competencia"
+
+                                <v-col md="8">
+                                    <p>Tipo de competencia</p>  
+                                    <v-radio-group 
+                                        v-model="tipoCompetencia" 
+                                        class="mt-0"
+                                        v-validate="'required'" 
+                                        data-vv-name="tipo de competencia"
                                         :error="errors.has('tipo de competencia')"
-                                        :error-messages="errors.first('tipo de competencia')">
-                                        <v-radio label="Pedagógicas" value="pedagógica"></v-radio>
-                                        <v-radio label="Investigación " value="investigación"></v-radio>
-                                        <v-radio label="Tutoreo" value="tutoreo"></v-radio>
-                                        <v-radio label="Digitales" value="digitales"></v-radio>
-                                        <v-radio label="Técnicas" value="técnicas"></v-radio>
+                                        :error-messages="errors.first('tipo de competencia')"
+                                        row>
+                                            <v-radio label="Pedagógicas" value="pedagógica"></v-radio>
+                                            <v-radio label="Investigación " value="investigación"></v-radio>
+                                            <v-radio label="Tutoreo" value="tutoreo"></v-radio>
+                                            <v-radio label="Digitales" value="digitales"></v-radio>
+                                            <v-radio label="Técnicas" value="técnicas"></v-radio>
                                     </v-radio-group>
                                 </v-col>
                             </v-row>
-                            <%-- <v-row justify="center" dense>
-                                </v-row> --%>
-                                <v-row justify="center" dense>
+                           
+                            <v-row justify="center" dense>
                                     <v-col class="text-center"><b>Datos del Curso</b></v-col>
                                 </v-row>
                                 <v-divider></v-divider>

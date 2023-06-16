@@ -6,11 +6,30 @@ and open the template in the editor.
 -->
 <CatalogoProveedores>
 
+	<tablaAutoevaluacion>
+		<query>
+			SELECT empleado.cve_empleado, persona.nombre, autoevaluacion_capacittacion_docente.tema_curso, autoevaluacion_capacittacion_docente.objetivo_curso
+			FROM persona INNER JOIN
+			empleado ON empleado.cve_persona = persona.cve_persona INNER JOIN
+            autoevaluacion_capacittacion_docente ON autoevaluacion_capacittacion_docente.cve_empleado = empleado.cve_empleado		
+		</query>
+	</tablaAutoevaluacion>
+
 	<buscar_cve_docente>
 		<query>
-			SELECT cve_persona, nombre, apellido_peterno, apellido_materno,sexo FROM persona;
+			SELECT * FROM v_empleado;
 		</query>
 	</buscar_cve_docente>
+
+	<guardarAutoevaluacion>
+		<query>
+			insert into autoevaluacion_capacittacion_docente (cve_empleado, cve_area_capacitacion,
+			cve_calificacion_capacitacion, cve_evidencias, tema_curso, objetivo_curso, alcance_curso, periodo_curso,
+			fecha_autoevaluacion_curso, num_pregunta, pregunta, activo, fecha_registro, usuario_registro) values(
+			?, 1, 1, 1, ?, ?, ?, ?,
+			?, 1, ?, 1, GETDATE(), 1);
+		</query>
+	</guardarAutoevaluacion>
 
 	
     <areasCapacitacion>

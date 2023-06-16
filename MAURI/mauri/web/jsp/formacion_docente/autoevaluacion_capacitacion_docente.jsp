@@ -1,4 +1,4 @@
-<%@page contentType="text/html; charset=UTF-8" language="java" errorPage="" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -7,10 +7,11 @@
         <link href="../../styles/icon_material_design_4495/css/materialdesignicons.min.css" rel="stylesheet">
         <link href="../../javascript/VueJs/sweetalert2/sweetalert2.css" />
         <link href="../../javascript/VueJs/vuetify/vuetify.min.css" rel="stylesheet">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+        <link rel="shortcut icon" href="../../images/favicon.ico" type="image/x-icon">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui UTF-8">
         <script src="../../javascript/VueJs/vue/vue.js"></script>
         <script type="" src="../../javascript/VueJs/vue/vue-composition-api.prod.js" ></script>
-        <title>Autoevaluacio de eficacia de capacitacion docente</title>
+        <title>Autoevaluaci&oacute;n de eficacia de capacitaci&oacute;n docente</title>
     </head>
     <style>
         body {
@@ -23,7 +24,7 @@
                 <v-container fluid>
                     <v-card>
                         <v-card-title  style="background-color: #00b293; color:#ffffff;" >		
-                            AUTOEVALUACIÓN DE EFICACIA DE CAPACITACIÓN DOCENTE
+                            AUTOEVALUACI&Oacute;N DE EFICACIA DE CAPACITACI&Oacute;N DOCENTE
                         </v-card-title>
                         <v-container fluid>
 
@@ -39,7 +40,7 @@
                                         <v-text-field 
                                             v-model="numeroControl"
                                             outlined
-                                            label="Número de control"
+                                            label="N&uacute;mero de control"
                                             persistent-hint
                                             v-validate="'required|max:200'"
                                             data-vv-name="numeroControl"
@@ -52,6 +53,7 @@
                                     <!-- NOMBRE DEL DOCENTE -->
                                     <v-col md=4>
                                         <v-text-field 
+                                            disabled
                                             v-model="nombreDocente"
                                             outlined
                                             label="Nombre(s)"
@@ -66,6 +68,7 @@
                                     <!-- PRIMER APELLIDO DEL DOCENTE -->
                                     <v-col md=3>
                                         <v-text-field 
+                                            disabled
                                             v-model="primerApellidoD"
                                             outlined
                                             label="Primer apellido"
@@ -80,6 +83,7 @@
                                      <!-- SEGUNDO APELLIDO DEL DOCENTE -->
                                      <v-col md=3>
                                         <v-text-field 
+                                            disabled
                                             v-model="segundoApellidoD"
                                             outlined
                                             label="Segundo apellido"
@@ -99,6 +103,7 @@
                                 <v-col md=5 >   
                                     <p>Sexo</p>                              
                                     <v-radio-group
+                                        disabled
                                         v-model="sexo"                                                                                         
                                         class="mt-0"
                                         v-validate="'required'"
@@ -129,6 +134,7 @@
                                 <v-col md=2 >   
                                     <p>Puesto</p>                              
                                     <v-radio-group
+                                        disabled
                                         v-model="puesto"                                                                                         
                                         class="mt-0"
                                         v-validate="'required'"
@@ -138,34 +144,49 @@
                                         row> 
                                         <v-radio
                                             label="PTC"
-                                            value='ptc'
+                                            value='PTC'
                                         ></v-radio>
                                         <v-radio
                                             label="PA"
-                                            value='pa'
+                                            value='PA'
                                         ></v-radio>
 
                                     </v-radio-group>
                                 </v-col>
 
-                                <!-- AREA -->
-                                <v-col md=3>
-                                    <v-select 
+                                  <!-- AREA -->
+                                 <v-col md=3>
+                                    <v-text-field 
+                                        disabled
                                         v-model="area"
                                         outlined
-                                        label="Área"
-                                        v-validate="'required'"
-                                        :items="arrayAreas"
-                                        item-value="idArea"
-                                        item-text="nombre"
+                                        label="Area"
+                                        persistent-hint
+                                        v-validate="'required|max:200'"
                                         data-vv-name="area"
                                         :error="errors.has('area')"
                                         :error-messages="errors.first('area')"
-                                    ></v-select>
+                                    ></v-text-field>
                                 </v-col>
+
                                 
                                 <!--CARRERA-->
+
                                 <v-col md=2>
+                                    <v-text-field   
+                                        disabled
+                                        v-model="carrera"
+                                        outlined
+                                        label="Carrera"
+                                        persistent-hint
+                                        v-validate="'required|max:200'"
+                                        data-vv-name="carrera"
+                                        :error="errors.has('carrera')"
+                                        :error-messages="errors.first('carrera')"
+                                    ></v-text-field>
+                                </v-col>
+
+                               <!-- <v-col md=2>
                                     <v-select 
                                         v-model="carrera"
                                         outlined
@@ -178,7 +199,7 @@
                                         :error="errors.has('carrera')"
                                         :error-messages="errors.first('carrera')"
                                     ></v-select>
-                                </v-col>
+                                </v-col> -->
                                 </v-row> <br>
 
                                 <v-row justfy="center" dense >
@@ -315,7 +336,7 @@
                                 <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
 
                                     <v-col md=10>
-                                        <v-p> 1.- ¿El contenido del curso me permitió identificar técnicas, estrategias 
+                                        <v-p>1.- &#191;El contenido del curso me permiti&oacute; identificar t&eacute;cnicas, estrategias 
                                             y/ o acciones para la mejora mis funciones docentes?</v-p>
                                     </v-col>
 
@@ -357,7 +378,7 @@
 
                                     <v-col md=10>
                                         <v-p> 
-                                            2.- Posterior al curso de capacitación, ¿Generé propuestas de mejora en mi práctica docente?
+                                            2.- Posterior al curso de capacitaci&oacute;n, &#191;Gener&eacute; propuestas de mejora en mi pr&aacute;ctica docente?
                                         </v-p>
                                     </v-col>
 
@@ -380,7 +401,7 @@
 
                                     <v-col md=10>
                                         <v-p> 
-                                            3.- ¿En mi práctica docente del cuatrimestre actual puse en práctica las competencias adquiridas en el curso de capacitación?
+                                            3.- &#191;En mi pr&aacute;ctica docente del cuatrimestre actual puse en pr&aacute;ctica las competencias adquiridas en el curso de capacitaci&oacute;n?
                                         </v-p>
                                     </v-col>
 
@@ -402,7 +423,7 @@
                                 <v-row class="align-center" style="padding: 0px 50px 0px 50px">
                                     <v-col md=6>
                                         <v-text-field 
-                                        v-if="escala3 === 1 || escala3 === 2  "
+                                        v-if="escala3 === 6 || escala3 === 7  "
                                             v-model="otraAct"
                                             outlined
                                             label="Indique brevemente los factores que no permitieron su aplicación"
@@ -421,7 +442,7 @@
 
                                     <v-col md=10>
                                         <v-p> 
-                                            4.- La aplicación de las nuevas competencias en mi práctica docente mostró mejoras en el desempeño de mis estudiantes:
+                                            4.- La aplicaci&oacute;n de las nuevas competencias en mi pr&aacute;ctica docente mostr&oacute; mejoras en el desempe&ntilde;o de mis estudiantes:
                                         </v-p>
                                     </v-col>
 
@@ -444,7 +465,7 @@
 
                                     <v-col md=10>
                                         <v-p> 
-                                            5.- Seleccione la(s) evidencia(s) que utilizó para verificar el impacto de las técnicas, estrategias o acciones aprendidas en el curso:
+                                            5.- Seleccione la(s) evidencia(s) que utiliz&oacute; para verificar el impacto de las t&eacute;cnicas, estrategias o acciones aprendidas en el curso:
                                         </v-p>
                                     </v-col>
                                 </v-row>
@@ -458,7 +479,7 @@
                                     <label for="kiki">Encuestas a estudiantes </label> <br>
 
                                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<input type="checkbox" id="kiki" v-model="option2">
-                                    <label for="kiki">Resultados de evaluación docente </label> <br>
+                                    <label for="kiki">Resultados de evaluaci&oacute;n docente </label> <br>
 
                                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<input type="checkbox" id="kiki" v-model="option3">
                                     <label for="kiki">Entrevistas a estudiantes</label><br>
@@ -469,13 +490,13 @@
 
                                 <v-col md=4>
                                     <v-text-field 
-                                        v-model="objetivo"
+                                        v-model="otro"
                                         outlined
                                         label="Otro"
                                         v-validate="'required|max:200'"
-                                        data-vv-name="objetivo"
-                                        :error="errors.has('objetivo')"
-                                        :error-messages="errors.first('objetivo')"
+                                        data-vv-name="otro"
+                                        :error="errors.has('otro')"
+                                        :error-messages="errors.first('otro')"
                                     ></v-text-field>
                                 </v-col>
 
@@ -547,26 +568,7 @@
                 </v-container>
 
                 
-                <v-card>
-                    <v-card-title class="text-h5 grey lighten-2">
-                            Búsqueda Avanzada
-                    </v-card-title>
-                  
-                    <v-card-text>
-                        <v-row justify="center">
-                            <v-col md=8>
-                                <v-text-field outlined label="Nombre" v-model="nombreBuscar" @keyup.enter="fnBusquedaNombre()"></v-text-field>
-                            </v-col>
-                        </v-row>
-                  
-                        <v-row justify="center">
-                            <v-col md=4 offset-md=8>
-                                <v-text-field label="Filtrar" v-model="searchBusqueda"></v-text-field>
-                            </v-col>
-                        </v-row>
-                            
-                    </v-card-text>
-                </v-card>
+                
                 
 
                 <!-- TODO: ALERTAS DE SISTEMA-->
@@ -633,13 +635,17 @@
                 const option2 = ref("");
                 const option3 = ref("");
                 const option4 = ref("");
+                const otro = ref("");
 
                 
 
-                const arrayAreas = ref([]);
+                const arrayAreas = ref(["Tecnologias de la informacion","Quimica"]);
                 const arrayCarreras = ref([]);
-                const arrayAreasCapacitacion = ref([]);
-                const arrayEscala = ref([]);
+                const arrayAreasCapacitacion = ref(["Estrategias pedagógicas", "Comunicación", 
+                "Herramientas digitales", "Tutoreo", "Procesos institucionales", "Investigación", 
+                "Competencias técnicas"]);
+                const arrayEscala = ref([10,9,8,7,6]);
+                const dataBusqueda = ref([]);
 
 
                 
@@ -671,28 +677,78 @@
                 const headers = ref([]);
                 const dataProveedores = ref([]);
                 const headersProveedores = ref([
-                    {text: 'RFC', align: 'left', sortable: true, value: 'rfc'},
-                    {text: 'Nombre', align: 'left', sortable: true, value: 'nombre'},
-                    {text: 'Nombre corto', align: 'left', sortable: true, value: 'nombre_corto'},
-                    {text: 'Nombre contacto', align: 'left', sortable: true, value: 'nombre_contacto'},
-                    {text: 'Correo', align: 'left', sortable: true, value: 'correo'},
-                    {text: 'Telefono', align: 'left', sortable: true, value: 'telefono'},
-                    {text: 'Tipo de persona', align: 'left', sortable: true, value: 'tipo_persona'},
-                    {text: 'Contraseña', align: 'left', sortable: true, value: 'password'},
+                    {text: 'N° de control', align: 'left', sortable: true, value: 'cve_empleado'},
+                    {text: 'Nombre del docente', align: 'left', sortable: true, value: 'nombre'},
+                    {text: 'Tema del curso', align: 'left', sortable: true, value: 'tema_curso'},
+                    {text: 'Objetivo del curso', align: 'left', sortable: true, value: 'objetivo_curso'},
                     {text: 'Editar', align: 'left', sortable: true, value: 'editar'},
                     {text: 'Eliminar', align: 'left', sortable: true, value: 'eliminar'},
                 ]);
                 const searchProveedores = ref([]);
 
-                const dataBusqueda = ref([]);
+                
 
                 onMounted(() => {
-                    
-                    fnAreasC();
-                    fnEscalas();
+                    fnConsultarTabla();
                     fnbuscar_cve_docente();
                 });
                 
+                async function fnGuardar(){
+                    this.$validator.validate().then(async esValido => {
+                        if(esValido){
+                            try{
+                                preloader("../");
+                                let parametros = new URLSearchParams();
+                                parametros.append("accion", 2);
+                                parametros.append("numeroControl", numeroControl.value);
+                                parametros.append("tema", tema.value);
+                                parametros.append("objetivo", objetivo.value);
+                                parametros.append("alcance", alcance.value);
+                                parametros.append("periodo", periodo.value);
+                                parametros.append("fecha", fecha.value);
+                                parametros.append("escala1", escala1.value);
+                                
+                                let {data,status} = await axios.post(ctr, parametros);
+                                console.log(parametros);
+                                if(status == 200){
+                                    if(data == "1"){
+                                        mostrarSnackbar("success", "Registro guardado correctamente.");
+                                        fnConsultarTabla();
+                                        fnLimpiarCampos(this);   
+                                    }
+                                }
+                            } catch(error){
+                                mostrarSnackbar('error');
+                                console.error(error);
+                            } finally{
+                                swal.close();
+                            }
+                        }
+                    })
+                }
+
+
+                async function fnConsultarTabla(){
+                    try{
+                        preloader("../");
+                        //arreglo
+                        let parametros = new URLSearchParams();
+                        //le mandamos un parametro llamado accion
+                        parametros.append("accion", 1);
+                        //axios envia la peticion
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                dataProveedores.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                }
                 
                 
                 async function fnbuscar_cve_docente(){
@@ -724,57 +780,23 @@
                             this.nombreDocente = this.dataBusqueda[i].nombre;
                             this.primerApellidoD = this.dataBusqueda[i].apellido_peterno;
                             this.segundoApellidoD = this.dataBusqueda[i].apellido_materno;
+                            this.sexo = this.dataBusqueda[i].sexo;
+                            this.puesto = this.dataBusqueda[i].nombre_tipo_puesto;
+                            this.area = this.dataBusqueda[i].nombre_area,
+                            this.carrera = this.dataBusqueda[i].nombre_ugac
                         break; 
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'El número de control no coincide.',
+                            });
                         }
                     }
 
-                }
-
-                function fnBusquedaNombre(){
-                    this.dataBusqueda = this.dataBusqueda.filter(item => item.nombre === this.nombreBuscar);
-                }
-
-                async function fnAreasC(){
-                    try{
-                        preloader("../../");
-                        let parametros = new URLSearchParams();
-                        parametros.append("accion", 1);
-                        let {data,status} = await axios.post(ctr, parametros)
-                        if(status == 200){
-                            if(data.length > 0){
-                                arrayAreasCapacitacion.value = data
-                            }
-                        }
-                    } catch(error){
-                        mostrarSnackbar('error');
-                        console.error(error);
-                    } finally{
-                        swal.close();
-                    }
-                }
-                
-
-                async function fnEscalas(){
-                    try{
-                        preloader("../../");
-                        let parametros = new URLSearchParams();
-                        parametros.append("accion", 2);
-                        let {data,status} = await axios.post(ctr, parametros)
-                        if(status == 200){
-                            if(data.length > 0){
-                                arrayEscala.value = data
-                            }
-                        }
-                    } catch(error){
-                        mostrarSnackbar('error');
-                        console.error(error);
-                    } finally{
-                        swal.close();
-                    }
                 }
 
                 
-
                 function fnLimpiarCampos(cx){//cx = contexto
                     tipo.value = "";
                     nombreCorto.value = "";
@@ -811,7 +833,7 @@
 
                     numeroControl, nombreDocente, primerApellidoD, segundoApellidoD, sexo, puesto, area, carrera, tema,
                     objetivo, alcance, periodo, fecha, areaCapacitacion, escala1, escala2, escala3, escala4, escala5,  otraAct,
-                    option, option1, option2, option3, option4,
+                    option, option1, option2, option3, option4, otro,
                     
 
                     arrayAreas, arrayCarreras, arrayAreasCapacitacion, arrayEscala,
@@ -819,8 +841,8 @@
                     
                     dataProveedores, headersProveedores, searchProveedores, arrayTiposProveedores, 
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor,
-                    fnLimpiarCampos, itemEditar, searchBusqueda, fnBusquedaNombre, fnBuscarDocente,
-                    dataBusqueda
+                    fnLimpiarCampos, itemEditar, searchBusqueda, fnBuscarDocente,
+                    dataBusqueda, fnConsultarTabla, fnGuardar
                 }
             },
             

@@ -75,10 +75,19 @@
     
     switch (accion) {
         case 1:
-            out.println(datos.Consultas(parametros, "areasCapacitacion"));
+            out.println(datos.Consultas(parametros, "tablaAutoevaluacion"));
             break;
         case 2:
-            out.println(datos.Consultas(parametros, "escalas"));
+            temp_obj = new JsonObject();
+            temp_obj.addProperty("numeroControl", numeroControl);
+            temp_obj.addProperty("tema", tema);
+            temp_obj.addProperty("objetivo", objetivo);
+            temp_obj.addProperty("alcance", alcance);
+            temp_obj.addProperty("periodo", periodo);
+            temp_obj.addProperty("fecha", fecha);
+            temp_obj.addProperty("escala1", escala1);
+            parametros.add(temp_obj);
+            out.println(datos.Registro(parametros, "guardarAutoevaluacion"));
             break;
         case 3: 
             out.println(datos.Consultas(parametros, "buscar_cve_docente"));

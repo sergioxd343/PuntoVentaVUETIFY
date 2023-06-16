@@ -6,10 +6,11 @@
         <link href="../../styles/icon_material_design_4495/css/materialdesignicons.min.css" rel="stylesheet">
         <link href="../../javascript/VueJs/sweetalert2/sweetalert2.css" />
         <link href="../../javascript/VueJs/vuetify/vuetify.min.css" rel="stylesheet">
+        <link rel="shortcut icon" href="../../images/favicon.ico" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
         <script src="../../javascript/VueJs/vue/vue.js"></script>
         <script type="" src="../../javascript/VueJs/vue/vue-composition-api.prod.js" ></script>
-        <title>JSP Page</title>
+        <title>Necesidad de capacitaci&oacute;n anual</title>
     </head>
     <style>
         body {
@@ -22,28 +23,27 @@
                 <v-container fluid>
                     <v-card>
                         <v-card-title style="background-color: #00b293; color: #ffffff;" >
-                            Evento
+                            Necesidad de capacitaci&oacute;n anual
                         </v-card-title>
                         <v-container fluid>
-                            <v-row justify="center" class="aling-center" style="padding: 0px 50px 0px 50px" >
-                                <!--Columna-->
-                                <v-col md=6>
-                                        <v-text-field 
-                                            v-model="numHorasEfectivas"
-                                            outlined
-                                            label="A&ntilde;o a ejercer"    
-                                            persistent-hint
-                                            v-validate="'required|max:200'"
-                                            inputmode="numeric"
-                                            pattern="[0-9]*"
-                                            type="number"
-                                            data-vv-name="numero dias efectivas"
-                                            :error="errors.has('numero dias efectivas')"
-                                            :error-messages="errors.first('numero dias efectivas')"
-                                        ></v-text-field>
-                                    </v-col>
+                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+                                
+                                <!--AÑO -->
+                                <v-col md=3>
+                                    <v-text-field 
+                                        v-model="numHorasEfectivas"
+                                        outlined
+                                        label="A&ntilde;o a ejercer"    
+                                        persistent-hint
+                                        v-validate="'required|max:200'"
+                                        data-vv-name="numero dias efectivas"
+                                        :error="errors.has('numero dias efectivas')"
+                                        :error-messages="errors.first('numero dias efectivas')"
+                                        type="number"
+                                    ></v-text-field>
+                                </v-col>
 
-                                    <v-col md=6>
+                                <v-col md=6>
                                     <v-select
                                         v-model="idAcademia"
                                         outlined
@@ -59,44 +59,143 @@
                                     ></v-select>
                                 </v-col>
 
-                                <v-col md=12>
-                                        <v-subheader>Fecha de elaboraci&oacute;n</v-subheader>
+                                <!-- FECHA DE ELABORACIÓN -->
+                                <v-col cols="12" sm="6" md="3" >
+                                    <v-dialog
+                                        ref="dialog"
+                                        :return-value.sync="fechaElavoracion"
+                                        //persistent
+                                        width="290px"
+                                    >
+                                        <template v-slot:activator="{ on, attrs }">
+                                        <v-text-field
+                                            v-model="fechaElavoracion"
+                                            label="fechaElavoracion"
+                                            prepend-icon="mdi-calendar"
+                                            readonly
+                                            v-bind="attrs"
+                                            v-on="on"
+                                        ></v-text-field>
+                                        </template>
                                         <v-date-picker
-                                        v-model="fechaTermino"
-                                        landscape
-                                        class="mt-3"
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="fecha termino"
-                                        :error="errors.has('fecha termino')"
-                                        :error-messages="errors.first('fecha termino')"
-                                        ></v-date-picker>
-                                    </v-col>
-
-                                <v-col md=12 style="text-align: center; background-color: #00b293; color: floralwhite;">
-                                    <v-toolbar-title>Informaci&oacute;n de la Academia</v-toolbar-title>
+                                        v-model="fechaElavoracion"
+                                        scrollable
+                                        >
+                                        <v-spacer></v-spacer>
+                                        <v-btn
+                                            text
+                                            color="primary"
+                                            @click="modal = false"
+                                        >
+                                            Cancel
+                                        </v-btn>
+                                        <v-btn
+                                            text
+                                            color="primary"
+                                            @click="$refs.dialog.save(fechaElavoracion)"
+                                        >
+                                            OK
+                                        </v-btn>
+                                        </v-date-picker>
+                                    </v-dialog>
                                 </v-col>
+                            </v-row>
+
+                                <v-row justfy="center" dense >
+                                    <v-col class="text-center"><b>Informacion de la academia</b></v-col>
+                                </v-row>
+                                <v-divider> </v-divider>
+                            
+
+
+                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                 
-                                <v-col md=6>
+                                <v-col md=4>
                                     <v-select
-                                        v-model="idAcademia"
+                                        v-model="unidadAcademica"
                                         outlined
-                                        label="Academia"
+                                        label="Unidad academica"
                                         v-validate="'required'"
-                                        :items="arrayAcademia"
+                                        :items="arrayUnidadesAcademicas"
                                         item-value="idAcademia"
                                         item-text="unidadAcademica"
-                                        data-vv-name="academia"
-                                        :error="errors.has('academia')"
-                                        :error-messages="errors.first('academia')"
+                                        data-vv-name="unidadAcademica"
+                                        :error="errors.has('unidadAcademica')"
+                                        :error-messages="errors.first('unidadAcademica')"
                                         required
                                     ></v-select>
                                 </v-col>
 
-                                <v-col md=12 style="text-align: center; background-color: #00b293; color: floralwhite;">
-                                    <v-toolbar-title>Informaci&oacute;n del Evento</v-toolbar-title>
+                                <v-col md=4>
+                                    <v-select
+                                        v-model="nivelEducativo"
+                                        outlined
+                                        label="Nivel educativo"
+                                        v-validate="'required'"
+                                        :items="arrayUnidadesAcademicas"
+                                        item-value="idAcademia"
+                                        item-text="nivelEducativo"
+                                        data-vv-name="nivelEducativo"
+                                        :error="errors.has('nivelEducativo')"
+                                        :error-messages="errors.first('nivelEducativo')"
+                                        required
+                                    ></v-select>
                                 </v-col>
 
-                                <v-col md=6>
+                                <v-col md=4>
+                                    <v-select
+                                        v-model="direccionArea"
+                                        outlined
+                                        label="Direccion del area"
+                                        v-validate="'required'"
+                                        :items="arrayUnidadesAcademicas"
+                                        item-value="idAcademia"
+                                        item-text="direccionArea"
+                                        data-vv-name="direccionArea"
+                                        :error="errors.has('direccionArea')"
+                                        :error-messages="errors.first('direccionArea')"
+                                        required
+                                    ></v-select>
+                                </v-col>
+                            
+                            </v-row>
+
+                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+
+                                <v-col md=4>
+                                    <v-text-field 
+                                        v-model="programaEducativo"
+                                        outlined
+                                        label="Programa educativo"
+                                        persistent-hint
+                                        v-validate="'required|max:200'"
+                                        data-vv-name="programaEducativo"
+                                        :error="errors.has('programaEducativo')"
+                                        :error-messages="errors.first('programaEducativo')"
+                                    ></v-text-field>
+                                </v-col>
+
+                                <v-col md=4>
+                                    <v-text-field 
+                                        v-model="nombreGestor"
+                                        outlined
+                                        label="Nombre del gestor responsable"
+                                        persistent-hint
+                                        v-validate="'required|max:200'"
+                                        data-vv-name="nombreGestor"
+                                        :error="errors.has('nombreGestor')"
+                                        :error-messages="errors.first('nombreGestor')"
+                                    ></v-text-field>
+                                </v-col>
+                            </v-row>
+
+                            <v-row justfy="center" dense >
+                                <v-col class="text-center"><b>Informaci&oacute;n del evento</b></v-col>
+                            </v-row>
+                            <v-divider></v-divider>
+
+                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+                                <v-col md=4>
                                     <v-text-field 
                                         v-model="nombreEventoCapacitacion"
                                         outlined
@@ -109,7 +208,7 @@
                                     ></v-text-field>
                                 </v-col>
 
-                                <v-col md=6>
+                                <v-col md=4>
                                     <v-text-field 
                                         v-model="nombreEventoCapacitacion"
                                         outlined
@@ -122,7 +221,7 @@
                                     ></v-text-field>
                                 </v-col>
 
-                                <v-col md=6>
+                                <v-col md=4>
                                     <v-text-field 
                                         v-model="objetivoEvento"
                                         outlined
@@ -134,8 +233,10 @@
                                         :error-messages="errors.first('objetivo evento')"
                                     ></v-text-field>
                                 </v-col>
+                            </v-row>
 
-                                <v-col md=6>
+                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+                                <v-col md=4>
                                     <v-select 
                                         v-model="orientacionEvento"
                                         outlined
@@ -148,7 +249,7 @@
                                     ></v-select>
                                 </v-col>
 
-                                <v-col md=6>
+                                <v-col md=4>
                                     <v-text-field 
                                         v-model="justificacionEvento"
                                         outlined
@@ -161,7 +262,7 @@
                                     ></v-text-field>
                                 </v-col>
 
-                                <v-col md=6>
+                                <v-col md=4>
                                     <v-select 
                                         v-model="tipoEvento"
                                         outlined
@@ -173,20 +274,9 @@
                                         :error-messages="errors.first('tipo evento')"
                                     ></v-select>
                                 </v-col>
+                            </v-row>
 
-                                <v-col md=6>
-                                    <v-text-field 
-                                        v-model="otroTipoEvento"
-                                        outlined
-                                        label="En caso de otros especificar"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="otro tipo evento"
-                                        :error="errors.has('otro tipo evento')"
-                                        :error-messages="errors.first('otro tipo evento')"
-                                    ></v-text-field>
-                                </v-col>
-                                
+                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                 <v-col md=6>
                                     <v-select 
                                         v-model="tipoPrograma"
@@ -207,7 +297,6 @@
                                         label="Proveedor (Sugerido)"    
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        
                                         data-vv-name="proveedor sugerido"
                                         :error="errors.has('proveedor sugerido')"
                                         :error-messages="errors.first('proveedor sugerido')"
@@ -230,6 +319,7 @@
                                         :error-messages="errors.first('costo capacitacion')"
                                     ></v-text-field>
                                 </v-col>
+
                                     <v-col md=6>
                                         <v-text-field 
                                             v-model="origenRecursoEvento"
@@ -242,165 +332,224 @@
                                             :error-messages="errors.first('origen recurso')"
                                         ></v-text-field>
                                     </v-col>
-
-
-                                    <v-col md=12 style="text-align: center; background-color: #00b293; color: floralwhite;">
-                                        <v-toolbar-title>Per&iacute;odo para participar al evento</v-toolbar-title>
-                                    </v-col>
-
-                                    <!--datos periodo-->
-
-                                    
-
                                     <v-col md=6>
-                                        <v-subheader>Fecha de inicio</v-subheader>
+                                        <v-text-field 
+                                            v-model="otroTipoEvento"
+                                            outlined
+                                            label="En caso de otros especificar"
+                                            persistent-hint
+                                            v-validate="'required|max:200'"
+                                            data-vv-name="otro tipo evento"
+                                            :error="errors.has('otro tipo evento')"
+                                            :error-messages="errors.first('otro tipo evento')"
+                                        ></v-text-field>
+                                    </v-col>
+                            </v-row>
+
+                            <v-row justfy="center" dense >
+                                <v-col class="text-center"><b>Per&iacute;odo para participar al evento</b></v-col>
+                            </v-row>
+
+                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+                                <v-col cols="12" sm="6" md="3" >
+                                    <v-dialog
+                                        ref="dialog"
+                                        :return-value.sync="fechaInicio"
+                                        //persistent
+                                        width="290px"
+                                    >
+                                        <template v-slot:activator="{ on, attrs }">
+                                        <v-text-field
+                                            v-model="fechaInicio"
+                                            label="Fecha de inicio"
+                                            prepend-icon="mdi-calendar"
+                                            readonly
+                                            v-bind="attrs"
+                                            v-on="on"
+                                        ></v-text-field>
+                                        </template>
                                         <v-date-picker
                                         v-model="fechaInicio"
-                                        landscape
-                                        class="mt-3"
-                                        v-validate="'required'"
-                                        data-vv-name="fecha inicio"
-                                        :error="errors.has('fecha inicio')"
-                                        :error-messages="errors.first('fecha inicio')"
-                                        ></v-date-picker>
-                                    </v-col>
+                                        scrollable
+                                        >
+                                        <v-spacer></v-spacer>
+                                        <v-btn
+                                            text
+                                            color="primary"
+                                            @click="modal = false"
+                                        >
+                                            Cancel
+                                        </v-btn>
+                                        <v-btn
+                                            text
+                                            color="primary"
+                                            @click="$refs.dialog.save(fechaInicio)"
+                                        >
+                                            OK
+                                        </v-btn>
+                                        </v-date-picker>
+                                    </v-dialog>
+                                </v-col>
 
-                                    <v-col md=6>
-                                        <v-subheader>Fecha de termino</v-subheader>
+                                <v-col cols="12" sm="6" md="3" >
+                                    <v-dialog
+                                        ref="dialog"
+                                        :return-value.sync="fechaTermino"
+                                        //persistent
+                                        width="290px"
+                                    >
+                                        <template v-slot:activator="{ on, attrs }">
+                                        <v-text-field
+                                            v-model="fechaTermino"
+                                            label="fechaTermino"
+                                            prepend-icon="mdi-calendar"
+                                            readonly
+                                            v-bind="attrs"
+                                            v-on="on"
+                                        ></v-text-field>
+                                        </template>
                                         <v-date-picker
                                         v-model="fechaTermino"
-                                        landscape
-                                        class="mt-3"
+                                        scrollable
+                                        >
+                                        <v-spacer></v-spacer>
+                                        <v-btn
+                                            text
+                                            color="primary"
+                                            @click="modal = false"
+                                        >
+                                            Cancel
+                                        </v-btn>
+                                        <v-btn
+                                            text
+                                            color="primary"
+                                            @click="$refs.dialog.save(fechaTermino)"
+                                        >
+                                            OK
+                                        </v-btn>
+                                        </v-date-picker>
+                                    </v-dialog>
+                                </v-col>
+
+                                
+
+                                <v-col md=3>
+                                    <v-text-field 
+                                        v-model="numDias"
+                                        outlined
+                                        label="N&uacute;mero de d&iacute;as"    
+                                        persistent-hint
                                         v-validate="'required|max:200'"
-                                        data-vv-name="fecha termino"
-                                        :error="errors.has('fecha termino')"
-                                        :error-messages="errors.first('fecha termino')"
-                                        ></v-date-picker>
-                                    </v-col>
+                                        inputmode="numeric"
+                                        pattern="[0-9]*"
+                                        type="number"
+                                        data-vv-name="numero dias"
+                                        :error="errors.has('numero dias')"
+                                        :error-messages="errors.first('numero dias')"
+                                    ></v-text-field>
+                                </v-col>
 
-                                    <v-col md=3>
-                                        <v-text-field 
-                                            v-model="numDias"
-                                            outlined
-                                            label="N&uacute;mero de d&iacute;as"    
-                                            persistent-hint
-                                            v-validate="'required|max:200'"
-                                            inputmode="numeric"
-                                            pattern="[0-9]*"
-                                            type="number"
-                                            data-vv-name="numero dias"
-                                            :error="errors.has('numero dias')"
-                                            :error-messages="errors.first('numero dias')"
-                                        ></v-text-field>
-                                    </v-col>
+                                <v-col md=3>
+                                    <v-text-field 
+                                        v-model="numHorasEfectivas"
+                                        outlined
+                                        label="Numero de horas efectivas"    
+                                        persistent-hint
+                                        v-validate="'required|max:200'"
+                                        inputmode="numeric"
+                                        pattern="[0-9]*"
+                                        type="number"
+                                        data-vv-name="numero dias efectivas"
+                                        :error="errors.has('numero dias efectivas')"
+                                        :error-messages="errors.first('numero dias efectivas')"
+                                    ></v-text-field>
+                                </v-col>
 
-                                    <v-col md=3>
-                                        <v-text-field 
-                                            v-model="numHorasEfectivas"
-                                            outlined
-                                            label="Numero de horas efectivas"    
-                                            persistent-hint
-                                            v-validate="'required|max:200'"
-                                            inputmode="numeric"
-                                            pattern="[0-9]*"
-                                            type="number"
-                                            data-vv-name="numero dias efectivas"
-                                            :error="errors.has('numero dias efectivas')"
-                                            :error-messages="errors.first('numero dias efectivas')"
-                                        ></v-text-field>
-                                    </v-col>
+                            </v-row>
 
-                                    <v-col md=6 v-if="false">
-                                        <v-text-field 
-                                            v-model="idEvento"
-                                            outlined
-                                            label="idEvento"    
-                                            persistent-hint
-                                        ></v-text-field>
-                                    </v-col>
-                                    <v-col md=6 v-if="false"> 
-                                        <v-text-field 
-                                            v-model="idPeriodo"
-                                            outlined
-                                            label="Periodo"    
-                                            persistent-hint
-                                            
-                                        ></v-text-field>
-                                    </v-col>
+                            <v-row justfy="center" dense >
+                                <v-col class="text-center"><b>Participantes</b></v-col>
+                            </v-row>
+                            <v-divider></v-divider>
 
-                                    <v-col md=12 style="text-align: center; background-color: #00b293; color: floralwhite;">
-                                        <v-toolbar-title>Participantes</v-toolbar-title>
-                                    </v-col>
+                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+                            
+                                <v-col md=3 > 
+                                    <v-text-field 
+                                        v-model="idPeriodo"
+                                        outlined
+                                        label="PTC"    
+                                        persistent-hint
+                                        
+                                    ></v-text-field>
+                                </v-col>
 
-                                    <v-col md=3> 
-                                        <v-text-field 
-                                            v-model="idPeriodo"
-                                            outlined
-                                            label="PTC"    
-                                            persistent-hint
-                                            
-                                        ></v-text-field>
-                                    </v-col>
+                                <v-col md=3 > 
+                                    <v-text-field 
+                                        v-model="idPeriodo"
+                                        outlined
+                                        label="Laboratoristas"    
+                                        persistent-hint
+                                        
+                                    ></v-text-field>
+                                </v-col>
 
-                                    <v-col md=3 > 
-                                        <v-text-field 
-                                            v-model="idPeriodo"
-                                            outlined
-                                            label="Laboratorista"    
-                                            persistent-hint
-                                            
-                                        ></v-text-field>
-                                    </v-col>
+                                <v-col md=3 > 
+                                    <v-text-field 
+                                        v-model="idPeriodo"
+                                        outlined
+                                        label="Administrativo del &Aacute;rea Acad&eacute;mica"    
+                                        persistent-hint
+                                        
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col md=3> 
+                                    <v-text-field 
+                                        v-model="idPeriodo"
+                                        outlined
+                                        label="Otros"    
+                                        persistent-hint
+                                        
+                                    ></v-text-field>
+                                </v-col>
 
-                                    <v-col md=3 > 
-                                        <v-text-field 
-                                            v-model="idPeriodo"
-                                            outlined
-                                            label="Administrativo del &Aacute;rea Acad&eacute;mica"    
-                                            persistent-hint
-                                            
-                                        ></v-text-field>
-                                    </v-col>
-                                    <v-col md=3> 
-                                        <v-text-field 
-                                            v-model="idPeriodo"
-                                            outlined
-                                            label="Otros"    
-                                            persistent-hint
-                                            
-                                        ></v-text-field>
-                                    </v-col>
+                                
+                                <v-col md=4> 
+                                    <v-text-field 
+                                        v-model="idPeriodo"
+                                        outlined
+                                        label="Total"    
+                                        persistent-hint
+                                        
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col md=4> 
+                                    <v-text-field 
+                                        v-model="idPeriodo"
+                                        outlined
+                                        label="Total Hombres"    
+                                        persistent-hint
+                                        
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col md=4> 
+                                    <v-text-field 
+                                        v-model="idPeriodo"
+                                        outlined
+                                        label="Total Mujeres"    
+                                        persistent-hint
+                                        
+                                    ></v-text-field>
+                                </v-col>
+
+
+                            </v-row>
+                    
+
 
                                     
-                                    <v-col md=4> 
-                                        <v-text-field 
-                                            v-model="idPeriodo"
-                                            outlined
-                                            label="Total"    
-                                            persistent-hint
-                                            
-                                        ></v-text-field>
-                                    </v-col>
-                                    <v-col md=4> 
-                                        <v-text-field 
-                                            v-model="idPeriodo"
-                                            outlined
-                                            label="Total Hombres"    
-                                            persistent-hint
-                                            
-                                        ></v-text-field>
-                                    </v-col>
-                                    <v-col md=4> 
-                                        <v-text-field 
-                                            v-model="idPeriodo"
-                                            outlined
-                                            label="Total Mujeres"    
-                                            persistent-hint
-                                            
-                                        ></v-text-field>
-                                    </v-col>
 
-
+                                   
 
                                 </v-row>
                                 <%-- <v-row justfy="center" dense >
@@ -456,7 +605,7 @@
 
                                                     mes = item.Expr3;
                                                     fechaInicio = item.Expr4;
-                                                    fechaTermino = item.Expr5;
+                                                    fechaElavoracion = item.Expr5;
                                                     numDias = item.Expr6;
                                                     numHorasEfectivas = item.Expr7;
                                                 "><v-icon>mdi-square-edit-outline</v-icon></v-btn>
@@ -534,8 +683,15 @@
                     onMounted,
                     watch
                 } = VueCompositionAPI;
+
                 const ctr = "../../controlador/formacion_docente/necesidad_capacitacion_anual.jsp";
                 //Variables POST
+
+                const unidadAcademica = ref("");
+                const nivelEducativo = ref("");
+                const direccionArea = ref("");
+                const programaEducativo = ref("");
+                const nombreGestor = ref("");
                 const idAcademia = ref("");
                 const nombreEventoCapacitacion= ref("");
                 const objetivoEvento=ref("");
@@ -553,12 +709,17 @@
 
                 const mes=ref("");
                 const fechaInicio=ref("");
-                const fechaTermino=ref("");
+                const fechaTermino = ref("");
+                const fechaElavoracion=ref("");
                 const numDias=ref("");
                 const numHorasEfectivas=ref("");
+
+
                 //Arreglos
                 const arrayAcademia =ref([]);
+                const arrayUnidadesAcademicas =ref([]);
                 const arrayMes =ref(['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'])
+
 
                   //SNACKBAR
                 const loader = ref(false);
@@ -653,7 +814,7 @@
 
                                 parametros.append("mes", mes.value);
                                 parametros.append("fechaInicio", fechaInicio.value);
-                                parametros.append("fechaTermino", fechaTermino.value);    
+                                parametros.append("fechaElavoracion", fechaElavoracion.value);    
                                 parametros.append("numDias", numDias.value);    
                                 parametros.append("numHorasEfectivas", numHorasEfectivas.value);        
                                 let {data,status} = await axios.post(ctr, parametros)
@@ -704,7 +865,7 @@
 
                                 parametros.append("mes", mes.value);
                                 parametros.append("fechaInicio", fechaInicio.value);
-                                parametros.append("fechaTermino", fechaTermino.value);    
+                                parametros.append("fechaElavoracion", fechaElavoracion.value);    
                                 parametros.append("numDias", numDias.value);    
                                 parametros.append("numHorasEfectivas", numHorasEfectivas.value); 
                                 parametros.append("idPeriodo", idPeriodo.value);
@@ -773,7 +934,7 @@
                     
                     mes.value = "";
                     fechaInicio.value = "";
-                    fechaTermino.value = "";
+                    fechaElavoracion.value = "";
                     numDias.value = "";
                     numHorasEfectivas.value = "";
 
@@ -796,13 +957,15 @@
                 }
 
                 return{
-                    idAcademia, arrayAcademia, arrayMes, nombreEventoCapacitacion, objetivoEvento, orientacionEvento
-                    , justificacionEvento,tipoEvento,otroTipoEvento,tipoPrograma,proveedorSugerido,
+                    unidadAcademica, nivelEducativo, direccionArea, programaEducativo,
+                    nombreGestor, arrayUnidadesAcademicas,
+                    idAcademia, arrayAcademia, arrayMes, nombreEventoCapacitacion, objetivoEvento, orientacionEvento, 
+                    justificacionEvento,tipoEvento,otroTipoEvento,tipoPrograma,proveedorSugerido,
                     costoCapacitacionSugerido,origenRecursoEvento,flagEditar,
                     dataEventos,headersEventos, searchEventos, color_snackbar, snackbar, mensaje_snackbar,loader
                     ,fnLimpiarCampos,fnGuardar,fnEliminar,fnEditar
-                    ,mes,fechaInicio,fechaTermino,numDias,numHorasEfectivas
-                    ,idEvento,idPeriodo
+                    ,mes,fechaInicio,fechaElavoracion,numDias,numHorasEfectivas
+                    ,idEvento,idPeriodo, fechaTermino
                 }
             },
         });
