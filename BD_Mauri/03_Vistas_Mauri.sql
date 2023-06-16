@@ -50,3 +50,31 @@ FROM
 				usuario INNER JOIN
                 persona ON usuario.cve_persona = persona.cve_persona
 GO
+
+IF OBJECT_ID('v_empleado', 'V') IS NOT NULL
+    DROP VIEW v_empleado;
+GO
+CREATE VIEW v_empleado AS
+SELECT        
+				persona.cve_persona, 
+				persona.nombre, 
+				persona.apellido_peterno, 
+				persona.apellido_materno, 
+				persona.email, 
+				persona.movil, 
+				persona.curp, 
+				persona.rfc, 
+				persona.sexo, 
+				persona.fecha_nacimiento, 
+                empleado.cve_empleado, 
+				persona.activo, 
+				empleado.grado_estudio, 
+				empleado.titulo_recibido, 
+				empleado.fecha_ingreso, 
+				usuario.nombre_usuario, 
+				usuario.contrasenia
+FROM            
+				persona INNER JOIN
+                empleado ON persona.cve_persona = empleado.cve_persona INNER JOIN
+                usuario ON persona.cve_persona = usuario.cve_persona
+GO
