@@ -156,7 +156,7 @@ CREATE TABLE puesto(
 
 -- ----------------- TABLA TIPO PUESTO ------------------- --
 CREATE TABLE tipo_puesto(
-	cve_tipo_pesto 				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	cve_tipo_puesto 				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	nombre_tipo_puesto 			VARCHAR(50),
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
@@ -820,15 +820,7 @@ CREATE TABLE grupo_evento(
 -- ------------- TABLA AUTOEVALUACION CAPACITACION DOCENTE -------------- --
 CREATE TABLE autoevaluacion_capacitacion_docente(
 	cve_autoe_cap_doc 			INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	cve_empleado 				INT NOT NULL,
-	cve_area_capacitacion 		INT NOT NULL,
-	cve_calificacion_capacitacion INT NOT NULL,
-	cve_evidencias 				INT NOT NULL,
-	tema_curso 					VARCHAR(50),
-	objetivo_curso 				TEXT,
-	alcance_curso 				TEXT,
-	periodo_curso 				VARCHAR(25),
-	fecha_autoevaluacion_curso 	DATE,
+	cve_empleado 				INT NOT NULL,	
 	num_pregunta 				INT,
 	pregunta 					VARCHAR(129),
 	activo 						BIT DEFAULT 1,

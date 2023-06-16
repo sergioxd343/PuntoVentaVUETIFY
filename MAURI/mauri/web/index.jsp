@@ -77,6 +77,9 @@
 									<v-btn :loading="loading" color="primary" @click="fnLogin">
 										<span class="white--text px-8">Acceder</span>
 									</v-btn>
+									<v-btn :loading="loading" color="primary" @click="fnLoginTemp">
+										<span class="white--text px-8">Acceso Temp</span>
+									</v-btn>
 								</v-card-actions>
 							</v-form>
 						</v-card>
@@ -177,6 +180,42 @@
 
 											if (data.trim().length > 0) {
 												window.location.href = "https://sito.utleon.edu.mx/logeado_prueba.jsp";
+											} else {
+												color_mensaje.value = 'warning';
+												mensaje_alerta.value = 'Usuario contraseña no valido';
+												snackbar.value = true;
+											}
+										}
+									} else {
+										color_mensaje.value = 'warning';
+										mensaje_alerta.value = 'Capture usuario y contraseña';
+										snackbar.value = true;
+									}
+								} catch (error) {
+									console.log(error);
+								} finally {
+									loader.value = false;
+								}
+
+							}
+
+							//! Este es un metodo temporal para que los alumnos de estadias puedan entrar al sistema
+							
+							async function fnLoginTemp() {
+								try {
+									if (cuenta.value != "" && password.value != "") {
+										loader.value = true;
+										//Peticion ajax al controlador y envio de parametros
+										let parametros = new URLSearchParams();
+										parametros.append("accion", 4);
+										parametros.append("usuario", cuenta.value);
+										parametros.append("password", password.value);
+										let { data, status } = await axios.post(ctr, parametros);
+										if (status == 200) {
+
+											if (data != null) {
+												localStorage.setItem('currentUser', JSON.stringify(data));
+												window.location.href = "jsp/sistema/menu.jsp";
 											} else {
 												color_mensaje.value = 'warning';
 												mensaje_alerta.value = 'Usuario contraseña no valido';
@@ -389,6 +428,7 @@
 								show,
 								loading,
 								fnLogin,
+								fnLoginTemp,
 								passwordShow
 							}
 						}

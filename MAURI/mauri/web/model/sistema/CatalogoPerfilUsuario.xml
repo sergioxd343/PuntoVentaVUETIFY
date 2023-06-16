@@ -1,0 +1,17 @@
+<CatalogoPerfilUsuario>
+    <obtenerUsuario>
+        <query>
+            SELECT * FROM v_usuario_persona
+        </query>
+    </obtenerUsuario>
+    <obtenerPerfil>
+        <query>
+            SELECT * FROM grupo_seguridad
+        </query>
+    </obtenerPerfil>
+    <grupoSeguridad>
+        <query>
+            INSERT INTO usuario_grupo_seguridad (cve_grupo_seguridad, cve_persona, usuario_registro) VALUES (?, ?, 1);
+        </query>
+    </grupoSeguridad>
+</CatalogoPerfilUsuario>

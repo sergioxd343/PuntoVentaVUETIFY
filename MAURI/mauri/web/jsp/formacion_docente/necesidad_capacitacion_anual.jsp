@@ -534,7 +534,7 @@
                     onMounted,
                     watch
                 } = VueCompositionAPI;
-                const ctr = "../../controlador/formacion_docente/necesidad_capacitacion_anual.jsp";
+                const ctr = "../../controlador/formacion_docente/controlador_necesidad_capacitacion_anual.jsp";
                 //Variables POST
                 const idAcademia = ref("");
                 const nombreEventoCapacitacion= ref("");

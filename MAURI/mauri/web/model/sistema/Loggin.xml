@@ -1,7 +1,12 @@
 <Loggin>
     <LogIn>
         <query>
-            SELECT * FROM v_menu WHERE nombre_usuario = 'sjonathan' AND contrasenia = '56964'
+            SELECT * FROM v_empleado WHERE nombre_usuario = ? AND contrasenia = ?
         </query>
     </LogIn>
+    <menu>
+        <query>
+            SELECT * FROM v_menu WHERE nombre_usuario = ? AND contrasenia = ?
+        </query>
+    </menu>
 </Loggin>

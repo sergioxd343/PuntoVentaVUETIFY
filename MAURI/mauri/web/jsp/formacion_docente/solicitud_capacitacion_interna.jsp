@@ -39,8 +39,8 @@
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                 <v-col md="6">
                                     <v-autocomplete v-model="area" outlined label="Dirección académica"
-                                        v-validate="'required'" :items="areas" item-value="idArea"
-                                        item-text="nombreArea" data-vv-name="dirección académica"
+                                        v-validate="'required'" :items="areas" item-value="cve_area"
+                                        item-text="nombre_area" data-vv-name="dirección académica"
                                         :error="errors.has('dirección académica')"
                                         :error-messages="errors.first('dirección académica')"></v-autocomplete>
                                 </v-col>
