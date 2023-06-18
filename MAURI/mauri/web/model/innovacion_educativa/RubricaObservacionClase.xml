@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<CatalogoProveedores>
+	<tablaRubrica>
+		<query>
+			SELECT TOP (200)
+    rubrica_observacion_clase.cve_empleado_docente,
+    rubrica_observacion_clase.cve_rubrica,
+    rubrica_observacion_clase.seccion,
+    rubrica_observacion_clase.calificacion_seccion,
+    rubrica_observacion_clase.calificacion_total,
+    rubrica_observacion_clase.cometario,
+    rubrica_observacion_clase.activo,
+    rubrica_observacion_clase.fecha_registro,
+    rubrica_observacion_clase.usuario_registro,
+    persona.cve_persona,
+    persona.nombre,
+    persona.apellido_peterno,
+    persona.apellido_materno,
+    empleado.cve_persona AS Expr1,
+    empleado.cve_empleado,
+    CONCAT(persona.nombre, ' ', persona.apellido_peterno, ' ', persona.apellido_materno) AS nombre_completo
+FROM
+    persona
+    INNER JOIN empleado ON persona.cve_persona = empleado.cve_persona
+    INNER JOIN rubrica_observacion_clase ON empleado.cve_empleado = rubrica_observacion_clase.cve_empleado_docente
+
+		</query>
+	</tablaRubrica>
+	<guardarRubrica>
+		<query>
+			EXEC InsertarRubricaObservacionClase 
+									@cve_empleado_docente = ?,
+                                    @seccion = ?,
+                                    @calificacion_seccion = ?,
+                                    @calificacion_total = ?,
+                                    @cometario = ?;
+		</query>
+	</guardarRubrica>
+	<consultarEmpleado>
+		<query>
+			SELECT TOP (200) 
+    empleado.cve_empleado, 
+    empleado.cve_persona, 
+    persona.cve_persona AS Expr1,
+	CONCAT(persona.nombre, ' ', persona.apellido_peterno, ' ', persona.apellido_materno) AS nombre_completo
+FROM empleado
+INNER JOIN persona ON empleado.cve_persona = persona.cve_persona
+		</query>
+	</consultarEmpleado>
+	<editarRubrica>
+		<query>
+			UPDATE rubrica_observacion_clase
+			SET 
+				cve_empleado_docente = ?,
+				seccion = ?,
+				calificacion_seccion = ?,
+				calificacion_total = ?,
+				cometario = ?,
+				activo = ?
+			WHERE cve_rubrica = ?;
+	
+		</query>
+	</editarRubrica>
+</CatalogoProveedores>
