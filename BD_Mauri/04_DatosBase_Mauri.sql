@@ -17,6 +17,8 @@ INSERT INTO usuario (cve_persona, nombre_usuario, contrasenia, usuario_registro)
 					(4, 'sergio', '7890', 1),
 					(5, 'ebrenda', '7890', 1);
 
+					select * from usuario;
+
 -- ------------- INSERTS DE MENU -------------- --
 INSERT INTO menu (cve_padre, nombre, ruta, orden, usuario_registro) 
             VALUES  (0, 'Formación Docente', '-', 1, 1),
