@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<CatalogoProveedores>
+	<tablaDNAP>
+		<query>
+		SELECT TOP (200) asesoria.cve_asesoria, asesoria.cve_empleado, asesoria.materia, asesoria.fecha, asesoria.motivo_solicitud, asesoria.sugerencias, asesoria.entrevista, asesoria.firma, asesoria.activo, asesoria.fecha_registro, 
+       asesoria.usuario_registro, empleado.cve_empleado AS Expr1, persona.cve_persona, persona.nombre, persona.apellido_peterno, persona.apellido_materno, empleado.cve_persona AS Expr2,
+       CONCAT(persona.nombre, ' ', persona.apellido_peterno, ' ', persona.apellido_materno) AS nombre_completo
+FROM asesoria
+INNER JOIN empleado ON asesoria.cve_empleado = empleado.cve_empleado
+INNER JOIN persona ON empleado.cve_persona = persona.cve_persona
+
+		</query>
+	</tablaDNAP>
+	<guardarDNAP>
+		<query>
+			EXEC InsertarAsesoria 
+				@cve_empleado = ?,
+				@materia = ?,
+				@fecha = ?,
+				@motivo_solicitud = ?,
+				@sugerencias = ?,
+				@entrevista = ?,
+				@firma = ?;
+
+		</query>
+	</guardarDNAP>
+	<consultarEmpleado>
+		<query>
+			SELECT TOP (200) 
+    empleado.cve_empleado, 
+    empleado.cve_persona, 
+    persona.cve_persona AS Expr1,
+	CONCAT(persona.nombre, ' ', persona.apellido_peterno, ' ', persona.apellido_materno) AS nombre_completo
+FROM empleado
+INNER JOIN persona ON empleado.cve_persona = persona.cve_persona
+
+		</query>
+	</consultarEmpleado>
+	<editarDNAP>
+		<query>
+			UPDATE asesoria
+			SET
+				cve_empleado = ?,
+				materia = ?,
+				fecha = ?,
+				motivo_solicitud = ?,
+				sugerencias = ?,
+				entrevista = ?,
+				firma = ?
+			WHERE
+				cve_asesoria = ?;
+
+		</query>
+	</editarDNAP>
+</CatalogoProveedores>

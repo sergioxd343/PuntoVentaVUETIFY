@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<CatalogoProveedores>
+	<tablaEncuestaSatisfaccion>
+		<query>
+			SELECT        TOP (200) evaluacion_resultado.cve_eval_resul, evaluacion_resultado.cve_t_servicio, evaluacion_resultado.cve_asesoria_proyecto, evaluacion_resultado.suma, evaluacion_resultado.porcentaje, 
+                         evaluacion_resultado.cuatrimestre, evaluacion_resultado.comentarios, evaluacion_resultado.activo, evaluacion_resultado.fecha_registro, evaluacion_resultado.usuario_registro, asesoria.materia, asesoria.cve_asesoria, 
+                         tipo_servicio.cve_tipo_servicio, tipo_servicio.nombre_tipo_servicio
+FROM            evaluacion_resultado INNER JOIN
+                         asesoria ON evaluacion_resultado.cve_asesoria_proyecto = asesoria.cve_asesoria INNER JOIN
+                         tipo_servicio ON evaluacion_resultado.cve_t_servicio = tipo_servicio.cve_tipo_servicio
+		</query>
+	</tablaEncuestaSatisfaccion>
+	<guardarEncuesta>
+		<query>
+			EXEC InsertarEvaluacionResultado
+				@cve_t_servicio = ?,
+				@cve_asesoria_proyecto = ?,
+				@suma = ?,
+				@porcentaje = ?,
+				@cuatrimestre = ?,
+				@comentarios = ?;
+		</query>
+	</guardarEncuesta>
+
+	<consultarTipoServicio>
+		<query>
+			SELECT        TOP (200) cve_tipo_servicio, nombre_tipo_servicio
+FROM            tipo_servicio
+		</query>
+	</consultarTipoServicio>
+	<constultarAsesoriaProyecto>
+		<query>
+			SELECT        TOP (200) cve_asesoria, cve_empleado, materia
+FROM            asesoria
+		</query>
+	</constultarAsesoriaProyecto>
+</CatalogoProveedores>

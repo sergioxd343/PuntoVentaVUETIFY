@@ -26,66 +26,77 @@
                 <v-container fluid>
                     <v-card>
                         <v-card-title style="background-color: #00b293; color:#ffffff; headline">
-                            Solicitud de Proyecto
+                            Detección de necesidades para el asesoramiento pedagógico
                         </v-card-title>
                         <!--En este apartado estan los inputs para comenzar el registro-->
 
                         <v-container fluid class="elevation-2">
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
 
-                                <v-col md="3">
-                                    <!--Nombre de proyecto-->
-                                    <v-text-field v-model="nombre_proyecto" outlined label="Nombre del proyecto"
-                                        persistent-hint v-validate="'required|max:100'"
-                                        data-vv-name="nombre del proyecto" :error="errors.has('nombre del proyecto')"
-                                        :error-messages="errors.first('nombre del proyecto')"></v-text-field>
-
-                                    <!--Objetivo de proyecto-->
-                                    <v-text-field v-model="objetivo_proyecto" outlined label="Objetivo del proyecto"
-                                        persistent-hint v-validate="'required|max:255'"
-                                        data-vv-name="objetivo del proyecto"
-                                        :error="errors.has('objetivo del proyecto')"
-                                        :error-messages="errors.first('objetivo del proyecto')"></v-text-field>
+                                <v-col md=5>
+                                    <!--Empleado-->
+                                    <v-autocomplete v-model="cve_empleado" outlined label="Empleado" persistent-hint
+                                        v-validate="'required|max:100'" data-vv-name="empleado" :items="arrayEmpleado"
+                                        item-value="cve_empleado" item-text="nombre_completo"
+                                        :error="errors.has('empleado')"
+                                        :error-messages="errors.first('empleado')"></v-autocomplete>
+                                    <!--Materia-->
+                                    <v-text-field v-model="materia" outlined label="Materia" persistent-hint
+                                        v-validate="'required|max:55'" data-vv-name="materia"
+                                        :error="errors.has('materia')"
+                                        :error-messages="errors.first('materia')"></v-text-field>
                                 </v-col>
 
-                                <v-col md="3">
-                                    <!--Área-->
-                                    <v-autocomplete v-model="cve_area" outlined label="Área" persistent-hint
-                                        v-validate="'required|max:55'" data-vv-name="área" :items="arrayArea"
-                                        item-value="cve_area" item-text="nombre_area" :error="errors.has('área')"
-                                        :error-messages="errors.first('área')"></v-autocomplete>
-
-                                    <!--Género-->
-                                    <v-autocomplete v-model="sexo" outlined label="Género" persistent-hint
-                                        v-validate="'required|max:55'" data-vv-name="género" :items="arraySexo"
-                                        item-value="género" item-text="género" :error="errors.has('género')"
-                                        :error-messages="errors.first('género')"></v-autocomplete>
+                                <v-col md=5>
+                                    <!--Fecha-->
+                                    <v-menu ref="menu1" :close-on-content-click="false"
+                                        :return-value.sync="fecha_registro" transition="scale-transition" offset-y
+                                        min-width="auto">
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-text-field v-model="fecha_registro" label="Fecha de aplicación"
+                                                prepend-icon="mdi-calendar" readonly v-bind="attrs"
+                                                v-on="on"></v-text-field>
+                                        </template>
+                                        <v-date-picker v-model="fecha_registro" no-title scrollable>
+                                            <v-spacer></v-spacer>
+                                            <v-btn text color="primary" @click="menu1 = false">
+                                                Cancel
+                                            </v-btn>
+                                            <v-btn text color="primary" @click="$refs.menu1.save(fecha_registro)">
+                                                OK
+                                            </v-btn>
+                                        </v-date-picker>
                                 </v-col>
 
-                                <v-col md="3">
-                                    <!--Recursos necesarios-->
-                                    <v-textarea v-model="recursos_necesarios" class="mx-2" label="Recursos necesarios"
-                                        rows="1" prepend-icon="mdi-comment" v-validate="'max:255'"></v-textarea>
-
-                                    <!--Acuerdos establecidos-->
-                                    <v-textarea v-model="acuerdos_establecidos" class="mx-2"
-                                        label="Acuerdos establecidos" rows="1" prepend-icon="mdi-comment"
-                                        v-validate="'max:255'"></v-textarea>
+                                <v-col md=4>
+                                    <!--Motivo de solicitud-->
+                                    <v-textarea v-model="motivo_solicitud" outlined label="Motivo de la solicitud:"
+                                        persistent-hint v-validate="'required|max:255'" data-vv-name="motivo"
+                                        :error="errors.has('motivo')"
+                                        :error-messages="errors.first('motivo')"></v-textarea>
                                 </v-col>
 
-                                <v-col md="3">
-                                    <!--Descripción del proyecto-->
-                                    <v-textarea v-model="descripcion_proyecto" class="mx-2"
-                                        label="Descripción del proyecto" rows="1" prepend-icon="mdi-comment"
-                                        v-validate="'max:255'"></v-textarea>
-
-                                    <!--Estatus-->
-                                    Seleccione el estatus del proyecto:
-                                    <v-radio-group v-model="estatus">
-                                        <v-radio label="Revisado" value="opc_revisado"></v-radio>
-                                        <v-radio label="Cancelado" value="opc_cancelado"></v-radio>
-                                    </v-radio-group>
+                                <v-col md="4">
+                                    <!--Entrevista-->
+                                    <v-textarea v-model="entrevista" outlined label="Breve relatoria de la entrevista:"
+                                        persistent-hint v-validate="'required|max:255'" data-vv-name="entrevista"
+                                        :error="errors.has('entrevista')"
+                                        :error-messages="errors.first('entrevista')"></v-textarea>
                                 </v-col>
+
+                                <v-col md=4>
+                                    <!--Explicación sugerencias-->
+                                    <v-textarea v-model="sugerencias" outlined label="Sugerencias:" persistent-hint
+                                        v-validate="'required|max:255'" data-vv-name="sugerencias"
+                                        :error="errors.has('sugerencias')"
+                                        :error-messages="errors.first('sugerencias')"></v-textarea>
+                                </v-col>
+
+                                <v-col md="2">
+                                    <v-checkbox v-model="firma" label="Validación/Firma" color="success" value=true
+                                        hide-details :disabled="!flagEditar"></v-checkbox>
+                                </v-col>
+
                             </v-row>
                             <%-- <v-row justfy="center" dense>
                                 </v-row> --%>
@@ -103,11 +114,10 @@
 
                                 <v-row justify="center">
                                     <v-col md=12>
-                                        <v-data-table :headers="headersSolicitud" :items="dataSolicitud"
-                                            :search="searchSolicitud" class="elevation-2"
-                                            no-data-text="No se encontro ningun registro"
-                                            :hide-default-header="dataSolicitud.length < 1"
-                                            :hide-default-footer="dataSolicitud.length < 1" locale="es-ES"
+                                        <v-data-table :headers="headersDNAP" :items="dataDNAP" :search="searchDNAP"
+                                            class="elevation-2" no-data-text="No se encontro ningun registro"
+                                            :hide-default-header="dataDNAP.length < 1"
+                                            :hide-default-footer="dataDNAP.length < 1" locale="es-ES"
                                             :mobile-breakpoint="NaN" items-per-page="10">
                                             <template v-slot:item.status="{item}">
                                                 <%-- <v-tooltip bottom> --%>
@@ -121,15 +131,18 @@
                                             </template>
                                             <template v-slot:item.editar="{item}">
                                                 <v-btn fab small color="warning" @click="flagEditar = true; itemEditar = item;
-                                                cve_solicitud_proyecto = item.cve_solicitud_proyecto;
-                                                cve_area = item.cve_area;
-                                                nombre_proyecto = item.nombre_proyecto;
-                                                objetivo_proyecto = item.objetivo_proyecto;
-                                                descripcion_proyecto = item.descripcion_proyecto;
-                                                recursos_necesarios = item.recursos_necesarios;
-                                                acuerdos_establecidos = item.acuerdos_establecidos;
-                                                estatus = item.estatus;
-                                                sexo = item.sexo;
+                                                cve_asesoria = item.cve_asesoria;
+                                                cve_empleado = item.cve_empleado;
+                                                materia = item.materia;
+                                                fecha = item.fecha;
+                                                motivo_solicitud = item.motivo_solicitud;
+                                                sugerencias = item.sugerencias;
+                                                entrevista = item.entrevista;
+                                                firma = item.firma;
+                                                activo = item.activo;
+                                                fecha_registro = item.fecha_registro;
+                                                usuario_registro = item.usuario_registro;
+                                                
                                                     
                                                 "><v-icon>mdi-square-edit-outline</v-icon></v-btn>
                                             </template>
@@ -156,8 +169,8 @@
                     <v-card-text>
                         <v-row justify="center">
                             <v-col md=8>
-                                <v-text-field outlined label="Área" v-model="nombreBuscar"
-                                    @keyup.enter="fnBusquedaArea()"></v-text-field>
+                                <v-text-field outlined label="Materia" v-model="nombreBuscar"
+                                    @keyup.enter="fnBusquedaMateria()"></v-text-field>
                             </v-col>
                         </v-row>
 
@@ -211,23 +224,23 @@
                             onMounted,
                             watch
                         } = VueCompositionAPI;
-                        const ctr = "../controlador/Controlador_solicitudProyecto.jsp";
+                        const ctr = "../controlador/Controlador_deteccionNecesidadesAsesoramientoPedagogico.jsp";
 
+                        const cve_asesoria = ref("");
+                        const cve_empleado = ref("");
+                        const materia = ref("");
+                        const fecha = ref("");
+                        const motivo_solicitud = ref("");
+                        const sugerencias = ref("");
+                        const entrevista = ref("");
+                        const firma = ref("");
+                        const activo = ref("");
+                        const fecha_registro = ref("");
+                        const usuario_registro = ref("");
+                        const arrayEmpleado = ref([]);
 
-                        const cve_solicitud_proyecto = ref("");
-                        const cve_area = ref("");
-                        const nombre_proyecto = ref("");
-                        const objetivo_proyecto = ref("");
-                        const descripcion_proyecto = ref("");
-                        const recursos_necesarios = ref("");
-                        const acuerdos_establecidos = ref("");
-                        const estatus = ref("");
-                        const sexo = ref("");
-
-                        const arraySexo = ref(["Masculino", "Femenino", "Otro", "Prefiero no mencionarlo"])
-                        const arrayArea = ref([]);
-                        const opc_revisado = ref("");
-                        const opc_cancelado = ref("");
+                        const menu2 = false;
+                        const modal2 = false;
 
                         //SNACKBAR
                         const loader = ref(false);
@@ -235,7 +248,6 @@
                         const mensaje_snackbar = ref('');
                         const color_snackbar = ref('');
 
-                        //Dialogs
                         const dialogBuscador = ref(true);
                         const nombreBuscar = ref('');
                         const searchBusqueda = ref('');
@@ -245,17 +257,18 @@
                         const itemEditar = ref({});
 
                         //DataUsuarios
-                        const dataSolicitud = ref([]);
-                        const headersSolicitud = ref([
-                            { text: 'No', align: 'left', sortable: true, value: 'cve_solicitud_proyecto' },
-                            { text: 'Nombre de Área', align: 'left', sortable: true, value: 'nombre_area' },
-                            { text: 'Nombre del proyecto', align: 'left', sortable: true, value: 'nombre_proyecto' },
-                            { text: 'Sexo', align: 'left', sortable: true, value: 'sexo' },
-                            { text: 'Estatus', align: 'left', sortable: true, value: 'estatus' },
+                        const dataDNAP = ref([]);
+                        const dataUsuarios = ref([]);
+                        const headersDNAP = ref([
+                            { text: 'No', align: 'left', sortable: true, value: 'cve_asesoria' },
+                            { text: 'Nombre del empleado', align: 'left', sortable: true, value: 'nombre_completo' },
+                            { text: 'Materia', align: 'left', sortable: true, value: 'materia' },
+                            { text: 'Fecha de aplicación', align: 'left', sortable: true, value: 'fecha' },
                             { text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro' },
+                            { text: 'Firma de validación', align: 'left', sortable: true, value: 'firma' },
                             { text: 'Editar', align: 'left', sortable: true, value: 'editar' },
                         ]);
-                        const searchSolicitud = ref([]);
+                        const searchDNAP = ref([]);
 
                         function mostrarSnackbar(color, texto) {
                             snackbar.value = true;
@@ -268,20 +281,20 @@
 
                         //Accion automatizada para mostrar la tabla
                         onMounted(() => {
-                            fnArea();
                             fnConsultarTabla();
+                            fnEmpleado();
                         });
 
-                        //Consulta a base de datos
-                        async function fnArea() {
+                        //Consultar datos en la base de datos.
+                        async function fnEmpleado() {
                             try {
                                 preloader("../");
                                 let parametros = new URLSearchParams();
-                                parametros.append("accion", 3);
+                                parametros.append("accion", 4);
                                 let { data, status } = await axios.post(ctr, parametros)
                                 if (status == 200) {
                                     if (data.length > 0) {
-                                        arrayArea.value = data
+                                        arrayEmpleado.value = data;
                                     }
                                 }
                             } catch (error) {
@@ -303,14 +316,14 @@
                                 let { data, status } = await axios.post(ctr, parametros)
                                 if (status == 200) {
                                     if (data.length > 0) {
-                                        for (let i = 0; i < data.length; i++) {
-                                            if (data[i].estatus === true) {
-                                                data[i].estatus = "Revisado";
-                                            } else if (data[i].estatus === false) {
-                                                data[i].estatus = "Cancelado";
+                                        data.forEach(item => {
+                                            if (item.firma === false) {
+                                                item.firma = "No validado";
+                                            } else {
+                                                item.firma = "Validado";
                                             }
-                                        }
-                                        dataSolicitud.value = data
+                                        });
+                                        dataDNAP.value = data
                                     }
                                 }
                             } catch (error) {
@@ -321,9 +334,10 @@
                             }
                         }
 
-                        function fnBusquedaArea() {
-                            this.dataSolicitud = this.dataSolicitud.filter(item => item.nombre_area === this.nombreBuscar);
+                        function fnBusquedaMateria() {
+                            this.dataDNAP = this.dataDNAP.filter(item => item.materia === this.nombreBuscar);
                         }
+
 
                         async function fnGuardar() {
                             this.$validator.validate().then(async esValido => {
@@ -333,24 +347,14 @@
                                         let parametros = new URLSearchParams();
                                         parametros.append("accion", 2);
 
-                                        parametros.append("cve_area", cve_area.value);
-                                        parametros.append("nombre_proyecto", nombre_proyecto.value);
-                                        parametros.append("objetivo_proyecto", objetivo_proyecto.value);
-                                        parametros.append("descripcion_proyecto", descripcion_proyecto.value);
-                                        parametros.append("recursos_necesarios", recursos_necesarios.value);
-                                        parametros.append("acuerdos_establecidos", acuerdos_establecidos.value);
-
-                                        if (estatus.value === "opc_cancelado") {
-                                            parametros.append("estatus", false);
-                                        } else if (estatus.value === "opc_revisado") {
-                                            parametros.append("estatus", true);
-                                        } else {
-                                            // Manejar el caso en el que el valor de "estatus" no sea ninguno de los esperados.
-                                            mostrarSnackbar("error", "Estatus inválido");
-                                            return;
-                                        }
-
-                                        parametros.append("sexo", sexo.value);
+                                        console.log(cve_empleado.value);
+                                        parametros.append("cve_empleado", cve_empleado.value);
+                                        parametros.append("materia", materia.value);
+                                        parametros.append("fecha", fecha_registro.value);
+                                        parametros.append("motivo_solicitud", motivo_solicitud.value);
+                                        parametros.append("sugerencias", sugerencias.value);
+                                        parametros.append("entrevista", entrevista.value);
+                                        parametros.append("firma", firma.value);
 
                                         let { data, status } = await axios.post(ctr, parametros)
                                         if (status == 200) {
@@ -381,19 +385,16 @@
                                     try {
                                         preloader("../");
                                         let parametros = new URLSearchParams();
-                                        parametros.append("accion", 4);
+                                        parametros.append("accion", 3);
 
-                                        if (estatus.value === "opc_cancelado") {
-                                            parametros.append("estatus", false);
-                                        } else if (estatus.value === "opc_revisado") {
-                                            parametros.append("estatus", true);
-                                        } else {
-                                            // Manejar el caso en el que el valor de "estatus" no sea ninguno de los esperados.
-                                            mostrarSnackbar("error", "Estatus inválido");
-                                            return;
-                                        }
-                                        parametros.append("cve_solicitud_proyecto", cve_solicitud_proyecto.value);
-
+                                        parametros.append("cve_asesoria", cve_asesoria.value);
+                                        parametros.append("cve_empleado", cve_empleado.value);
+                                        parametros.append("materia", materia.value);
+                                        parametros.append("fecha", fecha.value);
+                                        parametros.append("motivo_solicitud", motivo_solicitud.value);
+                                        parametros.append("sugerencias", sugerencias.value);
+                                        parametros.append("entrevista", entrevista.value);
+                                        parametros.append("firma", firma.value);
 
                                         let { data, status } = await axios.post(ctr, parametros)
                                         if (status == 200) {
@@ -418,23 +419,20 @@
                             })
                         }
                         function fnLimpiarCampos(cx) {//cx = contexto
-                            cve_solicitud_proyecto.value = "";
-                            cve_area.value = "";
-                            nombre_proyecto.value = "";
-                            objetivo_proyecto.value = "";
-                            descripcion_proyecto.value = "";
-                            recursos_necesarios.value = "";
-                            acuerdos_establecidos.value = "";
-                            estatus.value = "";
-                            sexo.value = "";
-
-                            opc_revisado.value = "";
-                            opc_cancelado.value = "";
+                            cve_asesoria.value = "";
+                            cve_empleado.value = "";
+                            materia.value = "";
+                            fecha.value = "";
+                            motivo_solicitud.value = "";
+                            sugerencias.value = "";
+                            entrevista.value = "";
+                            firma.value = "";
+                            activo.value = "";
+                            fecha_registro.value = "";
+                            usuario_registro.value = "";
 
                             flagEditar.value = false;
                             itemEditar.value = {};
-
-                            fnConsultarTabla();
 
                             if (this == undefined)
                                 cx.$validator.reset();
@@ -443,14 +441,13 @@
                         }
 
                         return {
-                            cve_solicitud_proyecto, cve_area, nombre_proyecto, objetivo_proyecto,
-                            descripcion_proyecto, recursos_necesarios, acuerdos_establecidos, estatus,
-                            sexo,
-                            opc_revisado, opc_cancelado, fnBusquedaArea,fnBusquedaGestor,
-                            arraySexo, arrayArea, fnArea, fnConsultarTabla,
+                            cve_asesoria, cve_empleado, materia, fecha, motivo_solicitud,
+                            sugerencias, entrevista, firma, activo, fecha_registro, usuario_registro,
+                            arrayEmpleado,
+                            menu2, modal2, fnBusquedaMateria,
                             dialogBuscador, nombreBuscar, searchBusqueda,
                             color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar,
-                            headersSolicitud, flagEditar, dataSolicitud, searchSolicitud, fnLimpiarCampos, fnGuardar,
+                            headersDNAP, flagEditar, dataDNAP, searchDNAP, fnLimpiarCampos, fnGuardar,
                             fnEditar, itemEditar
                         }
                     }

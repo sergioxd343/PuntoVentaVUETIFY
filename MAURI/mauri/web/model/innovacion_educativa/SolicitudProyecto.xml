@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<CatalogoProveedores>
+    <tablaSolicitud>
+		<query>
+			SELECT        TOP (200) solicitud_proyecto.cve_solicitud_proyecto, solicitud_proyecto.cve_area, solicitud_proyecto.nombre_proyecto, solicitud_proyecto.objetivo_proyecto, solicitud_proyecto.descripcion_proyecto, 
+                         solicitud_proyecto.recursos_necesarios, solicitud_proyecto.acuerdos_establecidos, solicitud_proyecto.estatus, solicitud_proyecto.sexo, solicitud_proyecto.activo, solicitud_proyecto.fecha_registro, 
+                         solicitud_proyecto.usuario_registro, area.cve_area AS Expr1, area.nombre_area
+FROM            solicitud_proyecto INNER JOIN
+                         area ON solicitud_proyecto.cve_area = area.cve_area
+		</query>
+	</tablaSolicitud>
+    <guardarSolicitud>
+		<query>
+			EXEC InsertarSolicitudProyecto
+				@cve_area = ?,
+				@nombre_proyecto = ?,
+				@objetivo_proyecto = ?,
+				@descripcion_proyecto = ?,
+				@recursos_necesarios = ?,
+				@acuerdos_establecidos = ?,
+				@estatus = ?,
+				@sexo = ?;
+		</query>
+	</guardarSolicitud>
+    <consultarArea>
+		<query>
+			SELECT        TOP (200) cve_area, nombre_area, activo, fecha_registro, usuario_registro
+FROM            area
+		</query>
+	</consultarArea>
+	<consultarTipoCapacitacion>
+		<query>
+			SELECT TOP (200) nombreTipoCapacitacion FROM detalleTipoCapacitacion
+		</query>
+	</consultarTipoCapacitacion>
+    <editarSolicitud>
+		<query>
+			UPDATE solicitud_proyecto
+			SET estatus = ?
+			WHERE cve_solicitud_proyecto = ?;
+		</query>
+	</editarSolicitud>
+    <eliminarSolicitud>
+		<query>
+			DELETE FROM solicitudCapacitacion WHERE idSolicitudCapacitacion = ?
+		</query>
+	</eliminarSolicitud>
+
+	
+
+</CatalogoProveedores>
