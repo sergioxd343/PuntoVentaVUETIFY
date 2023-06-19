@@ -5,37 +5,41 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <CatalogoProveedores>
+
+	<unidadAcademica>
+		<query>
+			SELECT cve_unidad_academica, nombre_unidad_academica FROM unidad_academica
+		</query>
+	</unidadAcademica>
+
+	<tipoEvento>
+		<query>
+			SELECT cve_tipo_evento, nombre_tipo_evento FROM tipo_evento
+		</query>
+	</tipoEvento>
+
     <tablaEventos>
 		<query>
-			SELECT TOP (200) evento.idEvento AS Expr2, evento.idAcademia, evento.nombreEventoCapacitacion, evento.objetivoEvento, evento.orientacionEvento, evento.justificacionEvento, evento.tipoEvento, evento.otroTipoEvento, evento.tipoPrograma, 
-                  evento.proveedorSugerido, evento.costoCapacitacionSugerido, evento.origenRecursoEvento, periodo.mes AS Expr3, periodo.idEvento AS Expr1, periodo.fechaInicio AS Expr4, periodo.fechaTermino AS Expr5, periodo.numDias AS Expr6, 
-                  periodo.numHorasEfectivas AS Expr7, periodo.idPeriodo AS Expr8
-					FROM     evento INNER JOIN
-                  periodo ON evento.idEvento = periodo.idEvento
+			SELECT unidad_academica.nombre_unidad_academica, necesidad_capacitacion_anual.nombre_evento, tipo_evento.nombre_tipo_evento, necesidad_capacitacion_anual.fecha_inicio,
+			necesidad_capacitacion_anual.fecha_temino, necesidad_capacitacion_anual.num_dias
+			FROM necesidad_capacitacion_anual INNER JOIN
+			unidad_academica ON unidad_academica.cve_unidad_academica = necesidad_capacitacion_anual.cve_unidad_academica INNER JOIN
+            tipo_evento ON tipo_evento.cve_tipo_evento = necesidad_capacitacion_anual.cve_tipo_evento
 		</query>
 	</tablaEventos>
+
     <guardarEvento>
 		<query>
-			BEGIN TRY
-    BEGIN TRANSACTION
-    
-   DECLARE @idEvento INT;
-    INSERT INTO evento (idAcademia, nombreEventoCapacitacion, objetivoEvento, orientacionEvento, justificacionEvento, tipoEvento, otroTipoEvento, tipoPrograma, proveedorSugerido, costoCapacitacionSugerido, origenRecursoEvento)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-    SET @idEvento = SCOPE_IDENTITY();
-    
-    INSERT INTO periodo (idEvento, mes, fechaInicio, fechaTermino, numDias, numHorasEfectivas)
-    VALUES (@idEvento, ?, ?, ?, ?, ?);
-    
-    COMMIT TRANSACTION;
-END TRY
-BEGIN CATCH
-    ROLLBACK TRANSACTION;
-    THROW;
-END CATCH
-
+			INSERT INTO necesidad_capacitacion_anual (cve_area_registro, cve_unidad_academica, cve_nivel_academico, cve_area, 
+			cve_departamento, cve_empleado_responsable, cve_orientacion_evento, cve_tipo_evento, cve_tipo_capacitacion, cve_origen_evento,
+			anio_ejercicio, necesidades_detectadas, nombre_evento, objetivo_evento, justificacion, otro_tipo_evento, proveedor, 
+			costo_capacitacion, mes, fecha_inicio, fecha_temino, num_dias, num_horas_efectivas, participantes_ptc, participantes_laboratoristas, 
+			participantes_administrativo, otros_participantes, total_participantes, total_hombres, total_mujeres, activo,
+			fecha_registro, usuario_registro) 
+			VALUES (1,?,1,1,1,1,1,?,1,1,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1,?,1);
 		</query>
 	</guardarEvento>
+
     <academia>
 		<query>
 			SELECT     idAcademia, unidadAcademica 
@@ -59,7 +63,4 @@ END CATCH
 			COMMIT TRANSACTION; 	
 		</query>
 	</eliminarEvento>
-
-	
-
 </CatalogoProveedores>

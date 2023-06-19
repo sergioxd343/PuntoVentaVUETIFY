@@ -98,7 +98,7 @@
         case 2:
             temp_obj = new JsonObject();
             temp_obj.addProperty("tipoActividad", tipoActividad);
-            temp_obj.addProperty("nombreUsuario", nombreUsuario);
+            //temp_obj.addProperty("nombreUsuario", nombreUsuario);
             temp_obj.addProperty("fecha", fecha);
             parametros.add(temp_obj);
             out.println(datos.Registro(parametros, "guardarUsuario"));
@@ -110,7 +110,7 @@
             temp_obj = new JsonObject();
             temp_obj.addProperty("idUsuario", idUsuario);
             temp_obj.addProperty("tipoActividad", tipoActividad);
-            temp_obj.addProperty("nombreUsuario", nombreUsuario);
+            //temp_obj.addProperty("nombreUsuario", nombreUsuario);
             temp_obj.addProperty("fecha", fecha);
             parametros.add(temp_obj);
             out.println(datos.Registro(parametros, "editarUsuario"));

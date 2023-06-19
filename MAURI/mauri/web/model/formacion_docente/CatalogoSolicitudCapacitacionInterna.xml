@@ -71,7 +71,7 @@
     </insertarSolicitud>
     <area>
 		<query>
-			SELECT idArea, nombreArea FROM area
+			SELECT cve_area, nombre_area FROM area
 		</query>
 	</area>
 </CatalogoSolicitudCapacitacionInterna>

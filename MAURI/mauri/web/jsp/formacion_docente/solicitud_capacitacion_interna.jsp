@@ -38,6 +38,19 @@
                             <v-divider></v-divider>
 
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+                                <v-col md="6">
+                                    <v-autocomplete v-model="area" outlined label="Dirección académica"
+                                        v-validate="'required'" :items="areas" item-value="cve_area"
+                                        item-text="nombre_area" data-vv-name="dirección académica"
+                                        :error="errors.has('dirección académica')"
+                                        :error-messages="errors.first('dirección académica')"></v-autocomplete>
+                                </v-col>
+                                <v-col md="6">
+                                    <v-text-field v-model="programa" outlined label="Programa educativo" persistent-hint
+                                        v-validate="'required|max:500'" data-vv-name="programa educativo"
+                                        :error="errors.has('programa educativo')"
+                                        :error-messages="errors.first('programa educativo')"></v-text-field>
+                                </v-col>
                                 <v-col md="4">
                                     <v-autocomplete 
                                         v-model="area" 

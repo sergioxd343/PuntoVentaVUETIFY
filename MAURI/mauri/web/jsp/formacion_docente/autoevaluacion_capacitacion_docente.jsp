@@ -160,9 +160,11 @@
                                         disabled
                                         v-model="area"
                                         outlined
-                                        label="Area"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
+                                        label="Área"
+                                        v-validate="'required'"
+                                        :items="arrayAreas"
+                                        item-value="cve_area"
+                                        item-text="nombre_area"
                                         data-vv-name="area"
                                         :error="errors.has('area')"
                                         :error-messages="errors.first('area')"
@@ -270,8 +272,8 @@
                                         label="Competencia en que se capacito"
                                         v-validate="'required'"
                                         :items="arrayAreasCapacitacion"
-                                        item-value="idAreaC"
-                                        item-text="nombre"
+                                        item-value="cve_area"
+                                        item-text="nombre_area"
                                         data-vv-name="areaCapacitacion"
                                         :error="errors.has('areaCapacitacion')"
                                         :error-messages="errors.first('areaCapacitacion')"

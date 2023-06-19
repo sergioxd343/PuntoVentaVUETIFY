@@ -31,74 +31,62 @@
                                 <!--AÑO -->
                                 <v-col md=3>
                                     <v-text-field 
-                                        v-model="numHorasEfectivas"
+                                        v-model="annio"
                                         outlined
                                         label="A&ntilde;o a ejercer"    
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        data-vv-name="numero dias efectivas"
-                                        :error="errors.has('numero dias efectivas')"
-                                        :error-messages="errors.first('numero dias efectivas')"
+                                        data-vv-name="año a ejercer"
+                                        :error="errors.has('año a ejercer')"
+                                        :error-messages="errors.first('año a ejercer')"
                                         type="number"
                                     ></v-text-field>
                                 </v-col>
 
                                 <v-col md=6>
                                     <v-select
-                                        v-model="idAcademia"
+                                        v-model="direccion"
                                         outlined
                                         label="Direcci&oacute;n o subdirecci&oacute;n responsable"
                                         v-validate="'required'"
-                                        :items="arrayAcademia"
+                                        :items="arrayDireccSub"
                                         item-value="idAcademia"
                                         item-text="unidadAcademica"
-                                        data-vv-name="academia"
-                                        :error="errors.has('academia')"
-                                        :error-messages="errors.first('academia')"
+                                        data-vv-name="dirección o subdirección"
+                                        :error="errors.has('dirección o subdirección')"
+                                        :error-messages="errors.first('dirección o subdirección')"
                                         required
                                     ></v-select>
                                 </v-col>
 
-                                <!-- FECHA DE ELABORACIÓN -->
-                                <v-col cols="12" sm="6" md="3" >
-                                    <v-dialog
-                                        ref="dialog"
-                                        :return-value.sync="fechaElavoracion"
-                                        //persistent
-                                        width="290px"
-                                    >
+                                <v-col cols="12" sm="6" md="3">
+                                    <v-menu 
+                                            ref="menu0"  
+                                            :close-on-content-click="false"
+                                            :return-value.sync="fechaElavoracion" 
+                                            transition="scale-transition" 
+                                            offset-y min-width="auto">
                                         <template v-slot:activator="{ on, attrs }">
-                                        <v-text-field
-                                            v-model="fechaElavoracion"
-                                            label="fechaElavoracion"
-                                            prepend-icon="mdi-calendar"
-                                            readonly
-                                            v-bind="attrs"
-                                            v-on="on"
-                                        ></v-text-field>
+                                            <v-text-field 
+                                                v-model="fechaElavoracion" 
+                                                label="Fecha de elaboraci&oacute;n" 
+                                                prepend-icon="mdi-calendar"
+                                                readonly v-bind="attrs" 
+                                                v-on="on"
+                                            ></v-text-field>
                                         </template>
-                                        <v-date-picker
-                                        v-model="fechaElavoracion"
-                                        scrollable
-                                        >
-                                        <v-spacer></v-spacer>
-                                        <v-btn
-                                            text
-                                            color="primary"
-                                            @click="modal = false"
-                                        >
-                                            Cancel
-                                        </v-btn>
-                                        <v-btn
-                                            text
-                                            color="primary"
-                                            @click="$refs.dialog.save(fechaElavoracion)"
-                                        >
-                                            OK
-                                        </v-btn>
+                                        <v-date-picker v-model="fechaElavoracion" no-title scrollable>
+                                            <v-spacer></v-spacer>
+                                            <v-btn text color="primary" @click="menu0 = false">
+                                                Cancel
+                                            </v-btn>
+                                            <v-btn text color="primary" @click="$refs.menu0.save(fechaElavoracion)">
+                                                OK
+                                            </v-btn>
                                         </v-date-picker>
-                                    </v-dialog>
+                                    </v-menu>
                                 </v-col>
+
                             </v-row>
 
                                 <v-row justfy="center" dense >
@@ -114,14 +102,14 @@
                                     <v-select
                                         v-model="unidadAcademica"
                                         outlined
-                                        label="Unidad academica"
+                                        label="Unidad acad&eacute;mica"
                                         v-validate="'required'"
                                         :items="arrayUnidadesAcademicas"
-                                        item-value="idAcademia"
-                                        item-text="unidadAcademica"
-                                        data-vv-name="unidadAcademica"
-                                        :error="errors.has('unidadAcademica')"
-                                        :error-messages="errors.first('unidadAcademica')"
+                                        item-value="cve_unidad_academica"
+                                        item-text="nombre_unidad_academica"
+                                        data-vv-name="unidad acad&eacute;mica"
+                                        :error="errors.has('unidad acad&eacute;mica')"
+                                        :error-messages="errors.first('unidad acad&eacute;mica')"
                                         required
                                     ></v-select>
                                 </v-col>
@@ -132,12 +120,12 @@
                                         outlined
                                         label="Nivel educativo"
                                         v-validate="'required'"
-                                        :items="arrayUnidadesAcademicas"
+                                        :items="arrayNivelEducativo"
                                         item-value="idAcademia"
                                         item-text="nivelEducativo"
-                                        data-vv-name="nivelEducativo"
-                                        :error="errors.has('nivelEducativo')"
-                                        :error-messages="errors.first('nivelEducativo')"
+                                        data-vv-name="nivel educativo"
+                                        :error="errors.has('nivel educativo')"
+                                        :error-messages="errors.first('nivel educativo')"
                                         required
                                     ></v-select>
                                 </v-col>
@@ -146,21 +134,21 @@
                                     <v-select
                                         v-model="direccionArea"
                                         outlined
-                                        label="Direccion del area"
+                                        label="Direcci&oacute;n del &aacute;rea"
                                         v-validate="'required'"
-                                        :items="arrayUnidadesAcademicas"
+                                        :items="arrayAreas"
                                         item-value="idAcademia"
                                         item-text="direccionArea"
-                                        data-vv-name="direccionArea"
-                                        :error="errors.has('direccionArea')"
-                                        :error-messages="errors.first('direccionArea')"
+                                        data-vv-name="direcci&oacute;n de &aacute;rea"
+                                        :error="errors.has('direcci&oacute;n de &aacute;rea')"
+                                        :error-messages="errors.first('direcci&oacute;n &aacute;rea')"
                                         required
                                     ></v-select>
                                 </v-col>
                             
                             </v-row>
 
-                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+                            <v-row  class="align-center" style="padding: 0px 50px 0px 50px">
 
                                 <v-col md=4>
                                     <v-text-field 
@@ -169,9 +157,9 @@
                                         label="Programa educativo"
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        data-vv-name="programaEducativo"
-                                        :error="errors.has('programaEducativo')"
-                                        :error-messages="errors.first('programaEducativo')"
+                                        data-vv-name="programa educativo"
+                                        :error="errors.has('programa educativo')"
+                                        :error-messages="errors.first('programa educativo')"
                                     ></v-text-field>
                                 </v-col>
 
@@ -182,9 +170,9 @@
                                         label="Nombre del gestor responsable"
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        data-vv-name="nombreGestor"
-                                        :error="errors.has('nombreGestor')"
-                                        :error-messages="errors.first('nombreGestor')"
+                                        data-vv-name="nombre del gestor responsable"
+                                        :error="errors.has('nombre del gestor responsable')"
+                                        :error-messages="errors.first('nombre del gestor responsable')"
                                     ></v-text-field>
                                 </v-col>
                             </v-row>
@@ -197,14 +185,14 @@
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                 <v-col md=4>
                                     <v-text-field 
-                                        v-model="nombreEventoCapacitacion"
+                                        v-model="necesidadesDetectadas"
                                         outlined
                                         label="Necesidades detectadas mediante"
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        data-vv-name="nombre evento"
-                                        :error="errors.has('nombre evento')"
-                                        :error-messages="errors.first('nombre evento')"
+                                        data-vv-name="necesidades detectadas mediante"
+                                        :error="errors.has('necesidades detectadas mediante')"
+                                        :error-messages="errors.first('necesidades detectadas mediante')"
                                     ></v-text-field>
                                 </v-col>
 
@@ -215,9 +203,9 @@
                                         label="Nombre del Evento"
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        data-vv-name="nombre evento"
-                                        :error="errors.has('nombre evento')"
-                                        :error-messages="errors.first('nombre evento')"
+                                        data-vv-name="nombre del evento"
+                                        :error="errors.has('nombre del evento')"
+                                        :error-messages="errors.first('nombre del evento')"
                                     ></v-text-field>
                                 </v-col>
 
@@ -228,9 +216,9 @@
                                         label="Objetivo del evento"
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        data-vv-name="objetivo evento"
-                                        :error="errors.has('objetivo evento')"
-                                        :error-messages="errors.first('objetivo evento')"
+                                        data-vv-name="objetivo del evento"
+                                        :error="errors.has('objetivo del evento')"
+                                        :error-messages="errors.first('objetivo del evento')"
                                     ></v-text-field>
                                 </v-col>
                             </v-row>
@@ -240,39 +228,59 @@
                                     <v-select 
                                         v-model="orientacionEvento"
                                         outlined
+                                        v-validate="'required'"
+                                        :items="arrayOrientacion"
                                         label="Orientaci&oacute;n del Evento"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="orientacion evento"
-                                        :error="errors.has('orientacion evento')"
-                                        :error-messages="errors.first('orientacion evento')"
+                                        data-vv-name="orientacion del evento"
+                                        :error="errors.has('orientacion del evento')"
+                                        :error-messages="errors.first('orientacion del evento')"
                                     ></v-select>
                                 </v-col>
 
                                 <v-col md=4>
-                                    <v-text-field 
+                                    <v-select 
                                         v-model="justificacionEvento"
                                         outlined
+                                        v-validate="'required'"
+                                        :items="arrayJustificacion"
                                         label="Justificaci&oacute;n del Evento"
                                         persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="justificacion evento"
-                                        :error="errors.has('justificacion evento')"
-                                        :error-messages="errors.first('justificacion evento')"
-                                    ></v-text-field>
+                                        data-vv-name="justificacion del evento"
+                                        :error="errors.has('justificacion del evento')"
+                                        :error-messages="errors.first('justificacion del evento')"
+                                    ></v-select>
                                 </v-col>
 
                                 <v-col md=4>
                                     <v-select 
                                         v-model="tipoEvento"
                                         outlined
+                                        v-validate="'required'"
+                                        :items="arrayTipoEvento"
+                                        item-value="cve_tipo_evento"
+                                        item-text="nombre_tipo_evento"
                                         label="Tipo de Evento"
                                         persistent-hint
-                                        v-validate="'required|max:200'"
                                         data-vv-name="tipo evento"
                                         :error="errors.has('tipo evento')"
                                         :error-messages="errors.first('tipo evento')"
                                     ></v-select>
+                                </v-col>
+                            </v-row>
+
+                            <v-row class="align-center" style="padding: 0px 50px 0px 50px">
+                                <v-col md=6>
+                                    <v-text-field 
+                                    v-if="tipoEvento === 'Otro'"
+                                        v-model="otroEvento"
+                                        outlined
+                                        label="Especifique el tipo de evento"
+                                        persistent-hint
+                                        v-validate="'required|max:200'"
+                                        data-vv-name="otro evento"
+                                        :error="errors.has('otro evento')"
+                                        :error-messages="errors.first('otro evento')"
+                                    ></v-text-field>
                                 </v-col>
                             </v-row>
 
@@ -281,9 +289,10 @@
                                     <v-select 
                                         v-model="tipoPrograma"
                                         outlined
+                                        v-validate="'required'"
+                                        :items="arrayTipoPrograma"
                                         label="Tipo de Programa"    
                                         persistent-hint
-                                        v-validate="'required|max:200'"
                                         data-vv-name="tipo programa"
                                         :error="errors.has('tipo programa')"
                                         :error-messages="errors.first('tipo programa')"
@@ -297,9 +306,6 @@
                                         label="Proveedor (Sugerido)"    
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        data-vv-name="proveedor sugerido"
-                                        :error="errors.has('proveedor sugerido')"
-                                        :error-messages="errors.first('proveedor sugerido')"
                                     ></v-text-field>
                                 </v-col>
 
@@ -314,35 +320,21 @@
                                         inputmode="decimal"
                                         pattern="[0-9]+(\.[0-9][0-9]?)?"
                                         type="number"
-                                        data-vv-name="costo capacitacion"
-                                        :error="errors.has('costo capacitacion')"
-                                        :error-messages="errors.first('costo capacitacion')"
                                     ></v-text-field>
                                 </v-col>
 
                                     <v-col md=6>
-                                        <v-text-field 
+                                        <v-select  
                                             v-model="origenRecursoEvento"
                                             outlined
-                                            label="Origen del Recurso para el Evento"    
+                                            v-validate="'required'"
+                                            :items="arrayOrigen"
+                                            label="Origen del recurso para el evento"    
                                             persistent-hint
-                                            v-validate="'required|max:200'"
-                                            data-vv-name="origen recurso"
-                                            :error="errors.has('origen recurso')"
-                                            :error-messages="errors.first('origen recurso')"
-                                        ></v-text-field>
-                                    </v-col>
-                                    <v-col md=6>
-                                        <v-text-field 
-                                            v-model="otroTipoEvento"
-                                            outlined
-                                            label="En caso de otros especificar"
-                                            persistent-hint
-                                            v-validate="'required|max:200'"
-                                            data-vv-name="otro tipo evento"
-                                            :error="errors.has('otro tipo evento')"
-                                            :error-messages="errors.first('otro tipo evento')"
-                                        ></v-text-field>
+                                            data-vv-name="origen del recurso"
+                                            :error="errors.has('origen del recurso')"
+                                            :error-messages="errors.first('origen del recurso')"
+                                        ></v-select>
                                     </v-col>
                             </v-row>
 
@@ -351,86 +343,76 @@
                             </v-row>
 
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-                                <v-col cols="12" sm="6" md="3" >
-                                    <v-dialog
-                                        ref="dialog"
-                                        :return-value.sync="fechaInicio"
-                                        //persistent
-                                        width="290px"
-                                    >
-                                        <template v-slot:activator="{ on, attrs }">
-                                        <v-text-field
-                                            v-model="fechaInicio"
-                                            label="Fecha de inicio"
-                                            prepend-icon="mdi-calendar"
-                                            readonly
-                                            v-bind="attrs"
-                                            v-on="on"
-                                        ></v-text-field>
-                                        </template>
-                                        <v-date-picker
-                                        v-model="fechaInicio"
-                                        scrollable
-                                        >
-                                        <v-spacer></v-spacer>
-                                        <v-btn
-                                            text
-                                            color="primary"
-                                            @click="modal = false"
-                                        >
-                                            Cancel
-                                        </v-btn>
-                                        <v-btn
-                                            text
-                                            color="primary"
-                                            @click="$refs.dialog.save(fechaInicio)"
-                                        >
-                                            OK
-                                        </v-btn>
-                                        </v-date-picker>
-                                    </v-dialog>
+
+                                <v-col md=2>
+                                    <v-select  
+                                        v-model="mes"
+                                        outlined
+                                        v-validate="'required'"
+                                        :items="arrayMes"
+                                        label="Seleccionar mes"    
+                                        persistent-hint
+                                        data-vv-name="mes"
+                                        :error="errors.has('mes')"
+                                        :error-messages="errors.first('mes')"
+                                    ></v-select>
                                 </v-col>
 
-                                <v-col cols="12" sm="6" md="3" >
-                                    <v-dialog
-                                        ref="dialog"
-                                        :return-value.sync="fechaTermino"
-                                        //persistent
-                                        width="290px"
-                                    >
+                                <v-col cols="12" sm="6" md="3">
+                                    <v-menu 
+                                            ref="menu1"  
+                                            :close-on-content-click="false"
+                                            :return-value.sync="fechaInicio" 
+                                            transition="scale-transition" 
+                                            offset-y min-width="auto">
                                         <template v-slot:activator="{ on, attrs }">
-                                        <v-text-field
-                                            v-model="fechaTermino"
-                                            label="fechaTermino"
-                                            prepend-icon="mdi-calendar"
-                                            readonly
-                                            v-bind="attrs"
-                                            v-on="on"
-                                        ></v-text-field>
+                                            <v-text-field 
+                                                v-model="fechaInicio" 
+                                                label="Fecha de inicio" 
+                                                prepend-icon="mdi-calendar"
+                                                readonly v-bind="attrs" 
+                                                v-on="on"
+                                            ></v-text-field>
                                         </template>
-                                        <v-date-picker
-                                        v-model="fechaTermino"
-                                        scrollable
-                                        >
-                                        <v-spacer></v-spacer>
-                                        <v-btn
-                                            text
-                                            color="primary"
-                                            @click="modal = false"
-                                        >
-                                            Cancel
-                                        </v-btn>
-                                        <v-btn
-                                            text
-                                            color="primary"
-                                            @click="$refs.dialog.save(fechaTermino)"
-                                        >
-                                            OK
-                                        </v-btn>
+                                        <v-date-picker v-model="fechaInicio" no-title scrollable>
+                                            <v-spacer></v-spacer>
+                                            <v-btn text color="primary" @click="menu1 = false">
+                                                Cancel
+                                            </v-btn>
+                                            <v-btn text color="primary" @click="$refs.menu1.save(fechaInicio)">
+                                                OK
+                                            </v-btn>
                                         </v-date-picker>
-                                    </v-dialog>
+                                    </v-menu>
                                 </v-col>
 
+                                <v-col cols="12" sm="6" md="3">
+                                    <v-menu 
+                                            ref="menu"  
+                                            :close-on-content-click="false"
+                                            :return-value.sync="fechaTermino" 
+                                            transition="scale-transition" 
+                                            offset-y min-width="auto">
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-text-field 
+                                                v-model="fechaTermino" 
+                                                label="Fecha de termino" 
+                                                prepend-icon="mdi-calendar"
+                                                readonly v-bind="attrs" 
+                                                v-on="on"
+                                            ></v-text-field>
+                                        </template>
+                                        <v-date-picker v-model="fechaTermino" no-title scrollable>
+                                            <v-spacer></v-spacer>
+                                            <v-btn text color="primary" @click="menu = false">
+                                                Cancel
+                                            </v-btn>
+                                            <v-btn text color="primary" @click="$refs.menu.save(fechaTermino)">
+                                                OK
+                                            </v-btn>
+                                        </v-date-picker>
+                                    </v-menu>
+                                </v-col>
                                 
 
                                 <v-col md=3>
@@ -443,9 +425,9 @@
                                         inputmode="numeric"
                                         pattern="[0-9]*"
                                         type="number"
-                                        data-vv-name="numero dias"
-                                        :error="errors.has('numero dias')"
-                                        :error-messages="errors.first('numero dias')"
+                                        data-vv-name="numero de días"
+                                        :error="errors.has('numero de días')"
+                                        :error-messages="errors.first('numero de días')"
                                     ></v-text-field>
                                 </v-col>
 
@@ -459,9 +441,9 @@
                                         inputmode="numeric"
                                         pattern="[0-9]*"
                                         type="number"
-                                        data-vv-name="numero dias efectivas"
-                                        :error="errors.has('numero dias efectivas')"
-                                        :error-messages="errors.first('numero dias efectivas')"
+                                        data-vv-name="numero de horas efectivas"
+                                        :error="errors.has('numero de horas efectivas')"
+                                        :error-messages="errors.first('numero de horas efectivas')"
                                     ></v-text-field>
                                 </v-col>
 
@@ -476,74 +458,252 @@
                             
                                 <v-col md=3 > 
                                     <v-text-field 
-                                        v-model="idPeriodo"
+                                        v-model="ptc"
                                         outlined
                                         label="PTC"    
                                         persistent-hint
+                                        data-vv-name="PTC"
+                                        :error="errors.has('PTC')"
+                                        :error-messages="errors.first('PTC')"
                                         
                                     ></v-text-field>
                                 </v-col>
 
                                 <v-col md=3 > 
                                     <v-text-field 
-                                        v-model="idPeriodo"
+                                        v-model="laboratoristas"
                                         outlined
                                         label="Laboratoristas"    
                                         persistent-hint
+                                        data-vv-name="laboratoristas"
+                                        :error="errors.has('laboratoristas')"
+                                        :error-messages="errors.first('laboratoristas')"
                                         
                                     ></v-text-field>
                                 </v-col>
 
                                 <v-col md=3 > 
                                     <v-text-field 
-                                        v-model="idPeriodo"
+                                        v-model="administrativo"
                                         outlined
-                                        label="Administrativo del &Aacute;rea Acad&eacute;mica"    
+                                        label="Administrativo del &aacute;rea acad&eacute;mica"    
                                         persistent-hint
+                                        data-vv-name="administrativo"
+                                        :error="errors.has('administrativo')"
+                                        :error-messages="errors.first('administrativo')"
                                         
                                     ></v-text-field>
                                 </v-col>
                                 <v-col md=3> 
                                     <v-text-field 
-                                        v-model="idPeriodo"
+                                        v-model="otros"
                                         outlined
-                                        label="Otros"    
+                                        label="Otros participantes"    
                                         persistent-hint
-                                        
+                                        data-vv-name="otros"
+                                        :error="errors.has('otros')"
+                                        :error-messages="errors.first('otros')"
                                     ></v-text-field>
                                 </v-col>
 
                                 
-                                <v-col md=4> 
+                                <v-col md=3> 
                                     <v-text-field 
-                                        v-model="idPeriodo"
+                                        disabled
+                                        v-model="total"
                                         outlined
                                         label="Total"    
                                         persistent-hint
+                                        data-vv-name="total"
+                                        :error="errors.has('total')"
+                                        :error-messages="errors.first('total')"
                                         
                                     ></v-text-field>
                                 </v-col>
-                                <v-col md=4> 
+                                <v-col md=3> 
                                     <v-text-field 
-                                        v-model="idPeriodo"
+                                        v-model="totalH"
                                         outlined
                                         label="Total Hombres"    
                                         persistent-hint
+                                        data-vv-name="total de hombres"
+                                        :error="errors.has('total de hombres')"
+                                        :error-messages="errors.first('total de hombres')"
                                         
                                     ></v-text-field>
                                 </v-col>
-                                <v-col md=4> 
+                                <v-col md=3> 
                                     <v-text-field 
-                                        v-model="idPeriodo"
+                                        v-model="totalM"
                                         outlined
                                         label="Total Mujeres"    
                                         persistent-hint
+                                        data-vv-name="total de mujeres"
+                                        :error="errors.has('total de mujeres')"
+                                        :error-messages="errors.first('total de mujeres')"
                                         
                                     ></v-text-field>
                                 </v-col>
+                                <v-col md=3> 
+                                    <v-text-field 
+                                        v-model="lugar"
+                                        outlined
+                                        label="Lugar"    
+                                        persistent-hint
+                                        data-vv-name="lugar"
+                                        :error="errors.has('lugar')"
+                                        :error-messages="errors.first('lugar')"
+                                    ></v-text-field>
+                                </v-col>
+                            </v-row>
 
+                            <v-row justfy="center" dense >
+                                <v-col class="text-center"><b>Gestionar en las &aacute;reas academicas el recurso de viaticar</b></v-col>
+                            </v-row>
+                            <v-divider></v-divider>
+
+                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+                            
+                                <v-col md=3> 
+                                    <v-text-field 
+                                        v-model="transporte"
+                                        outlined
+                                        prefix="$"
+                                        label="Transporte (autobus)"    
+                                        persistent-hint
+                                        data-vv-name="transporte"
+                                        :error="errors.has('transporte')"
+                                        :error-messages="errors.first('transporte')"
+                                    ></v-text-field>
+                                </v-col>
+
+                                <v-col md=3> 
+                                    <v-text-field 
+                                        v-model="casetas"
+                                        outlined
+                                        prefix="$"
+                                        label="Casetas"    
+                                        persistent-hint
+                                        data-vv-name="casetas"
+                                        :error="errors.has('casetas')"
+                                        :error-messages="errors.first('casetas')"
+                                    ></v-text-field>
+                                </v-col>
+
+                                <v-col md=3> 
+                                    <v-text-field 
+                                        v-model="alimentacion"
+                                        outlined
+                                        prefix="$"
+                                        label="Alimentacion"    
+                                        persistent-hint
+                                        data-vv-name="alimentacion"
+                                        :error="errors.has('alimentacion')"
+                                        :error-messages="errors.first('alimentacion')"
+                                    ></v-text-field>
+                                </v-col>
+
+                                <v-col md=3> 
+                                    <v-text-field 
+                                        v-model="hospedaje"
+                                        outlined
+                                        prefix="$"
+                                        label="Hospedaje"    
+                                        persistent-hint
+                                        data-vv-name="hospedaje"
+                                        :error="errors.has('hospedaje')"
+                                        :error-messages="errors.first('hospedaje')"
+                                    ></v-text-field>
+                                </v-col>
+                            
+                            </v-row>
+
+                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+
+                                <v-col md=3> 
+                                    <v-text-field 
+                                        v-model="taxis"
+                                        outlined
+                                        prefix="$"
+                                        label="Taxis"    
+                                        persistent-hint
+                                        data-vv-name="taxis"
+                                        :error="errors.has('taxis')"
+                                        :error-messages="errors.first('taxis')"
+                                    ></v-text-field>
+                                </v-col>
+
+                                <v-col md=3> 
+                                    <v-text-field 
+                                        v-model="otrosGastos"
+                                        outlined
+                                        prefix="$"
+                                        label="Otros"    
+                                        persistent-hint
+                                        data-vv-name="otros"
+                                        :error="errors.has('otros')"
+                                        :error-messages="errors.first('otros')"
+                                    ></v-text-field>
+                                </v-col>
+
+                                <v-col md=3> 
+                                    <v-text-field 
+                                        v-model="oficial"
+                                        outlined
+                                        prefix="$"
+                                        label="Ofical (vales de gasolina)"    
+                                        persistent-hint
+                                        data-vv-name="oficial"
+                                        :error="errors.has('oficial')"
+                                        :error-messages="errors.first('ofical')"
+                                    ></v-text-field>
+                                </v-col>
+
+                                <v-col md=3> 
+                                    <v-text-field 
+                                        v-model="particular"
+                                        outlined
+                                        prefix="$"
+                                        label="Particular (vales de gasolina)"    
+                                        persistent-hint
+                                        data-vv-name="particular"
+                                        :error="errors.has('particular')"
+                                        :error-messages="errors.first('particular')"
+                                    ></v-text-field>
+                                </v-col>
 
                             </v-row>
+                            
+                            <v-row class="align-center" style="padding: 0px 50px 0px 50px">
+
+                                <v-col md=3> 
+                                    <v-text-field 
+                                        v-model="otrosO"
+                                        outlined
+                                        prefix="$"
+                                        label="Otros"    
+                                        persistent-hint
+                                        data-vv-name="otros"
+                                        :error="errors.has('otros')"
+                                        :error-messages="errors.first('otros')"
+                                    ></v-text-field>
+                                </v-col>
+
+                                <v-col md=4> 
+                                    <v-text-field 
+                                        v-model="origen"
+                                        outlined
+                                        prefix="$"
+                                        label="Mencionar el origen del recurso viaticos"    
+                                        persistent-hint
+                                        data-vv-name="origen"
+                                        :error="errors.has('origen')"
+                                        :error-messages="errors.first('origen')"
+                                    ></v-text-field>
+                                </v-col>
+
+                            </v-row>
+
                     
 
 
@@ -683,42 +843,71 @@
                     onMounted,
                     watch
                 } = VueCompositionAPI;
-
-                const ctr = "../../controlador/formacion_docente/necesidad_capacitacion_anual.jsp";
+                const ctr = "../../controlador/formacion_docente/controlador_necesidad_capacitacion_anual.jsp";
                 //Variables POST
 
+                const annio = ref("");
+                const direccion = ref("");
+                const fechaElavoracion=ref("");
                 const unidadAcademica = ref("");
                 const nivelEducativo = ref("");
                 const direccionArea = ref("");
                 const programaEducativo = ref("");
                 const nombreGestor = ref("");
-                const idAcademia = ref("");
+                const necesidadesDetectadas = ref("");
                 const nombreEventoCapacitacion= ref("");
                 const objetivoEvento=ref("");
                 const orientacionEvento=ref("");
                 const justificacionEvento=ref("");
                 const tipoEvento=ref("");
-                const otroTipoEvento=ref("");
+                const otroEvento = ref("");
                 const tipoPrograma=ref("");
                 const proveedorSugerido=ref("");
+                const ptc=ref("");
+                const laboratoristas=ref("");
+                const administrativo=ref("");
+                const otros=ref("");
+                const total=ref("");
+                const totalH=ref("");
+                const totalM=ref("");
+                const lugar=ref("");
                 const costoCapacitacionSugerido=ref("");
+                const transporte=ref("");
+                const casetas=ref("");
+                const alimentacion=ref("");
+                const hospedaje=ref("");
+                const taxis =ref("");
+                const otrosGastos=ref("");
+                const oficial = ref("");
+                const particular = ref("");
+                const otrosO = ref("");
+                const origen = ref("");
                 const origenRecursoEvento=ref("");
-
-                const idEvento =ref("");
-                const idPeriodo=ref("");
-
                 const mes=ref("");
                 const fechaInicio=ref("");
                 const fechaTermino = ref("");
-                const fechaElavoracion=ref("");
                 const numDias=ref("");
                 const numHorasEfectivas=ref("");
 
+                
 
-                //Arreglos
-                const arrayAcademia =ref([]);
-                const arrayUnidadesAcademicas =ref([]);
+
+
+
+                const arrayUnidadesAcademicas = ref(["León","Acambaro"]);
+                const arrayNivelEducativo = ref(["T.S.U","Ingenieria"]);
+                const arrayAreas = ref(["Dirección de Económico Administrativo","Dirección de Electromecanica Industrial","Dirección de Sustentabilidad para el desarrollo","Dirección de Desarrollo Académico y Docente","Unidad Académica de Acámbaro","Centro de Idiomas"]);
+                const arrayOrientacion = ref(["Pedagógicas","Investigación","Tutoreo","Digitales","Técnicas","Transversales","Desarrollo de habilidades"]);
+                const arrayJustificacion = ref(["Pedagógicas","Investigación","Tutoreo","Digitales","Técnicas","Transversales","Desarrollo de habilidades"]);
+                const arrayTipoEvento = ref(["Curso (3340)","Ponente (3830)","Certificación (3920)","Asistencia a congreso (3830)","Otro"]);
+                const arrayTipoPrograma = ref(["Interna","Externa"]);
+                const arrayOrigen = ref(["PFCE","Formación docente","Dirección académica"]);
                 const arrayMes =ref(['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'])
+                const arrayAcademia =ref([]);
+                const arrayDireccSub =ref(['Direccion 1', 'Direccion 2']);
+
+                
+                
 
 
                   //SNACKBAR
@@ -730,14 +919,18 @@
                 //Otras funciones
                 const flagEditar = ref(false);
                 const itemEditar = ref({});
+                
+                
                 //DataTable
-                //dataUduarios
                 const dataEventos = ref([]);
                 const searchEventos = ref([]);
                 const headersEventos = ref([
-                    {text: 'no', align: 'left', sortable: true, value: 'Expr2'},
-                    {text: 'Nombre del evento de capacitacion', align: 'left', sortable: true, value: 'nombreEventoCapacitacion'},
-                    {text: 'Objetivo del evento', align: 'left', sortable: true, value: 'objetivoEvento'},
+                    {text: 'Unidad Academica', align: 'left', sortable: true, value: 'nombre_unidad_academica'},
+                    {text: 'Nombre del evento', align: 'left', sortable: true, value: 'nombre_evento'},
+                    {text: 'Tipo de evento', align: 'left', sortable: true, value: 'nombre_tipo_evento'},
+                    {text: 'Fecha inicio', align: 'left', sortable: true, value: 'fecha_inicio'},
+                    {text: 'Fecha termino', align: 'left', sortable: true, value: 'fecha_temino'},
+                    {text: 'Número de días', align: 'left', sortable: true, value: 'num_dias'},
                     {text: 'Editar', align: 'left', sortable: true, value: 'editar'},
                     {text: 'Eliminar', align: 'left', sortable: true, value: 'eliminar'}
                 ]);
@@ -746,6 +939,7 @@
                 onMounted(() => {
                     fnTipoEvento();
                     fnConsultarTabla();
+                    fnUnidadAcademica();
                 });
 
                 async function fnConsultarTabla(){
@@ -759,7 +953,6 @@
                         let {data,status} = await axios.post(ctr, parametros)
                         if(status == 200){
                             if(data.length > 0){
-
                                 dataEventos.value = data
                             }
                         }
@@ -771,7 +964,24 @@
                     }
                 }
 
-                
+                async function fnUnidadAcademica(){
+                    try{
+                        preloader("../../");
+                        let parametros = new URLSearchParams();
+                        parametros.append("accion", 2);
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                arrayUnidadesAcademicas.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                }
 
                 async function fnTipoEvento(){
                     try{
@@ -781,7 +991,7 @@
                         let {data,status} = await axios.post(ctr, parametros)
                         if(status == 200){
                             if(data.length > 0){
-                                arrayAcademia.value = data
+                                arrayTipoEvento.value = data
                             }
                         }
                     } catch(error){
@@ -799,24 +1009,31 @@
                             try{
                                 preloader("../../");
                                 let parametros = new URLSearchParams();
-                                parametros.append("accion", 2);
-                                parametros.append("idAcademia", idAcademia.value);
+                                parametros.append("accion", 4);
+                                parametros.append("unidadAcademica", unidadAcademica.value);
+                                parametros.append("tipoEvento", tipoEvento.value);
+                                parametros.append("annio", annio.value);
+                                parametros.append("necesidadesDetectadas", necesidadesDetectadas.value);
                                 parametros.append("nombreEventoCapacitacion", nombreEventoCapacitacion.value);
                                 parametros.append("objetivoEvento", objetivoEvento.value);
-                                parametros.append("orientacionEvento", orientacionEvento.value);
                                 parametros.append("justificacionEvento", justificacionEvento.value);
-                                parametros.append("tipoEvento", tipoEvento.value);
-                                parametros.append("otroTipoEvento", otroTipoEvento.value);
-                                parametros.append("tipoPrograma", tipoPrograma.value);
+                                parametros.append("otroEvento", otroEvento.value);
                                 parametros.append("proveedorSugerido", proveedorSugerido.value);
                                 parametros.append("costoCapacitacionSugerido", costoCapacitacionSugerido.value);
-                                parametros.append("origenRecursoEvento", origenRecursoEvento.value);
-
                                 parametros.append("mes", mes.value);
                                 parametros.append("fechaInicio", fechaInicio.value);
-                                parametros.append("fechaElavoracion", fechaElavoracion.value);    
+                                parametros.append("fechaTermino", fechaInicio.value);
                                 parametros.append("numDias", numDias.value);    
+                                parametros.append("numHorasEfectivas", numHorasEfectivas.value);  
+                                parametros.append("ptc", ptc.value);  
+                                parametros.append("laboratoristas", laboratoristas.value);  
+                                parametros.append("administrativo", administrativo.value);  
+                                parametros.append("otros", otros.value);  
+                                parametros.append("total", total.value);  
+                                parametros.append("totalH", totalH.value);  
+                                parametros.append("totalM", totalM.value);  
                                 parametros.append("numHorasEfectivas", numHorasEfectivas.value);        
+                                parametros.append("fechaElavoracion", fechaElavoracion.value);    
                                 let {data,status} = await axios.post(ctr, parametros)
                                 if(status == 200){
                                     if(data == "1"){
@@ -957,17 +1174,44 @@
                 }
 
                 return{
-                    unidadAcademica, nivelEducativo, direccionArea, programaEducativo,
-                    nombreGestor, arrayUnidadesAcademicas,
-                    idAcademia, arrayAcademia, arrayMes, nombreEventoCapacitacion, objetivoEvento, orientacionEvento, 
-                    justificacionEvento,tipoEvento,otroTipoEvento,tipoPrograma,proveedorSugerido,
-                    costoCapacitacionSugerido,origenRecursoEvento,flagEditar,
+                    annio, direccion, fechaElavoracion, unidadAcademica, nivelEducativo, direccionArea, programaEducativo,
+                    nombreGestor, necesidadesDetectadas, nombreEventoCapacitacion, objetivoEvento, orientacionEvento,
+                    justificacionEvento,tipoEvento, otroEvento, tipoPrograma, proveedorSugerido, costoCapacitacionSugerido, 
+                    origenRecursoEvento, mes, fechaInicio, fechaTermino, numDias, numHorasEfectivas, ptc:0, laboratoristas:0, administrativo:0,
+                    otros:0, total:0, totalH, totalM, lugar, transporte, casetas, alimentacion, hospedaje, taxis, otrosGastos, oficial,
+                    particular, otrosO, origen,
+
+
+                    arrayOrientacion, arrayJustificacion, arrayTipoEvento, arrayTipoPrograma, arrayOrigen, arrayMes, arrayUnidadesAcademicas,
+                    arrayAcademia, arrayNivelEducativo, arrayAreas, arrayDireccSub,
+                    flagEditar,
                     dataEventos,headersEventos, searchEventos, color_snackbar, snackbar, mensaje_snackbar,loader
                     ,fnLimpiarCampos,fnGuardar,fnEliminar,fnEditar
-                    ,mes,fechaInicio,fechaElavoracion,numDias,numHorasEfectivas
-                    ,idEvento,idPeriodo, fechaTermino
+                    
+                    
                 }
             },
+            watch: {
+                ptc: function(newVal, oldVal) {
+                    this.calculateTotal();
+                },
+                laboratoristas: function(newVal, oldVal) {
+                    this.calculateTotal();
+                },
+                administrativo: function(newVal, oldVal) {
+                    this.calculateTotal();
+                },
+                otros: function(newVal, oldVal) {
+                    this.calculateTotal();
+                }
+                },
+                methods: {
+                calculateTotal() {
+                    this.total = parseFloat(this.ptc) + parseFloat(this.laboratoristas) + parseFloat(this.administrativo) 
+                    + parseFloat(this.otros) ;
+                }
+                }
+
         });
 
     </script>

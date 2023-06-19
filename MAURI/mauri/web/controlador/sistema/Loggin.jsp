@@ -33,6 +33,7 @@
 
 // JsonArray parametros = new JsonArray();
 	JsonArray parametros = new JsonArray();
+	JsonArray results = null;
 	JsonObject resultados = new JsonObject();
 	JsonObject temp_obj;
 	Gson gson = new Gson();
@@ -124,7 +125,16 @@
 				}
 		break;
 		case 3:
-			out.println(datos.Consultas(parametros, "LogIn"));	
+			parametros.add(usuario);
+			parametros.add(password);
+			results = datos.Consultas(parametros, "menu");
+			out.print(results);		
+		break;
+		case 4:
+			parametros.add(usuario);
+			parametros.add(password);
+			results = datos.Consultas(parametros, "LogIn");
+			out.print(results);		
 		break;
 		
 		
