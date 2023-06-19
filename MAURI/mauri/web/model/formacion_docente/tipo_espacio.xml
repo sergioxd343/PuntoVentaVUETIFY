@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<CatalogoTipos>
+
+	<tablaTipoEspacio>
+		<query>
+		SELECT cve_tipo_espacio, nombre_tipo_espacio, activo, fecha_registro, usuario_registro
+		FROM     tipo_espacio
+		</query>
+	</tablaTipoEspacio>
+	<guardarTipoEspacio>
+		<query>
+			
+			INSERT INTO tipo_espacio (nombre_tipo_espacio, activo, fecha_registro, usuario_registro) VALUES (?, 'True', GETDATE (), 5)
+
+		</query>
+	</guardarTipoEspacio>
+    <eliminar>
+		<query>
+			UPDATE tipo_espacio
+			SET          activo = ?
+			WHERE  cve_tipo_espacio = ?
+		</query>
+	</eliminar>
+
+	
+
+</CatalogoTipos>
