@@ -436,7 +436,7 @@
                             onMounted,
                             watch
                         } = VueCompositionAPI;
-                        const ctr = "../controlador/Controlador_catalogo_encuestaSatisfaccionEvaluacion.jsp";
+                        const ctr = "../controlador/innovacion_educativa/Controlador_catalogo_encuestaSatisfaccionEvaluacion.jsp";
 
                         const cve_eval_resul = ref("");
                         const cve_t_servicio = ref("");

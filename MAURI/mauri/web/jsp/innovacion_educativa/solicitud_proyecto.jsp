@@ -211,7 +211,7 @@
                             onMounted,
                             watch
                         } = VueCompositionAPI;
-                        const ctr = "../controlador/Controlador_solicitudProyecto.jsp";
+                        const ctr = "../controlador/innovacion_educativa/Controlador_solicitudProyecto.jsp";
 
 
                         const cve_solicitud_proyecto = ref("");

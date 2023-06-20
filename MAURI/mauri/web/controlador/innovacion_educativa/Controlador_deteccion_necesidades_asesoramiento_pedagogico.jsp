@@ -23,7 +23,7 @@
 
 
 <%
-    String xml= String.valueOf(request.getRealPath(""))+"\\model\\compras_requisiciones\\DeteccionNecesidadesAsesoramientoPedagogico.xml";
+    String xml= String.valueOf(request.getRealPath(""))+"\\model\\innovacion_educativa\\DeteccionNecesidadesAsesoramientoPedagogico.xml";
     //String xml= String.valueOf("C:\\Capacitacion\\sito\\web\\model\\compras_requisiciones\\CatalogoSolicitud.xml");
     GeneralDAO datos = new GeneralDAO(xml);
     

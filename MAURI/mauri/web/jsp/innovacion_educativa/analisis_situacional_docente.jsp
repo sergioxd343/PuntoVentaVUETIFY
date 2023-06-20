@@ -472,7 +472,7 @@
                             onMounted,
                             watch
                         } = VueCompositionAPI;
-                        const ctr = "../controlador/Controlador_analisisSituacionalDocente.jsp";
+                        const ctr = "../controlador/innovacion_educativa/Controlador_analisisSituacionalDocente.jsp";
 
                         const cve_analisis_docente = ref("");
                         const cve_unidad_academica = ref("");

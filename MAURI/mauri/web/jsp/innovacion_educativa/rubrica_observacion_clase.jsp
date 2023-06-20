@@ -929,7 +929,7 @@
                             onMounted,
                             watch
                         } = VueCompositionAPI;
-                        const ctr = "../controlador/Controlador_rubricaObservacionClase.jsp";
+                        const ctr = "../controlador/innovacion_educativa/Controlador_rubricaObservacionClase.jsp";
 
                         const cve_empleado_docente = ref("");
                         const cve_rubrica = ref("");

@@ -224,7 +224,7 @@
                             onMounted,
                             watch
                         } = VueCompositionAPI;
-                        const ctr = "../controlador/Controlador_deteccionNecesidadesAsesoramientoPedagogico.jsp";
+                        const ctr = "../controlador/innovacion_educativa/Controlador_deteccionNecesidadesAsesoramientoPedagogico.jsp";
 
                         const cve_asesoria = ref("");
                         const cve_empleado = ref("");

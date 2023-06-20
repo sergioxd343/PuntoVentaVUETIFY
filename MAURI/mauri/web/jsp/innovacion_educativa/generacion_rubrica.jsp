@@ -271,7 +271,7 @@
                             onMounted,
                             watch
                         } = VueCompositionAPI;
-                        const ctr = "../controlador/Controlador_generacionRubrica.jsp";
+                        const ctr = "../controlador/innovacion_educativa/Controlador_generacionRubrica.jsp";
 
                         const cve_rubrica = ref("");
                         const cve_empleado = ref("");
