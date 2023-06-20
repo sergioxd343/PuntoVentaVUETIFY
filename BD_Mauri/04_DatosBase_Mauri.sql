@@ -17,6 +17,7 @@ INSERT INTO usuario (cve_persona, nombre_usuario, contrasenia, usuario_registro)
 					(4, 'sergio', '7890', 1),
 					(5, 'ebrenda', '7890', 1);
 
+
 -- ------------- INSERTS DE MENU -------------- --
 INSERT INTO menu (cve_padre, nombre, ruta, orden, usuario_registro) 
             VALUES  (0, 'Formación Docente', '-', 1, 1),
@@ -24,7 +25,7 @@ INSERT INTO menu (cve_padre, nombre, ruta, orden, usuario_registro)
                     (0, 'Eventos', '-', 15, 1),
                     (0, 'Catalogos Pequeños', '-', 19, 1),
                     (0, 'Programas', '-', 28, 1),
-					(0, 'Sistema', '-', 32, 1);
+		    (0, 'Sistema', '-', 32, 1);
 
 -- ------------- INSERTS DE  SUBMENU -------------- --
 INSERT INTO submenu (cve_menu, cve_padre, nombre, ruta, orden, usuario_registro) 
@@ -37,16 +38,16 @@ INSERT INTO submenu (cve_menu, cve_padre, nombre, ruta, orden, usuario_registro)
                     (1, 1, 'Solicitud de Registro de Capacitación Interna', '../formacion_docente/solicitud_capacitacion_interna.jsp', 8, 1),
                     (2, 2, 'Encuesta de Satisfacción y Evaluación de Resultado', '../innovacion_educativa/evaluacion_resultado.jsp', 10, 1),
                     (2, 2, 'Detacción de necesidad para Asesoramiento', '../innovacion_educativa/asesoria.jsp', 11, 1),
-                    (2, 2, 'Rúbrica de Observación de Clase', '../innvacion_educativa/rubrica_observacion_clase.jsp', 12, 1),
-                    (2, 2, 'Analisis Situacional Docente', '../innovacion_educativa/analisis_situacional_docente.jsp', 13, 1),
+                    (2, 2, 'Rúbrica de Observación de Clase', '../innovacion_educativa/rubrica_observacion_clase.jsp', 12, 1),
+                    (2, 2, 'Analisis Situacional Docente', '../innvacion_educativa/analisis_situacional_docente.jsp', 13, 1),
                     (2, 2, 'Solicitu de Proyecto', '../innovacion_educativa/solicitud_proyecto.jsp', 14, 1),
                     (3, 3, 'Evento Programado', '../eventos/evento_programado.jsp', 16, 1),
                     (3, 3, 'Evento Programado Grupo', '../eventos/evento_programado_grupo.jsp', 17, 1),
                     (3, 3, 'Cumple programa de Desarrollo', '../eventos/cumple_programa_desarrollo.jsp', 18, 1),
-                    (4, 4, 'Tipo Orientación', '../catalogos_pequenios_tipo_orientacion.jsp',20, 1),
+                    (4, 4, 'Tipo Orientación', '../catalogos_pequenios/tipo_orientacion.jsp',20, 1),
                     (4, 4, 'Tipo Evento', '../catalogos_pequenios/tipo_evento.jsp', 21, 1),
                     (4, 4, 'Tipo Modalidad', '../catalogos_pequenios/tipo_modalidad.jsp', 22, 1),
-                    (4, 4, 'Tipo Instructor', '../catalogos_pequnios/tipo_insatructor.jsp', 23, 1),
+                    (4, 4, 'Tipo Instructor', '../catalogos_pequenios/tipo_instructor.jsp', 23, 1),
                     (4, 4, 'Tipo Origen', '../catalogos_pequenios/tipo_origen.jsp', 24, 1),
                     (4, 4, 'Tipo Capacitación', '../catalogos_pequenios/tipo_capacitacion.jsp', 25, 1),
                     (4, 4, 'Tipo Servicio', '../catalogos_pequenios/tipo_servicio.jsp', 26, 1),
@@ -54,7 +55,7 @@ INSERT INTO submenu (cve_menu, cve_padre, nombre, ruta, orden, usuario_registro)
                     (5, 5, 'Programa de Desarrollo', '../programas/programa_desarrollo.jsp', 29, 1),
                     (5, 5, 'Programa de Desarrollo de Módulos', '../programas/programa_desarrollo_modulo.jsp', 30, 1),
                     (5, 5, 'Programa de Desarrollo de Materia', '../programas/programa_desarrollo_materia.jsp', 31, 1),
-					(6, 6, 'Perfil de usuario', 'perfil_usuario.jsp', 33, 1);
+		    (6, 6, 'Perfil de usuario', 'perfil_usuario.jsp', 33, 1);
 
 -- ------------- INSERTS DE MENU_PERMISOS -------------- --
 INSERT INTO menu_permisos (cve_grupo_seguridad, cve_menu, usuario_registro) 

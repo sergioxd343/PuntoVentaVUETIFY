@@ -23,8 +23,7 @@
 
 
 <%
-    String xml= String.valueOf(request.getRealPath(""))+"\\model\\compras_requisiciones\\RubricaObservacionClase.xml";
-    //String xml= String.valueOf("C:\\Capacitacion\\sito\\web\\model\\compras_requisiciones\\CatalogoSolicitud.xml");
+    String xml= String.valueOf(request.getRealPath(""))+"\\model\\innovacion_educativa\\RubricaObservacionClase.xml";
     GeneralDAO datos = new GeneralDAO(xml);
     
     // JsonArray parametros = new JsonArray();

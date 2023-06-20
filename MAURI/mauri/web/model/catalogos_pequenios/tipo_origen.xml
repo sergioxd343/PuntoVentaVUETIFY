@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<CatalogoTipos>
+    
+	<tablaTipoOrigen>
+		<query>
+		SELECT cve_tipo_origen, nombre_tipo_origen, activo, fecha_registro, usuario_registro
+		FROM     tipo_origen
+
+		</query>
+	</tablaTipoOrigen>
+
+	<guardarTipoOrigen>
+		<query>
+			
+			INSERT INTO tipo_origen (nombre_tipo_origen, activo, fecha_registro, usuario_registro) VALUES (?, 'True', GETDATE (), 5)
+
+		</query>
+	</guardarTipoOrigen>
+
+
+    <eliminar>
+		<query>
+			UPDATE tipo_origen
+			SET          activo = ?
+			WHERE  cve_tipo_origen = ?
+		</query>
+	</eliminar>
+
+	
+
+</CatalogoTipos>
