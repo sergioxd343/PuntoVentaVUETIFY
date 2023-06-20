@@ -4,12 +4,12 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-        <link href="../styles/icon_material_design_4495/css/materialdesignicons.min.css" rel="stylesheet">
-        <link href="../javascript/VueJs/sweetalert2/sweetalert2.css" />
-        <link href="../javascript/VueJs/vuetify/vuetify.min.css" rel="stylesheet">
+        <link href="../../styles/icon_material_design_4495/css/materialdesignicons.min.css" rel="stylesheet">
+        <link href="../../javascript/VueJs/sweetalert2/sweetalert2.css" />
+        <link href="../../javascript/VueJs/vuetify/vuetify.min.css" rel="stylesheet">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-        <script src="../javascript/VueJs/vue/vue.js"></script>
-        <script type="" src="../javascript/VueJs/vue/vue-composition-api.prod.js" ></script>
+        <script src="../../javascript/VueJs/vue/vue.js"></script>
+        <script type="" src="../../javascript/VueJs/vue/vue-composition-api.prod.js" ></script>
         <title>JSP Page</title>
     </head>
     <style>
@@ -23,7 +23,7 @@
                 <v-container fluid>
                     <v-card>
                         <v-card-title  style="background-color: #00b293; color:#ffffff; headline" >		
-                            Programa Desarrollo de Materias
+                            Programa de Desarrollo de Modulos
                         </v-card-title>
                         <v-container fluid>
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
@@ -33,7 +33,7 @@
                                     <v-text-field 
                                         v-model="nombreUsuario"
                                         outlined
-                                        label="id Programa Obligatorio"
+                                        label="id Programa de Desarrollo"
                                         persistent-hint
                                         v-validate="'required|max:200'"
                                         data-vv-name="nombre corto"
@@ -59,7 +59,7 @@
                                     <v-text-field 
                                         v-model="nombreUsuario"
                                         outlined
-                                        label="id Materia Programa Obligatorio"
+                                        label="Nombre Modulo"
                                         persistent-hint
                                         v-validate="'required|max:200'"
                                         data-vv-name="nombre corto"
@@ -72,7 +72,7 @@
                                     <v-text-field 
                                         v-model="nombreUsuario"
                                         outlined
-                                        label="Nombre Materia"
+                                        label="Numero de Materias"
                                         persistent-hint
                                         v-validate="'required|max:200'"
                                         data-vv-name="nombre corto"
@@ -85,32 +85,7 @@
                                     <v-text-field 
                                         v-model="nombreUsuario"
                                         outlined
-                                        label="Duracion"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
-                                    ></v-text-field>
-                                </v-col>
-
-                                <v-col md=6>
-                                    <v-text-field 
-                                        v-model="nombreUsuario"
-                                        outlined
-                                        label="Objetivo"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
-                                    ></v-text-field>
-                                </v-col>
-                                <v-col md=6>
-                                    <v-text-field 
-                                        v-model="nombreUsuario"
-                                        outlined
-                                        label="Resultado de Aprendizaje"
+                                        label="Color"
                                         persistent-hint
                                         v-validate="'required|max:200'"
                                         data-vv-name="nombre corto"
@@ -241,7 +216,7 @@
                         class="white--text align-end"
                         height="212px"
                         width="292px"
-                        src="../images/Logo_utl_animado.gif"
+                        src="../../images/Logo_utl_animado.gif"
                     > 
                     </v-img>
                 </v-overlay>
@@ -250,16 +225,16 @@
     </body>
 
     <%--apis--%>
-    <script src="../javascript/axios/axios.js"></script>
+    <script src="../../javascript/axios/axios.js"></script>
 
-    <script src="../javascript/VueJs/vuetify/vuetify.min.js"></script>
-    <script src="../javascript/VueJs/vee-validate/vee-validate.js"></script>
-    <script src="../javascript/VueJs/vee-validate/es.js"></script>
-    <script src="../javascript/VueJs/sweetalert2/sweetalert2.all.js"></script>
+    <script src="../../javascript/VueJs/vuetify/vuetify.min.js"></script>
+    <script src="../../javascript/VueJs/vee-validate/vee-validate.js"></script>
+    <script src="../../javascript/VueJs/vee-validate/es.js"></script>
+    <script src="../../javascript/VueJs/sweetalert2/sweetalert2.all.js"></script>
 
     <%--Desarrollo--%>
     <script type="module">
-        import {preloader, guardar, errorGuardar, actualizar, errorActualizar, eliminar, errorEliminar, cerrar, confirmarE, aviso, confirmar} from '../javascript/mensajeSistema/mensajes_sweetalert_vue.js';
+        import {preloader, guardar, errorGuardar, actualizar, errorActualizar, eliminar, errorEliminar, cerrar, confirmarE, aviso, confirmar} from '../../javascript/mensajeSistema/mensajes_sweetalert_vue.js';
         Vue.use(VeeValidate, {
             classes: true	
         });
@@ -276,7 +251,7 @@
                     onMounted,
                     watch
                 } = VueCompositionAPI;
-                const ctr = "../controlador/ejemplo_usuario/Controlador_catalogo_usuario.jsp";
+                const ctr = "../../controlador/ejemplo_usuario/Controlador_catalogo_usuario.jsp";
                 //Variables POST
                 const tipo = ref("");
                 const nombreUsuario = ref("");
@@ -331,7 +306,7 @@
 
                 async function fnTiposUsuario(){
                     try{
-                        preloader("../");
+                        preloader("../../");
                         let parametros = new URLSearchParams();
                         parametros.append("accion", 3);
                         let {data,status} = await axios.post(ctr, parametros)
@@ -350,7 +325,7 @@
                 
                 async function fnConsultarTabla(){
                     try{
-                        preloader("../");
+                        preloader("../../");
                         //arreglo
                         let parametros = new URLSearchParams();
                         //le mandamos un parametro llamado accion
@@ -375,7 +350,7 @@
                     this.$validator.validate().then(async esValido => {
                         if(esValido){
                             try{
-                                preloader("../");
+                                preloader("../../");
                                 let parametros = new URLSearchParams();
                                 parametros.append("accion", 2);
                                 parametros.append("tipo", tipo.value);
@@ -406,7 +381,7 @@
 
                 async function fnTiposProveedor(){
                     try{
-                        preloader("../");
+                        preloader("../../");
                         let parametros = new URLSearchParams();
                         parametros.append("accion", 3);
                         let {data,status} = await axios.post(ctr, parametros)
@@ -427,7 +402,7 @@
                     this.$validator.validate().then(async esValido => {
                         if(esValido){
                             try{
-                                preloader("../");
+                                preloader("../../");
                                 let parametros = new URLSearchParams();
                                 parametros.append("accion", 4); 
                                 parametros.append("tipo", tipo.value);
@@ -460,7 +435,7 @@
                     confirmarE("¿Realmente quieres eliminar éste registro?").then(async (result) => {
                         if(result.isConfirmed){
                             try{
-                                preloader("../");
+                                preloader("../../");
                                 let parametros = new URLSearchParams();
                                 parametros.append("accion", 5);
                                 parametros.append("id_usuario", item.id_usuario);

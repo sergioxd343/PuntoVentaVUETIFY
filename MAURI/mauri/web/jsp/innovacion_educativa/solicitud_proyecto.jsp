@@ -5,13 +5,13 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-        <link href="../styles/icon_material_design_4495/css/materialdesignicons.min.css" rel="stylesheet">
-        <link href="../javascript/VueJs/sweetalert2/sweetalert2.css" />
-        <link href="../javascript/VueJs/vuetify/vuetify.min.css" rel="stylesheet">
+        <link href="../../styles/icon_material_design_4495/css/materialdesignicons.min.css" rel="stylesheet">
+        <link href="../../javascript/VueJs/sweetalert2/sweetalert2.css" />
+        <link href="../../javascript/VueJs/vuetify/vuetify.min.css" rel="stylesheet">
         <meta name="viewport"
             content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-        <script src="../javascript/VueJs/vue/vue.js"></script>
-        <script type="" src="../javascript/VueJs/vue/vue-composition-api.prod.js"></script>
+        <script src="../../javascript/VueJs/vue/vue.js"></script>
+        <script type="" src="../../javascript/VueJs/vue/vue-composition-api.prod.js"></script>
         <title>Solicitud capacitación tecnica</title>
     </head>
     <style>
@@ -177,7 +177,7 @@
                 </v-snackbar>
                 <v-overlay :value="loader" z-index="1000">
                     <v-img aspect-ratio="2" class="white--text align-end" height="212px" width="292px"
-                        src="../images/Logo_utl_animado.gif">
+                        src="../../images/Logo_utl_animado.gif">
                     </v-img>
                 </v-overlay>
             </v-app>
@@ -185,15 +185,15 @@
     </body>
 
     <%--apis--%>
-        <script src="../javascript/axios/axios.js"></script>
+        <script src="../../javascript/axios/axios.js"></script>
 
-        <script src="../javascript/VueJs/vuetify/vuetify.min.js"></script>
-        <script src="../javascript/VueJs/vee-validate/vee-validate.js"></script>
-        <script src="../javascript/VueJs/vee-validate/es.js"></script>
-        <script src="../javascript/VueJs/sweetalert2/sweetalert2.all.js"></script>
+        <script src="../../javascript/VueJs/vuetify/vuetify.min.js"></script>
+        <script src="../../javascript/VueJs/vee-validate/vee-validate.js"></script>
+        <script src="../../javascript/VueJs/vee-validate/es.js"></script>
+        <script src="../../javascript/VueJs/sweetalert2/sweetalert2.all.js"></script>
         <%--Desarrollo--%>
             <script type="module">
-                import { preloader, guardar, errorGuardar, actualizar, errorActualizar, eliminar, errorEliminar, cerrar, confirmarE, aviso, confirmar } from '../javascript/mensajeSistema/mensajes_sweetalert_vue.js';
+                import { preloader, guardar, errorGuardar, actualizar, errorActualizar, eliminar, errorEliminar, cerrar, confirmarE, aviso, confirmar } from '../../javascript/mensajeSistema/mensajes_sweetalert_vue.js';
 
                 Vue.use(VeeValidate, {
                     classes: true
@@ -211,7 +211,7 @@
                             onMounted,
                             watch
                         } = VueCompositionAPI;
-                        const ctr = "../controlador/Controlador_solicitudProyecto.jsp";
+                        const ctr = "../../controlador/Controlador_solicitudProyecto.jsp";
 
 
                         const cve_solicitud_proyecto = ref("");
@@ -275,7 +275,7 @@
                         //Consulta a base de datos
                         async function fnArea() {
                             try {
-                                preloader("../");
+                                preloader("../../");
                                 let parametros = new URLSearchParams();
                                 parametros.append("accion", 3);
                                 let { data, status } = await axios.post(ctr, parametros)
@@ -294,7 +294,7 @@
 
                         async function fnConsultarTabla() {
                             try {
-                                preloader("../");
+                                preloader("../../");
                                 //arreglo
                                 let parametros = new URLSearchParams();
                                 //le mandamos un parametro llamado accion
@@ -329,7 +329,7 @@
                             this.$validator.validate().then(async esValido => {
                                 if (esValido) {
                                     try {
-                                        preloader("../");
+                                        preloader("../../");
                                         let parametros = new URLSearchParams();
                                         parametros.append("accion", 2);
 
@@ -379,7 +379,7 @@
                             this.$validator.validate().then(async esValido => {
                                 if (esValido) {
                                     try {
-                                        preloader("../");
+                                        preloader("../../");
                                         let parametros = new URLSearchParams();
                                         parametros.append("accion", 4);
 
