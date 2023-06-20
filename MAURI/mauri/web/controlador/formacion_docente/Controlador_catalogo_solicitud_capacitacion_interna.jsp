@@ -2,9 +2,9 @@
     /*
      * <p>Title        : 
      * <p>Description  : 
-     * @author         : 
-     * @version        : 
-     * @date           : 
+     * @author         : Maria Guadalupe Gutiérrez Alcantar
+     * @version        : 2
+     * @date           :  17 - 06 -23
      */
 
 --%>
@@ -99,15 +99,15 @@
             break;
 
         case 3:
-            out.println(datos.Consultas(parametros, "area"));
+            out.println(datos.Consultas(parametros, "cursos"));
             break;
 
-        case 4:
-
+        case 4: 
+            out.println(datos.Consultas(parametros, "buscar_cve_docente"));
             break;
 
         case 5:
-
+            out.println(datos.Consultas(parametros, "tipoInstructor"));
             break;
 
         case 6:

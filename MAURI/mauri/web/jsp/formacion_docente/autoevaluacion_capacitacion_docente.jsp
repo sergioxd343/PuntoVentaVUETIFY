@@ -784,8 +784,8 @@
                             this.segundoApellidoD = this.dataBusqueda[i].apellido_materno;
                             this.sexo = this.dataBusqueda[i].sexo;
                             this.puesto = this.dataBusqueda[i].nombre_tipo_puesto;
-                            this.area = this.dataBusqueda[i].nombre_area,
-                            this.carrera = this.dataBusqueda[i].nombre_ugac
+                            this.area = this.dataBusqueda[i].nombre_area;
+                            this.carrera = this.dataBusqueda[i].nombre_ugac;
                         break; 
                         } else {
                             Swal.fire({

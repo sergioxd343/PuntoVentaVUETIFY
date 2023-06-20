@@ -7,6 +7,7 @@
         <link href="../../styles/icon_material_design_4495/css/materialdesignicons.min.css" rel="stylesheet">
         <link href="../../javascript/VueJs/sweetalert2/sweetalert2.css" />
         <link href="../../javascript/VueJs/vuetify/vuetify.min.css" rel="stylesheet">
+        <link rel="shortcut icon" href="../../images/favicon.ico" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
         <script src="../../javascript/VueJs/vue/vue.js"></script>
         <script type="" src="../../javascript/VueJs/vue/vue-composition-api.prod.js" ></script>

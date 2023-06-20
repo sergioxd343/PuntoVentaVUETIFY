@@ -38,35 +38,36 @@
                             <v-divider></v-divider>
 
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-                                <v-col md="6">
-                                    <v-autocomplete v-model="area" outlined label="Dirección académica"
-                                        v-validate="'required'" :items="areas" item-value="cve_area"
-                                        item-text="nombre_area" data-vv-name="dirección académica"
-                                        :error="errors.has('dirección académica')"
-                                        :error-messages="errors.first('dirección académica')"></v-autocomplete>
+                                <v-col md=2>
+                                    <v-text-field 
+                                        v-model="numeroControl"
+                                        outlined
+                                        label="N&uacute;mero de control"
+                                        persistent-hint
+                                        v-validate="'required|max:200'"
+                                        data-vv-name="numeroControl"
+                                        :error="errors.has('numeroControl')"
+                                        :error-messages="errors.first('numeroControl')"
+                                        @keyup.enter="fnBuscarDocente()"
+                                    ></v-text-field>
                                 </v-col>
-                                <v-col md="6">
-                                    <v-text-field v-model="programa" outlined label="Programa educativo" persistent-hint
-                                        v-validate="'required|max:500'" data-vv-name="programa educativo"
-                                        :error="errors.has('programa educativo')"
-                                        :error-messages="errors.first('programa educativo')"></v-text-field>
-                                </v-col>
-                                <v-col md="4">
-                                    <v-autocomplete 
-                                        v-model="area" 
+
+                                <v-col md="5">
+                                    <v-text-field 
+                                        disabled
+                                        v-model="direccion" 
                                         outlined label="Dirección académica"
-                                        v-validate="'required'" 
-                                        :items="areas" 
-                                        item-value="idArea"
-                                        item-text="nombreArea" 
+                                        v-validate="'required|max:500'" 
+                                        persistent-hint
                                         data-vv-name="dirección académica"
                                         :error="errors.has('dirección académica')"
                                         :error-messages="errors.first('dirección académica')">
-                                    </v-autocomplete>
+                                    </v-text-field>
                                 </v-col>
 
-                                <v-col md="4">
+                                <v-col md="3">
                                     <v-text-field 
+                                        disabled
                                         v-model="programa" 
                                         outlined label="Programa educativo" 
                                         persistent-hint
@@ -77,8 +78,28 @@
                                     </v-text-field>
                                 </v-col>
 
-                                <v-col md="4">
+                                <v-col md="2">
                                     <v-text-field 
+                                        disabled
+                                        v-model="puesto" 
+                                        outlined label="Puesto" 
+                                        v-validate="'required|max:500'" 
+                                        persistent-hint
+                                        data-vv-name="puesto"
+                                        :error="errors.has('puesto')"
+                                        :error-messages="errors.first('puesto')">
+                                    </v-text-field>
+                                </v-col>
+
+                                
+                            </v-row>
+
+                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+
+                                
+                                <v-col md="5">
+                                    <v-text-field 
+                                        disabled
                                         v-model="nombre" 
                                         outlined label="Nombre del solicitante"
                                         persistent-hint v-validate="'required|max:500'"
@@ -87,23 +108,8 @@
                                         :error-messages="errors.first('nombre del solicitante')">
                                     </v-text-field>
                                 </v-col>
-                            </v-row>
 
-                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-
-                                <v-col md="4">
-                                    <v-autocomplete 
-                                        v-model="puesto" 
-                                        outlined label="Puesto" 
-                                        v-validate="'required|max:500'" 
-                                        :items="puestos" 
-                                        data-vv-name="puesto"
-                                        :error="errors.has('puesto')"
-                                        :error-messages="errors.first('puesto')">
-                                    </v-autocomplete>
-                                </v-col>
-
-                                <v-col md="8">
+                                <v-col md="7">
                                     <p>Tipo de competencia</p>  
                                     <v-radio-group 
                                         v-model="tipoCompetencia" 
@@ -127,21 +133,39 @@
                                 </v-row>
                                 <v-divider></v-divider>
                                 <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-                                    <v-col md="2">
-                                        <v-text-field v-model="nombreCurso" outlined label="Nombre del Curso"
-                                            persistent-hint v-validate="'required|max:500'"
-                                            data-vv-name="nombre del curso" :error="errors.has('nombre del curso')"
-                                            :error-messages="errors.first('nombre del curso')"></v-text-field>
+                                    <v-col md="4">
+                                        <v-select
+                                            v-model="nombreCurso" 
+                                            outlined label="Nombre del Curso"
+                                            persistent-hint
+                                            :items="cursos"
+                                            item-value="cve_curso"
+                                            item-text="nombre_curso" 
+                                            v-validate="'required|max:500'"
+                                            data-vv-name="nombre del curso" 
+                                            :error="errors.has('nombre del curso')"
+                                            :error-messages="errors.first('nombre del curso')">
+                                        </v-select>
                                     </v-col>
-                                    <v-col md="2">
-                                        <v-menu ref="menu1" :close-on-content-click="false"
-                                            :return-value.sync="fechaInicio" transition="scale-transition" offset-y
+
+                                    <v-col md="3">
+                                        <v-menu 
+                                            ref="menu1" 
+                                            :close-on-content-click="false"
+                                            :return-value.sync="fechaInicio" 
+                                            transition="scale-transition" 
+                                            offset-y
                                             min-width="auto">
                                             <template v-slot:activator="{ on, attrs }">
-                                                <v-text-field v-validate="'required'" data-vv-name="fecha inicio"
-                                                    :error="errors.has('fecha inicio')" v-model="fechaInicio"
-                                                    label="Fecha Inicio" :error-messages="errors.first('fecha inicio')"
-                                                    prepend-icon="mdi-calendar" readonly v-bind="attrs"
+                                                <v-text-field 
+                                                    v-validate="'required'" 
+                                                    data-vv-name="fecha inicio"
+                                                    :error="errors.has('fecha inicio')" 
+                                                    v-model="fechaInicio"
+                                                    label="Fecha Inicio" 
+                                                    :error-messages="errors.first('fecha inicio')"
+                                                    prepend-icon="mdi-calendar" 
+                                                    readonly v-bind="attrs"
                                                     v-on="on"></v-text-field>
                                             </template>
                                             <v-date-picker v-model="fechaInicio" no-title scrollable>
@@ -155,7 +179,7 @@
                                             </v-date-picker>
                                         </v-menu>
                                     </v-col>
-                                    <v-col md="2">
+                                    <v-col md="3">
                                         <v-menu ref="menu2" :close-on-content-click="false"
                                             :return-value.sync="fechaFin" transition="scale-transition" offset-y
                                             min-width="auto">
@@ -183,20 +207,25 @@
                                             :error-messages="errors.first('horario')"
                                             prepend-icon="mdi-clock-outline"></v-text-field>
                                     </v-col>
+
                                     <v-col md="4">
-                                        <v-radio-group v-model="tipoCurso" label="Curso" v-validate="'required'"
-                                            data-vv-name="curso" :error="errors.has('curso')"
-                                            :error-messages="errors.first('curso')">
-                                            <v-radio label="Abierto a comunidad UTL" value="abierto"></v-radio>
-                                            <v-radio label="Grupo cerrado " value="cerrado"></v-radio>
-                                        </v-radio-group>
-                                    </v-col>
-                                    <v-col md="5">
                                         <v-text-field v-model="lugar" outlined label="Lugar" persistent-hint
                                             v-validate="'required|max:500'" data-vv-name="lugar"
                                             :error="errors.has('lugar')"
                                             :error-messages="errors.first('lugar')"></v-text-field>
                                     </v-col>
+
+                                    <v-col md="4">
+                                        <p>Curso</p>  
+                                        <v-radio-group v-model="tipoCurso" v-validate="'required'"
+                                            data-vv-name="curso" :error="errors.has('curso')"
+                                            :error-messages="errors.first('curso')" row>
+                                            <v-radio label="Abierto a comunidad UTL" value="abierto"></v-radio>
+                                            <v-radio label="Grupo cerrado " value="cerrado"></v-radio>
+                                        </v-radio-group>
+                                    </v-col>
+
+                                    
                                     <v-col md="2">
                                         <v-text-field v-model="dias" outlined label="Total de Días" inputmode="numeric"
                                             pattern="[0-9]*" type="number" persistent-hint
@@ -211,6 +240,10 @@
                                             :error="errors.has('total de horas')"
                                             :error-messages="errors.first('total de horas')"></v-text-field>
                                     </v-col>
+                                </v-row>
+
+                                <v-row class="align-center" style="padding: 0px 50px 0px 50px">
+
                                     <v-col md="3">
                                         <v-text-field v-model="numeroParticipantes" outlined
                                             label="Número de participantes" persistent-hint inputmode="numeric"
@@ -248,11 +281,20 @@
                                                 rows="1" row-height="15"></v-textarea>
                                         </v-col>
                                         <v-col md="4">
-                                            <v-textarea v-model="programaCursoHoras"
+                                            <v-textarea v-model="programaCurso"
+                                                data-vv-name="programa del curso"
+                                                :error="errors.has('programa del curso y horas por tema')"
+                                                :error-messages="errors.first('programa del curso y horas por tema')"
+                                                label="Programa del curso" persistent-hint
+                                                v-validate="'required|max:500'" auto-grow outlined rows="1"
+                                                row-height="15"></v-textarea>
+                                        </v-col>
+                                        <v-col md="4">
+                                            <v-textarea v-model="horasPorTema"
                                                 data-vv-name="programa del curso y horas por tema"
                                                 :error="errors.has('programa del curso y horas por tema')"
                                                 :error-messages="errors.first('programa del curso y horas por tema')"
-                                                label="Programa del curso y horas por tema" persistent-hint
+                                                label="Horas por tema" persistent-hint
                                                 v-validate="'required|max:500'" auto-grow outlined rows="1"
                                                 row-height="15"></v-textarea>
                                         </v-col>
@@ -284,6 +326,21 @@
                                         <v-row v-for="index in numberOfInputs" :key="index" justify="center"
                                             class="align-center" style="padding: 0px 50px 0px 50px">
                                             <v-col md="3">
+                                                <v-select
+                                                    v-model="tipoFacilitador[index]" 
+                                                    outlined
+                                                    :items="instructores"
+                                                    item-value="cve_tipo_instructor" 
+                                                    item-text="nombre_tipo_instructor"
+                                                    label="Tipo Facilitador"
+                                                    persistent-hint v-validate="'required|max:500'"
+                                                    data-vv-name="tipo facilitador"
+                                                    :error="errors.has('tipo facilitador')"
+                                                    :error-messages="errors.first('tipo facilitador')">
+                                                </v-select>
+                                            </v-col>
+
+                                            <v-col md="3">
                                                 <v-text-field v-model="nombreFacilitador[index]" outlined label="Nombre"
                                                     persistent-hint v-validate="'required|max:500'"
                                                     data-vv-name="nombre" :error="errors.has('nombre')"
@@ -305,14 +362,7 @@
                                                     :error="errors.has('programa educativo')"
                                                     :error-messages="errors.first('programa educativo')"></v-text-field>
                                             </v-col>
-                                            <v-col md="3">
-                                                <v-text-field v-model="tipoFacilitador[index]" outlined
-                                                    hint="Internos, Externos o Ayudantes" label="Tipo Facilitador"
-                                                    persistent-hint v-validate="'required|max:500'"
-                                                    data-vv-name="tipo facilitador"
-                                                    :error="errors.has('tipo facilitador')"
-                                                    :error-messages="errors.first('tipo facilitador')"></v-text-field>
-                                            </v-col>
+                                            
                                         </v-row>
                                         <v-tooltip top>
                                             <template v-slot:activator="{ on, attrs }">
@@ -394,6 +444,9 @@
                     const ctr =
                         "../../controlador/formacion_docente/Controlador_catalogo_solicitud_capacitacion_interna.jsp";
                     //Variables POST
+                    const horasPorTema = ref("");
+                    const numeroControl = ref("");
+                    const direccion = ref("");
                     const area = ref("");
                     const programa = ref("");
                     const nombre = ref("");
@@ -411,7 +464,7 @@
                     const objetivo = ref("");
                     const alcance = ref("");
                     const metodologia = ref("");
-                    const programaCursoHoras = ref("");
+                    const programaCurso = ref("");
                     const resultadoAprendizaje = ref("");
                     const perfil = ref("");
                     const nombreFacilitador = ref([]);
@@ -420,12 +473,14 @@
                     const tipoFacilitador = ref([]);
                     const puestos = ["PTC", "PA", "Técnico académico", "Administrativo académico", "Administrativo"];
                     const numberOfInputs = 1;
+                    const instructores = ref([]);
 
                     const modal2 = false;
                     //Otras variables
                     const flagEditar = ref(false);
                     const itemEditar = ref({});
                     //Combo
+                    const cursos = ref([]);
                     const areas = ref([]);
 
                     //SNACKBAR
@@ -438,24 +493,67 @@
                     //DataTable
                     const dataSolicitudCapacitacion = ref([]);
                     const headerCapacitacion = ref([
-                        { text: "No.", align: "left", sortable: true, value: "numero_fila" },
-                        { text: "Nombre Solicitante", align: "left", sortable: true, value: "nombreSolicitante" },
-                        { text: "Area Solicitante", align: "left", sortable: true, value: "nombreAreaS" },
-                        { text: "Puesto", align: "left", sortable: true, value: "puesto" },
-                        { text: "Tipo Competencia", align: "left", sortable: true, value: "tipoCompetencias" },
-                        { text: "Nombre Curso", align: "left", sortable: true, value: "nombreCurso" },
-                        { text: "Fecha Curso", align: "left", sortable: true, value: "fechaCurso" },
-                        { text: "Nombre Facilitador", align: "left", sortable: true, value: "nombreFacilitador" },
-                        { text: "Area Facilitador", align: "left", sortable: true, value: "nombreAreaF" }
+                        { text: "Nombre del curso", align: "left", sortable: true, value: "nombre_curso" },
+                        { text: "Total de días", align: "left", sortable: true, value: "total_dias" },
+                        { text: "Total de horas", align: "left", sortable: true, value: "total_horas" },
+                        { text: "Objetivo", align: "left", sortable: true, value: "objetivo" },
+                       
                     ]);
                     const searchCapacitacion = ref([]);
+                    const dataBusqueda = ref([]);
 
                     onMounted(() => {
                         fnConsultarTabla();
-                        fntipoArea();
+                        fnCursos();
+                        fnbuscar_cve_docente();
+                        fnInstructores();
                     });
 
-                    async function fntipoArea() {
+                    async function fnbuscar_cve_docente(){
+                    try{
+                        preloader("../../");
+                        let parametros = new URLSearchParams();
+                        parametros.append("accion", 4);
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                dataBusqueda.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                }
+
+                async function fnBuscarDocente() {
+                    const numeroControl = this.numeroControl;
+                    console.log(numeroControl);
+
+                    for (let i = 0; i < this.dataBusqueda.length; i++) {
+                        if (numeroControl === this.dataBusqueda[i].cve_persona.toString()) {                           
+                            this.direccion = this.dataBusqueda[i].nombre_area,
+                            this.programa = this.dataBusqueda[i].nombre_ugac,
+                            this.puesto = this.dataBusqueda[i].nombre_tipo_puesto,
+                            this.nombre = this.dataBusqueda[i].nombre + ' ' +
+                                this.dataBusqueda[i].apellido_peterno + ' ' + 
+                                this.dataBusqueda[i].apellido_materno
+                            
+                        break; 
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'El número de control no coincide.',
+                            });
+                        }
+                    }
+
+                }
+
+                    async function fnCursos() {
                         try {
                             preloader("../../");
                             let parametros = new URLSearchParams();
@@ -463,7 +561,26 @@
                             let { data, status } = await axios.post(ctr, parametros);
                             if (status == 200) {
                                 if (data.length > 0) {
-                                    areas.value = data;
+                                    cursos.value = data;
+                                }
+                            }
+                        } catch (error) {
+                            mostrarSnackbar("error");
+                            console.error(error);
+                        } finally {
+                            swal.close();
+                        }
+                    }
+
+                    async function fnInstructores() {
+                        try {
+                            preloader("../../");
+                            let parametros = new URLSearchParams();
+                            parametros.append("accion", 5);
+                            let { data, status } = await axios.post(ctr, parametros);
+                            if (status == 200) {
+                                if (data.length > 0) {
+                                    instructores.value = data;
                                 }
                             }
                         } catch (error) {
@@ -660,6 +777,7 @@
                     }
 
                     return {
+                        numeroControl,
                         color_snackbar,
                         snackbar,
                         mensaje_snackbar,
@@ -668,6 +786,8 @@
                         flagEditar,
                         area,
                         areas,
+                        direccion,
+                        cursos,
                         programa,
                         nombre,
                         puesto,
@@ -684,7 +804,7 @@
                         objetivo,
                         alcance,
                         metodologia,
-                        programaCursoHoras,
+                        programaCurso,
                         resultadoAprendizaje,
                         perfil,
                         nombreFacilitador,
@@ -702,7 +822,12 @@
                         fnLimpiarCampos,
                         fnEditar,
                         fnCambiarEstatus,
+                        fnbuscar_cve_docente,
+                        fnBuscarDocente,
                         itemEditar,
+                        instructores,
+                        dataBusqueda,
+                        horasPorTema
                     };
                 },
             });
