@@ -261,13 +261,13 @@
                     })
                 }
 
-              async function fnEliminarOrientacion(item){
+              async function fnEliminarServicio(item){
                             try{
                                 preloader("../");
                                 let parametros = new URLSearchParams();
                                 parametros.append("accion", 3);
                                 parametros.append("activo", (item.activo == true ? 1 : 0));
-                                parametros.append("cve_tipo_orientacion", item.cve_tipo_orientacion);
+                                parametros.append("cve_tipo_servicio", item.cve_tipo_servicio);
                                 let {data,status} = await axios.post(ctr, parametros)
                                 if(status == 200){
                                     if(data=="1"){
@@ -307,7 +307,7 @@
                 return{
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
                     nombreTipoServicio, dataTipoServicio, headersTipoServicio, fnConsultarTablaTipoServicio,
-                    fnGuardarTipoServicio, fnEliminarOrientacion, fnLimpiarCampos, searchTipos,
+                    fnGuardarTipoServicio, fnEliminarServicio, fnLimpiarCampos, searchTipos,
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor,
                     
                     //fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, itemEditar
