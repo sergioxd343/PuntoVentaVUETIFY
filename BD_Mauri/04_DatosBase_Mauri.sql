@@ -39,7 +39,7 @@ INSERT INTO submenu (cve_menu, cve_padre, nombre, ruta, orden, usuario_registro)
                     (2, 2, 'Encuesta de Satisfacción y Evaluación de Resultado', '../innovacion_educativa/evaluacion_resultado.jsp', 10, 1),
                     (2, 2, 'Detacción de necesidad para Asesoramiento', '../innovacion_educativa/asesoria.jsp', 11, 1),
                     (2, 2, 'Rúbrica de Observación de Clase', '../innovacion_educativa/rubrica_observacion_clase.jsp', 12, 1),
-                    (2, 2, 'Analisis Situacional Docente', '../innovacion_educativa/analisis_situacional_docente.jsp', 13, 1),
+                    (2, 2, 'Analisis Situacional Docente', '../innvacion_educativa/analisis_situacional_docente.jsp', 13, 1),
                     (2, 2, 'Solicitu de Proyecto', '../innovacion_educativa/solicitud_proyecto.jsp', 14, 1),
                     (3, 3, 'Evento Programado', '../eventos/evento_programado.jsp', 16, 1),
                     (3, 3, 'Evento Programado Grupo', '../eventos/evento_programado_grupo.jsp', 17, 1),

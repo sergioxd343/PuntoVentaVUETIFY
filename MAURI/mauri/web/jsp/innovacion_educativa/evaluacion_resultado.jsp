@@ -436,7 +436,7 @@
                             onMounted,
                             watch
                         } = VueCompositionAPI;
-                        const ctr = "../../controlador/Controlador_catalogo_encuestaSatisfaccionEvaluacion.jsp";
+                        const ctr = "../../controlador/innovacion_educativa/Controlador_encuesta_satisfaccion_evaluacion.jsp";
 
                         const cve_eval_resul = ref("");
                         const cve_t_servicio = ref("");
@@ -620,6 +620,8 @@
 
                             flagEditar.value = false;
                             itemEditar.value = {};
+
+                            fnConsultarTabla();
 
                             if (this == undefined)
                                 cx.$validator.reset();

@@ -929,7 +929,7 @@
                             onMounted,
                             watch
                         } = VueCompositionAPI;
-                        const ctr = "../../controlador/Controlador_rubricaObservacionClase.jsp";
+                        const ctr = "../../controlador/innovacion_educativa/Controlador_rubrica_observacion_clase.jsp";
 
                         const cve_empleado_docente = ref("");
                         const cve_rubrica = ref("");
@@ -1146,6 +1146,8 @@
 
                             flagEditar.value = false;
                             itemEditar.value = {};
+
+                            fnConsultarTabla();
 
                             if (this == undefined)
                                 cx.$validator.reset();

@@ -211,7 +211,7 @@
                             onMounted,
                             watch
                         } = VueCompositionAPI;
-                        const ctr = "../../controlador/Controlador_solicitudProyecto.jsp";
+                        const ctr = "../../controlador/innovacion_educativa/Controlador_solicitud_proyecto.jsp";
 
 
                         const cve_solicitud_proyecto = ref("");
@@ -446,7 +446,7 @@
                             cve_solicitud_proyecto, cve_area, nombre_proyecto, objetivo_proyecto,
                             descripcion_proyecto, recursos_necesarios, acuerdos_establecidos, estatus,
                             sexo,
-                            opc_revisado, opc_cancelado, fnBusquedaArea,fnBusquedaGestor,
+                            opc_revisado, opc_cancelado, fnBusquedaArea,
                             arraySexo, arrayArea, fnArea, fnConsultarTabla,
                             dialogBuscador, nombreBuscar, searchBusqueda,
                             color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar,

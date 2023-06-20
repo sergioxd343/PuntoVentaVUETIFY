@@ -33,19 +33,16 @@
                             </v-row>
 
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-                                <v-col md=3>
-                                    <v-select 
-                                        v-model="activoEspacio"
-                                        outlined
-                                        label="Estado"
-                                        v-validate="'required'"
-                                        :items="arrayActivo"
-                                        item-value="activoEspacio"
-                                        item-text="activoEspacio"
-                                        data-vv-name="activoEspacio"
-                                        :error="errors.has('activoEspacio')"
-                                        :error-messages="errors.first('activoEspacio')"
-                                    ></v-select>
+                                <v-col md=2>
+                                        <v-text-field 
+                                            v-model="nombreTipoEspacio" 
+                                            outlined label="Nombre espacio" 
+                                            persistent-hint
+                                            v-validate="'required|max:200'" 
+                                            data-vv-name="nombre tipo espacio"
+                                            :error="errors.has('nombre tipo espacio')"
+                                            :error-messages="errors.first('nombre espacio servicio')"></v-text-field>
+                                    </v-col>
                                 </v-col>
                                 <v-row justify="center">
                                     <v-btn color="primary" @click="flagEditar ? fnEditar() : fnGuardarTipoEspacio()"><v-icon>mdi-content-save</v-icon>{{flagEditar ? 'Editar' : 'Guardar'}}</v-btn>

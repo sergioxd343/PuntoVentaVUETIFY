@@ -224,7 +224,7 @@
                             onMounted,
                             watch
                         } = VueCompositionAPI;
-                        const ctr = "../../controlador/Controlador_deteccionNecesidadesAsesoramientoPedagogico.jsp";
+                        const ctr = "../../controlador/innovacion_educativa/Controlador_deteccion_necesidades_asesoramiento_pedagogico.jsp";
 
                         const cve_asesoria = ref("");
                         const cve_empleado = ref("");
@@ -433,6 +433,8 @@
 
                             flagEditar.value = false;
                             itemEditar.value = {};
+
+                            fnConsultarTabla();
 
                             if (this == undefined)
                                 cx.$validator.reset();

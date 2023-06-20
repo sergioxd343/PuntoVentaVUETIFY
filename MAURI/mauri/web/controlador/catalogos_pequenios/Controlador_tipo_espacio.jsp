@@ -62,7 +62,7 @@
      switch (accion) {
         case 1:
            out.println(datos.Consultas(parametros, "tablaTipoEspacio"));
-           break;*/
+           break;
         case 2:
             temp_obj = new JsonObject();
             temp_obj.addProperty("nombre_tipo_espacio", nombreEspacio);

@@ -271,7 +271,7 @@
                             onMounted,
                             watch
                         } = VueCompositionAPI;
-                        const ctr = "../../controlador/Controlador_generacionRubrica.jsp";
+                        const ctr = "../../controlador/innovacion_educativa/Controlador_generacion_rubrica.jsp";
 
                         const cve_rubrica = ref("");
                         const cve_empleado = ref("");
@@ -486,6 +486,8 @@
 
                             flagEditar.value = false;
                             itemEditar.value = {};
+
+                            fnConsultarTabla();
 
                             if (this == undefined)
                                 cx.$validator.reset();
