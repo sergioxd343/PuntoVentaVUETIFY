@@ -1,4 +1,4 @@
-
+<%@page contentType="text/html; charset=UTF-8" language="java" errorPage="" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -361,7 +361,7 @@
                                     <v-col md=6>
                                         
                                         <v-text-field 
-                                            v-if="escala1 === 1 || escala1 === 2  "
+                                            v-if="escala1 === 6 || escala1 === 7  "
                                             v-model="otraAct"
                                             outlined
                                             label="Indique brevemente los factores que no permitieron su identificación"
@@ -529,15 +529,16 @@
                                         :mobile-breakpoint="NaN"
                                         items-per-page="10"
                                     >
-                                        <template v-slot:item.status="{item}">
-                                            <%-- <v-tooltip bottom> --%>
-                                                <%-- <template v-slot:activator="{on, attrs}"> --%>
-                                                <%-- v-bind="attrs" v-on="on" --%>
-                                                    <v-switch v-model="item.status" @change="fnCambiarEstatus(item)"></v-switch>
-                                                <%-- </template> --%>
-                                                <%-- <span>d</span> --%>
-                                            <%-- </v-tooltip> --%>
-                                        </template>
+
+                                    <template v-slot:item.estatus="{ item }">
+                                                           
+                                        <v-icon color="green" @click="snackbar = false">mdi-circle</v-icon>
+                                        <v-icon color="yellow" @click="snackbar = false">mdi-circle</v-icon>
+                                        <v-icon color="red" @click="snackbar = false">mdi-circle</v-icon>
+                                    
+                                    </template>
+
+                                       
                                         <template v-slot:item.editar="{item}">
                                             <v-btn fab small color="warning" @click="flagEditar = true; itemEditar = item;
                                                 tipo = item.cve_tipo;
@@ -683,8 +684,8 @@
                     {text: 'Nombre del docente', align: 'left', sortable: true, value: 'nombre'},
                     {text: 'Tema del curso', align: 'left', sortable: true, value: 'tema_curso'},
                     {text: 'Objetivo del curso', align: 'left', sortable: true, value: 'objetivo_curso'},
-                    {text: 'Editar', align: 'left', sortable: true, value: 'editar'},
-                    {text: 'Eliminar', align: 'left', sortable: true, value: 'eliminar'},
+                    { text: "Estatus", align: "left", sortable: false, value: "estatus" },
+
                 ]);
                 const searchProveedores = ref([]);
 
