@@ -58,7 +58,10 @@
         <div id="app">
             <v-app>
                 <v-card>
-                    <v-card-title class="text-center align-center" style="background-color: #00b293; color:#ffffff;">
+                    <v-card-title class="text-center align-center" style="background-color: #00b293; color:#ffffff; padding: 0px;">
+                        <a href="">
+                            <img alt="Logo" src="../../images/Logo_utl.png" width="85px" height="85px" />
+                        </a>
                         <v-spacer></v-spacer>
                         <v-chip class="ma-2" color="white" outlined pill>
                             {{ nombre }} {{ primerAp }} {{segundoAp}}

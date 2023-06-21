@@ -9,6 +9,11 @@ INSERT INTO persona (nombre, apellido_peterno, apellido_materno, email, movil, c
 					('Sergio','Hernandez','Tavarez','21000302@alumnos.utleon.edu.mx','477 200 6766','HETS021226HGTNTMA0','HETS1234DFXXX','Masculino','2002-05-21',1),
 					('Brenda Esmeralda','Gutiérrez','Pérez','21000026@alumnos.utleon.edu.mx','472 184 6581','GUPB021226HGTNTMA0','GUPB1234DFXXX','Femenino','2003-04-12',1);
 
+
+-- ------------- INSERTS DE EMPLEADOS -------------- --
+INSERT INTO empleado (cve_persona, cve_puesto, cve_tipo_pesto, cve_departamento, cve_area, cve_ugac, cve_unidad_academica, fecha_ingreso, titulo_recibido, grado_estudio, usuario_registro)
+			VALUES (1, 3, 129, 1, 27, 1, 1, '2002', 'Técnico Superior', 'Educación Superior', 1);
+
 -- ------------- INSERTS DE USUARIOS -------------- --
 INSERT INTO usuario (cve_persona, nombre_usuario, contrasenia, usuario_registro) 
 			VALUES	(1, 'sjonathan', '56964', 1),
@@ -25,7 +30,7 @@ INSERT INTO menu (cve_padre, nombre, ruta, orden, usuario_registro)
                     (0, 'Eventos', '-', 15, 1),
                     (0, 'Catalogos Pequeños', '-', 19, 1),
                     (0, 'Programas', '-', 28, 1),
-		    (0, 'Sistema', '-', 32, 1);
+					(0, 'Sistema', '-', 32, 1);
 
 -- ------------- INSERTS DE  SUBMENU -------------- --
 INSERT INTO submenu (cve_menu, cve_padre, nombre, ruta, orden, usuario_registro) 
@@ -55,7 +60,7 @@ INSERT INTO submenu (cve_menu, cve_padre, nombre, ruta, orden, usuario_registro)
                     (5, 5, 'Programa de Desarrollo', '../programas/programa_desarrollo.jsp', 29, 1),
                     (5, 5, 'Programa de Desarrollo de Módulos', '../programas/programa_desarrollo_modulo.jsp', 30, 1),
                     (5, 5, 'Programa de Desarrollo de Materia', '../programas/programa_desarrollo_materia.jsp', 31, 1),
-		    (6, 6, 'Perfil de usuario', 'perfil_usuario.jsp', 33, 1);
+					(6, 6, 'Perfil de usuario', 'perfil_usuario.jsp', 33, 1);
 
 -- ------------- INSERTS DE MENU_PERMISOS -------------- --
 INSERT INTO menu_permisos (cve_grupo_seguridad, cve_menu, usuario_registro) 
