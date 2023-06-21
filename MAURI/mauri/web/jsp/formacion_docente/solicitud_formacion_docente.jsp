@@ -65,7 +65,7 @@
                         <v-container fluid>
                             <v-row justify="center" dense>
                                 <v-row style="padding: 0px 50px 0px 50px">
-                                    <v-col md="2">
+                                    <v-col md="4">
                                         <v-menu ref="menu" :close-on-content-click="false" :return-value.sync="fecha"
                                             transition="scale-transition" offset-y min-width="auto">
                                             <template v-slot:activator="{ on, attrs }">
@@ -85,11 +85,12 @@
                                             </v-date-picker>
                                         </v-menu>
                                     </v-col>
-                                    <v-col md="3" justify="center" class="align-center">
+                                    <v-col md="5" justify="center" class="align-center">
                                         <v-radio-group v-model="direccionAcademia" label="Unidad Académica"
                                             v-validate="'required'" data-vv-name="unidad académica"
                                             :error="errors.has('unidad académica')"
-                                            :error-messages="errors.first('unidad académica')">
+                                            :error-messages="errors.first('unidad académica')"
+                                            row>
                                             <v-radio label="León" value="León"></v-radio>
                                             <v-radio label="Acámbaro" value="Acámbaro"></v-radio>
                                         </v-radio-group>
@@ -145,63 +146,44 @@
                                                         <th class="th">Personal administrativo o del área academica</th>
                                                         <th class="th">Otro</th>
                                                     </tr>
-                                                    <tr>
-                                                        <th class="th"> 1 </th>
+                                                    <tr v-for="index in numberOfInputs" :key="index">
+                                                        <th class="th"> {{ index === 0 ? index + 1 : index }} </th>
                                                         <td class="td">
                                                             <v-text-field 
-                                                                v-model="ea" 
+                                                                v-model="numEmpleado[index]" 
                                                                 outlined
                                                                 persistent-hint
                                                             ></v-text-field>
                                                         </td>
                                                         <td class="td">
                                                             <v-text-field 
-                                                                v-model="teei" 
+                                                                v-model="nombreParticipante[index]" 
                                                                 outlined
                                                                 persistent-hint>
                                                             </v-text-field>
                                                         </td>
                                                         <td class="td">
-                                                            <v-text-field 
-                                                                v-model="dayd" 
-                                                                outlined
-                                                                persistent-hint>
-                                                            </v-text-field>
+                                                            <v-radio-group v-model="sexo[index]" v-validate="'required'"
+                                                            data-vv-name="sexo" :error="errors.has('sexo')"
+                                                            :error-messages="errors.first('sexo')">
+                                                            <v-radio label="M" value="horario trabajo"></v-radio>
+                                                            <v-radio label="F" value="fuera horario"></v-radio>
+                                                            </v-radio-group>
                                                         </td>
                                                         <td class="td">
-                                                            <v-text-field 
-                                                                v-model="idiomas" 
-                                                                outlined
-                                                                persistent-hint>
-                                                            </v-text-field>
+                                                            <v-checkbox v-model="ptc[index]" value="ptc" @change="handleCheckboxChange(index, ptc)"></v-checkbox>
                                                         </td>
                                                         <td class="td">
-                                                            <v-text-field 
-                                                                v-model="idiomas" 
-                                                                outlined
-                                                                persistent-hint>
-                                                            </v-text-field>
+                                                            <v-checkbox v-model="tecnico[index]" value="tecnico" @change="handleCheckboxChange(index, tecnico)"></v-checkbox>
                                                         </td>
                                                         <td class="td">
-                                                            <v-text-field 
-                                                                v-model="idiomas" 
-                                                                outlined
-                                                                persistent-hint>
-                                                            </v-text-field>
+                                                            <v-checkbox v-model="alumnado[index]" value="alumnado" @change="handleCheckboxChange(index, alumnado)"></v-checkbox>
+                                                        </td>
+                                                        <td class="td ">
+                                                            <v-checkbox v-model="admin[index]" value="administrativo" @change="handleCheckboxChange(index, admin)"></v-checkbox>
                                                         </td>
                                                         <td class="td">
-                                                            <v-text-field 
-                                                                v-model="idiomas" 
-                                                                outlined
-                                                                persistent-hint>
-                                                            </v-text-field>
-                                                        </td>
-                                                        <td class="td">
-                                                            <v-text-field 
-                                                                v-model="idiomas" 
-                                                                outlined
-                                                                persistent-hint>
-                                                            </v-text-field>
+                                                            <v-checkbox v-model="otro[index]" value="otro" @change="handleCheckboxChange(index, otro)"></v-checkbox>
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -209,10 +191,19 @@
                                         </v-col>
                                     </v-row>
                                 </template>
+                                <br>
 
-                                <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+                                <v-tooltip top>
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn color="primary" v-bind="attrs" v-on="on"
+                                            @click="numberOfInputs++"><v-icon>mdi-account-multiple-plus</v-icon></v-btn>
+                                    </template>
+                                    <span>Agregar participante</span>
+                                </v-tooltip>
 
-                                    <v-col md="3">
+                                <v-row class="align-center" style="padding: 0px 50px 0px 50px">
+
+                                    <v-col md="5">
                                         <v-text-field v-model="nombrePrograma" outlined
                                             label="Nombre del programa solicitado" persistent-hint
                                             v-validate="'required|max:500'"
@@ -221,6 +212,7 @@
                                             :error-messages="errors.first('nombre del programa solicitado')"></v-text-field>
                                     </v-col>
 
+                                
                                     <v-col md="9">
                                         <p>Seleccione Tipo de Evento:</p>
                                         <v-row class="light--text">
@@ -264,21 +256,85 @@
                                             <v-radio label="No se requiere presupuesto" value="no requiere"></v-radio>
                                         </v-radio-group>
                                     </v-col>
+                                </v-row>
+                                <v-row justify="center" dense>
+                                    
+                                </v-row>
+
+                                
+                                 
+                                
+                                <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+                                    
                                     <v-col md="3">
+                                        <v-text-field v-model="lugar" outlined label="Lugar"
+                                            persistent-hint v-validate="'required|max:500'" data-vv-name="centro gestor"
+                                            :error="errors.has('centro gestor')"
+                                            :error-messages="errors.first('centro gestor')"></v-text-field>
+                                    </v-col>
+
+                                    <v-col md="3">
+                                        <v-text-field v-model="horario" label="Horario" v-validate="'required'"
+                                            :error="errors.has('horario')" data-vv-name="horario"
+                                            :error-messages="errors.first('horario')"
+                                            prepend-icon="mdi-clock-outline"></v-text-field>
+                                    </v-col>
+
+                                    <v-col md="3">
+                                        <v-text-field v-model="numHoras" outlined label="Número de horas"
+                                            persistent-hint v-validate="'required|max:500'" data-vv-name="centro gestor"
+                                            :error="errors.has('centro gestor')"
+                                            :error-messages="errors.first('centro gestor')"></v-text-field>
+                                    </v-col>
+
+                                    <v-col md="3">
+                                        <v-menu 
+                                            ref="menu1" 
+                                            :close-on-content-click="false"
+                                            :return-value.sync="fechaInicio" 
+                                            transition="scale-transition" 
+                                            offset-y
+                                            min-width="auto">
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-text-field 
+                                                    v-validate="'required'" 
+                                                    data-vv-name="fecha inicio"
+                                                    :error="errors.has('fecha inicio')" 
+                                                    v-model="fechaInicio"
+                                                    label="Fecha Inicio" 
+                                                    :error-messages="errors.first('fecha inicio')"
+                                                    prepend-icon="mdi-calendar" 
+                                                    readonly v-bind="attrs"
+                                                    v-on="on"></v-text-field>
+                                            </template>
+                                            <v-date-picker v-model="fechaInicio" no-title scrollable>
+                                                <v-spacer></v-spacer>
+                                                <v-btn text color="primary" @click="menu1 = false">
+                                                    Cancel
+                                                </v-btn>
+                                                <v-btn text color="primary" @click="$refs.menu1.save(fechaInicio)">
+                                                    OK
+                                                </v-btn>
+                                            </v-date-picker>
+                                        </v-menu>
+                                    </v-col>
+                                    
+
+                                    <v-col md="4">
                                         <v-text-field v-model="centroGestor" outlined label="Centro Gestor"
                                             persistent-hint v-validate="'required|max:500'" data-vv-name="centro gestor"
                                             :error="errors.has('centro gestor')"
                                             :error-messages="errors.first('centro gestor')"></v-text-field>
                                     </v-col>
-                                    <v-col md="3">
+                                    <v-col md="4">
                                         <v-text-field v-model="proyectoPresupuestal" outlined
                                             label="Proyecto Presupuestal" persistent-hint
                                             v-validate="'required|max:500'" data-vv-name="proyecto presupuestal"
                                             :error="errors.has('proyecto presupuestal')"
                                             :error-messages="errors.first('proyecto presupuestal')"></v-text-field>
                                     </v-col>
-                                    <v-col md="3">
-                                        <v-text-field v-model="costoTotal" outlined label="costo total" persistent-hint
+                                    <v-col md="4">
+                                        <v-text-field  v-model="costoTotal" prefix="$" outlined label="Costo total" persistent-hint
                                             v-validate="'required|max:500'" data-vv-name="costo total"
                                             :error="errors.has('costo total')"
                                             :error-messages="errors.first('costo total')"></v-text-field>
@@ -287,7 +343,7 @@
                                 <template>
                                     <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                         <v-col md="12">
-                                            <p class="th tituloTh" style="margin-bottom: 0px; cursor: pointer;"
+                                            <p class="tituloTh" style="margin-bottom: 0px; cursor: pointer;"
                                                 @mouseover="showAlert = true" @mouseleave="showAlert = false">
                                                 Transferencia bancaria<br>
                                                 Dato de control
@@ -431,7 +487,7 @@
                 setup() {
                     const { ref, onMounted, watch } = VueCompositionAPI;
                     const ctr =
-                        "../../controlador/formacion_docente/Controlador_catalogo_solicitud_capacitacion_interna.jsp";
+                        "../../controlador/formacion_docente/Controlador_catalogo_solicitud_formacion_docente.jsp";
                     //Variables POST
                     const nombrePrograma = ref("");
                     const fecha = ref("");
@@ -449,6 +505,19 @@
                     const costoTotal = ref("");
                     const showAlert = false;
                     const observaciones = ref("");
+                    const lugar = ref("");
+                    const horario = ref("");
+                    const numHoras = ref("");
+                    const fechaInicio = ref("");
+                    const numEmpleado = ref("");
+                    const nombreParticipante = ref("");
+                    const sexo = ref("");
+                    const ptc = ref("");
+                    const tecnico = ref("");
+                    const alumnado = ref("");
+                    const admin = ref("");
+                    const otro = ref("");
+                    const numberOfInputs = 1;
 
                     //Otras variables
                     const flagEditar = ref(false);
@@ -706,8 +775,30 @@
                         fnCambiarEstatus,
                         agregarOtroTipoEvento,
                         itemEditar,
-                    };
+                        lugar,
+                        horario,
+                        numHoras,
+                        fechaInicio,
+                        numEmpleado,
+                        nombreParticipante,
+                        sexo,
+                        ptc,
+                        tecnico,
+                        alumnado,
+                        admin,
+                        otro,
+                        numberOfInputs
+                    }
                 },
+                methods: {
+                    handleCheckboxChange(index, field) {
+                        // Desactivar los otros checkboxes en la misma fila
+                        for (let i = 0; i < this.numberOfInputs; i++) {
+                            if (i !== index) {
+                                this[field][i] = false;
+                            }
+                        }
+                    }}
             });
 
             Vue.config.devtools = true;

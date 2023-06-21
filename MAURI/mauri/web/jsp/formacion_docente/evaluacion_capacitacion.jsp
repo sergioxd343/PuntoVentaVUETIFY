@@ -25,7 +25,7 @@
                 <v-container fluid>
                     <v-card>
                         <v-card-title  style="background-color: #00b293; color:#ffffff;" >		
-                            Evaluación de capacitación
+                            Evaluación de capacitación docente
                         </v-card-title>
                         <v-container fluid>
                             

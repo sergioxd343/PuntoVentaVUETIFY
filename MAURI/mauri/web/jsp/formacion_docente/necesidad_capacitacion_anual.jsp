@@ -1,3 +1,4 @@
+<%@page contentType="text/html; charset=UTF-8" language="java" errorPage="" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,6 +16,30 @@
     <style>
         body {
           font-family: 'Roboto';
+        }
+
+        .circle-cell {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        }
+
+        .circle-cell .circle {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        }
+
+        .circle-cell .circle.aceptado {
+        background-color: green;
+        }
+
+        .circle-cell .circle.en_proceso {
+        background-color: orange;
+        }
+
+        .circle-cell .circle.rechazado {
+        background-color: red;
         }
     </style>
     <body>
@@ -37,9 +62,7 @@
                                         persistent-hint
                                         v-validate="'required|max:200'"
                                         data-vv-name="año a ejercer"
-                                        :error="errors.has('año a ejercer')"
-                                        :error-messages="errors.first('año a ejercer')"
-                                        type="number"
+                                        
                                     ></v-text-field>
                                 </v-col>
 
@@ -90,7 +113,7 @@
                             </v-row>
 
                                 <v-row justfy="center" dense >
-                                    <v-col class="text-center"><b>Informacion de la academia</b></v-col>
+                                    <v-col class="text-center"><b>Informaci&oacute;n de la academia</b></v-col>
                                 </v-row>
                                 <v-divider> </v-divider>
                             
@@ -108,9 +131,7 @@
                                         item-value="cve_unidad_academica"
                                         item-text="nombre_unidad_academica"
                                         data-vv-name="unidad acad&eacute;mica"
-                                        :error="errors.has('unidad acad&eacute;mica')"
-                                        :error-messages="errors.first('unidad acad&eacute;mica')"
-                                        required
+                                        
                                     ></v-select>
                                 </v-col>
 
@@ -187,12 +208,10 @@
                                     <v-text-field 
                                         v-model="necesidadesDetectadas"
                                         outlined
-                                        label="Necesidades detectadas mediante"
+                                        label="Necesidades detectadas mediante ..."
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        data-vv-name="necesidades detectadas mediante"
-                                        :error="errors.has('necesidades detectadas mediante')"
-                                        :error-messages="errors.first('necesidades detectadas mediante')"
+                                        
                                     ></v-text-field>
                                 </v-col>
 
@@ -200,12 +219,10 @@
                                     <v-text-field 
                                         v-model="nombreEventoCapacitacion"
                                         outlined
-                                        label="Nombre del Evento"
+                                        label="Nombre del evento"
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        data-vv-name="nombre del evento"
-                                        :error="errors.has('nombre del evento')"
-                                        :error-messages="errors.first('nombre del evento')"
+                                        
                                     ></v-text-field>
                                 </v-col>
 
@@ -216,9 +233,7 @@
                                         label="Objetivo del evento"
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        data-vv-name="objetivo del evento"
-                                        :error="errors.has('objetivo del evento')"
-                                        :error-messages="errors.first('objetivo del evento')"
+                                        
                                     ></v-text-field>
                                 </v-col>
                             </v-row>
@@ -230,10 +245,8 @@
                                         outlined
                                         v-validate="'required'"
                                         :items="arrayOrientacion"
-                                        label="Orientaci&oacute;n del Evento"
-                                        data-vv-name="orientacion del evento"
-                                        :error="errors.has('orientacion del evento')"
-                                        :error-messages="errors.first('orientacion del evento')"
+                                        label="Orientaci&oacute;n del evento"
+                                        
                                     ></v-select>
                                 </v-col>
 
@@ -243,11 +256,9 @@
                                         outlined
                                         v-validate="'required'"
                                         :items="arrayJustificacion"
-                                        label="Justificaci&oacute;n del Evento"
+                                        label="Justificaci&oacute;n del evento"
                                         persistent-hint
-                                        data-vv-name="justificacion del evento"
-                                        :error="errors.has('justificacion del evento')"
-                                        :error-messages="errors.first('justificacion del evento')"
+                                       
                                     ></v-select>
                                 </v-col>
 
@@ -259,11 +270,9 @@
                                         :items="arrayTipoEvento"
                                         item-value="cve_tipo_evento"
                                         item-text="nombre_tipo_evento"
-                                        label="Tipo de Evento"
+                                        label="Tipo de evento"
                                         persistent-hint
-                                        data-vv-name="tipo evento"
-                                        :error="errors.has('tipo evento')"
-                                        :error-messages="errors.first('tipo evento')"
+                                        
                                     ></v-select>
                                 </v-col>
                             </v-row>
@@ -277,9 +286,7 @@
                                         label="Especifique el tipo de evento"
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        data-vv-name="otro evento"
-                                        :error="errors.has('otro evento')"
-                                        :error-messages="errors.first('otro evento')"
+                                        
                                     ></v-text-field>
                                 </v-col>
                             </v-row>
@@ -352,13 +359,11 @@
                                         :items="arrayMes"
                                         label="Seleccionar mes"    
                                         persistent-hint
-                                        data-vv-name="mes"
-                                        :error="errors.has('mes')"
-                                        :error-messages="errors.first('mes')"
+                                       
                                     ></v-select>
                                 </v-col>
 
-                                <v-col cols="12" sm="6" md="3">
+                                <v-col cols="12" sm="6" md="2">
                                     <v-menu 
                                             ref="menu1"  
                                             :close-on-content-click="false"
@@ -386,7 +391,7 @@
                                     </v-menu>
                                 </v-col>
 
-                                <v-col cols="12" sm="6" md="3">
+                                <v-col cols="12" sm="6" md="2">
                                     <v-menu 
                                             ref="menu"  
                                             :close-on-content-click="false"
@@ -425,9 +430,7 @@
                                         inputmode="numeric"
                                         pattern="[0-9]*"
                                         type="number"
-                                        data-vv-name="numero de días"
-                                        :error="errors.has('numero de días')"
-                                        :error-messages="errors.first('numero de días')"
+                                       
                                     ></v-text-field>
                                 </v-col>
 
@@ -435,15 +438,13 @@
                                     <v-text-field 
                                         v-model="numHorasEfectivas"
                                         outlined
-                                        label="Numero de horas efectivas"    
+                                        label="N&uacute;mero de horas efectivas"    
                                         persistent-hint
                                         v-validate="'required|max:200'"
                                         inputmode="numeric"
                                         pattern="[0-9]*"
                                         type="number"
-                                        data-vv-name="numero de horas efectivas"
-                                        :error="errors.has('numero de horas efectivas')"
-                                        :error-messages="errors.first('numero de horas efectivas')"
+                                        
                                     ></v-text-field>
                                 </v-col>
 
@@ -517,9 +518,9 @@
                                         data-vv-name="total"
                                         :error="errors.has('total')"
                                         :error-messages="errors.first('total')"
-                                        
                                     ></v-text-field>
                                 </v-col>
+
                                 <v-col md=3> 
                                     <v-text-field 
                                         v-model="totalH"
@@ -529,9 +530,9 @@
                                         data-vv-name="total de hombres"
                                         :error="errors.has('total de hombres')"
                                         :error-messages="errors.first('total de hombres')"
-                                        
                                     ></v-text-field>
                                 </v-col>
+
                                 <v-col md=3> 
                                     <v-text-field 
                                         v-model="totalM"
@@ -544,6 +545,7 @@
                                         
                                     ></v-text-field>
                                 </v-col>
+                                
                                 <v-col md=3> 
                                     <v-text-field 
                                         v-model="lugar"
@@ -558,7 +560,7 @@
                             </v-row>
 
                             <v-row justfy="center" dense >
-                                <v-col class="text-center"><b>Gestionar en las &aacute;reas academicas el recurso de viaticar</b></v-col>
+                                <v-col class="text-center"><b>Gestionar en las &aacute;reas acad&eacute;micas el recurso de viaticar</b></v-col>
                             </v-row>
                             <v-divider></v-divider>
 
@@ -595,7 +597,7 @@
                                         v-model="alimentacion"
                                         outlined
                                         prefix="$"
-                                        label="Alimentacion"    
+                                        label="Alimentaci&oacute;n"    
                                         persistent-hint
                                         data-vv-name="alimentacion"
                                         :error="errors.has('alimentacion')"
@@ -694,7 +696,7 @@
                                         v-model="origen"
                                         outlined
                                         prefix="$"
-                                        label="Mencionar el origen del recurso viaticos"    
+                                        label="Mencionar el origen del recurso vi&aacute;ticos"    
                                         persistent-hint
                                         data-vv-name="origen"
                                         :error="errors.has('origen')"
@@ -737,37 +739,59 @@
                                             :mobile-breakpoint="NaN"
                                             items-per-page="10"
                                         >   
-                                            <template v-slot:item.status="{item}">
-                                                <%-- <v-tooltip bottom> --%>
-                                                    <%-- <template v-slot:activator="{on, attrs}"> --%>
-                                                    <%-- v-bind="attrs" v-on="on" --%>
-                                                        <v-switch v-model="item.status" @change="fnCambiarEstatus(item)"></v-switch>
-                                                    <%-- </template> --%>
-                                                    <%-- <span>d</span> --%>
-                                                <%-- </v-tooltip> --%>
-                                            </template>
+
+                                        <template v-slot:item.activo="{ item }">
+                                            <v-container class="px-0" fluid>
+                                              <v-icon
+                                                v-if="item.activo === 'aceptado'"
+                                                color="green"
+                                              >
+                                                mdi-circle
+                                              </v-icon>
+                                              <v-icon
+                                                v-else-if="item.activo === 'en_proceso'"
+                                                color="orange"
+                                              >
+                                                mdi-circle
+                                              </v-icon>
+                                              <v-icon
+                                                v-else-if="item.activo === 'rechazado'"
+                                                color="red"
+                                              >
+                                                mdi-circle
+                                              </v-icon>
+                                            </v-container>
+                                          </template>
+                                          
+
                                             <template v-slot:item.editar="{item}">
                                                 <v-btn fab small color="warning" @click="$vuetify.goTo(0); flagEditar = true; itemEditar = item;
-                                                    idAcademia = item.idAcademia;
-                                                    nombreEventoCapacitacion = item.nombreEventoCapacitacion;
-                                                    objetivoEvento = item.objetivoEvento;
-                                                    orientacionEvento = item.orientacionEvento;
-                                                    justificacionEvento = item.justificacionEvento;
-                                                    tipoEvento = item.tipoEvento;
-                                                    otroTipoEvento = item.otroTipoEvento;
-                                                    tipoPrograma = item.tipoPrograma;
-                                                    proveedorSugerido = item.proveedorSugerido;
-                                                    costoCapacitacionSugerido = item.costoCapacitacionSugerido;
-                                                    origenRecursoEvento = item.origenRecursoEvento;
+                                                        idEvento = item.idEvento;
+                                                        unidadAcademica = item.unidadAcademica;
+                                                        tipoEvento  = item.tipoEvento;
+                                                        annio  = item.annio;
+                                                        necesidadesDetectadas  = item.necesidadesDetectadas;
+                                                        nombreEventoCapacitacion  = item.nombreEventoCapacitacion;
+                                                        objetivoEvento  = item.objetivoEvento;
+                                                        justificacionEvento  = item.justificacionEvento;
+                                                        otroEvento  = item.otroEvento;
+                                                        proveedorSugerido  = item.proveedorSugerido;
+                                                        costoCapacitacionSugerido  = item.costoCapacitacionSugerido;
+                                                        mes  = item.mes;
+                                                        fechaInicio  = item.fechaInicio;
+                                                        fechaTermino  = item.fechaInicio;
+                                                        numDias  = item.numDias;    
+                                                        numHorasEfectivas  = item.numHorasEfectivas;  
+                                                        ptc  = item.ptc;  
+                                                        laboratoristas  = item.laboratoristas;  
+                                                        administrativo  = item.administrativo;  
+                                                        otros  = item.otros;  
+                                                        total  = item.total;  
+                                                        totalH  = item.totalH;  
+                                                        totalM  = item.totalM;  
+                                                        numHorasEfectivas  = item.numHorasEfectivas;        
+                                                        fechaElavoracion  = item.fechaElavoracion;  
 
-                                                    idEvento = item.Expr2;
-                                                    idPeriodo=item.Expr8;
-
-                                                    mes = item.Expr3;
-                                                    fechaInicio = item.Expr4;
-                                                    fechaElavoracion = item.Expr5;
-                                                    numDias = item.Expr6;
-                                                    numHorasEfectivas = item.Expr7;
                                                 "><v-icon>mdi-square-edit-outline</v-icon></v-btn>
                                             </template>
                                             <template v-slot:item.eliminar="{item}">
@@ -799,10 +823,12 @@
                         </v-card-actions>
                     </v-card>
                 </v-container>
+
                 <v-snackbar v-model="snackbar" top="top" :bottom="true" :multi-line="true" :color="color_snackbar">
                     {{mensaje_snackbar}}
                     <%-- <v-icon color="white" @click="snackbar = false">mdi-close-circle</v-icon> --%>
                 </v-snackbar>
+
                 <v-overlay :value="loader" z-index="1000">
                     <v-img
                         aspect-ratio="2"
@@ -844,8 +870,9 @@
                     watch
                 } = VueCompositionAPI;
                 const ctr = "../../controlador/formacion_docente/controlador_necesidad_capacitacion_anual.jsp";
+                
                 //Variables POST
-
+                const idEvento = ref("");
                 const annio = ref("");
                 const direccion = ref("");
                 const fechaElavoracion=ref("");
@@ -891,9 +918,6 @@
 
                 
 
-
-
-
                 const arrayUnidadesAcademicas = ref(["León","Acambaro"]);
                 const arrayNivelEducativo = ref(["T.S.U","Ingenieria"]);
                 const arrayAreas = ref(["Dirección de Económico Administrativo","Dirección de Electromecanica Industrial","Dirección de Sustentabilidad para el desarrollo","Dirección de Desarrollo Académico y Docente","Unidad Académica de Acámbaro","Centro de Idiomas"]);
@@ -931,6 +955,7 @@
                     {text: 'Fecha inicio', align: 'left', sortable: true, value: 'fecha_inicio'},
                     {text: 'Fecha termino', align: 'left', sortable: true, value: 'fecha_temino'},
                     {text: 'Número de días', align: 'left', sortable: true, value: 'num_dias'},
+                      { text: 'Estatus', align: 'left', sortable: true, value: 'estatus', width: '100px', align: 'center', sortable: false, value: 'estatus', class: 'circle-cell' },
                     {text: 'Editar', align: 'left', sortable: true, value: 'editar'},
                     {text: 'Eliminar', align: 'left', sortable: true, value: 'eliminar'}
                 ]);
@@ -1002,6 +1027,7 @@
                     }
                 }
 
+                async function fnCambiarEstatus(item){}
 
                 async function fnGuardar(){
                     this.$validator.validate().then(async esValido => {
@@ -1057,46 +1083,44 @@
                     })
                 }
 
-
                 async function fnEditar(){
                     this.$validator.validate().then(async esValido => {
                         if(esValido){
                             try{
-                                preloader("../../");
+                                preloader("../");
                                 let parametros = new URLSearchParams();
-                                parametros.append("accion", 5); 
-                                parametros.append("idAcademia", idAcademia.value);
+                                parametros.append("accion", 5);
+                                parametros.append("idEvento", itemEditar.value.cve_nec_cap_anual);
+                                parametros.append("unidadAcademica", unidadAcademica.value);
+                                parametros.append("tipoEvento", tipoEvento.value);
+                                parametros.append("annio", annio.value);
+                                parametros.append("necesidadesDetectadas", necesidadesDetectadas.value);
                                 parametros.append("nombreEventoCapacitacion", nombreEventoCapacitacion.value);
                                 parametros.append("objetivoEvento", objetivoEvento.value);
-                                parametros.append("orientacionEvento", orientacionEvento.value);
                                 parametros.append("justificacionEvento", justificacionEvento.value);
-                                parametros.append("tipoEvento", tipoEvento.value);
-                                parametros.append("otroTipoEvento", otroTipoEvento.value);
-                                parametros.append("tipoPrograma", tipoPrograma.value);
+                                parametros.append("otroEvento", otroEvento.value);
                                 parametros.append("proveedorSugerido", proveedorSugerido.value);
                                 parametros.append("costoCapacitacionSugerido", costoCapacitacionSugerido.value);
-                                parametros.append("origenRecursoEvento", origenRecursoEvento.value);
-
-                                parametros.append("idEvento", idEvento.value);
-
-
                                 parametros.append("mes", mes.value);
                                 parametros.append("fechaInicio", fechaInicio.value);
-                                parametros.append("fechaElavoracion", fechaElavoracion.value);    
+                                parametros.append("fechaTermino", fechaInicio.value);
                                 parametros.append("numDias", numDias.value);    
-                                parametros.append("numHorasEfectivas", numHorasEfectivas.value); 
-                                parametros.append("idPeriodo", idPeriodo.value);
+                                parametros.append("numHorasEfectivas", numHorasEfectivas.value);  
+                                parametros.append("ptc", ptc.value);  
+                                parametros.append("laboratoristas", laboratoristas.value);  
+                                parametros.append("administrativo", administrativo.value);  
+                                parametros.append("otros", otros.value);  
+                                parametros.append("total", total.value);  
+                                parametros.append("totalH", totalH.value);  
+                                parametros.append("totalM", totalM.value);  
+                                parametros.append("numHorasEfectivas", numHorasEfectivas.value);        
+                                parametros.append("fechaElavoracion", fechaElavoracion.value);  
                                 let {data,status} = await axios.post(ctr, parametros)
                                 if(status == 200){
                                     if(data == "1"){
                                         mostrarSnackbar("success", "Registro actualizado correctamente.");
                                         fnConsultarTabla();
                                         fnLimpiarCampos(this);
-                                        // this.$validator.pause();
-                                        // Vue.nextTick(() => {
-                                        //     this.$validator.errors.clear();
-                                        //     this.$validator.resume();
-                                        // });   
                                     }
                                 }
                             } catch(error){
@@ -1108,6 +1132,7 @@
                         }
                     })
                 }
+                
 
                 async function fnEliminar(item){
                     confirmarE("¿Realmente quieres eliminar éste registro?").then(async (result) => {
@@ -1179,38 +1204,57 @@
                     justificacionEvento,tipoEvento, otroEvento, tipoPrograma, proveedorSugerido, costoCapacitacionSugerido, 
                     origenRecursoEvento, mes, fechaInicio, fechaTermino, numDias, numHorasEfectivas, ptc:0, laboratoristas:0, administrativo:0,
                     otros:0, total:0, totalH, totalM, lugar, transporte, casetas, alimentacion, hospedaje, taxis, otrosGastos, oficial,
-                    particular, otrosO, origen,
+                    particular, otrosO, origen, idEvento,
 
 
                     arrayOrientacion, arrayJustificacion, arrayTipoEvento, arrayTipoPrograma, arrayOrigen, arrayMes, arrayUnidadesAcademicas,
                     arrayAcademia, arrayNivelEducativo, arrayAreas, arrayDireccSub,
-                    flagEditar,
+
+                    flagEditar, itemEditar,
                     dataEventos,headersEventos, searchEventos, color_snackbar, snackbar, mensaje_snackbar,loader
-                    ,fnLimpiarCampos,fnGuardar,fnEliminar,fnEditar
+                    ,fnLimpiarCampos,fnGuardar,fnEliminar,fnEditar, fnCambiarEstatus
                     
                     
                 }
             },
             watch: {
                 ptc: function(newVal, oldVal) {
-                    this.calculateTotal();
+                    this.calcularTotal();
                 },
                 laboratoristas: function(newVal, oldVal) {
-                    this.calculateTotal();
+                    this.calcularTotal();
                 },
                 administrativo: function(newVal, oldVal) {
-                    this.calculateTotal();
+                    this.calcularTotal();
                 },
                 otros: function(newVal, oldVal) {
-                    this.calculateTotal();
-                }
+                    this.calcularTotal();
                 },
-                methods: {
-                calculateTotal() {
+                totalM: function () {
+                    this.comprobarTotal();
+                },
+                totalH: function () {
+                    this.comprobarTotal();
+                }
+            },
+            methods: {
+                calcularTotal() {
                     this.total = parseFloat(this.ptc) + parseFloat(this.laboratoristas) + parseFloat(this.administrativo) 
                     + parseFloat(this.otros) ;
+                },
+                comprobarTotal(){
+                    if (this.totalM && this.totalH && this.total && (parseInt(this.totalM) + parseInt(this.totalH) !== parseInt(this.total))) {
+                        Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'La suma del total de mujeres y total hombres no coincide con el total',
+                            }).then(() => {
+                                this.totalM = null;
+                                this.totalH = null;
+                            });
+                        }
                 }
-                }
+            }    
 
         });
 

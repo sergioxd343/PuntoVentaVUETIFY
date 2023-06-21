@@ -31,7 +31,7 @@
 
 <%
     //VARIABLES DE PLANTILLA
-    String xml= String.valueOf(request.getRealPath(""))+"\\model\\formacion_docente\\CatalogoSolicitudCapacitacionInterna.xml";
+    String xml= String.valueOf(request.getRealPath(""))+"\\model\\formacion_docente\\CatalogoSolicitudFormacionDocente.xml";
     GeneralDAO datos = new GeneralDAO(xml);
 
     // JsonArray parametros = new JsonArray();

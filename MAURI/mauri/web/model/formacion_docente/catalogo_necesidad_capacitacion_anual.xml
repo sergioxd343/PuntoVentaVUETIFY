@@ -40,21 +40,50 @@ and open the template in the editor.
 		</query>
 	</guardarEvento>
 
-    <academia>
+    
+    <editarEvento>
 		<query>
-			SELECT     idAcademia, unidadAcademica 
-			FROM         academia   
-			ORDER BY idAcademia;
+						
+			DECLARE @id_evento INT = ?;		
+						UPDATE necesidad_capacitacion_anual
+						SET 
+				cve_area_registro 			= 1,
+				cve_unidad_academica 		= ?,
+				cve_nivel_academico 		= 1,
+				cve_area 					= 1,
+				cve_departamento 			= 1,
+				cve_empleado_responsable 	= 1,
+				cve_orientacion_evento 		= 1,
+				cve_tipo_evento 			= ?,
+				cve_tipo_capacitacion 		= 1,
+				cve_origen_evento 			= 1,
+				anio_ejercicio 				= ?,
+				necesidades_detectadas 		= ?,
+				nombre_evento 				= ?,
+				objetivo_evento 			= ?,
+				justificacion 				= ?,
+				otro_tipo_evento 			= ?,
+				proveedor 					= ?,
+				costo_capacitacion 			= ?,
+				mes 						= ?,
+				fecha_inicio 				= ?,
+				fecha_temino 				= ?,
+				num_dias 					= ?,
+				num_horas_efectivas 		= ?,
+				participantes_ptc 			= ?,
+				participantes_laboratoristas = ?,
+				participantes_administrativo = ?,
+				otros_participantes 		= ?,
+				total_participantes 		= ?,
+				total_hombres 				= ?,
+				total_mujeres 				= ?,
+				activo 						= 1,
+				fecha_registro 				= ?,
+				usuario_registro 			= 1
+						WHERE cve_nec_cap_anual  = @id_evento
 		</query>
-	</academia>
-    <ActualizarEvento>
-		<query>
-			BEGIN TRANSACTION
-			UPDATE evento SET idAcademia = ?, nombreEventoCapacitacion = ?, objetivoEvento = ?, orientacionEvento= ?, justificacionEvento= ?, tipoEvento=?, otroTipoEvento=?, tipoPrograma=?, proveedorSugerido=?, costoCapacitacionSugerido=?, origenRecursoEvento=? WHERE idEvento = ?;
-			UPDATE periodo SET mes = ?, fechaInicio = ?, fechaTermino=?, numDias=?,numHorasEfectivas=? WHERE idPeriodo = ?;
-			COMMIT TRANSACTION
-		</query>
-	</ActualizarEvento>
+	</editarEvento>
+
     <eliminarEvento>
 		<query>
 			BEGIN TRANSACTION

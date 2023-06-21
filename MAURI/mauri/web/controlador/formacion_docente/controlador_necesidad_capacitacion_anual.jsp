@@ -45,6 +45,8 @@
     Gson gson = new Gson();
     
     int accion = request.getParameter("accion") != null && !request.getParameter("accion").equals("") ? Integer.parseInt(request.getParameter("accion")) : 0;
+
+    int idEvento = request.getParameter("idEvento") != null && !request.getParameter("idEvento").equals("") ? Integer.parseInt(request.getParameter("idEvento")) : 0;
     
     String annio = request.getParameter("annio") != null && !request.getParameter("annio").equals("") ? request.getParameter("annio") : "-";
     String direccion = request.getParameter("direccion") != null && !request.getParameter("direccion").equals("") ? request.getParameter("direccion") : "-";
@@ -128,5 +130,35 @@
             parametros.add(temp_obj);
             out.println(datos.Registro(parametros, "guardarEvento"));
             break;
+        case 5:
+            temp_obj = new JsonObject();
+            temp_obj.addProperty("idEvento", idEvento);
+            temp_obj.addProperty("unidadAcademica", unidadAcademica);
+            temp_obj.addProperty("tipoEvento", tipoEvento);
+            temp_obj.addProperty("annio", annio);
+            temp_obj.addProperty("necesidadesDetectadas", necesidadesDetectadas);
+            temp_obj.addProperty("nombreEventoCapacitacion", nombreEventoCapacitacion);
+            temp_obj.addProperty("objetivoEvento", objetivoEvento);
+            temp_obj.addProperty("justificacionEvento", justificacionEvento);
+            temp_obj.addProperty("otroEvento", otroEvento);
+            temp_obj.addProperty("proveedorSugerido", proveedorSugerido);
+            temp_obj.addProperty("costoCapacitacionSugerido", costoCapacitacionSugerido);
+            temp_obj.addProperty("mes", mes);
+            temp_obj.addProperty("fechaInicio", fechaInicio);
+            temp_obj.addProperty("fechaTermino", fechaTermino);
+            temp_obj.addProperty("numDias", numDias);
+            temp_obj.addProperty("numHorasEfectivas", numHorasEfectivas);
+            temp_obj.addProperty("ptc", ptc);
+            temp_obj.addProperty("laboratoristas", laboratoristas);
+            temp_obj.addProperty("administrativo", administrativo);
+            temp_obj.addProperty("otros", otros);
+            temp_obj.addProperty("total", total);
+            temp_obj.addProperty("totalH", totalH);
+            temp_obj.addProperty("totalM", totalM);
+            temp_obj.addProperty("fechaElavoracion", fechaElavoracion);
+            parametros.add(temp_obj);
+            out.println(datos.Registro(parametros, "editarEvento"));
+            break;
+        
     }
 %>
