@@ -363,7 +363,7 @@ CREATE TABLE necesidad_capacitacion_anual (
 	usuario_registro 			INT
 );
 
--- ------------- TABLA SOLICITUD DE REGISTRO DE CAPACITACI�N INTERNA -------------- --
+-- ------------- TABLA SOLICITUD DE REGISTRO DE CAPACITACION INTERNA -------------- --
 CREATE TABLE solicitud_capacitacion_interna(
 	cve_sol_cap_int 			INT NOT NULL PRIMARY KEY IDENTITY(1,1),
 	cve_instructor 				INT NOT NULL,

@@ -78,3 +78,29 @@ FROM
                 empleado ON persona.cve_persona = empleado.cve_persona INNER JOIN
                 usuario ON persona.cve_persona = usuario.cve_persona
 GO
+
+IF OBJECT_ID('solicitud_cursos', 'V') IS NOT NULL
+    DROP VIEW solicitud_cursos;
+GO
+CREATE VIEW solicitud_cursos AS
+SELECT       	curso.nombre_curso, 
+				solicitud_capacitacion_interna.total_dias, 
+				solicitud_capacitacion_interna.total_horas, 
+				solicitud_capacitacion_interna.objetivo, 
+				solicitud_capacitacion_interna.alcance, 
+                instructor.nombre_instructor, 
+				tipo_instructor.nombre_tipo_instructor, 
+				solicitud_capacitacion_interna.numero_participantes, 
+				solicitud_capacitacion_interna.metodologia, 
+                solicitud_capacitacion_interna.programa_evento, 
+				solicitud_capacitacion_interna.horas_tema, 
+				solicitud_capacitacion_interna.resultado_aprendizaje, 
+				solicitud_capacitacion_interna.perfil_participante, 
+                curso.cve_curso, instructor.cve_instructor, 
+				instructor.cve_tipo_instructor
+FROM 
+				curso INNER JOIN
+                solicitud_capacitacion_interna ON curso.cve_curso = solicitud_capacitacion_interna.cve_curso INNER JOIN
+                instructor ON solicitud_capacitacion_interna.cve_instructor = instructor.cve_instructor INNER JOIN
+                tipo_instructor ON instructor.cve_tipo_instructor = tipo_instructor.cve_tipo_instructor
+GO 

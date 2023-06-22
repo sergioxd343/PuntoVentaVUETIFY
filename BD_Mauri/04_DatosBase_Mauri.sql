@@ -74,9 +74,15 @@ INSERT INTO menu_permisos (cve_grupo_seguridad, cve_menu, usuario_registro)
 -- ------------- INSERTS DE GRUPO_SEGURIDAD -------------- --
 INSERT INTO grupo_seguridad (nombre, tiempo_sesion, usuario_registro) 
 			VALUES  ('Administrador', 5000, 1),
-					('Innovación Educativa', 5000, 1),
-					('Formación Docente', 5000, 1),
-					('Docente', 5000, 1);
+				('Innovación Educativa', 5000, 1),
+				('Formación Docente', 5000, 1),
+				('Docente', 5000, 1),
+                                ('Director' 5000, 1),
+                                ('Subdirector', 5000, 1),
+                                ('Gestor', 5000, 1),
+                                ('DAyD', 5000, 1),
+                                ('Instructor', 5000, 1),
+                                ('Gestorias', 5000, 1);
 
 -- ------------- INSERTS DE USUARIO_GRUPO_SEGURIDAD -------------- --
 INSERT INTO usuario_grupo_seguridad (cve_grupo_seguridad, cve_persona, usuario_registro) VALUES (1, 1, 1);
@@ -158,6 +164,29 @@ INSERT INTO puesto (nombre_puesto, nivel_tabulador_puesto, usuario_registro)
                         ('Técnico académico', 'PTC', 1),
                         ('Administrativo de área académica', 'HV3', 1),
                         ('Administrativo', 'HA', 1);
+
+
+-- ------------- INSERTS DE CURSO -------------- --
+INSERT INTO curso (nombre_curso, usuario_registro)
+                VALUES 
+                        ('Programación Avanzada', 1),
+                        ('Diseño Digital', 2),
+                        ('Metodologías Ágiles', 3);
+
+
+-- ------------- INSERTS DE SOLICITUD_CAPACITACION_INTERNA -------------- --
+INSERT INTO solicitud_capacitacion_interna (cve_instructor, cve_orientacion_evento, cve_curso, total_dias, total_horas, numero_participantes, objetivo, alcance, metodologia, programa_evento, horas_tema, resultado_aprendizaje, perfil_participante, usuario_registro)
+                VALUES 
+                        (1, 1, 1, 5, 40, 20, 'Capacitación en programación', 'Departamento de Desarrollo', 'Taller práctico', 'Programación Avanzada', 4, 'Los participantes podrán desarrollar aplicaciones web modernas', 'Desarrolladores con conocimientos básicos en programación', 100),
+                        (2, 1, 2, 3, 24, 15, 'Capacitación en diseño gráfico', 'Área de Diseño', 'Sesiones teóricas y prácticas', 'Diseño Digital', 2, 'Los participantes adquirirán habilidades en diseño de interfaces', 'Estudiantes de diseño gráfico', 200),
+                        (3, 2, 3, 2, 16, 10, 'Capacitación en metodologías ágiles', 'Departamento de Desarrollo', 'Talleres interactivos', 'Agile Scrum', 1, 'Los participantes comprenderán los principios de las metodologías ágiles', 'Equipo de proyectos', 300);
+
+
+-- ------------- INSERTS DE INSTRUCTOR -------------- --
+INSERT INTO instructor (cve_tipo_instructor, nombre_instructor, usuario_registro)
+                VALUES 
+                        (1, 'Maria Guadalupe', 1),
+                        (2, 'Simón Zendejas', 1);
 
 -- ------------- INSERTS DE TIPO_PUESTO -------------- --
 INSERT INTO tipo_puesto (nombre_tipo_puesto, usuario_registro)
