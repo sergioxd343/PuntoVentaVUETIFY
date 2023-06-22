@@ -15,6 +15,11 @@
             content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" />
         <script src="../../javascript/VueJs/vue/vue.js"></script>
         <script type="" src="../../javascript/VueJs/vue/vue-composition-api.prod.js"></script>
+        
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
         <title>Solicitud de registro de capacitacíon interna</title>
     </head>
     <style>
@@ -36,9 +41,10 @@
                                 <v-col class="text-center"><b>Datos del Solicitante</b></v-col>
                             </v-row>
                             <v-divider></v-divider>
-
+                        <div id="imprimir">
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                 <!--NÚMERO DE CONTROL-->
+                            
                                 <v-col md=2>
                                     <v-text-field 
                                         v-model="numeroControl"
@@ -52,6 +58,7 @@
                                         @keyup.enter="fnBuscarDocente()"
                                     ></v-text-field>
                                 </v-col>
+                            
 
                                 <!-- DIRECCIÓN ACADEMICA -->
                                 <v-col md="5">
@@ -80,6 +87,7 @@
                                         :error-messages="errors.first('programa educativo')">
                                     </v-text-field>
                                 </v-col>
+                            
 
                                 <!-- PUESTO -->
                                 <v-col md="2">
@@ -134,7 +142,10 @@
                             </v-row>
                            
                             <v-row justify="center" dense>
-                                    <v-col class="text-center"><b>Datos del Curso</b></v-col>
+                                    <v-col class="text-center"><b>Datos del Curso</b></v-col> 
+                                </v-row>
+                                <v-row justfy="center" dense>
+                                    
                                 </v-row>
                                 <v-divider></v-divider>
                                 <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
@@ -150,7 +161,8 @@
                                             v-validate="'required|max:500'"
                                             data-vv-name="nombre del curso" 
                                             :error="errors.has('nombre del curso')"
-                                            :error-messages="errors.first('nombre del curso')">
+                                            :error-messages="errors.first('nombre del curso')"
+                                            :disabled="deshabilitar">
                                         </v-select>
                                     </v-col>
 
@@ -244,13 +256,14 @@
                                             pattern="[0-9]*" type="number" persistent-hint
                                             v-validate="'required|max:500'" data-vv-name="total de días"
                                             :error="errors.has('total de días')"
-                                            :error-messages="errors.first('total de días')"></v-text-field>
+                                            :error-messages="errors.first('total de días')" :disabled="deshabilitar"></v-text-field>
                                     </v-col>
 
                                     <!-- TOTAL DE HORAS -->
                                     <v-col md="2">
                                         <v-text-field v-model="horas" outlined label="Total de Horas" persistent-hint
                                             inputmode="numeric" pattern="[0-9]*" type="number"
+                                            :disabled="deshabilitar"
                                             v-validate="'required|max:500'" data-vv-name="total de horas"
                                             :error="errors.has('total de horas')"
                                             :error-messages="errors.first('total de horas')"></v-text-field>
@@ -265,10 +278,12 @@
                                             label="Número de participantes" persistent-hint inputmode="numeric"
                                             pattern="[0-9]*" type="number" v-validate="'required|max:500'"
                                             data-vv-name="número de participantes"
+                                            :disabled="deshabilitar"
                                             :error="errors.has('número de participantes')"
                                             :error-messages="errors.first('número de participantes')"></v-text-field>
                                     </v-col>
                                 </v-row>
+                        
                                 <%-- <v-row justfy="center" dense>
                                     </v-row> --%>
                                     <v-divider></v-divider>
@@ -277,6 +292,7 @@
                                         <v-col md="4">
 
                                             <v-textarea v-model="objetivo" data-vv-name="objetivo"
+                                                :disabled="deshabilitar"
                                                 :error="errors.has('objetivo')"
                                                 hint="(Cuál es la finalidad del curso de capacitación)"
                                                 :error-messages="errors.first('objetivo')" label="Objetivo"
@@ -287,6 +303,7 @@
                                         <!-- ALCANCE -->
                                         <v-col md="4">
                                             <v-textarea v-model="alcance" data-vv-name="alcance"
+                                                :disabled="deshabilitar"
                                                 hint="(Es el impacto que se pretende con el curso)"
                                                 :error="errors.has('alcance')" :error-messages="errors.first('alcance')"
                                                 label="Alcance" persistent-hint v-validate="'required|max:500'"
@@ -298,6 +315,7 @@
                                             <v-textarea v-model="metodologia" data-vv-name="metodología"
                                                 hint="(indicar si es un curso, foro, taller, etc., describir las características que tendrán las actividades a desarrollar)"
                                                 :error="errors.has('metodología')"
+                                                :disabled="deshabilitar"
                                                 :error-messages="errors.first('metodología')" label="Metodología"
                                                 persistent-hint v-validate="'required|max:500'" auto-grow outlined
                                                 rows="1" row-height="15"></v-textarea>
@@ -307,6 +325,7 @@
                                         <v-col md="4">
                                             <v-textarea v-model="programaCurso"
                                                 data-vv-name="programa del curso"
+                                                :disabled="deshabilitar"
                                                 :error="errors.has('programa del curso y horas por tema')"
                                                 :error-messages="errors.first('programa del curso y horas por tema')"
                                                 label="Programa del curso" persistent-hint
@@ -318,6 +337,7 @@
                                         <v-col md="4">
                                             <v-textarea v-model="horasPorTema"
                                                 data-vv-name="programa del curso y horas por tema"
+                                                :disabled="deshabilitar"
                                                 :error="errors.has('programa del curso y horas por tema')"
                                                 :error-messages="errors.first('programa del curso y horas por tema')"
                                                 label="Horas por tema" persistent-hint
@@ -329,6 +349,7 @@
                                         <v-col md="4">
                                             <v-textarea v-model="resultadoAprendizaje"
                                                 data-vv-name="resultado del aprendizaje"
+                                                :disabled="deshabilitar"
                                                 hint="(Es el desempeño y las evidencias que se obtendrán del curso)"
                                                 :error="errors.has('resultado del aprendizaje')"
                                                 :error-messages="errors.first('resultado del aprendizaje')"
@@ -341,6 +362,7 @@
                                         <v-col md="4">
                                             <v-textarea v-model="perfil" data-vv-name="perfil del(a) participante"
                                                 :error="errors.has('perfil del(a) participante')"
+                                                :disabled="deshabilitar"
                                                 :error-messages="errors.first('perfil del(a) participante')"
                                                 label="Perfil del(a) participante" persistent-hint
                                                 v-validate="'required|max:500'" auto-grow outlined rows="1"
@@ -408,6 +430,7 @@
                                             </v-col>
                                             
                                         </v-row>
+                                    </div>
 
                                         <v-tooltip top>
                                             <template v-slot:activator="{ on, attrs }">
@@ -417,50 +440,53 @@
                                             <span>Agregar un nuevo facilitador</span>
                                         </v-tooltip>
 
-                                        <%-- <v-row justfy="center" dense> </v-row> --%>
-                                            <v-row justify="center">
-                                                <v-btn color="primary"
-                                                    @click="flagEditar ? fnEditar() : fnGuardar()"><v-icon>mdi-content-save</v-icon>{{flagEditar
-                                                    ? 'Editar' : 'Guardar'}}</v-btn>
-                                                &nbsp;
-                                                <v-btn color="error"
-                                                    @click="fnLimpiarCampos()"><v-icon>mdi-cancel</v-icon>Cancelar</v-btn>
-                                            </v-row>
+                                        
+                                    <!--BOTONES CRUD-->
+                                        <v-row justify="center">
+                                            <v-btn color="primary" @click="flagDescargar ? fnDescargar() : fnGuardar()">
+                                              <v-icon>{{ flagDescargar ? 'mdi-download' : 'mdi-content-save' }}</v-icon>
+                                              {{ flagDescargar ? 'Descargar' : 'Guardar' }}
+                                            </v-btn>
+                                            &nbsp;
+                                            <v-btn color="error" @click="fnLimpiarCampos()">
+                                              <v-icon>mdi-cancel</v-icon>Cancelar
+                                            </v-btn>
+                                        </v-row>
+                                          
 
+                                            <!--BARRA DE BUSQUEDA-->
                                             <v-row justify="end">
-
                                                 <v-col md = "5">
                                                     <template>
                                                         <br>
                                                         <div>
-                                                          <v-text-field v-model="buscar" label="Buscar" :append-icon="iconoBusqueda" clearable @keyup.enter="filtrarTabla"></v-text-field>
-                                                         
+                                                           <v-text-field v-model="buscar" label="Buscar" :append-icon="iconoBusqueda" clearable @keyup.enter="filtrarTabla"></v-text-field>
                                                         </div>
                                                       </template>
                                                 </v-col>
                                             </v-row>
 
+                                        <!-- TABLA -->
                                             <v-row justify="center">    
-                                                <v-col md="12">                                                   
-                                                      
+                                                <v-col md="12"> 
                                                     <v-data-table 
                                                         :headers="headerCapacitacion" 
                                                         :items="datosFiltrados" class="elevation-2"
                                                         no-data-text="No se encontró ningún registro" :hide-default-header="datosFiltrados.length < 1"
                                                         :hide-default-footer="datosFiltrados.length < 1" locale="es-ES" :mobile-breakpoint="NaN"
                                                         items-per-page="10">
+                                                        <!--SEMAFORO-->
                                                         <template v-slot:item.actions="{ item }">
-                                                           
                                                                 <v-icon color="green" @click="snackbar = false">mdi-circle</v-icon>
                                                                 <v-icon color="yellow" @click="snackbar = false">mdi-circle</v-icon>
                                                                 <v-icon color="red" @click="snackbar = false">mdi-circle</v-icon>
-                                                            
                                                         </template>
-                                                        <template v-slot:item.ver="{ item }">
-                                                            
-                                                                <v-icon color="blue" @click="$vuetify.goTo(0); itemVer = item;
+
+                                                        <!--VISUALIZARs-->
+                                                        <template v-slot:item.ver="{ item }">                                                            
+                                                                <v-icon color="blue" @click="$vuetify.goTo(0); itemVer = item; deshabilitar = true; flagDescargar = true;
                                                                     idSolicitud = item.idSolicitud;
-                                                                    nombreCurso = item.nombre_curso
+                                                                    nombreCurso = item.cve_curso
                                                                     dias = item.total_dias
                                                                     horas = item.total_horas
                                                                     numeroParticipantes = item.numero_participantes
@@ -471,8 +497,9 @@
                                                                     horasPorTema = item.horas_tema
                                                                     resultadoAprendizaje = item.resultado_aprendizaje
                                                                     perfil = item.perfil_participante;
-                                                                " >mdi-eye</v-icon>                                                            
-                                                            
+                                                                    tipoFacilitador = item.cve_tipo_instructor
+                                                                    nombreFacilitador = item.nombre_instructor
+                                                                " >mdi-eye</v-icon> 
                                                         </template>
                                                     </v-data-table>
                                                 </v-col>
@@ -573,7 +600,7 @@
 
                     const modal2 = false;
                     //Otras variables
-                    const flagEditar = ref(false);
+                    const flagDescargar = ref(false);
                     const itemEditar = ref({});
                     const itemVer = ref({});
                     const buscar = ref("");
@@ -631,7 +658,21 @@
                     }
                 }
 
-                    async function fnEditar() {}
+                async function fnDescargar() {
+                    var element = document.getElementById("imprimir");
+
+                    var options = {
+                        margin: 7,
+                        filename: 'Solicitud de capacitación interna.pdf',
+                        image: { type: 'png', quality: 0.98 },
+                        html2canvas: { scale: 1 },
+                        jsPDF: { unit: 'pt', format: 'a4', orientation: 'landscape' }
+                    };
+
+                    await html2pdf().from(element).set(options).save();
+                }
+
+
 
                     async function fnBuscarDocente() {
                         const numeroControl = this.numeroControl;
@@ -890,7 +931,7 @@
                         areaPertenece.value = ""; 
                         programaEducativo.value = ""; 
 
-                        flagEditar.value = false;
+                        flagDescargar.value = false;
                         itemEditar.value = {};
                         itemVer.value = {};
 
@@ -918,7 +959,7 @@
                         mensaje_snackbar,
                         loader,
                         mostrarSnackbar,
-                        flagEditar,
+                        flagDescargar,
                         area,
                         areas,
                         direccion,
@@ -955,7 +996,7 @@
                         fnConsultarTabla,
                         fnGuardar,
                         fnLimpiarCampos,
-                        fnEditar,
+                        fnDescargar,
                         fnCambiarEstatus,
                         fnbuscar_cve_docente,
                         fnBuscarDocente,
@@ -968,6 +1009,7 @@
                         itemVer,
                         buscar: "",
                         iconoBusqueda: 'mdi-magnify',
+                        deshabilitar : false,
                         
                     }
                 },
