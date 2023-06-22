@@ -8,7 +8,9 @@ and open the template in the editor.
 
 	<tablaAutoevaluacion>
 		<query>
-			SELECT empleado.cve_empleado, persona.nombre, autoevaluacion_capacittacion_docente.tema_curso, autoevaluacion_capacittacion_docente.objetivo_curso
+			SELECT empleado.cve_empleado, persona.nombre, autoevaluacion_capacittacion_docente.tema_curso, 
+			autoevaluacion_capacittacion_docente.objetivo_curso, autoevaluacion_capacittacion_docente.pregunta,
+			autoevaluacion_capacittacion_docente.fecha_registro
 			FROM persona INNER JOIN
 			empleado ON empleado.cve_persona = persona.cve_persona INNER JOIN
             autoevaluacion_capacittacion_docente ON autoevaluacion_capacittacion_docente.cve_empleado = empleado.cve_empleado		
@@ -17,7 +19,25 @@ and open the template in the editor.
 
 	<buscar_cve_docente>
 		<query>
-			SELECT * FROM v_empleado;
+			SELECT TOP (200) 
+evento_programado.cve_even_prog, empleado.cve_empleado, persona.nombre, persona.apellido_peterno, persona.apellido_materno, 
+                         persona.sexo,tipo_puesto.nombre_tipo_puesto, puesto.nombre_puesto, area.nombre_area, 
+						 ugac.nombre_ugac, espacio.nombre_espacio, modalidad_evento.nombre_modalidad,
+						 evento_programado.nombre_evento, evento_programado.nombre_origen, evento_programado.sin_horario, 
+                         evento_programado.horario_inicio, evento_programado.horario_fin, evento_programado.fecha_inicio, 
+						 evento_programado.fecha_fin, evento_programado.activo, evento_programado.fecha_registro, 
+                         evento_programado.usuario_registro, evento_programado_grupo.cve_empleado
+FROM            modalidad_evento INNER JOIN
+                         espacio INNER JOIN
+                         evento_programado INNER JOIN
+                         evento_programado_grupo ON evento_programado.cve_even_prog = evento_programado_grupo.cve_even_prog ON espacio.cve_espacio = evento_programado.cve_espacio ON 
+                         modalidad_evento.cve_modalidad = evento_programado.cve_modalidad CROSS JOIN
+                         tipo_puesto INNER JOIN
+                         persona INNER JOIN
+                         empleado ON persona.cve_persona = empleado.cve_persona INNER JOIN
+                         area ON empleado.cve_area = area.cve_area INNER JOIN
+                         ugac ON empleado.cve_ugac = ugac.cve_ugac ON tipo_puesto.cve_tipo_pesto = empleado.cve_tipo_pesto INNER JOIN
+                         puesto ON empleado.cve_puesto = puesto.cve_puesto
 		</query>
 	</buscar_cve_docente>
 

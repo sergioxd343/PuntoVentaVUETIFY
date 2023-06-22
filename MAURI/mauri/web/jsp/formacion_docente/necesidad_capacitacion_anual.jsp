@@ -725,78 +725,45 @@
                                     &nbsp;
                                     <v-btn color="error" @click="fnLimpiarCampos()"><v-icon>mdi-cancel</v-icon>Cancelar</v-btn>
                                 </v-row>
+
+                                <!--BARRA DE BUSQUEDA-->
+                                <v-row justify="end">
+                                    <v-col md = "5">
+                                        <template>
+                                            <br>
+                                            <div>
+                                               <v-text-field v-model="buscar" label="Buscar" :append-icon="iconoBusqueda" clearable @keyup.enter="filtrarTabla"></v-text-field>
+                                            </div>
+                                          </template>
+                                    </v-col>
+                                </v-row>
+
                                 <v-row justify="center">
                                     <v-col md=12>
                                         <v-data-table
                                             :headers="headersEventos"
-                                            :items="dataEventos"
+                                            :items="datosFiltrados"
                                             :search="searchEventos"
                                             class="elevation-2"
                                             no-data-text="No se encontro ningun registro"
-                                            :hide-default-header="dataEventos.length < 1"
-                                            :hide-default-footer="dataEventos.length < 1"
+                                            :hide-default-header="datosFiltrados.length < 1"
+                                            :hide-default-footer="datosFiltrados.length < 1"
                                             locale="es-ES"
                                             :mobile-breakpoint="NaN"
                                             items-per-page="10"
                                         >   
 
-                                        <template v-slot:item.activo="{ item }">
-                                            <v-container class="px-0" fluid>
-                                              <v-icon
-                                                v-if="item.activo === 'aceptado'"
-                                                color="green"
-                                              >
-                                                mdi-circle
-                                              </v-icon>
-                                              <v-icon
-                                                v-else-if="item.activo === 'en_proceso'"
-                                                color="orange"
-                                              >
-                                                mdi-circle
-                                              </v-icon>
-                                              <v-icon
-                                                v-else-if="item.activo === 'rechazado'"
-                                                color="red"
-                                              >
-                                                mdi-circle
-                                              </v-icon>
-                                            </v-container>
-                                          </template>
+                                        <template v-slot:item.actions="{ item }">
+                                            <v-icon color="green" @click="snackbar = false">mdi-circle</v-icon>
+                                            <v-icon color="yellow" @click="snackbar = false">mdi-circle</v-icon>
+                                            <v-icon color="red" @click="snackbar = false">mdi-circle</v-icon>
+                                        </template>
                                           
 
-                                            <template v-slot:item.editar="{item}">
-                                                <v-btn fab small color="warning" @click="$vuetify.goTo(0); flagEditar = true; itemEditar = item;
-                                                        idEvento = item.idEvento;
-                                                        unidadAcademica = item.unidadAcademica;
-                                                        tipoEvento  = item.tipoEvento;
-                                                        annio  = item.annio;
-                                                        necesidadesDetectadas  = item.necesidadesDetectadas;
-                                                        nombreEventoCapacitacion  = item.nombreEventoCapacitacion;
-                                                        objetivoEvento  = item.objetivoEvento;
-                                                        justificacionEvento  = item.justificacionEvento;
-                                                        otroEvento  = item.otroEvento;
-                                                        proveedorSugerido  = item.proveedorSugerido;
-                                                        costoCapacitacionSugerido  = item.costoCapacitacionSugerido;
-                                                        mes  = item.mes;
-                                                        fechaInicio  = item.fechaInicio;
-                                                        fechaTermino  = item.fechaInicio;
-                                                        numDias  = item.numDias;    
-                                                        numHorasEfectivas  = item.numHorasEfectivas;  
-                                                        ptc  = item.ptc;  
-                                                        laboratoristas  = item.laboratoristas;  
-                                                        administrativo  = item.administrativo;  
-                                                        otros  = item.otros;  
-                                                        total  = item.total;  
-                                                        totalH  = item.totalH;  
-                                                        totalM  = item.totalM;  
-                                                        numHorasEfectivas  = item.numHorasEfectivas;        
-                                                        fechaElavoracion  = item.fechaElavoracion;  
+                                        <template v-slot:item.eliminar="{item}">
+                                            <v-btn fab small color="error" @click="fnEliminar(item);"><v-icon>mdi-trash-can</v-icon></v-btn>
+                                        </template>
 
-                                                "><v-icon>mdi-square-edit-outline</v-icon></v-btn>
-                                            </template>
-                                            <template v-slot:item.eliminar="{item}">
-                                                <v-btn fab small color="error" @click="fnEliminar(item);"><v-icon>mdi-trash-can</v-icon></v-btn>
-                                            </template>
                                             <template v-slot:item.password="{item}">
                                                 <v-tooltip bottom>
                                                     <template v-slot:activator="{on, attrs}">
@@ -915,6 +882,7 @@
                 const fechaTermino = ref("");
                 const numDias=ref("");
                 const numHorasEfectivas=ref("");
+                const buscar=ref("");
 
                 
 
@@ -955,9 +923,7 @@
                     {text: 'Fecha inicio', align: 'left', sortable: true, value: 'fecha_inicio'},
                     {text: 'Fecha termino', align: 'left', sortable: true, value: 'fecha_temino'},
                     {text: 'Número de días', align: 'left', sortable: true, value: 'num_dias'},
-                      { text: 'Estatus', align: 'left', sortable: true, value: 'estatus', width: '100px', align: 'center', sortable: false, value: 'estatus', class: 'circle-cell' },
-                    {text: 'Editar', align: 'left', sortable: true, value: 'editar'},
-                    {text: 'Eliminar', align: 'left', sortable: true, value: 'eliminar'}
+                    { text: "Estatus", align: "left", sortable: false, value: "actions" }
                 ]);
 
                 //Accion automatizada para mostrar la tabla
@@ -1204,7 +1170,7 @@
                     justificacionEvento,tipoEvento, otroEvento, tipoPrograma, proveedorSugerido, costoCapacitacionSugerido, 
                     origenRecursoEvento, mes, fechaInicio, fechaTermino, numDias, numHorasEfectivas, ptc:0, laboratoristas:0, administrativo:0,
                     otros:0, total:0, totalH, totalM, lugar, transporte, casetas, alimentacion, hospedaje, taxis, otrosGastos, oficial,
-                    particular, otrosO, origen, idEvento,
+                    particular, otrosO, origen, idEvento, buscar: "", iconoBusqueda: 'mdi-magnify',
 
 
                     arrayOrientacion, arrayJustificacion, arrayTipoEvento, arrayTipoPrograma, arrayOrigen, arrayMes, arrayUnidadesAcademicas,
@@ -1216,6 +1182,17 @@
                     
                     
                 }
+            },
+            computed: {
+                    datosFiltrados() {
+                    if (!this.buscar) {
+                        return this.dataEventos;
+                    }
+
+                    const keyword = this.buscar.toLowerCase();
+                    return this.dataEventos.filter(item => item.nombre_tipo_evento.toLowerCase().includes(keyword));
+                    console.log(datosFiltrados())
+                    }
             },
             watch: {
                 ptc: function(newVal, oldVal) {
@@ -1253,8 +1230,12 @@
                                 this.totalH = null;
                             });
                         }
+                },
+                filtrarTabla() {
+                        console.log("jijojio:", this.buscar);
                 }
-            }    
+                    
+            },    
 
         });
 

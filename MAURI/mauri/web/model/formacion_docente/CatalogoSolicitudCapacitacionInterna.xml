@@ -32,7 +32,14 @@
 
     <tablaSolicitud>
         <query>
-            select * from solicitud_cursos
+            SELECT       dbo.curso.nombre_curso, dbo.solicitud_capacitacion_interna.total_dias, dbo.solicitud_capacitacion_interna.total_horas, dbo.solicitud_capacitacion_interna.objetivo, dbo.solicitud_capacitacion_interna.alcance, 
+                         dbo.instructor.nombre_instructor, dbo.tipo_instructor.nombre_tipo_instructor, dbo.solicitud_capacitacion_interna.numero_participantes, dbo.solicitud_capacitacion_interna.metodologia, 
+                         dbo.solicitud_capacitacion_interna.programa_evento, dbo.solicitud_capacitacion_interna.horas_tema, dbo.solicitud_capacitacion_interna.resultado_aprendizaje, dbo.solicitud_capacitacion_interna.perfil_participante, 
+                         dbo.curso.cve_curso, dbo.instructor.cve_instructor, dbo.instructor.cve_tipo_instructor
+			FROM dbo.curso INNER JOIN
+                         dbo.solicitud_capacitacion_interna ON dbo.curso.cve_curso = dbo.solicitud_capacitacion_interna.cve_curso INNER JOIN
+                         dbo.instructor ON dbo.solicitud_capacitacion_interna.cve_instructor = dbo.instructor.cve_instructor INNER JOIN
+                         dbo.tipo_instructor ON dbo.instructor.cve_tipo_instructor = dbo.tipo_instructor.cve_tipo_instructor
         </query>
     </tablaSolicitud>
 

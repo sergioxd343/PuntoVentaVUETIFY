@@ -15,7 +15,7 @@
             content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" />
         <script src="../../javascript/VueJs/vue/vue.js"></script>
         <script type="" src="../../javascript/VueJs/vue/vue-composition-api.prod.js"></script>
-        <title>Solicitud De registro de capacitacíon interna</title>
+        <title>Solicitud apoyo para la formación docente</title>
     </head>
     <style>
         body {

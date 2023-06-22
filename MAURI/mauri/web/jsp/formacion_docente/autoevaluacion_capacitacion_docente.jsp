@@ -353,6 +353,7 @@
                                         data-vv-name="escala"
                                         :error="errors.has('escala')"
                                         :error-messages="errors.first('escala')"
+                                        @input="calcularPromedio"
                                         ></v-select>
                                     </v-col>
                                 </v-row>
@@ -370,6 +371,7 @@
                                             data-vv-name="otraAct"
                                             :error="errors.has('otraAct')"
                                             :error-messages="errors.first('otraAct')"
+
                                         ></v-text-field>
                                         
                         
@@ -395,6 +397,7 @@
                                         data-vv-name="tipo"
                                         :error="errors.has('tipo')"
                                         :error-messages="errors.first('tipo')"
+                                        @input="calcularPromedio"
                                         ></v-select>
                                     </v-col>
                                 </v-row>
@@ -418,6 +421,7 @@
                                         data-vv-name="tipo"
                                         :error="errors.has('tipo')"
                                         :error-messages="errors.first('tipo')"
+                                        @input="calcularPromedio"
                                         ></v-select>
                                     </v-col>
                                 </v-row>
@@ -459,6 +463,7 @@
                                         data-vv-name="tipo"
                                         :error="errors.has('tipo')"
                                         :error-messages="errors.first('tipo')"
+                                        @input="calcularPromedio"
                                         ></v-select>
                                     </v-col>
                                 </v-row>
@@ -500,6 +505,13 @@
                                         :error="errors.has('otro')"
                                         :error-messages="errors.first('otro')"
                                     ></v-text-field>
+                                </v-col>
+
+                                <v-col md=2>
+                                <v-text-field
+                                    v-model="promedio"
+                                    v-show="false"
+                                ></v-text-field>
                                 </v-col>
 
 
@@ -639,6 +651,7 @@
                 const option3 = ref("");
                 const option4 = ref("");
                 const otro = ref("");
+                const promedio = ref("");
 
                 
 
@@ -681,9 +694,11 @@
                 const dataProveedores = ref([]);
                 const headersProveedores = ref([
                     {text: 'N° de control', align: 'left', sortable: true, value: 'cve_empleado'},
+                    {text: 'Fecha', align: 'left', sortable: true, value: 'fecha_registro'},
                     {text: 'Nombre del docente', align: 'left', sortable: true, value: 'nombre'},
                     {text: 'Tema del curso', align: 'left', sortable: true, value: 'tema_curso'},
                     {text: 'Objetivo del curso', align: 'left', sortable: true, value: 'objetivo_curso'},
+                    {text: 'Promedio calificación', align: 'left', sortable: true, value: 'pregunta'},
                     { text: "Estatus", align: "left", sortable: false, value: "estatus" },
 
                 ]);
@@ -778,8 +793,9 @@
                     const numeroControl = this.numeroControl;
                     console.log(numeroControl);
 
+                    let encontrado = false; 
                     for (let i = 0; i < this.dataBusqueda.length; i++) {
-                        if (numeroControl === this.dataBusqueda[i].cve_persona.toString()) {
+                        if (numeroControl === this.dataBusqueda[i].cve_empleado.toString()) {
                             this.nombreDocente = this.dataBusqueda[i].nombre;
                             this.primerApellidoD = this.dataBusqueda[i].apellido_peterno;
                             this.segundoApellidoD = this.dataBusqueda[i].apellido_materno;
@@ -787,17 +803,20 @@
                             this.puesto = this.dataBusqueda[i].nombre_tipo_puesto;
                             this.area = this.dataBusqueda[i].nombre_area;
                             this.carrera = this.dataBusqueda[i].nombre_ugac;
-                        break; 
-                        } else {
+                            this.tema = this.dataBusqueda[i].nombre_evento;
+                            this.fecha = this.dataBusqueda[i].fecha_registro;
+                        encontrado = true; 
+                            break; 
+                            }
+                        }
+                        if (!encontrado) {
                             Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: 'El número de control no coincide.',
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'El número de control no coincide.',
                             });
                         }
                     }
-
-                }
 
                 
                 function fnLimpiarCampos(cx){//cx = contexto
@@ -836,7 +855,7 @@
 
                     numeroControl, nombreDocente, primerApellidoD, segundoApellidoD, sexo, puesto, area, carrera, tema,
                     objetivo, alcance, periodo, fecha, areaCapacitacion, escala1, escala2, escala3, escala4, escala5,  otraAct,
-                    option, option1, option2, option3, option4, otro,
+                    option, option1, option2, option3, option4, otro, promedio,
                     
 
                     arrayAreas, arrayCarreras, arrayAreasCapacitacion, arrayEscala,
@@ -848,6 +867,13 @@
                     dataBusqueda, fnConsultarTabla, fnGuardar
                 }
             },
+            methods: {
+                calcularPromedio() {
+                    const sumaEscalas = this.escala1 + this.escala2 + this.escala3 + this.escala4;
+                    this.promedio = sumaEscalas / 4;
+                },
+            },
+
             
         });
 
