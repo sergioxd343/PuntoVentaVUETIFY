@@ -11,8 +11,8 @@ INSERT INTO persona (nombre, apellido_peterno, apellido_materno, email, movil, c
 
 
 -- ------------- INSERTS DE EMPLEADOS -------------- --
-INSERT INTO empleado (cve_persona, cve_puesto, cve_tipo_pesto, cve_departamento, cve_area, cve_ugac, cve_unidad_academica, fecha_ingreso, titulo_recibido, grado_estudio, usuario_registro)
-			VALUES (1, 3, 129, 1, 27, 1, 1, '2002', 'Técnico Superior', 'Educación Superior', 1);
+INSERT INTO empleado (cve_persona, cve_puesto, cve_tipo_puesto, cve_departamento, cve_area, cve_ugac, cve_unidad_academica, fecha_ingreso, titulo_recibido, grado_estudio, usuario_registro)
+			VALUES (1, 3, 53, 1, 7, 1, 1, '2002', 'Técnico Superior', 'Educación Superior', 1);
 
 -- ------------- INSERTS DE USUARIOS -------------- --
 INSERT INTO usuario (cve_persona, nombre_usuario, contrasenia, usuario_registro) 
@@ -44,7 +44,7 @@ INSERT INTO submenu (cve_menu, cve_padre, nombre, ruta, orden, usuario_registro)
                     (2, 2, 'Encuesta de Satisfacción y Evaluación de Resultado', '../innovacion_educativa/evaluacion_resultado.jsp', 10, 1),
                     (2, 2, 'Detacción de necesidad para Asesoramiento', '../innovacion_educativa/asesoria.jsp', 11, 1),
                     (2, 2, 'Rúbrica de Observación de Clase', '../innovacion_educativa/rubrica_observacion_clase.jsp', 12, 1),
-                    (2, 2, 'Analisis Situacional Docente', '../innvacion_educativa/analisis_situacional_docente.jsp', 13, 1),
+                    (2, 2, 'Analisis Situacional Docente', '../innovacion_educativa/analisis_situacional_docente.jsp', 13, 1),
                     (2, 2, 'Solicitu de Proyecto', '../innovacion_educativa/solicitud_proyecto.jsp', 14, 1),
                     (3, 3, 'Evento Programado', '../eventos/evento_programado.jsp', 16, 1),
                     (3, 3, 'Evento Programado Grupo', '../eventos/evento_programado_grupo.jsp', 17, 1),
@@ -74,15 +74,15 @@ INSERT INTO menu_permisos (cve_grupo_seguridad, cve_menu, usuario_registro)
 -- ------------- INSERTS DE GRUPO_SEGURIDAD -------------- --
 INSERT INTO grupo_seguridad (nombre, tiempo_sesion, usuario_registro) 
 			VALUES  ('Administrador', 5000, 1),
-				('Innovación Educativa', 5000, 1),
-				('Formación Docente', 5000, 1),
-				('Docente', 5000, 1),
-                                ('Director' 5000, 1),
-                                ('Subdirector', 5000, 1),
-                                ('Gestor', 5000, 1),
-                                ('DAyD', 5000, 1),
-                                ('Instructor', 5000, 1),
-                                ('Gestorias', 5000, 1);
+					('Innovación Educativa', 5000, 1),
+					('Formación Docente', 5000, 1),
+					('Docente', 5000, 1),
+                    ('Director', 5000, 1),
+                    ('Subdirector', 5000, 1),
+                    ('Gestor', 5000, 1),
+                    ('DAyD', 5000, 1),
+                    ('Instructor', 5000, 1),
+                    ('Gestorias', 5000, 1);
 
 -- ------------- INSERTS DE USUARIO_GRUPO_SEGURIDAD -------------- --
 INSERT INTO usuario_grupo_seguridad (cve_grupo_seguridad, cve_persona, usuario_registro) VALUES (1, 1, 1);
@@ -187,6 +187,67 @@ INSERT INTO instructor (cve_tipo_instructor, nombre_instructor, usuario_registro
                 VALUES 
                         (1, 'Maria Guadalupe', 1),
                         (2, 'Simón Zendejas', 1);
+
+
+INSERT INTO espacio (nombre_espacio, usuario_registro) 
+				VALUES
+						('Aula magna',1),
+						('CVD',1),
+						('Auditorio D',1),
+						('Auditorio f',1),
+						('Auditorio A',1),
+						('Patio civico',1);
+
+INSERT INTO modalidad_evento (nombre_modalidad, usuario_registro) 
+				VALUES
+						('Virtual',1),
+						('Presencial',1);
+
+INSERT INTO evento_programado 
+				VALUES
+						(1,2,2,'Estrategias pedagógicas','Pedagógia', '', '9:30', '11:00', '2023-05-10', '2023-05-18', 1, GETDATE(),1),
+						(1,1,2,'Comunicación','Comunicación', '', '2:00', '3:00', '2023-07-01', '2023-07-11', 1, GETDATE(),1);
+
+
+
+INSERT INTO unidad_academica (nombre_unidad_academica, usuario_registro) 
+				VALUES
+						('León',1),
+						('Acambaro',1);
+
+INSERT INTO categoria_evento (nombre_categoria, usuario_registro) 
+				VALUES
+						('Estrategias pedagógicas', 1),
+						('Comunicación', 1),
+						('Herramientas digitales', 1),
+						('Tutoreo', 1),
+						('Investigación', 1);
+
+INSERT INTO curso (nombre_curso, usuario_registro) 
+				VALUES
+						('Comunicación asertiva', 1),
+						('Técnicas de aprendizaje', 1);
+
+
+INSERT INTO necesidad_capacitacion_anual 
+				VALUES
+						(1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2022, 'Test', 'Evento de comunicación', 'Mejorar', 'Quejas de alumnos', 
+'', 'UTL',234, 'Junio', '2023-06-07', '2023-06-13',8,24,12,2,0,8,22,10,12,1,GETDATE(),1)
+
+
+INSERT INTO solicitud_capacitacion_interna 
+				VALUES
+						(2, 1, 2, 5, 20, 20, 'Conocer nuevas técnicas', 'Mejorar capacidad de enseñar', 'Taller', '5 temas', 4, 'Certificación',
+'Docente UTL', 1,GETDATE(),1)
+
+INSERT INTO ugac (nombre_ugac, usuario_registro) 
+				VALUES
+						('Desarrollo de software', 1);
+
+
+
+INSERT INTO evento_programado_grupo VALUES
+(1,1,10,1,0,'2023-06-10',10, '', 10,10,'Grande',1,'2023-06-11',10,'Entrevistas a estudiantes','2023-06-13', 1, '2023-06-13',1)
 
 -- ------------- INSERTS DE TIPO_PUESTO -------------- --
 INSERT INTO tipo_puesto (nombre_tipo_puesto, usuario_registro)

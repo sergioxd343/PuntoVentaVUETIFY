@@ -104,3 +104,24 @@ FROM
                 instructor ON solicitud_capacitacion_interna.cve_instructor = instructor.cve_instructor INNER JOIN
                 tipo_instructor ON instructor.cve_tipo_instructor = tipo_instructor.cve_tipo_instructor
 GO 
+
+IF OBJECT_ID('v_empleado_evento', 'V') IS NOT NULL
+    DROP VIEW v_empleado_evento;
+GO
+CREATE VIEW v_empleado_evento AS
+SELECT        evento_programado.cve_even_prog, empleado.cve_empleado, persona.nombre, persona.apellido_peterno, persona.apellido_materno, persona.sexo, tipo_puesto.nombre_tipo_puesto, puesto.nombre_puesto, 
+                         area.nombre_area, ugac.nombre_ugac, espacio.nombre_espacio, modalidad_evento.nombre_modalidad, evento_programado.nombre_evento, evento_programado.nombre_origen, evento_programado.sin_horario, 
+                         evento_programado.horario_inicio, evento_programado.horario_fin, evento_programado.fecha_inicio, evento_programado.fecha_fin, evento_programado.activo, evento_programado.fecha_registro, 
+                         evento_programado.usuario_registro, evento_programado_grupo.cve_empleado AS Expr1
+FROM            modalidad_evento INNER JOIN
+                         espacio INNER JOIN
+                         evento_programado INNER JOIN
+                         evento_programado_grupo ON evento_programado.cve_even_prog = evento_programado_grupo.cve_even_prog ON espacio.cve_espacio = evento_programado.cve_espacio ON 
+                         modalidad_evento.cve_modalidad = evento_programado.cve_modalidad CROSS JOIN
+                         tipo_puesto INNER JOIN
+                         persona INNER JOIN
+                         empleado ON persona.cve_persona = empleado.cve_persona INNER JOIN
+                         area ON empleado.cve_area = area.cve_area INNER JOIN
+                         ugac ON empleado.cve_ugac = ugac.cve_ugac ON tipo_puesto.cve_tipo_puesto = empleado.cve_tipo_puesto INNER JOIN
+                         puesto ON empleado.cve_puesto = puesto.cve_puesto
+GO

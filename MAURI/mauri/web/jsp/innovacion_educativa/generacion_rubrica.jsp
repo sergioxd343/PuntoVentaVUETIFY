@@ -54,7 +54,7 @@
             <v-app>
                 <v-container fluid>
                     <v-card>
-                        <v-card-title style="background-color: #00b293; color:#ffffff; headline">
+                        <v-card-title style="background-color: #00b293; color:#ffffff;">
                             Generación de Rúbricas
                         </v-card-title>
                         <!--En este apartado estan los inputs para comenzar el registro-->

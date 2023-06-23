@@ -187,7 +187,7 @@ CREATE TABLE empleado(
 	cve_empleado				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	cve_persona					INT NOT NULL,
 	cve_puesto					INT NOT NULL,
-	cve_tipo_pesto				INT NOT NULL,
+	cve_tipo_puesto				INT NOT NULL,
 	cve_departamento			INT NOT NULL,
 	cve_area					INT NOT NULL,
 	cve_ugac					INT NOT NULL,
