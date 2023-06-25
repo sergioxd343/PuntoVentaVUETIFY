@@ -286,7 +286,7 @@ CREATE TABLE rubrica_observacion_clase(
 
 -- ------------- TABLA ENCUESTA DE SATISFACCIÓN Y EVALUACION DE RESULTADOS -------------- --
 CREATE TABLE evaluacion_resultado(
-	cve_eval_resul				INT NOT NULL,
+	cve_eval_resul				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	cve_t_servicio 				INT NOT NULL,
 	cve_asesoria_proyecto		INT NOT NULL,
 	suma						INT,
@@ -330,7 +330,7 @@ CREATE TABLE solicitud_formacion_docente(
 
 -- ----------------- TABLA SOLICITUD FORMACION DOCENTE_D ------------------- --
 CREATE TABLE solicitud_formacion_docente_d(
-	cve_sol_form_doc 			INT NOT NULL,
+	cve_sol_form_doc 			INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	cve_empleado_anotado 		INT NOT NULL,
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
