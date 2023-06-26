@@ -24,13 +24,10 @@
                 <v-container fluid>
                     <v-card>
                         <v-card-title  style="background-color: #00b293; color:#ffffff; headline" >		
-                            Catalogos tipo
+                            Modalidad
                         </v-card-title>
                         <v-container fluid>
-                            
-                            <v-row justfy="center" dense >
-                                <v-col class="text-center"><b>Tipo de modalidad</b></v-col>
-                            </v-row>
+
 
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                 <v-col md=2>
@@ -65,8 +62,15 @@
                                         :mobile-breakpoint="NaN"
                                         items-per-page="10"
                                     >
-                                    <template v-slot:item.eliminar="{item}">
-                                        <v-btn fab small color="error" @click="fnEliminarModalidad(item);"><v-icon>mdi-trash-can</v-icon></v-btn>
+                                    <template v-slot:item.activo="{item}">
+                                        <v-container class="px-0" fluid>
+                                            <v-switch v-model="item.activo" @change="fnEliminarInstructor(item)"></v-switch>
+                                        </v-container>
+                                    </template>
+                                    <template v-slot:item.editar={item}>
+                                        <v-container class="px-0" fluid>
+                                            <v-btn  small :style="{ backgroundColor: item.activo ? 'green' : 'red' }">{{ item.activo ? 'Activo' : 'Inactivo' }}</v-btn>
+                                        </v-container>
                                     </template>
                                     </v-data-table>
                                 </v-col>
@@ -204,7 +208,8 @@
                     {text: 'No', align: 'left', sortable: true, value: 'cve_tipo_modalidad'},
                     {text: 'Nombre modalidad', align: 'left', sortable: true, value: 'nombre_tipo_modalidad'},
                     {text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro'},
-                    {text: 'Eliminar', align: 'left', sortable: true, value: 'eliminar'},
+                    {text: 'Estatus', align: 'left', sortable: true, value: 'editar'},
+                    {text: 'Eliminar', align: 'left', sortable: true, value: 'activo'},
                 ]);
                 
                 const searchProveedores = ref([]);
@@ -268,30 +273,27 @@
                     })
                 }
 
-               
-              async function fnEliminarModalidad(item){
-                    confirmarE("¿Realmente quieres eliminar éste registro?").then(async (result) => {
-                        if(result.isConfirmed){
-                            try{
-                                preloader("../../");
-                                let parametros = new URLSearchParams();
-                                parametros.append("accion", 3);
-                                parametros.append("cve_tipo_modalidad", item.cve_tipo_modalidad);
-                                let {data,status} = await axios.post(ctr, parametros)
-                                if(status == 200){
-                                    if(data=="1"){
-                                        fnConsultarTablaTipoModalidad();
-                                    }
-                                }
-                            } catch(error){
-                                mostrarSnackbar('error');
-                                console.error(error);
-                            } finally{
-                                swal.close();
+                async function fnEliminarModalidad(item){
+                    
+                    try{
+                        preloader("../../");
+                        let parametros = new URLSearchParams();
+                        parametros.append("accion", 3);
+                        parametros.append("activo", (item.activo == true ? 1 : 0));
+                        parametros.append("cve_tipo_modalidad", item.cve_tipo_modalidad);
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data=="1"){
+                                fnConsultarTablaTipoModalidad();
                             }
-
                         }
-                    })
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+
                 }
 
                 function fnLimpiarCamposModalidad(cx){//cx = contexto

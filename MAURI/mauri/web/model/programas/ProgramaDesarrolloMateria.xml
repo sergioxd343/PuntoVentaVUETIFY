@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<CatalogoProveedores>
+    <tablaProgramaDesarrolloMaterias>
+		<query>
+			select * from programa_desarrollo_materia;
+		</query>
+	</tablaProgramaDesarrolloMaterias>
+
+    <guardarProgramaDesarrolloMateria>
+		<query>
+			INSERT INTO programa_desarrollo_materia (cve_prog_des, cve_modulo, cve_materia, duracion, objetivo, resultado_aprendizaje, usuario_registro)
+VALUES (?, 1, 1, ?, ?, ?, 1);
+
+		</query>
+	</guardarProgramaDesarrolloMateria>
+
+    <desactivarProgramaDesarrolloMateria>
+		<query>
+			UPDATE programa_desarrollo_materia
+SET activo = 0
+WHERE cve_prog_des = ? AND duracion = ?;
+		</query>
+	</desactivarProgramaDesarrolloMateria>
+
+	<SelectProgramaDesarrollo>
+		<query>
+			select * from programa_desarrollo;
+		</query>
+	</SelectProgramaDesarrollo>
+</CatalogoProveedores>
