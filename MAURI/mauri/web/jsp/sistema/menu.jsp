@@ -58,17 +58,28 @@
         <div id="app">
             <v-app>
                 <v-card>
-                    <v-card-title class="text-center align-center" style="background-color: #00b293; color:#ffffff; padding: 0px;">
+                    <v-card-title class="text-center align-center"
+                        style="background-color: #00b293; color:#ffffff; padding: 0px;">
                         <a href="">
                             <img alt="Logo" src="../../images/Logo_utl.png" width="85px" height="85px" />
                         </a>
                         <v-spacer></v-spacer>
-                        <v-chip class="ma-2" color="white" outlined pill>
-                            {{ nombre }} {{ primerAp }} {{segundoAp}}
-                            <v-icon right>
-                                mdi-account-outline
-                            </v-icon>
-                        </v-chip>
+                        <v-menu transition="slide-y-transition" bottom rounded="b-xl" v-model="showMenu" absolute>
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-chip v-bind="attrs" v-on="on" link class="ma-2" color="white" outlined pill>
+                                    {{ nombre }} {{ primerAp }} {{segundoAp}}
+                                    <v-icon right>
+                                        mdi-account-outline
+                                    </v-icon>
+                                </v-chip>
+                            </template>
+
+                            <v-list>
+                                <v-list-item link v-for="(item, index) in items" :key="index">
+                                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                                </v-list-item>
+                            </v-list>
+                        </v-menu>
                     </v-card-title>
                     <v-card class="backgruond">
                         <v-row justify="center">
@@ -141,8 +152,11 @@
                             const show = ref(false);
                             const loading = ref(false);
                             const passwordShow = ref(false);
+                            const showMenu = false;
 
-                            let items = [];
+                            let items = [
+                                { title: 'Cerrar Sesión' }
+                            ];
                             const menuArray = ref([]);
                             let objeto = {};
                             const itemMenuSeleccionado = ref([]);
@@ -152,6 +166,8 @@
                             const nombre = user[0].nombre;
                             const primerAp = user[0].apellido_peterno;
                             const segundoAp = user[0].apellido_materno;
+                            const usuario = user[0].nombre_usuario;
+                            const contrasenia = user[0].contrasenia;
 
                             //SNACKBAR
                             const loader = ref(false);
@@ -178,8 +194,8 @@
                                     //Peticion ajax al controlador y envio de parametros
                                     let parametros = new URLSearchParams();
                                     parametros.append("accion", 3);
-                                    parametros.append("usuario", 'sjonathan');
-                                    parametros.append("password", '56964')
+                                    parametros.append("usuario", usuario);
+                                    parametros.append("password", contrasenia)
                                     let { data, status } = await axios.post(ctr, parametros);
                                     if (status == 200) {
                                         fnCargarDatos(data);
@@ -370,6 +386,7 @@
                                 dateFechaFinReporte,
                                 fnCargarDatos, save, formatDate,
                                 parseDate,
+                                showMenu,
                                 cabeceraTemp,
                                 items,
                                 fnExportar,
@@ -378,6 +395,8 @@
                                 fnMenu,
                                 currentUser,
                                 user,
+                                usuario,
+                                contrasenia,
                                 nombre,
                                 primerAp,
                                 segundoAp,

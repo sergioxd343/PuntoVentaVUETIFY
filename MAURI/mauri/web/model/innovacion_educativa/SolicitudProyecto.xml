@@ -30,7 +30,7 @@ FROM            solicitud_proyecto INNER JOIN
     <consultarArea>
 		<query>
 			SELECT        TOP (200) cve_area, nombre_area, activo, fecha_registro, usuario_registro
-FROM            area
+FROM            area ORDER BY nombre_area
 		</query>
 	</consultarArea>
 	<consultarTipoCapacitacion>

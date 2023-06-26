@@ -141,7 +141,7 @@ CREATE TABLE area(
 -- ----------------- TABLA UGAC ------------------- --
 CREATE TABLE ugac(
 	cve_ugac 					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	nombre_ugac 				VARCHAR(50),
+	nombre_ugac 				VARCHAR(75),
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
 	usuario_registro 			INT
