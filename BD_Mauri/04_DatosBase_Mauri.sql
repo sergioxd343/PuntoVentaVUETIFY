@@ -237,6 +237,15 @@ INSERT INTO unidad_academica (nombre_unidad_academica, usuario_registro)
 						('León',1),
 						('Unidad Académica de Acambaro',1);
 
+
+INSERT INTO academia (cve_unidad_academica, nombre_academia, usuario_registro)
+VALUES  (1, 'Academia de Cálculo', 1),
+        (1, 'Academia de Estadística', 1),
+        (2, 'Academia de Sociología', 2),
+        (2, 'Academia de Antropología', 2),
+        (1, 'Academia de Ingeniería Eléctrica', 1);
+
+
 INSERT INTO categoria_evento (nombre_categoria, usuario_registro) 
 				VALUES
 						('Estrategias pedagógicas', 1),

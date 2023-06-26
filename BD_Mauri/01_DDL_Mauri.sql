@@ -289,6 +289,7 @@ CREATE TABLE evaluacion_resultado(
 	cve_eval_resul				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	cve_t_servicio 				INT NOT NULL,
 	cve_asesoria_proyecto		INT NOT NULL,
+	cve_area					INT NOT NULL,
 	suma						INT,
 	porcentaje 					FLOAT,
 	cuatrimestre				VARCHAR(8),
