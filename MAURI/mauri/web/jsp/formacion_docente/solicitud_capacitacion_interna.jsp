@@ -496,9 +496,10 @@
                                                                     programaCurso = item.programa_evento
                                                                     horasPorTema = item.horas_tema
                                                                     resultadoAprendizaje = item.resultado_aprendizaje
-                                                                    perfil = item.perfil_participante;
-                                                                    tipoFacilitador = item.cve_tipo_instructor
-                                                                    nombreFacilitador = item.nombre_instructor
+                                                                    perfil = item.perfil_participante
+                                                                    tipoFacilitador[index] = item.cve_tipo_instructor;
+                                                                    nombreFacilitador[index] = item.nombre_instructor;
+                                                                    console.log(item.cve_tipo_instructor);
                                                                 " >mdi-eye</v-icon> 
                                                         </template>
                                                     </v-data-table>
@@ -680,7 +681,7 @@
 
                         let encontrado = false; 
                         for (let i = 0; i < this.dataBusqueda.length; i++) {
-                            if (numeroControl === this.dataBusqueda[i].cve_persona.toString()) {                           
+                            if (numeroControl === this.dataBusqueda[i].cve_empleado.toString()) {                           
                                 this.direccion = this.dataBusqueda[i].nombre_area,
                                 this.programa = this.dataBusqueda[i].nombre_ugac,
                                 this.puesto = this.dataBusqueda[i].nombre_tipo_puesto,
