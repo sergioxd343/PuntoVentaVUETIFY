@@ -24,14 +24,10 @@
                 <v-container fluid>
                     <v-card>
                         <v-card-title  style="background-color: #00b293; color:#ffffff; headline" >		
-                            Catalogos tipo
+                            Servicio
                         </v-card-title>
                         <v-container fluid>
-                            
-                            <v-row justfy="center" dense >
-                                <v-col class="text-center"><b>Tipo de servicio</b></v-col>
-                            </v-row>
-
+                           
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                 <v-col md=2>
                                         <v-text-field 
@@ -70,6 +66,11 @@
                                     <template v-slot:item.activo="{item}">
                                         <v-container class="px-0" fluid>
                                             <v-switch v-model="item.activo" @change="fnEliminarServicio(item)"></v-switch>
+                                        </v-container>
+                                    </template>
+                                    <template v-slot:item.editar={item}>
+                                        <v-container class="px-0" fluid>
+                                            <v-btn  small :style="{ backgroundColor: item.activo ? 'green' : 'red' }">{{ item.activo ? 'Activo' : 'Inactivo' }}</v-btn>
                                         </v-container>
                                     </template>
                         </v-container>                            
@@ -197,7 +198,8 @@
                     {text: 'No', align: 'left', sortable: true, value: 'cve_tipo_servicio'},
                     {text: 'Nombre servicio', align: 'left', sortable: true, value: 'nombre_tipo_servicio'},
                     {text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro'},
-                    {text: 'Eliminar', align: 'left', sortable: true, value: 'activo'},
+                    {text: 'Estatus', align: 'left', sortable: true, value: 'editar'},
+                    {text: 'Activar o desactivar', align: 'left', sortable: true, value: 'activo'},
                 ]);
                 
                 const searchTipos = ref([]);
