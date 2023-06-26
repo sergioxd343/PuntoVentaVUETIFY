@@ -71,6 +71,10 @@
     String option3 = request.getParameter("option3") != null && !request.getParameter("option3").equals("") ? request.getParameter("option3") : "-";
     String option4 = request.getParameter("option4") != null && !request.getParameter("option4").equals("") ? request.getParameter("option4") : "-";
     String objetivo = request.getParameter("objetivo") != null && !request.getParameter("objetivo").equals("") ? request.getParameter("objetivo") : "-";
+    String promedio = request.getParameter("promedio") != null && !request.getParameter("promedio").equals("") ? request.getParameter("promedio") : "-";
+    String evidencias = request.getParameter("evidencias") != null && !request.getParameter("evidencias").equals("") ? request.getParameter("evidencias") : "-";
+    String otraAct = request.getParameter("otraAct") != null && !request.getParameter("otraAct").equals("") ? request.getParameter("otraAct") : "-";
+    String otraAct1 = request.getParameter("otraAct1") != null && !request.getParameter("otraAct1").equals("") ? request.getParameter("otraAct1") : "-";
     
     
     switch (accion) {
@@ -79,18 +83,19 @@
             break;
         case 2:
             temp_obj = new JsonObject();
-            temp_obj.addProperty("numeroControl", numeroControl);
-            temp_obj.addProperty("tema", tema);
-            temp_obj.addProperty("objetivo", objetivo);
-            temp_obj.addProperty("alcance", alcance);
-            temp_obj.addProperty("periodo", periodo);
-            temp_obj.addProperty("fecha", fecha);
-            temp_obj.addProperty("escala1", escala1);
+            temp_obj.addProperty("numeroControl", numeroControl); 
+            temp_obj.addProperty("evidencias", evidencias); 
+            temp_obj.addProperty("otraAct", otraAct); 
+            temp_obj.addProperty("otraAct1", otraAct1); 
+            temp_obj.addProperty("promedio", promedio);
             parametros.add(temp_obj);
             out.println(datos.Registro(parametros, "guardarAutoevaluacion"));
             break;
         case 3: 
             out.println(datos.Consultas(parametros, "buscar_cve_docente"));
+            break;
+        case 4: 
+            out.println(datos.Consultas(parametros, "periodo"));
             break;
     }
 %>

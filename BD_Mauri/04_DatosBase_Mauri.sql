@@ -30,7 +30,7 @@ INSERT INTO menu (cve_padre, nombre, ruta, orden, usuario_registro)
                     (0, 'Eventos', '-', 15, 1),
                     (0, 'Catalogos Pequeños', '-', 19, 1),
                     (0, 'Programas', '-', 28, 1),
-					(0, 'Sistema', '-', 32, 1);
+		    (0, 'Sistema', '-', 32, 1);
 
 -- ------------- INSERTS DE  SUBMENU -------------- --
 INSERT INTO submenu (cve_menu, cve_padre, nombre, ruta, orden, usuario_registro) 
@@ -77,12 +77,12 @@ INSERT INTO grupo_seguridad (nombre, tiempo_sesion, usuario_registro)
 					('Innovación Educativa', 5000, 1),
 					('Formación Docente', 5000, 1),
 					('Docente', 5000, 1),
-                    ('Director', 5000, 1),
-                    ('Subdirector', 5000, 1),
-                    ('Gestor', 5000, 1),
-                    ('DAyD', 5000, 1),
-                    ('Instructor', 5000, 1),
-                    ('Gestorias', 5000, 1);
+                                        ('Director', 5000, 1),
+                                        ('Subdirector', 5000, 1),
+                                        ('Gestor', 5000, 1),
+                                        ('DAyD', 5000, 1),
+                                        ('Instructor', 5000, 1),
+                                        ('Gestorias', 5000, 1);
 
 -- ------------- INSERTS DE USUARIO_GRUPO_SEGURIDAD -------------- --
 INSERT INTO usuario_grupo_seguridad (cve_grupo_seguridad, cve_persona, usuario_registro) VALUES (1, 1, 1);
@@ -213,7 +213,7 @@ INSERT INTO evento_programado
 INSERT INTO unidad_academica (nombre_unidad_academica, usuario_registro) 
 				VALUES
 						('León',1),
-						('Acambaro',1);
+						('Unidad Académica de Acambaro',1);
 
 INSERT INTO categoria_evento (nombre_categoria, usuario_registro) 
 				VALUES
@@ -231,7 +231,7 @@ INSERT INTO curso (nombre_curso, usuario_registro)
 
 INSERT INTO necesidad_capacitacion_anual 
 				VALUES
-						(1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2022, 'Test', 'Evento de comunicación', 'Mejorar', 'Quejas de alumnos', 
+						(1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2022, 'Test', 'T.S.U', 'Dirección de Desarrollo Académico y Docente', 'Academia de Expresión Oral y Escrita', 'Evento de comunicación', 'Mejorar', 'Quejas de alumnos', 
 '', 'UTL',234, 'Junio', '2023-06-07', '2023-06-13',8,24,12,2,0,8,22,10,12,1,GETDATE(),1)
 
 

@@ -5,15 +5,25 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <CatalogoProveedores>
-    <tablaCatalogo>
+    <tablaPrincipal>
 		<query>
-SELECT docente.idDocente, docente.nombreDocente, docente.puesto
-FROM     docente INNER JOIN
-                  curso ON docente.idDocente = curso.idDocente INNER JOIN
-                  calificacionesCurso ON curso.idCursoCalificaciones = calificacionesCurso.idCursoCalificaciones
-
+			SELECT * FROM evento_programado
 		</query>
-	</tablaCatalogo>
+	</tablaPrincipal>
+
+	<tablaParticipantes>
+		<query>
+			SELECT TOP (200) 
+			evento_programado_grupo.cve_empleado, persona.nombre + ' ' + persona.apellido_peterno + ' ' + persona.apellido_materno AS nombre, 
+			evento_programado.nombre_evento
+			FROM evento_programado_grupo
+			INNER JOIN evento_programado ON evento_programado_grupo.cve_even_prog = evento_programado.cve_even_prog
+			INNER JOIN empleado ON evento_programado_grupo.cve_empleado = empleado.cve_empleado
+			INNER JOIN persona ON empleado.cve_persona = persona.cve_persona
+			WHERE evento_programado.cve_even_prog = ?
+		</query>
+	</tablaParticipantes>
+
     <guardarUsuario>
 		<query>
 			

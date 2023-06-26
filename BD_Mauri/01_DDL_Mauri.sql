@@ -117,6 +117,18 @@ CREATE TABLE academia(
 	usuario_registro 			INT
 );
 
+-- ------------- TABLA PERIODO -------------- --
+CREATE TABLE periodo(
+	cve_periodo 				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	fecha_inicio 				DATE,
+	fecha_fin 					DATE,
+	numero_periodo 				INT,
+	descripcion 				VARCHAR(30),
+	activo 						BIT DEFAULT 1,
+	fecha_registro 				DATETIME DEFAULT GETDATE(),
+	usuario_registro 			INT
+);
+
 -- ------------- TABLA AREA -------------- --
 CREATE TABLE area(
 	cve_area					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
@@ -274,7 +286,7 @@ CREATE TABLE rubrica_observacion_clase(
 
 -- ------------- TABLA ENCUESTA DE SATISFACCIÓN Y EVALUACION DE RESULTADOS -------------- --
 CREATE TABLE evaluacion_resultado(
-	cve_eval_resul				INT NOT NULL,
+	cve_eval_resul				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	cve_t_servicio 				INT NOT NULL,
 	cve_asesoria_proyecto		INT NOT NULL,
 	suma						INT,
@@ -318,7 +330,7 @@ CREATE TABLE solicitud_formacion_docente(
 
 -- ----------------- TABLA SOLICITUD FORMACION DOCENTE_D ------------------- --
 CREATE TABLE solicitud_formacion_docente_d(
-	cve_sol_form_doc 			INT NOT NULL,
+	cve_sol_form_doc 			INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	cve_empleado_anotado 		INT NOT NULL,
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
@@ -338,6 +350,9 @@ CREATE TABLE necesidad_capacitacion_anual (
 	cve_tipo_evento 			INT NOT NULL,
 	cve_tipo_capacitacion 		INT NOT NULL,
 	cve_origen_evento 			INT NOT NULL,
+	nivel_academico				VARCHAR(15),
+	direccion_subdireccion		VARCHAR(50),
+	programa_academico			VARCHAR(100),
 	anio_ejercicio 				DATETIME,
 	necesidades_detectadas 		TEXT,
 	nombre_evento 				VARCHAR(50),
@@ -705,9 +720,9 @@ CREATE TABLE asistencia(
 
 -- ------------- TABLA SOLICIANTE -------------- --
 CREATE TABLE solicitante(
-	cve_olicitante 				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	cve_solicitante 			INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	cve_area 					INT NOT NULL,
-	cve_ersona 					INT NOT NULL,
+	cve_persona 					INT NOT NULL,
 	nombre_solicitante 			VARCHAR(50),
 	programa_educativo 			VARCHAR(50),
 	puesto 						VARCHAR(45),
@@ -717,16 +732,6 @@ CREATE TABLE solicitante(
 	usuario_registro 			INT
 );
 
--- ------------- TABLA FACILITADOR -------------- --
-CREATE TABLE facilitador(
-	cve_facilitador 			INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	cve_area 					INT NOT NULL,
-	nombre_facilitador 			VARCHAR(50),
-	programa_educativo 			VARCHAR(50),
-	activo 						BIT DEFAULT 1,
-	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT
-);
 
 -- ------------- CUESTIONARIO DE EVALUCACION DE CURSOS -------------- --
 CREATE TABLE cuestionario_evalucion_curso(
@@ -798,6 +803,8 @@ CREATE TABLE instructor(
 	cve_instructor 				INT NOT NULL PRIMARY KEY IDENTITY(1,1),
 	cve_tipo_instructor 		INT NOT NULL,
 	nombre_instructor 			VARCHAR(50),
+	area_academica				VARCHAR(50),
+	programa_educativo 			VARCHAR(50),
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
 	usuario_registro 			INT
@@ -820,9 +827,11 @@ CREATE TABLE grupo_evento(
 -- ------------- TABLA AUTOEVALUACION CAPACITACION DOCENTE -------------- --
 CREATE TABLE autoevaluacion_capacitacion_docente(
 	cve_autoe_cap_doc 			INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	cve_empleado 				INT NOT NULL,	
-	num_pregunta 				INT,
-	pregunta 					VARCHAR(129),
+	cve_empleado 				INT NOT NULL,
+	evidencias					VARCHAR(30), -- calificaciones de estudiantes, encuestas a estudiantes, resultados de evaluación dicente, entrevistas a estudiantes, ninguno, otro
+	factores_identificacion		TEXT,
+	factores_aplicacion			TEXT,
+	promedio					FLOAT,
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
 	usuario_registro 			INT

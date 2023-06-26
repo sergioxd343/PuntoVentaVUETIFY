@@ -253,15 +253,18 @@
                                 <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                     <!--PERIODO-->
                                 <v-col md=6>
-                                    <v-text-field
+                                    <v-select 
                                         v-model="periodo"
                                         outlined
                                         label="Periodo"
-                                        v-validate="'required|max:10'"
+                                        v-validate="'required'"
+                                        :items="arrayPeriodo"
+                                        item-value="cve_periodo"
+                                        item-text="descripcion"
                                         data-vv-name="periodo"
                                         :error="errors.has('periodo')"
                                         :error-messages="errors.first('periodo')"
-                                    ></v-text-field>
+                                    ></v-select>
                                 </v-col>
 
                                  <!-- AREA EN QUE SE CAPACITO -->
@@ -368,9 +371,7 @@
                                             label="Indique brevemente los factores que no permitieron su identificación"
                                             persistent-hint
                                             v-validate="'required|max:200'"
-                                            data-vv-name="otraAct"
-                                            :error="errors.has('otraAct')"
-                                            :error-messages="errors.first('otraAct')"
+                                            
 
                                         ></v-text-field>
                                         
@@ -430,14 +431,12 @@
                                     <v-col md=6>
                                         <v-text-field 
                                         v-if="escala3 === 6 || escala3 === 7  "
-                                            v-model="otraAct"
+                                            v-model="otraAct1"
                                             outlined
                                             label="Indique brevemente los factores que no permitieron su aplicación"
                                             persistent-hint
                                             v-validate="'required|max:200'"
-                                            data-vv-name="otraAct"
-                                            :error="errors.has('otraAct')"
-                                            :error-messages="errors.first('otraAct')"
+                                            
                                         ></v-text-field>
                                         
                         
@@ -472,38 +471,30 @@
 
                                     <v-col md=10>
                                         <v-p> 
-                                            5.- Seleccione la(s) evidencia(s) que utiliz&oacute; para verificar el impacto de las t&eacute;cnicas, estrategias o acciones aprendidas en el curso:
+                                            5.- Seleccione el tipo de evidencia que utiliz&oacute; para verificar el impacto de las t&eacute;cnicas, estrategias o acciones aprendidas en el curso:
                                         </v-p>
                                     </v-col>
                                 </v-row>
 
-                                <v-row  class="align-center" style="padding: 0px 200px 0px 200px"></v-row>
+                                <v-row  class="align-center" style="padding: 0px 50px 0px 50px">
                                 <v-col md=10>
-                                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<input type="checkbox" id="kiki" v-model="option">
-                                    <label for="kiki">Calificaciones de estudiantes</label> <br>
-
-                                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<input type="checkbox" id="kiki" v-model="option1">
-                                    <label for="kiki">Encuestas a estudiantes </label> <br>
-
-                                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<input type="checkbox" id="kiki" v-model="option2">
-                                    <label for="kiki">Resultados de evaluaci&oacute;n docente </label> <br>
-
-                                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<input type="checkbox" id="kiki" v-model="option3">
-                                    <label for="kiki">Entrevistas a estudiantes</label><br>
-
-                                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<input type="checkbox" id="kiki" v-model="option4">
-                                    <label for="kiki">Ninguno</label><br>
+                                    <v-radio-group v-model="evidencias">
+                                        <v-radio value="Calificaciones de estudiantes" label="Calificaciones de estudiantes"></v-radio>
+                                        <v-radio value="Encuestas a estudiantes" label="Encuestas a estudiantes"></v-radio>
+                                        <v-radio value="Resultados de evaluación docente" label="Resultados de evaluación docente"></v-radio>
+                                        <v-radio value="Entrevistas a estudiantes" label="Entrevistas a estudiantes"></v-radio>
+                                        <v-radio value="Ninguno" label="Ninguno"></v-radio>
+                                        <v-radio value="Otro" label="Otro"></v-radio>
+                                      </v-radio-group>
                                 </v-col>
 
-                                <v-col md=4>
-                                    <v-text-field 
-                                        v-model="otro"
-                                        outlined
-                                        label="Otro"
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="otro"
-                                        :error="errors.has('otro')"
-                                        :error-messages="errors.first('otro')"
+                                <v-col md="4">
+                                    <v-text-field
+                                      v-if="evidencias === 'Otro'"
+                                      v-model="otro"
+                                      outlined
+                                      label="Otro"
+                                      v-validate="'required|max:200'"
                                     ></v-text-field>
                                 </v-col>
 
@@ -516,9 +507,7 @@
 
 
 
-                                    
-                                    
-                                </v-row>
+                            </v-row>
 
                                     
                                     
@@ -544,9 +533,9 @@
 
                                     <template v-slot:item.estatus="{ item }">
                                                            
-                                        <v-icon color="green" @click="snackbar = false">mdi-circle</v-icon>
-                                        <v-icon color="yellow" @click="snackbar = false">mdi-circle</v-icon>
-                                        <v-icon color="red" @click="snackbar = false">mdi-circle</v-icon>
+                                        <v-icon id= "g" color="green" @click="fnVerde()">mdi-circle</v-icon>
+                                        <v-icon id= "y" color="yellow" @click="fnAmarillo()">mdi-circle</v-icon>
+                                        <v-icon id= "r" color="red" @click="fnRojo()">mdi-circle</v-icon>
                                     
                                     </template>
 
@@ -564,9 +553,7 @@
                                                 tipoPersona = item.tipo_persona
                                             "><v-icon>mdi-square-edit-outline</v-icon></v-btn>
                                         </template>
-                                        <template v-slot:item.eliminar="{item}">
-                                            <v-btn fab small color="error" @click="fnEliminar(item);"><v-icon>mdi-trash-can</v-icon></v-btn>
-                                        </template>
+                                       
                                         <template v-slot:item.password="{item}">
                                             <v-tooltip bottom>
                                                 <template v-slot:activator="{on, attrs}">
@@ -591,6 +578,12 @@
                     {{mensaje_snackbar}}
                     <%-- <v-icon color="white" @click="snackbar = false">mdi-close-circle</v-icon> --%>
                 </v-snackbar>
+
+                <v-overlay :value="loader" z-index="1000">
+                    <v-img aspect-ratio="2" class="white--text align-end" height="212px" width="292px"
+                        src="../../images/Logo_utl_animado.gif">
+                    </v-img>
+                </v-overlay>
                 
             </v-app>
         </div>
@@ -645,13 +638,17 @@
                 const escala4 = ref("");
                 const escala5 = ref("");
                 const otraAct = ref("");
+                const otraAct1 = ref("");
                 const option = ref("");
                 const option1 = ref("");
                 const option2 = ref("");
                 const option3 = ref("");
                 const option4 = ref("");
+                const evidencias = ref("");
                 const otro = ref("");
                 const promedio = ref("");
+                
+                
 
                 
 
@@ -662,6 +659,7 @@
                 "Competencias técnicas"]);
                 const arrayEscala = ref([10,9,8,7,6]);
                 const dataBusqueda = ref([]);
+                const arrayPeriodo = ref([]);
 
 
                 
@@ -694,11 +692,10 @@
                 const dataProveedores = ref([]);
                 const headersProveedores = ref([
                     {text: 'N° de control', align: 'left', sortable: true, value: 'cve_empleado'},
-                    {text: 'Fecha', align: 'left', sortable: true, value: 'fecha_registro'},
                     {text: 'Nombre del docente', align: 'left', sortable: true, value: 'nombre'},
-                    {text: 'Tema del curso', align: 'left', sortable: true, value: 'tema_curso'},
-                    {text: 'Objetivo del curso', align: 'left', sortable: true, value: 'objetivo_curso'},
-                    {text: 'Promedio calificación', align: 'left', sortable: true, value: 'pregunta'},
+                    {text: 'Tema del curso', align: 'left', sortable: true, value: 'nombre_evento'},
+                    {text: 'Promedio calificación', align: 'left', sortable: true, value: 'promedio'},
+                    {text: 'Fecha', align: 'left', sortable: true, value: 'fecha_registro'},
                     { text: "Estatus", align: "left", sortable: false, value: "estatus" },
 
                 ]);
@@ -709,7 +706,38 @@
                 onMounted(() => {
                     fnConsultarTabla();
                     fnbuscar_cve_docente();
+                    periodos();
                 });
+
+                async function fnVerde(){
+                    Swal.fire({
+                        icon: 'success',
+                        text: 'Cerrado',
+                    });
+                }
+
+                async function fnAmarillo(){
+                    Swal.fire({
+                        icon: 'warning',
+                        text: 'En proceso',
+                    });
+                }
+
+                async function fnRojo(){
+                    Swal.fire({
+                        icon: 'error',
+                        text: 'Cancelado',
+                    });
+                }
+                /*function verificarEmpleado(cve_empleado, tabla) {
+                    console.log('hola popo'+cve_empleado)
+                    for (let i = 0; i < tabla.length; i++) {
+                        if (tabla[i].cve_empleado !== cve_empleado) {
+                        return true; 
+                        }
+                    }
+                    return false; 
+                }*/
                 
                 async function fnGuardar(){
                     this.$validator.validate().then(async esValido => {
@@ -719,22 +747,32 @@
                                 let parametros = new URLSearchParams();
                                 parametros.append("accion", 2);
                                 parametros.append("numeroControl", numeroControl.value);
-                                parametros.append("tema", tema.value);
-                                parametros.append("objetivo", objetivo.value);
-                                parametros.append("alcance", alcance.value);
-                                parametros.append("periodo", periodo.value);
-                                parametros.append("fecha", fecha.value);
-                                parametros.append("escala1", escala1.value);
+                                parametros.append("evidencias", evidencias.value + '-->' + otro.value);
+                                parametros.append("otraAct", otraAct.value);
+                                parametros.append("otraAct1", otraAct1.value);
+                                parametros.append("promedio", promedio.value);
                                 
-                                let {data,status} = await axios.post(ctr, parametros);
-                                console.log(parametros);
-                                if(status == 200){
-                                    if(data == "1"){
-                                        mostrarSnackbar("success", "Registro guardado correctamente.");
-                                        fnConsultarTabla();
-                                        fnLimpiarCampos(this);   
+                                /*console.log('hola kaka'+ this.numeroControl)
+                                const existe = verificarEmpleado(this.numeroControl, this.headersProveedores);
+                                
+                                if (existe) {
+                                    console.log('hola')
+                                    mostrarSnackbar("warning", "Ya registraste tu atoevaluación.");
+                                    fnLimpiarCampos(this);  
+
+                                return;
+                                } else {*/
+
+                                    let {data,status} = await axios.post(ctr, parametros);
+                                    console.log(parametros);
+                                    if(status == 200){
+                                        if(data == "1"){
+                                            mostrarSnackbar("success", "Registro guardado correctamente.");
+                                            fnConsultarTabla();
+                                            fnLimpiarCampos(this);   
+                                        }
                                     }
-                                }
+                                
                             } catch(error){
                                 mostrarSnackbar('error');
                                 console.error(error);
@@ -767,6 +805,28 @@
                         swal.close();
                     }
                 }
+
+                async function periodos(){
+                    try{
+                        preloader("../");
+                        //arreglo
+                        let parametros = new URLSearchParams();
+                        //le mandamos un parametro llamado accion
+                        parametros.append("accion", 4);
+                        //axios envia la peticion
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                arrayPeriodo.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                }
                 
                 
                 async function fnbuscar_cve_docente(){
@@ -778,6 +838,7 @@
                         if(status == 200){
                             if(data.length > 0){
                                 dataBusqueda.value = data
+                                
                             }
                         }
                     } catch(error){
@@ -800,7 +861,7 @@
                             this.primerApellidoD = this.dataBusqueda[i].apellido_peterno;
                             this.segundoApellidoD = this.dataBusqueda[i].apellido_materno;
                             this.sexo = this.dataBusqueda[i].sexo;
-                            this.puesto = this.dataBusqueda[i].nombre_tipo_puesto;
+                            this.puesto = this.dataBusqueda[i].nombre_puesto;
                             this.area = this.dataBusqueda[i].nombre_area;
                             this.carrera = this.dataBusqueda[i].nombre_ugac;
                             this.tema = this.dataBusqueda[i].nombre_evento;
@@ -820,15 +881,36 @@
 
                 
                 function fnLimpiarCampos(cx){//cx = contexto
-                    tipo.value = "";
-                    nombreCorto.value = "";
-                    razonSocial.value = "";
-                    rfc.value = "";
-                    padron.value = "";
-                    nombreContacto.value = "";
-                    correoContacto.value = "";
-                    telefonoContacto.value = "";
-                    tipoPersona.value = "";
+
+                    numeroControl.value = "";
+                    nombreDocente.value = "";
+                    primerApellidoD.value = "";
+                    segundoApellidoD.value = "";
+                    sexo.value = "";
+                    puesto.value = "";
+                    area.value = "";
+                    carrera.value = "";
+                    tema.value = "";
+                    objetivo.value = "";
+                    alcance.value = "";
+                    periodo.value = "";
+                    fecha.value = "";
+                    areaCapacitacion.value = "";
+                    escala1.value = "";
+                    escala2.value = "";
+                    escala3.value = "";
+                    escala4.value = "";
+                    escala5.value = "";
+                    otraAct.value = "";
+                    option.value = "";
+                    option1.value = "";
+                    option2.value = "";
+                    option3.value = "";
+                    option4.value = "";
+                    otro.value = "";
+                    promedio.value = "";
+                
+                   
                     flagEditar.value = false;
                     itemEditar.value = {};
 
@@ -841,10 +923,10 @@
                 function mostrarSnackbar(color, texto){
                     snackbar.value = true;
                     color_snackbar.value = color;
-                    if(color=="error")
+                    if(color=="error"){
                         mensaje_snackbar.value = "Ocurrió un error. Intentalo de nuevo más tarde.";
-                    else
-                        mensaje_snackbar.value = texto; 
+                    }else{
+                        mensaje_snackbar.value = texto; }
                 }
 
                 
@@ -854,25 +936,27 @@
                     nombreBuscar,
 
                     numeroControl, nombreDocente, primerApellidoD, segundoApellidoD, sexo, puesto, area, carrera, tema,
-                    objetivo, alcance, periodo, fecha, areaCapacitacion, escala1, escala2, escala3, escala4, escala5,  otraAct,
-                    option, option1, option2, option3, option4, otro, promedio,
+                    objetivo, alcance, periodo, fecha, areaCapacitacion, escala1, escala2, escala3, escala4, escala5,  otraAct, otraAct1,
+                    option, option1, option2, option3, option4, otro, evidencias, promedio,
                     
 
-                    arrayAreas, arrayCarreras, arrayAreasCapacitacion, arrayEscala,
+                    arrayAreas, arrayCarreras, arrayAreasCapacitacion, arrayEscala, arrayPeriodo,
                     
                     
                     dataProveedores, headersProveedores, searchProveedores, arrayTiposProveedores, 
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor,
                     fnLimpiarCampos, itemEditar, searchBusqueda, fnBuscarDocente,
-                    dataBusqueda, fnConsultarTabla, fnGuardar
+                    dataBusqueda, fnConsultarTabla, fnGuardar, fnRojo, periodos, fnAmarillo, fnVerde
                 }
             },
             methods: {
                 calcularPromedio() {
                     const sumaEscalas = this.escala1 + this.escala2 + this.escala3 + this.escala4;
                     this.promedio = sumaEscalas / 4;
+                    console.log(this.promedio);
                 },
             },
+            
 
             
         });

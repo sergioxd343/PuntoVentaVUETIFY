@@ -2,7 +2,7 @@
 
     <buscar_cve_docente>
 		<query>
-			SELECT * FROM v_empleado;
+			SELECT * FROM v_empleado_evento
 		</query>
 	</buscar_cve_docente>
 
