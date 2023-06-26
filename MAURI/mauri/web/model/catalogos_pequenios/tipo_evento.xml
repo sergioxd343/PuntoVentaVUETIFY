@@ -17,7 +17,7 @@ and open the template in the editor.
 	<guardarTipoEvento>
 		<query>
 			
-			INSERT INTO tipo_evento (nombre_tipo_evento, activo, fecha_registro, usuario_registro) VALUES (?, True, GETDATE (), 5)
+			INSERT INTO tipo_evento (nombre_tipo_evento, activo, fecha_registro, usuario_registro) VALUES (?, 'True', GETDATE (), 5)
 
 		</query>
 	</guardarTipoEvento>

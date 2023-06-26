@@ -24,13 +24,11 @@
                 <v-container fluid>
                     <v-card>
                         <v-card-title  style="background-color: #00b293; color:#ffffff; headline" >		
-                            Catalogos tipo
+                            orieentación
                         </v-card-title>
                         <v-container fluid>
                             
-                            <v-row justfy="center" dense >
-                                <v-col class="text-center"><b>Tipo de orientación</b></v-col>
-                            </v-row>
+                            
 
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                 <v-col md=2>
@@ -70,7 +68,11 @@
                                             <v-switch v-model="item.activo" @change="fnEliminarOrientacion(item)"></v-switch>
                                         </v-container>
                                     </template>
-                                    
+                                    <template v-slot:item.editar={item}>
+                                        <v-container class="px-0" fluid>
+                                            <v-btn  small :style="{ backgroundColor: item.activo ? 'green' : 'red' }">{{ item.activo ? 'Activo' : 'Inactivo' }}</v-btn>
+                                        </v-container>
+                                    </template>
                                     </v-data-table>
                                 </v-col>
                             </v-row>
@@ -202,7 +204,8 @@
                     {text: 'No', align: 'left', sortable: true, value: 'cve_tipo_orientacion'},
                     {text: 'Nombre orientación', align: 'left', sortable: true, value: 'nombre_tipo_orientacion'},
                     {text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro'},
-                    {text: 'Estatus', align: 'left', sortable: true, value: 'activo'},
+                    {text: 'Estatus', align: 'left', sortable: true, value: 'editar'},
+                    {text: 'Activar o desactivar', align: 'left', sortable: true, value: 'activo'},
                 ]);
                 
                 const searchProveedores = ref([]);
