@@ -45,18 +45,22 @@
                                     ></v-select>
                                   </v-col>
 
-                                <v-col md=6>
-                                    <v-select 
-                                        v-model="cve_modulo"
-                                        outlined
-                                        label="Módulo"
-                                        persistent-hint
-                                        ></v-select>
-                                </v-col>
+                                  <v-col md="6">
+                                    <v-select
+                                      v-model="cve_modulo"
+                                      :items="ArrayModulo"
+                                      outlined
+                                      label="Modulo"
+                                      persistent-hint
+                                      v-validate="'required|max:200'"
+                                      ></v-select>
+                                  </v-col>
+                                  
 
                                 <v-col md=6>
                                     <v-select 
                                         v-model="cve_materia"
+                                        :items="ArrayMateria"
                                         outlined
                                         label="Materia de programa obligatorio"
                                         persistent-hint
@@ -292,6 +296,15 @@
                 const itemEditar = ref({});
                 //Arrays 
                 const ArrayProgramaDesarrollo = ref([]);
+                const ArrayModulo =ref([
+                    {value:'Induccion', text:"Inducción"},
+                    {value:'Módulo 1 Modelos educativos Innovadores', text:'Módulo 1 Modelos educativos Innovadores'}
+                ]);
+                const ArrayMateria =ref([
+                    {value:'Induccion', text:"Inducción a la UTL"},
+                    {value:'Módulo 1 Modelos educativos Innovadores', text:'"MICROENSEÑANZA(20 hras)"'},
+                    {value:'NUEVAS TENDENCIAS EN EDUCACIÓN SUPERIOR', text:'NUEVAS TENDENCIAS EN EDUCACIÓN SUPERIOR' }
+                ]);
                 //Setup de inputs
 
 
@@ -491,7 +504,7 @@
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
                     cve_prog_des,cve_modulo, cve_materia, duracion, objetivo, resultado_aprendizaje,
                     dataProveedores, headersProveedores, searchProveedores, ArrayProgramaDesarrollo, 
-                    dialogBuscador, dialogDetallesCotizacion, dialogProveedor,searchBusqueda,
+                    dialogBuscador, dialogDetallesCotizacion, dialogProveedor,searchBusqueda, ArrayModulo, ArrayMateria,
                     fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, itemEditar
                 }
             },
