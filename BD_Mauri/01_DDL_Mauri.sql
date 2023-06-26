@@ -217,12 +217,12 @@ CREATE TABLE solicitud_proyecto(
 	cve_solicitud_proyecto 		INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	cve_area					INT NOT NULL,
 	nombre_proyecto				VARCHAR(100),
+	cuatrimestre				VARCHAR(8),
 	objetivo_proyecto			TEXT,
 	descripcion_proyecto 		TEXT,
 	recursos_necesarios			TEXT,
 	acuerdos_establecidos 		TEXT,
 	estatus						BIT DEFAULT 1, -- El estatus puede tener 2 valores, (0-Cancelado, 1-Revisado)
-	sexo						VARCHAR(20),
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
 	usuario_registro 			INT
@@ -232,6 +232,7 @@ CREATE TABLE solicitud_proyecto(
 CREATE TABLE asesoria(
 	cve_asesoria				INT NOT NULL PRIMARY KEY IDENTITY(1,1),
 	cve_empleado				INT NOT NULL,
+	cve_academia				INT NOT NULL,
 	materia						VARCHAR(50),
 	fecha						DATE,
 	motivo_solicitud			VARCHAR(50),

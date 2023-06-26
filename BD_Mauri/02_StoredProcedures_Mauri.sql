@@ -37,8 +37,7 @@ CREATE PROCEDURE InsertarSolicitudProyecto
 	@descripcion_proyecto TEXT,
 	@recursos_necesarios TEXT,
 	@acuerdos_establecidos TEXT,
-	@estatus VARCHAR(20),
-	@sexo VARCHAR(20)
+	@estatus VARCHAR(20)
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -46,8 +45,8 @@ BEGIN
 	DECLARE @fecha_registro DATETIME = GETDATE();
 	DECLARE @activo BIT = 1;
 
-	INSERT INTO solicitud_proyecto (cve_area, nombre_proyecto, objetivo_proyecto, descripcion_proyecto, recursos_necesarios, acuerdos_establecidos, estatus, sexo, activo, fecha_registro)
-	VALUES (@cve_area, @nombre_proyecto, @objetivo_proyecto, @descripcion_proyecto, @recursos_necesarios, @acuerdos_establecidos, @estatus, @sexo, @activo, @fecha_registro);
+	INSERT INTO solicitud_proyecto (cve_area, nombre_proyecto, objetivo_proyecto, descripcion_proyecto, recursos_necesarios, acuerdos_establecidos, estatus, activo, fecha_registro)
+	VALUES (@cve_area, @nombre_proyecto, @objetivo_proyecto, @descripcion_proyecto, @recursos_necesarios, @acuerdos_establecidos, @estatus, @activo, @fecha_registro);
 END
 GO
 

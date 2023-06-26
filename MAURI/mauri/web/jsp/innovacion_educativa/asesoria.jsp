@@ -373,9 +373,8 @@
                                         for (let i = 0; i < arrayUsuario.value.length; i++) {
                                             if (
                                                 arrayUsuario.value[i].cve_persona === usuario_registro &&
-                                                arrayUsuario.value[i].cve_tipo_pesto === 33
+                                                arrayUsuario.value[i].cve_grupo_seguridad === 2
                                             ) {
-                                                console.log(arrayUsuario.value[i].cve_tipo_pesto);
                                                 userPermission.value = true;
                                                 
                                                 break;
@@ -403,7 +402,7 @@
                                 this.dataDNAP = this.dataDNAP.filter(item => {
                                     const nombreAcademiaMatch = item.nombre_academia.toLowerCase().includes(this.nombreBuscar.toLowerCase());
                                     const usuarioRegistroMatch = item.nombre_completo.toLowerCase().includes(this.nombreBuscar.toLowerCase());
-                                    const solicitanteMatch = item.nombre_completo.toString().includes(this.nombreBuscar);
+                                    const solicitanteMatch = item.nombre_completo_solicitante.toString().includes(this.nombreBuscar);
 
                                     return nombreAcademiaMatch || usuarioRegistroMatch || solicitanteMatch;
                                 });
