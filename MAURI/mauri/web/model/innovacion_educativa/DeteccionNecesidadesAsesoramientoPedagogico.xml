@@ -47,8 +47,8 @@ FROM            academia
 	</consultarAcademia>
 	<consultarUsuario>
 		<query>
-			SELECT   TOP (200) cve_empleado, cve_persona, cve_puesto, cve_tipo_pesto, cve_departamento, cve_area, cve_ugac, cve_unidad_academica
-FROM         empleado
+			SELECT   TOP (200) cve_grupo_seguridad, cve_persona, activo, fecha_registro, usuario_registro
+FROM         usuario_grupo_seguridad
 		</query>
 	</consultarUsuario>
 	<editarDNAP>

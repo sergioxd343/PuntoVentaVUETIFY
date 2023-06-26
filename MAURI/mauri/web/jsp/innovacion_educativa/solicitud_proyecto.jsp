@@ -305,12 +305,13 @@
                                 if (status == 200) {
                                     if (data.length > 0) {
                                         arrayUsuario.value = data;
+                                        
                                         for (let i = 0; i < arrayUsuario.value.length; i++) {
                                             if (
                                                 arrayUsuario.value[i].cve_persona === usuario_registro &&
-                                                arrayUsuario.value[i].cve_tipo_pesto === 33
+                                                arrayUsuario.value[i].cve_grupo_seguridad === 2
                                             ) {
-                                                console.log(arrayUsuario.value[i].cve_tipo_pesto);
+
                                                 userPermission.value = true;
                                                 
                                                 break;
