@@ -23,99 +23,81 @@
                 <v-container fluid>
                     <v-card>
                         <v-card-title  style="background-color: #00b293; color:#ffffff; headline" >		
-                            Programa Desarrollo de Materias
+                            Programa desarrollo de materias
                         </v-card-title>
                         <v-container fluid>
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                 <!--Columna-->
                                                                 
+                                <v-col md="6">
+                                    <v-select
+                                      v-model="cve_prog_des"
+                                      :items="ArrayProgramaDesarrollo"
+                                      item-text="nombre_prog_des" // Especifica la propiedad del objeto a mostrar como texto en el select
+                                      item-value="cve_prog_des" // Especifica la propiedad del objeto a usar como valor en el select
+                                      outlined
+                                      label="Programa de Desarrollo"
+                                      persistent-hint
+                                      v-validate="'required|max:200'"
+                                      data-vv-name="programa de desarrollo"
+                                      :error="errors.has('programa de desarrollo')"
+                                      :error-messages="errors.first('programa de desarrollo')"
+                                    ></v-select>
+                                  </v-col>
+
+                                <v-col md=6>
+                                    <v-select 
+                                        v-model="cve_modulo"
+                                        outlined
+                                        label="Módulo"
+                                        persistent-hint
+                                        ></v-select>
+                                </v-col>
+
+                                <v-col md=6>
+                                    <v-select 
+                                        v-model="cve_materia"
+                                        outlined
+                                        label="Materia de programa obligatorio"
+                                        persistent-hint
+                                        ></v-select>
+                                </v-col>
+
                                 <v-col md=6>
                                     <v-text-field 
-                                        v-model="nombreUsuario"
+                                        v-model="duracion"
                                         outlined
-                                        label="id Programa Obligatorio"
+                                        label="Duración"
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
+                                        data-vv-name="duración"
+                                        :error="errors.has('duración')"
+                                        :error-messages="errors.first('duración')"
                                     ></v-text-field>
                                 </v-col>
 
                                 <v-col md=6>
                                     <v-text-field 
-                                        v-model="nombreUsuario"
-                                        outlined
-                                        label="id Modulo"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
-                                    ></v-text-field>
-                                </v-col>
-
-                                <v-col md=6>
-                                    <v-text-field 
-                                        v-model="nombreUsuario"
-                                        outlined
-                                        label="id Materia Programa Obligatorio"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
-                                    ></v-text-field>
-                                </v-col>
-
-                                <v-col md=6>
-                                    <v-text-field 
-                                        v-model="nombreUsuario"
-                                        outlined
-                                        label="Nombre Materia"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
-                                    ></v-text-field>
-                                </v-col>
-
-                                <v-col md=6>
-                                    <v-text-field 
-                                        v-model="nombreUsuario"
-                                        outlined
-                                        label="Duracion"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
-                                    ></v-text-field>
-                                </v-col>
-
-                                <v-col md=6>
-                                    <v-text-field 
-                                        v-model="nombreUsuario"
+                                        v-model="objetivo"
                                         outlined
                                         label="Objetivo"
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
+                                        data-vv-name="objetivo"
+                                        :error="errors.has('objetivo')"
+                                        :error-messages="errors.first('objetivo')"
                                     ></v-text-field>
                                 </v-col>
                                 <v-col md=6>
                                     <v-text-field 
-                                        v-model="nombreUsuario"
+                                        v-model="resultado_aprendizaje"
                                         outlined
                                         label="Resultado de Aprendizaje"
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
+                                        data-vv-name="resultado aprendizaje"
+                                        :error="errors.has('resultado aprendizaje')"
+                                        :error-messages="errors.first('resultado aprendizaje')"
                                     ></v-text-field>
                                 </v-col>
 
@@ -137,10 +119,17 @@
                             
                             <v-row justify="center">
                                 <v-col md=12>
+                                    <v-text-field
+                                    v-model="searchBusqueda"
+                                    append-icon="mdi-magnify"
+                                    label="Buscar"
+                                    outlined
+                                    hide-details
+                                  ></v-text-field>
                                     <v-data-table
                                         :headers="headersProveedores"
                                         :items="dataProveedores"
-                                        :search="searchProveedores"
+                                        :search="searchBusqueda"
                                         class="elevation-2"
                                         no-data-text="No se encontro ningun registro"
                                         :hide-default-header="dataProveedores.length < 1"
@@ -158,6 +147,13 @@
                                                 <%-- <span>d</span> --%>
                                             <%-- </v-tooltip> --%>
                                         </template>
+                                        <template v-slot:item.activo="{ item }">
+                                            <td>
+                                              <v-icon :class="{'green--text': item.activo, 'red--text': !item.activo}">
+                                                {{ item.activo ? 'mdi-check' : 'mdi-close' }}
+                                              </v-icon>
+                                            </td>
+                                          </template>
                                         <template v-slot:item.editar="{item}">
                                             <v-btn fab small color="warning" @click="flagEditar = true; itemEditar = item;
                                                 tipo = item.tipo;
@@ -200,6 +196,13 @@
                             </v-row>
                             <v-row justify="center">
                                 <v-col md=12>
+                                    <v-text-field
+                                    v-model="search"
+                                    append-icon="mdi-magnify"
+                                    label="Buscar"
+                                    outlined
+                                    hide-details
+                                  ></v-text-field>
                                     <v-data-table
                                         :headers="headersBusqueda"
                                         :items="dataBusqueda"
@@ -276,22 +279,19 @@
                     onMounted,
                     watch
                 } = VueCompositionAPI;
-                const ctr = "../../controlador/ejemplo_usuario/Controlador_catalogo_usuario.jsp";
+                const ctr = "../../controlador/programas/Controlador_programa_desarrollo_materia.jsp";
                 //Variables POST
-                const tipo = ref("");
-                const nombreUsuario = ref("");
-                const fecha = ref("");
-                const rfc = ref("");
-                const padron = ref("");
-                const nombrePerfil = ref("");
-                const correoContacto = ref("");
-                const telefonoContacto = ref("");
-                const estatus = ref("");
+                const cve_prog_des = ref("");
+                const cve_modulo = ref("");
+                const cve_materia = ref("");
+                const duracion = ref("");
+                const objetivo = ref("");
+                const resultado_aprendizaje = ref("");
                 //Otras variables
                 const flagEditar = ref(false);
                 const itemEditar = ref({});
-                //Setup del calendario
-                const arrayTiposUsuario = ref([]);
+                //Arrays 
+                const ArrayProgramaDesarrollo = ref([]);
                 //Setup de inputs
 
 
@@ -306,30 +306,27 @@
 
                 const dialogDetallesCotizacion = ref(false);
                 const dialogProveedor = ref(false);
-
+                 const searchBusqueda = ref("");
                 //DataTable
                 //dataUsuarios
                 const dataProveedores = ref([]); 
                 const dataUsuarios = ref([]);
                 const headersProveedores = ref([
-                    {text: 'No', align: 'left', sortable: true, value: 'id_usuario'},
-                    {text: 'Nombre', align: 'left', sortable: true, value: 'nombre'},
-                    {text: 'Tipo de Usuario ', align: 'left', sortable: true, value: 'Expr1'},
-                    {text: 'Fecha', align: 'left', sortable: true, value: 'fecha'},
-                    {text: 'Editar', align: 'left', sortable: true, value: 'editar'},
+                    {text: 'Duracion', align: 'left', sortable: true, value: 'duracion'},
+                    {text: 'Objetivo', align: 'left', sortable: true, value: 'objetivo'},
+                    {text: 'Resultado del Aprendizaje', align: 'left', sortable: true, value: 'resultado_aprendizaje'},
                     {text: 'Estatus', align: 'left', sortable: true, value: 'activo'},
-                    {text: 'Eliminar', align: 'left', sortable: true, value: 'eliminar'},
+                    {text: 'Desactivar', align: 'left', sortable: true, value: 'eliminar'},
                 ]);
                 const searchProveedores = ref([]);
 
                 //Accion automatizada para mostrar la tabla
                 onMounted(() => {
                     fnConsultarTabla();
-                    fnTiposUsuario();
-                    //fnTiposProveedor();
+                    fnProgramaDesarrollo();
                 });
 
-                async function fnTiposUsuario(){
+                async function fnProgramaDesarrollo(){
                     try{
                         preloader("../../");
                         let parametros = new URLSearchParams();
@@ -337,7 +334,7 @@
                         let {data,status} = await axios.post(ctr, parametros)
                         if(status == 200){
                             if(data.length > 0){
-                                arrayTiposUsuario.value = data
+                                ArrayProgramaDesarrollo.value = data
                             }
                         }
                     } catch(error){
@@ -378,9 +375,10 @@
                                 preloader("../../");
                                 let parametros = new URLSearchParams();
                                 parametros.append("accion", 2);
-                                parametros.append("tipo", tipo.value);
-                                parametros.append("nombreUsuario", nombreUsuario.value);
-                                parametros.append("fecha", fecha.value);
+                                parametros.append("cve_prog_des", cve_prog_des.value);
+                                parametros.append("duracion", duracion.value);
+                                parametros.append("objetivo", objetivo.value);
+                                parametros.append("resultado_aprendizaje", resultado_aprendizaje.value);
                                 let {data,status} = await axios.post(ctr, parametros)
                                 if(status == 200){
                                     if(data == "1"){
@@ -402,25 +400,6 @@
                             }
                         }
                     })
-                }
-
-                async function fnTiposProveedor(){
-                    try{
-                        preloader("../../");
-                        let parametros = new URLSearchParams();
-                        parametros.append("accion", 3);
-                        let {data,status} = await axios.post(ctr, parametros)
-                        if(status == 200){
-                            if(data.length > 0){
-                                arrayTiposUsuario.value = data
-                            }
-                        }
-                    } catch(error){
-                        mostrarSnackbar('error');
-                        console.error(error);
-                    } finally{
-                        swal.close();
-                    }
                 }
 
                 async function fnEditar(){
@@ -462,8 +441,9 @@
                             try{
                                 preloader("../../");
                                 let parametros = new URLSearchParams();
-                                parametros.append("accion", 5);
-                                parametros.append("id_usuario", item.id_usuario);
+                                parametros.append("accion", 4);
+                                parametros.append("cve_prog_des", item.cve_prog_des);
+                                parametros.append("duracion", item.duracion);
                                 let {data,status} = await axios.post(ctr, parametros)
                                 if(status == 200){
                                     if(data=="1"){
@@ -482,14 +462,12 @@
                 }
 
                 function fnLimpiarCampos(cx){//cx = contexto
-                    tipo.value = "";
-                    nombreUsuario.value = "";
-                    fecha.value = "";
-                    rfc.value = "";
-                    padron.value = "";
-                    nombrePerfil.value = "";
-                    correoContacto.value = "";
-                    telefonoContacto.value = "";
+                    cve_prog_des.value = "";
+                    cve_modulo.value = "";
+                    cve_materia.value = "";
+                    duracion.value = "";
+                    objetivo.value = "";
+                    resultado_aprendizaje.value = "";
                     estatus.value = "";
                     flagEditar.value = false;
                     itemEditar.value = {};
@@ -511,9 +489,9 @@
 
                 return{
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
-                    tipo, nombreUsuario, fecha, rfc, padron, nombrePerfil, correoContacto, telefonoContacto,estatus,
-                    dataProveedores, headersProveedores, searchProveedores, arrayTiposUsuario, 
-                    dialogBuscador, dialogDetallesCotizacion, dialogProveedor,
+                    cve_prog_des,cve_modulo, cve_materia, duracion, objetivo, resultado_aprendizaje,
+                    dataProveedores, headersProveedores, searchProveedores, ArrayProgramaDesarrollo, 
+                    dialogBuscador, dialogDetallesCotizacion, dialogProveedor,searchBusqueda,
                     fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, itemEditar
                 }
             },

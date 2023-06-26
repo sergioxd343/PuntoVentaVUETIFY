@@ -23,7 +23,7 @@
                 <v-container fluid>
                     <v-card>
                         <v-card-title  style="background-color: #00b293; color:#ffffff; headline" >		
-                            Programa de Desarrollo
+                            Programa de desarrollo
                         </v-card-title>
                         <v-container fluid>
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
@@ -33,12 +33,12 @@
                                     <v-select
                                       v-model="nombre_programa"
                                       :items="['Diplomado', 'Investigación', 'Educación basada en competencias', 'Competencias digitales', 'Competencias tecnopedagógicas']"
-                                      label="Nombre de Programa de Desarrollo"
+                                      label="Nombre de programa de desarrollo"
                                       outlined
                                       persistent-hint
                                       v-validate="'required|max:200'"
-                                      :error="errors.has('nombre corto')"
-                                      :error-messages="errors.first('nombre corto')"
+                                      :error="errors.has('nombre programa de desarrollo')"
+                                      :error-messages="errors.first('nombre programa de desarrollo')"
                                     ></v-select>
                                   </v-col>
 
@@ -46,12 +46,12 @@
                                     <v-text-field 
                                         v-model="descripcion_programa"
                                         outlined
-                                        label="Descripcion del Programa de Desarrollo"
+                                        label="Descripción del programa de desarrollo"
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
+                                        data-vv-name="descripcion del programa"
+                                        :error="errors.has('descripcion del programa')"
+                                        :error-messages="errors.first('descripcion del programa')"
                                     ></v-text-field>
                                 </v-col>
                                 
@@ -59,12 +59,14 @@
                                     <v-text-field 
                                         v-model="numero_modulos"
                                         outlined
-                                        label="Numero de Modulos"
+                                        label="Número de módulos"
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
+                                        data-vv-name="numero de modulos"
+                                        :error="errors.has('numero de modulos')"
+                                        :error-messages="errors.first('numero de modulos')"
+                                        type="number"
+                                        pattern="[0-9]*"
                                     ></v-text-field>
                                 </v-col>
 
@@ -117,7 +119,7 @@
                                     <v-text-field
                                     v-model="search"
                                     append-icon="mdi-magnify"
-                                    label="Search"
+                                    label="Buscar"
                                     outlined
                                     hide-details
                                   ></v-text-field>
@@ -133,6 +135,13 @@
                                     :mobile-breakpoint="NaN"
                                     items-per-page="10"
                                   >
+                                  <template v-slot:item.activo="{ item }">
+                                    <td>
+                                      <v-icon :class="{'green--text': item.activo, 'red--text': !item.activo}">
+                                        {{ item.activo ? 'mdi-check' : 'mdi-close' }}
+                                      </v-icon>
+                                    </td>
+                                  </template>
                                         <template v-slot:item.status="{item}">
                                             <%-- <v-tooltip bottom> --%>
                                                 <%-- <template v-slot:activator="{on, attrs}"> --%>
@@ -300,7 +309,6 @@
                     {text: 'Nombre del programa', align: 'left', sortable: true, value: 'nombre_prog_des', customFilter: (value, search) => this.customFilter(value, search) },
                     {text: 'Descripción', align: 'left', sortable: true, value: 'descripcion'},
                     {text: 'Fecha', align: 'left', sortable: true, value: 'fecha_registro'},
-                    {text: 'Editar', align: 'left', sortable: true, value: 'editar'},
                     {text: 'Estatus', align: 'left', sortable: true, value: 'activo', valueFormat: (value) => value ? 'true' : 'false', color: (value) => value ? 'green' : 'red' },
                     {text: 'Desactivar', align: 'left', sortable: true, value: 'eliminar'},
                 ]);
@@ -431,14 +439,7 @@
                     fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEliminar, itemEditar
                 }
             },
-            methods: {
-    customFilter(value, search) {
-      // Lógica personalizada para filtrar la columna
-      // Aquí puedes aplicar cualquier lógica específica para filtrar la columna deseada
-      // Por ejemplo, si deseas buscar solo en las columnas "No" y "Nombre del programa":
-      return value.toString().toLowerCase().includes(search.toLowerCase());
-    },
-  },
+            
             
         });
 

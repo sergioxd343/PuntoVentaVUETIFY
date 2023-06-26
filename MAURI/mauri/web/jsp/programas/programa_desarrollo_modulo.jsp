@@ -23,77 +23,81 @@
                 <v-container fluid>
                     <v-card>
                         <v-card-title  style="background-color: #00b293; color:#ffffff; headline" >		
-                            Programa de Desarrollo de Modulos
+                            Programa de desarrollo de modúlos
                         </v-card-title>
                         <v-container fluid>
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                 <!--Columna-->
                                                                 
+                                <v-col md="6">
+                                    <v-select
+                                      v-model="cve_prog_des"
+                                      :items="ArrayProgramaDesarrollo"
+                                      item-text="nombre_prog_des" // Especifica la propiedad del objeto a mostrar como texto en el select
+                                      item-value="cve_prog_des" // Especifica la propiedad del objeto a usar como valor en el select
+                                      outlined
+                                      label="Programa de desarrollo"
+                                      persistent-hint
+                                      v-validate="'required|max:200'"
+                                      data-vv-name="programa de desarrollo"
+                                      :error="errors.has('programa de desarrollo')"
+                                      :error-messages="errors.first('programa de desarrollo')"
+                                    ></v-select>
+                                  </v-col>
+
+                                  <v-col md="6">
+                                    <v-select
+                                      v-model="cve_modulo"
+                                      :items="ArrayModulo"
+                                      outlined
+                                      label="Módulo"
+                                      persistent-hint
+                                      ></v-select>
+                                  </v-col>
+
                                 <v-col md=6>
                                     <v-text-field 
-                                        v-model="nombreUsuario"
+                                        v-model="nombre_modulo"
                                         outlined
-                                        label="id Programa de Desarrollo"
+                                        label="Nombre Módulo"
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
+                                        data-vv-name="nombre módulo"
+                                        :error="errors.has('nombre módulo')"
+                                        :error-messages="errors.first('nombre módulo')"
                                     ></v-text-field>
                                 </v-col>
 
                                 <v-col md=6>
                                     <v-text-field 
-                                        v-model="nombreUsuario"
+                                        v-model="num_materias"
                                         outlined
-                                        label="id Modulo"
+                                        label="Número de Materias"
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
+                                        data-vv-name="número materias"
+                                        type="number"
+                                        pattern="[0-9]*"
+                                        :error="errors.has('número materias')"
+                                        :error-messages="errors.first('número materias')"
                                     ></v-text-field>
                                 </v-col>
 
-                                <v-col md=6>
-                                    <v-text-field 
-                                        v-model="nombreUsuario"
-                                        outlined
-                                        label="Nombre Modulo"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
-                                    ></v-text-field>
-                                </v-col>
-
-                                <v-col md=6>
-                                    <v-text-field 
-                                        v-model="nombreUsuario"
-                                        outlined
-                                        label="Numero de Materias"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
-                                    ></v-text-field>
-                                </v-col>
-
-                                <v-col md=6>
-                                    <v-text-field 
-                                        v-model="nombreUsuario"
-                                        outlined
-                                        label="Color"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
-                                    ></v-text-field>
-                                </v-col>
-
+                                <v-col md="6">
+                                    <v-select
+                                      v-model="color"
+                                      :items="coloresBasicos"
+                                      item-text="text"
+                                      item-value="value"
+                                      outlined
+                                      label="Color"
+                                      persistent-hint
+                                      v-validate="'required|max:200'"
+                                      data-vv-name="color"
+                                      :error="errors.has('color')"
+                                      :error-messages="errors.first('color')"
+                                    ></v-select>
+                                  </v-col>
                                 
                             </v-row>
 
@@ -112,45 +116,56 @@
                             
                             <v-row justify="center">
                                 <v-col md=12>
+                                    <v-text-field
+                                    v-model="search"
+                                    append-icon="mdi-magnify"
+                                    label="Buscar"
+                                    outlined
+                                    hide-details
+                                  ></v-text-field>
                                     <v-data-table
-                                        :headers="headersProveedores"
-                                        :items="dataProveedores"
-                                        :search="searchProveedores"
-                                        class="elevation-2"
-                                        no-data-text="No se encontro ningun registro"
-                                        :hide-default-header="dataProveedores.length < 1"
-                                        :hide-default-footer="dataProveedores.length < 1"
-                                        locale="es-ES"
-                                        :mobile-breakpoint="NaN"
-                                        items-per-page="10"
-                                    >   
-                                        <template v-slot:item.status="{item}">
-                                            <%-- <v-tooltip bottom> --%>
-                                                <%-- <template v-slot:activator="{on, attrs}"> --%>
-                                                <%-- v-bind="attrs" v-on="on" --%>
-                                                    <v-switch v-model="item.status" @change="fnCambiarEstatus(item)"></v-switch>
-                                                <%-- </template> --%>
-                                                <%-- <span>d</span> --%>
-                                            <%-- </v-tooltip> --%>
+                                    :headers="headersProveedores"
+                                    :items="dataProveedores"
+                                    :search="search"
+                                    class="elevation-2"
+                                    no-data-text="No se encontró ningún registro"
+                                    :hide-default-header="dataProveedores.length < 1"
+                                    :hide-default-footer="dataProveedores.length < 1"
+                                    locale="es-ES"
+                                    :mobile-breakpoint="NaN"
+                                    items-per-page="10"
+                                    >
+                                    <template v-slot:item.color="{ item }">
+                                        <v-icon :style="{ color: item.color }">mdi-circle</v-icon>
+                                    </template>
+                                    <template v-slot:item.activo="{ item }">
+                                        <td>
+                                          <v-icon :class="{'green--text': item.activo, 'red--text': !item.activo}">
+                                            {{ item.activo ? 'mdi-check' : 'mdi-close' }}
+                                          </v-icon>
+                                        </td>
+                                      </template>
+                                    <template v-slot:item.status="{ item }">
+                                        <v-switch v-model="item.status" @change="fnCambiarEstatus(item)"></v-switch>
+                                    </template>
+                                    <template v-slot:item.editar="{ item }">
+                                        <v-btn fab small color="warning" @click="flagEditar = true; itemEditar = item;
+                                        tipo = item.tipo;
+                                        nombreUsuario = item.nombre;
+                                        fecha = item.fecha;
+                                        "><v-icon>mdi-square-edit-outline</v-icon></v-btn>
+                                    </template>
+                                    <template v-slot:item.eliminar="{ item }">
+                                        <v-btn fab small color="error" @click="fnEliminar(item);"><v-icon>mdi-trash-can</v-icon></v-btn>
+                                    </template>
+                                    <template v-slot:item.password="{ item }">
+                                        <v-tooltip bottom>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <span v-bind="attrs" v-on="on" @click="navigator.clipboard.writeText(item.password); mostrarSnackbar('success', 'Texto copiado al portapapeles.')"><b>{{ item.password }}</b></span>
                                         </template>
-                                        <template v-slot:item.editar="{item}">
-                                            <v-btn fab small color="warning" @click="flagEditar = true; itemEditar = item;
-                                                tipo = item.tipo;
-                                                nombreUsuario = item.nombre;
-                                                fecha = item.fecha;
-                                            "><v-icon>mdi-square-edit-outline</v-icon></v-btn>
-                                        </template>
-                                        <template v-slot:item.eliminar="{item}">
-                                            <v-btn fab small color="error" @click="fnEliminar(item);"><v-icon>mdi-trash-can</v-icon></v-btn>
-                                        </template>
-                                        <template v-slot:item.password="{item}">
-                                            <v-tooltip bottom>
-                                                <template v-slot:activator="{on, attrs}">
-                                                    <span v-bind="attrs" v-on="on" @click="navigator.clipboard.writeText(item.password); mostrarSnackbar('success', 'Texto copiado al portapapeles.')"><b>{{item.password}}</b></span>
-                                                </template>
-                                                <span>Copiar contraseña</span>
-                                            </v-tooltip>
-                                        </template>
+                                        <span>Copiar contraseña</span>
+                                        </v-tooltip>
+                                    </template>
                                     </v-data-table>
                                 </v-col>
                             </v-row>
@@ -251,22 +266,21 @@
                     onMounted,
                     watch
                 } = VueCompositionAPI;
-                const ctr = "../../controlador/ejemplo_usuario/Controlador_catalogo_usuario.jsp";
+                const ctr = "../../controlador/programas/Controlador_programa_desarrollo_modulos.jsp";
                 //Variables POST
-                const tipo = ref("");
+                const cve_prog_des = ref("");
+                const cve_modulo = ref("");
                 const nombreUsuario = ref("");
-                const fecha = ref("");
-                const rfc = ref("");
-                const padron = ref("");
-                const nombrePerfil = ref("");
-                const correoContacto = ref("");
-                const telefonoContacto = ref("");
-                const estatus = ref("");
-                //Otras variables
+                const nombre_modulo = ref("");
+                const num_materias = ref("");
+                const color = ref("");
+                const search = ref("");
+                                //Otras variables
                 const flagEditar = ref(false);
                 const itemEditar = ref({});
                 //Setup del calendario
-                const arrayTiposUsuario = ref([]);
+                const ArrayProgramaDesarrollo = ref([]);
+                const ArrayModulo= ref([]);
                 //Setup de inputs
 
 
@@ -282,47 +296,34 @@
                 const dialogDetallesCotizacion = ref(false);
                 const dialogProveedor = ref(false);
 
-                //DataTable
+                //Arreglo Colores
+                const coloresBasicos=ref( [
+      { text: 'Rojo', value: 'red' },
+      { text: 'Verde', value: 'green' },
+      { text: 'Azul', value: 'blue' },
+      { text: 'Amarillo', value: 'yellow' },
+      { text: 'Magenta', value: 'magenta' },
+      { text: 'Cian', value: 'cyan' }
+    ])
                 //dataUsuarios
                 const dataProveedores = ref([]); 
                 const dataUsuarios = ref([]);
                 const headersProveedores = ref([
-                    {text: 'No', align: 'left', sortable: true, value: 'id_usuario'},
-                    {text: 'Nombre', align: 'left', sortable: true, value: 'nombre'},
-                    {text: 'Tipo de Usuario ', align: 'left', sortable: true, value: 'Expr1'},
-                    {text: 'Fecha', align: 'left', sortable: true, value: 'fecha'},
-                    {text: 'Editar', align: 'left', sortable: true, value: 'editar'},
+                    {text: 'Nombre del módulo', align: 'left', sortable: true, value: 'nombre_modulo'},
+                    {text: 'Número de materias', align: 'left', sortable: true, value: 'num_materias'},
+                    {text: 'Color ', align: 'left', sortable: true, value: 'color'},
                     {text: 'Estatus', align: 'left', sortable: true, value: 'activo'},
-                    {text: 'Eliminar', align: 'left', sortable: true, value: 'eliminar'},
+                    {text: 'Desactivar', align: 'left', sortable: true, value: 'eliminar'},
                 ]);
                 const searchProveedores = ref([]);
 
                 //Accion automatizada para mostrar la tabla
                 onMounted(() => {
                     fnConsultarTabla();
-                    fnTiposUsuario();
-                    //fnTiposProveedor();
+                    fnProgramaDesarrollo();
                 });
 
-                async function fnTiposUsuario(){
-                    try{
-                        preloader("../../");
-                        let parametros = new URLSearchParams();
-                        parametros.append("accion", 3);
-                        let {data,status} = await axios.post(ctr, parametros)
-                        if(status == 200){
-                            if(data.length > 0){
-                                arrayTiposUsuario.value = data
-                            }
-                        }
-                    } catch(error){
-                        mostrarSnackbar('error');
-                        console.error(error);
-                    } finally{
-                        swal.close();
-                    }
-                }
-                
+                                
                 async function fnConsultarTabla(){
                     try{
                         preloader("../../");
@@ -353,9 +354,10 @@
                                 preloader("../../");
                                 let parametros = new URLSearchParams();
                                 parametros.append("accion", 2);
-                                parametros.append("tipo", tipo.value);
-                                parametros.append("nombreUsuario", nombreUsuario.value);
-                                parametros.append("fecha", fecha.value);
+                                parametros.append("cve_prog_des", cve_prog_des.value);
+                                parametros.append("nombre_modulo", nombre_modulo.value);
+                                parametros.append("num_materias", num_materias.value);
+                                parametros.append("color", color.value);
                                 let {data,status} = await axios.post(ctr, parametros)
                                 if(status == 200){
                                     if(data == "1"){
@@ -379,7 +381,7 @@
                     })
                 }
 
-                async function fnTiposProveedor(){
+                async function fnProgramaDesarrollo(){
                     try{
                         preloader("../../");
                         let parametros = new URLSearchParams();
@@ -387,7 +389,7 @@
                         let {data,status} = await axios.post(ctr, parametros)
                         if(status == 200){
                             if(data.length > 0){
-                                arrayTiposUsuario.value = data
+                                ArrayProgramaDesarrollo.value = data
                             }
                         }
                     } catch(error){
@@ -437,8 +439,9 @@
                             try{
                                 preloader("../../");
                                 let parametros = new URLSearchParams();
-                                parametros.append("accion", 5);
-                                parametros.append("id_usuario", item.id_usuario);
+                                parametros.append("accion", 4);
+                                parametros.append("cve_prog_des", item.cve_prog_des);
+                                parametros.append("nombre_modulo", item.nombre_modulo);
                                 let {data,status} = await axios.post(ctr, parametros)
                                 if(status == 200){
                                     if(data=="1"){
@@ -457,15 +460,12 @@
                 }
 
                 function fnLimpiarCampos(cx){//cx = contexto
-                    tipo.value = "";
+                    cve_prog_des.value = "";
                     nombreUsuario.value = "";
-                    fecha.value = "";
-                    rfc.value = "";
-                    padron.value = "";
-                    nombrePerfil.value = "";
-                    correoContacto.value = "";
-                    telefonoContacto.value = "";
-                    estatus.value = "";
+                    cve_modulo.value = "";
+                    nombre_modulo.value = "";
+                    num_materias.value = "";
+                    color.value = "";
                     flagEditar.value = false;
                     itemEditar.value = {};
 
@@ -486,9 +486,9 @@
 
                 return{
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
-                    tipo, nombreUsuario, fecha, rfc, padron, nombrePerfil, correoContacto, telefonoContacto,estatus,
-                    dataProveedores, headersProveedores, searchProveedores, arrayTiposUsuario, 
-                    dialogBuscador, dialogDetallesCotizacion, dialogProveedor,
+                    nombreUsuario, cve_prog_des, cve_modulo,nombre_modulo, num_materias,color,
+                    dataProveedores, headersProveedores, searchProveedores, ArrayProgramaDesarrollo, ArrayModulo, search,
+                    dialogBuscador, dialogDetallesCotizacion, dialogProveedor, coloresBasicos,
                     fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, itemEditar
                 }
             },
