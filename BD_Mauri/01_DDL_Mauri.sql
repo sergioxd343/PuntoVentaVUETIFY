@@ -427,6 +427,7 @@ CREATE TABLE programa_desarrollo_materia(
 	cve_prog_des 				INT NOT NULL,
 	cve_modulo					INT NOT NULL,
 	cve_materia 				INT NOT NULL,
+	nombre_materia				VARCHAR(70),
 	duracion 					VARCHAR(20),
 	objetivo 					TEXT,
 	resultado_aprendizaje 		TEXT,
