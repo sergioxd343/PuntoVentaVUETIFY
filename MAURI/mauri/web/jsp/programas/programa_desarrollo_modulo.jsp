@@ -98,6 +98,7 @@
                                       :error-messages="errors.first('color')"
                                     ></v-select>
                                   </v-col>
+
                                 
                             </v-row>
 
@@ -280,7 +281,10 @@
                 const itemEditar = ref({});
                 //Setup del calendario
                 const ArrayProgramaDesarrollo = ref([]);
-                const ArrayModulo= ref([]);
+                const ArrayModulo =ref([
+                    {value:'Induccion', text:"Inducción"},
+                    {value:'Módulo 1 Modelos educativos Innovadores', text:'Módulo 1 Modelos educativos Innovadores'}
+                ]);
                 //Setup de inputs
 
 
