@@ -34,6 +34,12 @@
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
 
                                 <v-col md="6">
+                                    <!--Área-->
+                                    <v-autocomplete v-model="cve_area" outlined label="Área" persistent-hint
+                                        v-validate="'required|max:100'" data-vv-name="área"
+                                        :items="arrayArea" item-value="cve_area" item-text="nombre_area"
+                                        :error="errors.has('área')"
+                                        :error-messages="errors.first('área')"></v-autocomplete>
                                     <!--Cuatrimestre-->
                                     <v-autocomplete v-model="cuatrimestre" outlined label="Cuatrimestre" persistent-hint
                                         v-validate="'required|max:7'" data-vv-name="cuatrimestre"
@@ -54,7 +60,7 @@
                                     <v-autocomplete v-model="cve_asesoria_proyecto" outlined
                                         label="Asesoria de Proyecto" persistent-hint v-validate="'required|max:100'"
                                         data-vv-name="asesoria de proyecto" :items="arrayAsesoriaProyecto"
-                                        item-value="cve_asesoria" item-text="materia"
+                                        item-value="cve_asesoria" item-text="asesoria_proyecto"
                                         :error="errors.has('asesoria de Proyecto')"
                                         :error-messages="errors.first('asesoria de proyecto')"></v-autocomplete>
                                 </v-col>
@@ -340,6 +346,21 @@
                                         @click="fnLimpiarCampos()"><v-icon>mdi-cancel</v-icon>Cancelar</v-btn>
                                 </v-row>
 
+                                <v-card>
+                                    <v-card-title class="text-h5 grey lighten-2">
+                                        Búsqueda Avanzada
+                                    </v-card-title>
+                                    <v-card-text>
+                                        <v-row justify="center">
+                                            <v-col md=8>
+                                                <v-text-field outlined label="Área | Cuatrimestre | Año | Usuario de registro"
+                                                    v-model="nombreBuscar" append-icon="mdi-magnify"
+                                                    @input="fnBusqueda()"></v-text-field>
+                                            </v-col>
+                                        </v-row>
+                                    </v-card-text>
+                                </v-card>
+
                                 <v-row justify="center">
                                     <v-col md=12>
                                         <v-data-table :headers="headersEncuesta" :items="dataEncuesta"
@@ -373,28 +394,6 @@
                         </v-container>
                     </v-card>
                 </v-container>
-                <v-card>
-                    <v-card-title class="text-h5 grey lighten-2">
-                        Búsqueda Avanzada
-                    </v-card-title>
-
-                    <v-card-text>
-                        <v-row justify="center">
-                            <v-col md=8>
-                                <v-text-field outlined label="Materia" v-model="nombreBuscar"
-                                    @keyup.enter="fnBusquedaCuatrimestre()"></v-text-field>
-                            </v-col>
-                        </v-row>
-
-                        <v-row justify="center">
-                            <v-col md=4 offset-md=8>
-                                <v-text-field label="Filtrar" v-model="searchBusqueda"></v-text-field>
-                            </v-col>
-                        </v-row>
-
-                    </v-card-text>
-                </v-card>
-
                 <!-- TODO: ALERTAS DE SISTEMA-->
                 <v-snackbar v-model="snackbar" top="top" :bottom="true" :multi-line="true" :color="color_snackbar">
                     {{mensaje_snackbar}}
@@ -441,30 +440,33 @@
                         const cve_eval_resul = ref("");
                         const cve_t_servicio = ref("");
                         const cve_asesoria_proyecto = ref("");
+                        const cve_area = ref("");
                         const suma = ref("");
                         const porcentaje = ref("");
                         const cuatrimestre = ref("");
                         const comentarios = ref("");
                         const activo = ref("");
                         const fecha_registro = ref("");
-                        const usuario_registro = ref("");
 
                         const calificaciones = ref([0, 0, 0, 0, 0]);
-
-                        const fecha = ref("");
-                        const hora = ref("");
 
                         const arrayCuatrimestre = ref(["Ene-Abr", "May-Jun", "Jul-Ags"]);
                         const arrayTipoServicio = ref([]);
                         const arrayAsesoriaProyecto = ref([]);
+                        const arrayArea = ref([]);
+
+                        const currentUser = localStorage.getItem("currentUser");
+                        const currentUserObj = JSON.parse(currentUser);
+                        const usuario_registro = currentUserObj[0].cve_persona;
 
                         const headersEncuesta = ref([
                             { text: 'No', align: 'left', sortable: true, value: 'cve_eval_resul' },
                             { text: 'Cuatrimestre', align: 'left', sortable: true, value: 'cuatrimestre' },
                             { text: 'Tipo de servicio', align: 'left', sortable: true, value: 'nombre_tipo_servicio' },
-                            { text: 'Materia de asesoria', align: 'left', sortable: true, value: 'materia' },
+                            { text: 'Nombre de la área', align: 'left', sortable: true, value: 'nombre_area' },
                             { text: 'Total Calificación', align: 'left', sortable: true, value: 'suma' },
                             { text: 'Porcentaje Calificación', align: 'left', sortable: true, value: 'porcentaje' },
+                            { text: 'Usuario de registro', align: 'left', sortable: true, value: 'nombre_completo' },
                             { text: 'Fecha', align: 'left', sortable: true, value: 'fecha_registro' },
                         ]);
                         const dataEncuesta = ref([]);
@@ -498,6 +500,7 @@
                             fnConsultarTabla();
                             fnTipoServicio();
                             fnAsesoriaProyecto();
+                            fnConsultarArea();
                         });
 
                         //Consultar datos en la base de datos.
@@ -537,6 +540,24 @@
                                 swal.close();
                             }
                         }
+                        async function fnConsultarArea() {
+                            try {
+                                preloader("../../");
+                                let parametros = new URLSearchParams();
+                                parametros.append("accion", 5);
+                                let { data, status } = await axios.post(ctr, parametros)
+                                if (status == 200) {
+                                    if (data.length > 0) {
+                                        arrayArea.value = data
+                                    }
+                                }
+                            } catch (error) {
+                                mostrarSnackbar('error');
+                                console.error(error);
+                            } finally {
+                                swal.close();
+                            }
+                        }
 
 
                         async function fnConsultarTabla() {
@@ -561,8 +582,19 @@
                             }
                         }
 
-                        function fnBusquedaCuatrimestre() {
-                            this.dataEncuesta = this.dataEncuesta.filter(item => item.cuatrimestre === this.nombreBuscar);
+                        function fnBusqueda() {
+                            if (this.nombreBuscar === '') {
+                                this.fnConsultarTabla();
+                            } else {
+                                this.dataEncuesta = this.dataEncuesta.filter(item => {
+                                    const areaAreaMatch = item.nombre_area.toLowerCase().includes(this.nombreBuscar.toLowerCase());
+                                    const anioRegistroMatch = item.fecha_registro.toLowerCase().includes(this.nombreBuscar.toLowerCase());
+                                    const usuarioRegistroMatch = item.nombre_completo.toLowerCase().includes(this.nombreBuscar.toLowerCase());
+                                    const cuatrimestreMatch = item.cuatrimestre.toString().includes(this.nombreBuscar);
+
+                                    return areaAreaMatch || anioRegistroMatch || cuatrimestreMatch || usuarioRegistroMatch;
+                                });
+                            }
                         }
 
                         async function fnGuardar() {
@@ -575,10 +607,12 @@
 
                                         parametros.append("cve_t_servicio", cve_t_servicio.value);
                                         parametros.append("cve_asesoria_proyecto", cve_asesoria_proyecto.value);
+                                        parametros.append("cve_area", cve_area.value);
                                         parametros.append("suma", suma.value);
                                         parametros.append("porcentaje", porcentaje.value);
                                         parametros.append("cuatrimestre", cuatrimestre.value);
                                         parametros.append("comentarios", comentarios.value);
+                                        parametros.append("usuario_registro", this.usuario_registro);
 
                                         let { data, status } = await axios.post(ctr, parametros)
                                         if (status == 200) {
@@ -607,16 +641,15 @@
                             cve_eval_resul.value = "";
                             cve_t_servicio.value = "";
                             cve_asesoria_proyecto.value = "";
+                            cve_area.value = "";
                             porcentaje.value = "";
                             cuatrimestre.value = "";
                             comentarios.value = "";
-                            activo.value = "";
-                            fecha_registro.value = "";
-                            usuario_registro.value = "";
-                            fecha.value = "";
-                            hora.value = "";
                             suma.value = "";
+                            cve_area.value = "";
                             calificaciones.value = [0, 0, 0, 0, 0];
+
+                            nombreBuscar.value = "";
 
                             flagEditar.value = false;
                             itemEditar.value = {};
@@ -632,11 +665,11 @@
                         return {
                             cve_eval_resul, cve_t_servicio, cve_asesoria_proyecto,
                             suma, porcentaje, cuatrimestre, comentarios, activo,
-                            fecha_registro, usuario_registro, calificaciones,
-                            fecha, hora, arrayCuatrimestre, arrayTipoServicio, arrayAsesoriaProyecto,
-                            headersEncuesta, dataEncuesta, searchEncuesta,fnBusquedaCuatrimestre,
-                            dialogBuscador, nombreBuscar, searchBusqueda,
-                            fnConsultarTabla, fnTipoServicio, fnAsesoriaProyecto,
+                            fecha_registro, usuario_registro, calificaciones, cve_area,
+                            arrayCuatrimestre, arrayTipoServicio, arrayAsesoriaProyecto, arrayArea,
+                            headersEncuesta, dataEncuesta, searchEncuesta,fnBusqueda,
+                            dialogBuscador, nombreBuscar, searchBusqueda, currentUser, currentUserObj,
+                            fnConsultarTabla, fnTipoServicio, fnAsesoriaProyecto, fnConsultarArea,
                             color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar,
                             flagEditar, fnLimpiarCampos, fnGuardar,
                             itemEditar
