@@ -97,7 +97,7 @@
                                                 <v-list-item-icon>
                                                     <v-icon>mdi-chevron-right</v-icon>
                                                 </v-list-item-icon>
-                                                <v-list-item-title v-text="menuNv2.nombre"></v-list-item-title>
+                                                <v-list-item-title class="text-wrap" v-text="menuNv2.nombre"></v-list-item-title>
                                             </v-list-item>
                                         </v-list-group>
                                     </v-list>
