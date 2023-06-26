@@ -55,8 +55,7 @@ IF OBJECT_ID('v_empleado', 'V') IS NOT NULL
     DROP VIEW v_empleado;
 GO
 CREATE VIEW v_empleado AS
-SELECT        
-				persona.cve_persona, 
+SELECT			persona.cve_persona, 
 				persona.nombre, 
 				persona.apellido_peterno, 
 				persona.apellido_materno, 
@@ -66,17 +65,32 @@ SELECT
 				persona.rfc, 
 				persona.sexo, 
 				persona.fecha_nacimiento, 
-                empleado.cve_empleado, 
-				persona.activo, 
+				empleado.cve_empleado, 
 				empleado.grado_estudio, 
 				empleado.titulo_recibido, 
 				empleado.fecha_ingreso, 
+				puesto.cve_puesto, 
+				puesto.nombre_puesto, 
+				puesto.nivel_tabulador_puesto, 
+				tipo_puesto.nombre_tipo_puesto, 
+				tipo_puesto.cve_tipo_puesto, 
+				area.cve_area, 
+				area.nombre_area, 
+				ugac.cve_ugac, 
+				ugac.nombre_ugac, 
+				unidad_academica.cve_unidad_academica, 
+				unidad_academica.nombre_unidad_academica, 
 				usuario.nombre_usuario, 
 				usuario.contrasenia
 FROM            
 				persona INNER JOIN
-                empleado ON persona.cve_persona = empleado.cve_persona INNER JOIN
-                usuario ON persona.cve_persona = usuario.cve_persona
+				empleado ON persona.cve_persona = empleado.cve_persona INNER JOIN
+				puesto ON empleado.cve_puesto = puesto.cve_puesto INNER JOIN
+				tipo_puesto ON empleado.cve_tipo_puesto = tipo_puesto.cve_tipo_puesto INNER JOIN
+				area ON empleado.cve_area = area.cve_area INNER JOIN
+				ugac ON empleado.cve_ugac = ugac.cve_ugac INNER JOIN
+				unidad_academica ON empleado.cve_unidad_academica = unidad_academica.cve_unidad_academica INNER JOIN
+				usuario ON persona.cve_persona = usuario.cve_persona
 GO
 
 IF OBJECT_ID('solicitud_cursos', 'V') IS NOT NULL

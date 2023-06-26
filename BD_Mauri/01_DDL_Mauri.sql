@@ -342,7 +342,6 @@ CREATE TABLE necesidad_capacitacion_anual (
 	cve_nec_cap_anual 			INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	cve_area_registro 			INT NOT NULL,
 	cve_unidad_academica 		INT NOT NULL,
-	cve_nivel_academico 		INT NOT NULL,
 	cve_area 					INT NOT NULL,
 	cve_departamento 			INT NOT NULL,
 	cve_empleado_responsable 	INT NOT NULL,
@@ -353,7 +352,7 @@ CREATE TABLE necesidad_capacitacion_anual (
 	nivel_academico				VARCHAR(15),
 	direccion_subdireccion		VARCHAR(50),
 	programa_academico			VARCHAR(100),
-	anio_ejercicio 				DATETIME,
+	anio_ejercicio 				DATE,
 	necesidades_detectadas 		TEXT,
 	nombre_evento 				VARCHAR(50),
 	objetivo_evento 			TEXT,
@@ -362,8 +361,8 @@ CREATE TABLE necesidad_capacitacion_anual (
 	proveedor 					VARCHAR(50),
 	costo_capacitacion 			FLOAT,
 	mes 						VARCHAR(15),
-	fecha_inicio 				DATETIME,
-	fecha_temino 				DATETIME,
+	fecha_inicio 				DATE,
+	fecha_temino 				DATE,
 	num_dias 					INT,
 	num_horas_efectivas 		INT,
 	participantes_ptc 			INT,
@@ -828,7 +827,7 @@ CREATE TABLE grupo_evento(
 CREATE TABLE autoevaluacion_capacitacion_docente(
 	cve_autoe_cap_doc 			INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	cve_empleado 				INT NOT NULL,
-	evidencias					VARCHAR(30), -- calificaciones de estudiantes, encuestas a estudiantes, resultados de evaluación dicente, entrevistas a estudiantes, ninguno, otro
+	evidencias					VARCHAR(35), -- calificaciones de estudiantes, encuestas a estudiantes, resultados de evaluación docente, entrevistas a estudiantes, ninguno, otro
 	factores_identificacion		TEXT,
 	factores_aplicacion			TEXT,
 	promedio					FLOAT,
