@@ -1,10 +1,10 @@
 <%-- 
     /*
-     * <p>Title        : 
+     * <p>Title        :  
      * <p>Description  : 
-     * @author         : 
-     * @version        : 
-     * @date           : 
+     * @author         : Maria Guadalupe Gutiérrez Alcantar
+     * @version        : 3
+     * @date           : 23 - 06 - 2023
      */
 
 --%>
@@ -63,13 +63,18 @@
     String cve_empleado = request.getParameter("cve_empleado") != null && !request.getParameter("cve_empleado").equals("") ? request.getParameter("cve_empleado") : "-";
     String cve_persona = request.getParameter("cve_persona") != null && !request.getParameter("cve_persona").equals("") ? request.getParameter("cve_persona") : "-";
     String cve_permiso = request.getParameter("cve_permiso") != null && !request.getParameter("cve_permiso").equals("") ? request.getParameter("cve_permiso") : "-";
+    String cve = request.getParameter("cve") != null && !request.getParameter("cve").equals("") ? request.getParameter("cve") : "-";
 
     switch (accion) {
         case 1:
-            out.println(datos.Consultas(parametros, "tablaCatalogo"));
+            out.println(datos.Consultas(parametros, "tablaPrincipal"));
             break;
         case 2:
-           out.println(datos.Consultas(parametros, "tipoPuesto"));
+            temp_obj = new JsonObject();
+            temp_obj.addProperty("cve", cve);
+            parametros.add(temp_obj);
+            out.println(datos.Consultas(parametros, "tablaParticipantes"));
+            
             break;
         
         default:

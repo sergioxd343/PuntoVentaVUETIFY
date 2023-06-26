@@ -56,9 +56,10 @@
                                 <!--AÑO -->
                                 <v-col md=3>
                                     <v-text-field 
+                                        id = "annioo"
                                         v-model="annio"
                                         outlined
-                                        label="A&ntilde;o a ejercer"    
+                                        :label="annioLabel"    
                                         persistent-hint
                                         v-validate="'required|max:200'"
                                         data-vv-name="año a ejercer"
@@ -73,8 +74,8 @@
                                         label="Direcci&oacute;n o subdirecci&oacute;n responsable"
                                         v-validate="'required'"
                                         :items="arrayDireccSub"
-                                        item-value="idAcademia"
-                                        item-text="unidadAcademica"
+                                        item-value="cve_area"
+                                        item-text="nombre_area"
                                         data-vv-name="dirección o subdirección"
                                         :error="errors.has('dirección o subdirección')"
                                         :error-messages="errors.first('dirección o subdirección')"
@@ -157,9 +158,9 @@
                                         outlined
                                         label="Direcci&oacute;n del &aacute;rea"
                                         v-validate="'required'"
-                                        :items="arrayAreas"
-                                        item-value="idAcademia"
-                                        item-text="direccionArea"
+                                        :items="arrayDireccSub"
+                                        item-value="cve_area"
+                                        item-text="nombre_area"
                                         data-vv-name="direcci&oacute;n de &aacute;rea"
                                         :error="errors.has('direcci&oacute;n de &aacute;rea')"
                                         :error-messages="errors.first('direcci&oacute;n &aacute;rea')"
@@ -559,160 +560,6 @@
                                 </v-col>
                             </v-row>
 
-                            <v-row justfy="center" dense >
-                                <v-col class="text-center"><b>Gestionar en las &aacute;reas acad&eacute;micas el recurso de viaticar</b></v-col>
-                            </v-row>
-                            <v-divider></v-divider>
-
-                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-                            
-                                <v-col md=3> 
-                                    <v-text-field 
-                                        v-model="transporte"
-                                        outlined
-                                        prefix="$"
-                                        label="Transporte (autobus)"    
-                                        persistent-hint
-                                        data-vv-name="transporte"
-                                        :error="errors.has('transporte')"
-                                        :error-messages="errors.first('transporte')"
-                                    ></v-text-field>
-                                </v-col>
-
-                                <v-col md=3> 
-                                    <v-text-field 
-                                        v-model="casetas"
-                                        outlined
-                                        prefix="$"
-                                        label="Casetas"    
-                                        persistent-hint
-                                        data-vv-name="casetas"
-                                        :error="errors.has('casetas')"
-                                        :error-messages="errors.first('casetas')"
-                                    ></v-text-field>
-                                </v-col>
-
-                                <v-col md=3> 
-                                    <v-text-field 
-                                        v-model="alimentacion"
-                                        outlined
-                                        prefix="$"
-                                        label="Alimentaci&oacute;n"    
-                                        persistent-hint
-                                        data-vv-name="alimentacion"
-                                        :error="errors.has('alimentacion')"
-                                        :error-messages="errors.first('alimentacion')"
-                                    ></v-text-field>
-                                </v-col>
-
-                                <v-col md=3> 
-                                    <v-text-field 
-                                        v-model="hospedaje"
-                                        outlined
-                                        prefix="$"
-                                        label="Hospedaje"    
-                                        persistent-hint
-                                        data-vv-name="hospedaje"
-                                        :error="errors.has('hospedaje')"
-                                        :error-messages="errors.first('hospedaje')"
-                                    ></v-text-field>
-                                </v-col>
-                            
-                            </v-row>
-
-                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-
-                                <v-col md=3> 
-                                    <v-text-field 
-                                        v-model="taxis"
-                                        outlined
-                                        prefix="$"
-                                        label="Taxis"    
-                                        persistent-hint
-                                        data-vv-name="taxis"
-                                        :error="errors.has('taxis')"
-                                        :error-messages="errors.first('taxis')"
-                                    ></v-text-field>
-                                </v-col>
-
-                                <v-col md=3> 
-                                    <v-text-field 
-                                        v-model="otrosGastos"
-                                        outlined
-                                        prefix="$"
-                                        label="Otros"    
-                                        persistent-hint
-                                        data-vv-name="otros"
-                                        :error="errors.has('otros')"
-                                        :error-messages="errors.first('otros')"
-                                    ></v-text-field>
-                                </v-col>
-
-                                <v-col md=3> 
-                                    <v-text-field 
-                                        v-model="oficial"
-                                        outlined
-                                        prefix="$"
-                                        label="Ofical (vales de gasolina)"    
-                                        persistent-hint
-                                        data-vv-name="oficial"
-                                        :error="errors.has('oficial')"
-                                        :error-messages="errors.first('ofical')"
-                                    ></v-text-field>
-                                </v-col>
-
-                                <v-col md=3> 
-                                    <v-text-field 
-                                        v-model="particular"
-                                        outlined
-                                        prefix="$"
-                                        label="Particular (vales de gasolina)"    
-                                        persistent-hint
-                                        data-vv-name="particular"
-                                        :error="errors.has('particular')"
-                                        :error-messages="errors.first('particular')"
-                                    ></v-text-field>
-                                </v-col>
-
-                            </v-row>
-                            
-                            <v-row class="align-center" style="padding: 0px 50px 0px 50px">
-
-                                <v-col md=3> 
-                                    <v-text-field 
-                                        v-model="otrosO"
-                                        outlined
-                                        prefix="$"
-                                        label="Otros"    
-                                        persistent-hint
-                                        data-vv-name="otros"
-                                        :error="errors.has('otros')"
-                                        :error-messages="errors.first('otros')"
-                                    ></v-text-field>
-                                </v-col>
-
-                                <v-col md=4> 
-                                    <v-text-field 
-                                        v-model="origen"
-                                        outlined
-                                        prefix="$"
-                                        label="Mencionar el origen del recurso vi&aacute;ticos"    
-                                        persistent-hint
-                                        data-vv-name="origen"
-                                        :error="errors.has('origen')"
-                                        :error-messages="errors.first('origen')"
-                                    ></v-text-field>
-                                </v-col>
-
-                            </v-row>
-
-                    
-
-
-                                    
-
-                                   
-
                                 </v-row>
                                 <%-- <v-row justfy="center" dense >
                                 </v-row> --%>
@@ -888,7 +735,6 @@
 
                 const arrayUnidadesAcademicas = ref(["León","Acambaro"]);
                 const arrayNivelEducativo = ref(["T.S.U","Ingenieria"]);
-                const arrayAreas = ref(["Dirección de Económico Administrativo","Dirección de Electromecanica Industrial","Dirección de Sustentabilidad para el desarrollo","Dirección de Desarrollo Académico y Docente","Unidad Académica de Acámbaro","Centro de Idiomas"]);
                 const arrayOrientacion = ref(["Pedagógicas","Investigación","Tutoreo","Digitales","Técnicas","Transversales","Desarrollo de habilidades"]);
                 const arrayJustificacion = ref(["Pedagógicas","Investigación","Tutoreo","Digitales","Técnicas","Transversales","Desarrollo de habilidades"]);
                 const arrayTipoEvento = ref(["Curso (3340)","Ponente (3830)","Certificación (3920)","Asistencia a congreso (3830)","Otro"]);
@@ -896,7 +742,7 @@
                 const arrayOrigen = ref(["PFCE","Formación docente","Dirección académica"]);
                 const arrayMes =ref(['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'])
                 const arrayAcademia =ref([]);
-                const arrayDireccSub =ref(['Direccion 1', 'Direccion 2']);
+                const arrayDireccSub =ref([]);
 
                 
                 
@@ -931,6 +777,8 @@
                     fnTipoEvento();
                     fnConsultarTabla();
                     fnUnidadAcademica();
+                    fnDirecciones();
+                    fnAnio();
                 });
 
                 async function fnConsultarTabla(){
@@ -955,6 +803,18 @@
                     }
                 }
 
+                function fnAnio(){
+                const fecha = new Date(); 
+                const anio = fecha.getFullYear(); 
+
+                const annio = document.getElementById('annioo');
+                annio.value = anio;
+                const annioLabel = `(${anio})`;
+                annio.setAttribute('aria-label', annioLabel);
+
+                console.log(anio);
+                }
+
                 async function fnUnidadAcademica(){
                     try{
                         preloader("../../");
@@ -964,6 +824,25 @@
                         if(status == 200){
                             if(data.length > 0){
                                 arrayUnidadesAcademicas.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                }
+
+                async function fnDirecciones(){
+                    try{
+                        preloader("../../");
+                        let parametros = new URLSearchParams();
+                        parametros.append("accion", 5);
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                arrayDireccSub.value = data
                             }
                         }
                     } catch(error){
@@ -1002,8 +881,13 @@
                                 preloader("../../");
                                 let parametros = new URLSearchParams();
                                 parametros.append("accion", 4);
+                                
                                 parametros.append("unidadAcademica", unidadAcademica.value);
+                                parametros.append("direccionArea", direccionArea.value);
                                 parametros.append("tipoEvento", tipoEvento.value);
+                                parametros.append("nivelEducativo", nivelEducativo.value);
+                                parametros.append("direccion", direccion.value);
+                                parametros.append("programaEducativo", programaEducativo.value)
                                 parametros.append("annio", annio.value);
                                 parametros.append("necesidadesDetectadas", necesidadesDetectadas.value);
                                 parametros.append("nombreEventoCapacitacion", nombreEventoCapacitacion.value);
@@ -1025,7 +909,7 @@
                                 parametros.append("totalH", totalH.value);  
                                 parametros.append("totalM", totalM.value);  
                                 parametros.append("numHorasEfectivas", numHorasEfectivas.value);        
-                                parametros.append("fechaElavoracion", fechaElavoracion.value);    
+                                
                                 let {data,status} = await axios.post(ctr, parametros)
                                 if(status == 200){
                                     if(data == "1"){
@@ -1049,55 +933,7 @@
                     })
                 }
 
-                async function fnEditar(){
-                    this.$validator.validate().then(async esValido => {
-                        if(esValido){
-                            try{
-                                preloader("../");
-                                let parametros = new URLSearchParams();
-                                parametros.append("accion", 5);
-                                parametros.append("idEvento", itemEditar.value.cve_nec_cap_anual);
-                                parametros.append("unidadAcademica", unidadAcademica.value);
-                                parametros.append("tipoEvento", tipoEvento.value);
-                                parametros.append("annio", annio.value);
-                                parametros.append("necesidadesDetectadas", necesidadesDetectadas.value);
-                                parametros.append("nombreEventoCapacitacion", nombreEventoCapacitacion.value);
-                                parametros.append("objetivoEvento", objetivoEvento.value);
-                                parametros.append("justificacionEvento", justificacionEvento.value);
-                                parametros.append("otroEvento", otroEvento.value);
-                                parametros.append("proveedorSugerido", proveedorSugerido.value);
-                                parametros.append("costoCapacitacionSugerido", costoCapacitacionSugerido.value);
-                                parametros.append("mes", mes.value);
-                                parametros.append("fechaInicio", fechaInicio.value);
-                                parametros.append("fechaTermino", fechaInicio.value);
-                                parametros.append("numDias", numDias.value);    
-                                parametros.append("numHorasEfectivas", numHorasEfectivas.value);  
-                                parametros.append("ptc", ptc.value);  
-                                parametros.append("laboratoristas", laboratoristas.value);  
-                                parametros.append("administrativo", administrativo.value);  
-                                parametros.append("otros", otros.value);  
-                                parametros.append("total", total.value);  
-                                parametros.append("totalH", totalH.value);  
-                                parametros.append("totalM", totalM.value);  
-                                parametros.append("numHorasEfectivas", numHorasEfectivas.value);        
-                                parametros.append("fechaElavoracion", fechaElavoracion.value);  
-                                let {data,status} = await axios.post(ctr, parametros)
-                                if(status == 200){
-                                    if(data == "1"){
-                                        mostrarSnackbar("success", "Registro actualizado correctamente.");
-                                        fnConsultarTabla();
-                                        fnLimpiarCampos(this);
-                                    }
-                                }
-                            } catch(error){
-                                mostrarSnackbar('error');
-                                console.error(error);
-                            } finally{
-                                swal.close();
-                            }
-                        }
-                    })
-                }
+                
                 
 
                 async function fnEliminar(item){
@@ -1165,7 +1001,7 @@
                 }
 
                 return{
-                    annio, direccion, fechaElavoracion, unidadAcademica, nivelEducativo, direccionArea, programaEducativo,
+                    annio: null, direccion, fechaElavoracion, unidadAcademica, nivelEducativo, direccionArea, programaEducativo,
                     nombreGestor, necesidadesDetectadas, nombreEventoCapacitacion, objetivoEvento, orientacionEvento,
                     justificacionEvento,tipoEvento, otroEvento, tipoPrograma, proveedorSugerido, costoCapacitacionSugerido, 
                     origenRecursoEvento, mes, fechaInicio, fechaTermino, numDias, numHorasEfectivas, ptc:0, laboratoristas:0, administrativo:0,
@@ -1174,11 +1010,11 @@
 
 
                     arrayOrientacion, arrayJustificacion, arrayTipoEvento, arrayTipoPrograma, arrayOrigen, arrayMes, arrayUnidadesAcademicas,
-                    arrayAcademia, arrayNivelEducativo, arrayAreas, arrayDireccSub,
+                    arrayAcademia, arrayNivelEducativo, arrayDireccSub,
 
                     flagEditar, itemEditar,
                     dataEventos,headersEventos, searchEventos, color_snackbar, snackbar, mensaje_snackbar,loader
-                    ,fnLimpiarCampos,fnGuardar,fnEliminar,fnEditar, fnCambiarEstatus
+                    ,fnLimpiarCampos,fnGuardar,fnEliminar, fnCambiarEstatus, fnAnio
                     
                     
                 }
@@ -1192,7 +1028,17 @@
                     const keyword = this.buscar.toLowerCase();
                     return this.dataEventos.filter(item => item.nombre_tipo_evento.toLowerCase().includes(keyword));
                     console.log(datosFiltrados())
+                    },
+                  
+                    annioLabel() {
+                        
+                        const fecha = new Date();
+                        const annio = fecha.getFullYear();
+                        return annio.toString();
+                        console.log(annio)
+                        
                     }
+
             },
             watch: {
                 ptc: function(newVal, oldVal) {
