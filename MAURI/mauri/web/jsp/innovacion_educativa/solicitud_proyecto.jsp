@@ -38,14 +38,16 @@
                                     <v-text-field v-model="nombre_proyecto" outlined label="Nombre del proyecto"
                                         persistent-hint v-validate="'required|max:100'"
                                         data-vv-name="nombre del proyecto" :error="errors.has('nombre del proyecto')"
-                                        :error-messages="errors.first('nombre del proyecto')"></v-text-field>
+                                        :error-messages="errors.first('nombre del proyecto')"
+                                        :readonly="modoEdicion"></v-text-field>
 
                                     <!--Objetivo de proyecto-->
                                     <v-text-field v-model="objetivo_proyecto" outlined label="Objetivo del proyecto"
                                         persistent-hint v-validate="'required|max:255'"
                                         data-vv-name="objetivo del proyecto"
                                         :error="errors.has('objetivo del proyecto')"
-                                        :error-messages="errors.first('objetivo del proyecto')"></v-text-field>
+                                        :error-messages="errors.first('objetivo del proyecto')"
+                                        :readonly="modoEdicion"></v-text-field>
                                 </v-col>
 
                                 <v-col md="3">
@@ -53,35 +55,38 @@
                                     <v-autocomplete v-model="cve_area" outlined label="Área" persistent-hint
                                         v-validate="'required|max:55'" data-vv-name="área" :items="arrayArea"
                                         item-value="cve_area" item-text="nombre_area" :error="errors.has('área')"
-                                        :error-messages="errors.first('área')"></v-autocomplete>
+                                        :error-messages="errors.first('área')" :readonly="modoEdicion"></v-autocomplete>
 
-                                    <!--Género-->
-                                    <v-autocomplete v-model="sexo" outlined label="Género" persistent-hint
-                                        v-validate="'required|max:55'" data-vv-name="género" :items="arraySexo"
-                                        item-value="género" item-text="género" :error="errors.has('género')"
-                                        :error-messages="errors.first('género')"></v-autocomplete>
+                                    <!--Cuatrimestre-->
+                                    <v-autocomplete v-model="cuatrimestre" outlined label="Cuatrimestre" persistent-hint
+                                        v-validate="'required|max:55'" data-vv-name="cuatrimestre"
+                                        :items="arrayCuatrimestre" item-value="cuatrimestre" item-text="cuatrimestre"
+                                        :error="errors.has('cuatrimestre')"
+                                        :error-messages="errors.first('cuatrimestre')"
+                                        :readonly="modoEdicion"></v-autocomplete>
                                 </v-col>
 
                                 <v-col md="3">
                                     <!--Recursos necesarios-->
                                     <v-textarea v-model="recursos_necesarios" class="mx-2" label="Recursos necesarios"
-                                        rows="1" prepend-icon="mdi-comment" v-validate="'max:255'"></v-textarea>
+                                        rows="1" prepend-icon="mdi-comment" v-validate="'max:255'"
+                                        :readonly="modoEdicion"></v-textarea>
 
                                     <!--Acuerdos establecidos-->
                                     <v-textarea v-model="acuerdos_establecidos" class="mx-2"
                                         label="Acuerdos establecidos" rows="1" prepend-icon="mdi-comment"
-                                        v-validate="'max:255'"></v-textarea>
+                                        v-validate="'max:255'" :readonly="modoEdicion"></v-textarea>
                                 </v-col>
 
                                 <v-col md="3">
                                     <!--Descripción del proyecto-->
                                     <v-textarea v-model="descripcion_proyecto" class="mx-2"
                                         label="Descripción del proyecto" rows="1" prepend-icon="mdi-comment"
-                                        v-validate="'max:255'"></v-textarea>
+                                        v-validate="'max:255'" :readonly="modoEdicion"></v-textarea>
 
                                     <!--Estatus-->
-                                    Seleccione el estatus del proyecto:
-                                    <v-radio-group v-model="estatus">
+                                    <v-radio-group v-model="estatus" v-if="modoEdicion">
+                                        Seleccione el estatus del proyecto:
                                         <v-radio label="Revisado" value="opc_revisado"></v-radio>
                                         <v-radio label="Cancelado" value="opc_cancelado"></v-radio>
                                     </v-radio-group>
@@ -101,6 +106,20 @@
                                         @click="fnLimpiarCampos()"><v-icon>mdi-cancel</v-icon>Cancelar</v-btn>
                                 </v-row>
 
+                                <v-card>
+                                    <v-card-title class="text-h5 grey lighten-2">
+                                        Búsqueda Avanzada
+                                    </v-card-title>
+                                    <v-card-text>
+                                        <v-row justify="center">
+                                            <v-col md=8>
+                                                <v-text-field outlined label="Área | Cuatrimestre | Usuario de registro"
+                                                    v-model="nombreBuscar" append-icon="mdi-magnify"
+                                                    @input="fnBusqueda()"></v-text-field>
+                                            </v-col>
+                                        </v-row>
+                                    </v-card-text>
+                                </v-card>
                                 <v-row justify="center">
                                     <v-col md=12>
                                         <v-data-table :headers="headersSolicitud" :items="dataSolicitud"
@@ -119,19 +138,10 @@
                                                                 <%-- <span>d</span> --%>
                                                                     <%-- </v-tooltip> --%>
                                             </template>
-                                            <template v-slot:item.editar="{item}">
-                                                <v-btn fab small color="warning" @click="flagEditar = true; itemEditar = item;
-                                                cve_solicitud_proyecto = item.cve_solicitud_proyecto;
-                                                cve_area = item.cve_area;
-                                                nombre_proyecto = item.nombre_proyecto;
-                                                objetivo_proyecto = item.objetivo_proyecto;
-                                                descripcion_proyecto = item.descripcion_proyecto;
-                                                recursos_necesarios = item.recursos_necesarios;
-                                                acuerdos_establecidos = item.acuerdos_establecidos;
-                                                estatus = item.estatus;
-                                                sexo = item.sexo;
-                                                    
-                                                "><v-icon>mdi-square-edit-outline</v-icon></v-btn>
+                                            <template v-slot:item.editar="{ item }">
+                                                <v-btn fab small color="warning" @click="fnEditarItem(item)" :disabled="!userPermission">
+                                                    <v-icon>mdi-square-edit-outline</v-icon>
+                                                </v-btn>
                                             </template>
                                             <template v-slot:item.password="{item}">
                                                 <v-tooltip bottom>
@@ -148,27 +158,6 @@
                         </v-container>
                     </v-card>
                 </v-container>
-                <v-card>
-                    <v-card-title class="text-h5 grey lighten-2">
-                        Búsqueda Avanzada
-                    </v-card-title>
-
-                    <v-card-text>
-                        <v-row justify="center">
-                            <v-col md=8>
-                                <v-text-field outlined label="Área" v-model="nombreBuscar"
-                                    @keyup.enter="fnBusquedaArea()"></v-text-field>
-                            </v-col>
-                        </v-row>
-
-                        <v-row justify="center">
-                            <v-col md=4 offset-md=8>
-                                <v-text-field label="Filtrar" v-model="searchBusqueda"></v-text-field>
-                            </v-col>
-                        </v-row>
-
-                    </v-card-text>
-                </v-card>
 
                 <!-- TODO: ALERTAS DE SISTEMA-->
                 <v-snackbar v-model="snackbar" top="top" :bottom="true" :multi-line="true" :color="color_snackbar">
@@ -217,15 +206,24 @@
                         const cve_solicitud_proyecto = ref("");
                         const cve_area = ref("");
                         const nombre_proyecto = ref("");
+                        const cuatrimestre = ref("");
                         const objetivo_proyecto = ref("");
                         const descripcion_proyecto = ref("");
                         const recursos_necesarios = ref("");
                         const acuerdos_establecidos = ref("");
-                        const estatus = ref("");
-                        const sexo = ref("");
 
-                        const arraySexo = ref(["Masculino", "Femenino", "Otro", "Prefiero no mencionarlo"])
+                        const fecha_registro = ref("");
+                        const activo = ref("");
+                        const currentUser = localStorage.getItem("currentUser");
+                        const currentUserObj = JSON.parse(currentUser);
+                        const usuario_registro = currentUserObj[0].cve_persona;
+
+                        const arrayCuatrimestre = ref(["Ene-Abr", "May-Ago", "Sep-Dic"]);
                         const arrayArea = ref([]);
+                        const arrayUsuario = ref([]);
+                        const userPermission = ref(false);
+
+                        const estatus = ref("");
                         const opc_revisado = ref("");
                         const opc_cancelado = ref("");
 
@@ -240,6 +238,9 @@
                         const nombreBuscar = ref('');
                         const searchBusqueda = ref('');
 
+                        //Bloquear edicion de los campos cuando flagEditar es true
+                        const modoEdicion = ref(false);
+
                         //Otras variables
                         const flagEditar = ref(false);
                         const itemEditar = ref({});
@@ -250,8 +251,9 @@
                             { text: 'No', align: 'left', sortable: true, value: 'cve_solicitud_proyecto' },
                             { text: 'Nombre de Área', align: 'left', sortable: true, value: 'nombre_area' },
                             { text: 'Nombre del proyecto', align: 'left', sortable: true, value: 'nombre_proyecto' },
-                            { text: 'Sexo', align: 'left', sortable: true, value: 'sexo' },
+                            { text: 'Cuatrimestre', align: 'left', sortable: true, value: 'cuatrimestre' },
                             { text: 'Estatus', align: 'left', sortable: true, value: 'estatus' },
+                            { text: 'Usuario de registro', align: 'left', sortable: true, value: 'nombre_completo' },
                             { text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro' },
                             { text: 'Editar', align: 'left', sortable: true, value: 'editar' },
                         ]);
@@ -270,6 +272,7 @@
                         onMounted(() => {
                             fnArea();
                             fnConsultarTabla();
+                            fnConsultarUsuario();
                         });
 
                         //Consulta a base de datos
@@ -291,6 +294,44 @@
                                 swal.close();
                             }
                         }
+                        //Sirve para encontrar a los usuarios que pueden editar unicamente.
+                        async function fnConsultarUsuario() {
+                            try {
+                                preloader("../../");
+                                let parametros = new URLSearchParams();
+                                parametros.append("accion", 6);
+
+                                let { data, status } = await axios.post(ctr, parametros);
+                                if (status == 200) {
+                                    if (data.length > 0) {
+                                        arrayUsuario.value = data;
+                                        for (let i = 0; i < arrayUsuario.value.length; i++) {
+                                            if (
+                                                arrayUsuario.value[i].cve_persona === usuario_registro &&
+                                                arrayUsuario.value[i].cve_tipo_pesto === 33
+                                            ) {
+                                                console.log(arrayUsuario.value[i].cve_tipo_pesto);
+                                                userPermission.value = true;
+                                                
+                                                break;
+                                            } else {
+                                                userPermission.value = false;
+                                            }
+                                        }
+                                    } else {
+                                        userPermission.value = false;
+                                    }
+                                    console.log(userPermission.value);
+                                }
+                            } catch (error) {
+                                mostrarSnackbar("error");
+                                console.error(error);
+                            } finally {
+                                swal.close();
+                            }
+                        }
+
+
 
                         async function fnConsultarTabla() {
                             try {
@@ -321,9 +362,37 @@
                             }
                         }
 
-                        function fnBusquedaArea() {
-                            this.dataSolicitud = this.dataSolicitud.filter(item => item.nombre_area === this.nombreBuscar);
+                        function fnBusqueda() {
+                            if (this.nombreBuscar === '') {
+                                this.fnConsultarTabla();
+                            } else {
+                                this.dataSolicitud = this.dataSolicitud.filter(item => {
+                                    const nombreAreaMatch = item.nombre_area.toLowerCase().includes(this.nombreBuscar.toLowerCase());
+                                    const usuarioRegistroMatch = item.nombre_completo.toLowerCase().includes(this.nombreBuscar.toLowerCase());
+                                    const cuatrimestreMatch = item.cuatrimestre.toString().includes(this.nombreBuscar);
+
+                                    return nombreAreaMatch || usuarioRegistroMatch || cuatrimestreMatch;
+                                });
+                            }
                         }
+
+                        function fnEditarItem(item) {
+                            this.modoEdicion = true;
+                            this.flagEditar = true;
+                            this.itemEditar = item;
+                            this.cve_solicitud_proyecto = item.cve_solicitud_proyecto;
+                            this.cve_area = item.cve_area;
+                            this.nombre_proyecto = item.nombre_proyecto;
+                            this.cuatrimestre = item.cuatrimestre;
+                            this.objetivo_proyecto = item.objetivo_proyecto;
+                            this.descripcion_proyecto = item.descripcion_proyecto;
+                            this.recursos_necesarios = item.recursos_necesarios;
+                            this.acuerdos_establecidos = item.acuerdos_establecidos;
+                            this.estatus = item.estatus === "Revisado" ? "opc_revisado" : "opc_cancelado";
+                            this.fecha_registro = item.fecha_registro;
+                            this.activo = item.activo;
+                        }
+
 
                         async function fnGuardar() {
                             this.$validator.validate().then(async esValido => {
@@ -335,22 +404,24 @@
 
                                         parametros.append("cve_area", cve_area.value);
                                         parametros.append("nombre_proyecto", nombre_proyecto.value);
+                                        parametros.append("cuatrimestre", cuatrimestre.value);
                                         parametros.append("objetivo_proyecto", objetivo_proyecto.value);
                                         parametros.append("descripcion_proyecto", descripcion_proyecto.value);
                                         parametros.append("recursos_necesarios", recursos_necesarios.value);
                                         parametros.append("acuerdos_establecidos", acuerdos_establecidos.value);
+                                        parametros.append("usuario_registro", this.usuario_registro);
 
-                                        if (estatus.value === "opc_cancelado") {
-                                            parametros.append("estatus", false);
-                                        } else if (estatus.value === "opc_revisado") {
-                                            parametros.append("estatus", true);
-                                        } else {
-                                            // Manejar el caso en el que el valor de "estatus" no sea ninguno de los esperados.
-                                            mostrarSnackbar("error", "Estatus inválido");
-                                            return;
-                                        }
-
-                                        parametros.append("sexo", sexo.value);
+                                        /*
+                                         if (estatus.value === "opc_cancelado") {
+                                             parametros.append("estatus", false);
+                                         } else if (estatus.value === "opc_revisado") {
+                                             parametros.append("estatus", true);
+                                         } else {
+                                             // Manejar el caso en el que el valor de "estatus" no sea ninguno de los esperados.
+                                             mostrarSnackbar("error", "Estatus inválido");
+                                             return;
+                                         }
+                                        */
 
                                         let { data, status } = await axios.post(ctr, parametros)
                                         if (status == 200) {
@@ -421,12 +492,18 @@
                             cve_solicitud_proyecto.value = "";
                             cve_area.value = "";
                             nombre_proyecto.value = "";
+                            cuatrimestre.value = "";
                             objetivo_proyecto.value = "";
                             descripcion_proyecto.value = "";
                             recursos_necesarios.value = "";
                             acuerdos_establecidos.value = "";
                             estatus.value = "";
-                            sexo.value = "";
+                            modoEdicion.value = false;
+
+                            fecha_registro.value = "";
+                            activo.value = "";
+
+                            nombreBuscar.value = "";
 
                             opc_revisado.value = "";
                             opc_cancelado.value = "";
@@ -445,10 +522,10 @@
                         return {
                             cve_solicitud_proyecto, cve_area, nombre_proyecto, objetivo_proyecto,
                             descripcion_proyecto, recursos_necesarios, acuerdos_establecidos, estatus,
-                            sexo,
-                            opc_revisado, opc_cancelado, fnBusquedaArea,
-                            arraySexo, arrayArea, fnArea, fnConsultarTabla,
-                            dialogBuscador, nombreBuscar, searchBusqueda,
+                            cuatrimestre, fecha_registro, activo, usuario_registro,
+                            opc_revisado, opc_cancelado, fnBusqueda, modoEdicion, currentUser, currentUserObj,
+                            arrayCuatrimestre, arrayArea, arrayUsuario, fnArea, fnConsultarTabla, fnEditarItem, fnConsultarUsuario,
+                            dialogBuscador, nombreBuscar, searchBusqueda, userPermission,
                             color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar,
                             headersSolicitud, flagEditar, dataSolicitud, searchSolicitud, fnLimpiarCampos, fnGuardar,
                             fnEditar, itemEditar

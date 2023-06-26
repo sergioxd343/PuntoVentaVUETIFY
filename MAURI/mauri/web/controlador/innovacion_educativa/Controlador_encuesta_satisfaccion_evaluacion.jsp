@@ -37,6 +37,7 @@
     int cve_eval_resul = request.getParameter("cve_eval_resul") != null && !request.getParameter("cve_eval_resul").equals("") ? Integer.parseInt(request.getParameter("cve_eval_resul")) : 0;
     int cve_t_servicio = request.getParameter("cve_t_servicio") != null && !request.getParameter("cve_t_servicio").equals("") ? Integer.parseInt(request.getParameter("cve_t_servicio")) : 0;
     int cve_asesoria_proyecto = request.getParameter("cve_asesoria_proyecto") != null && !request.getParameter("cve_asesoria_proyecto").equals("") ? Integer.parseInt(request.getParameter("cve_asesoria_proyecto")) : 0;
+    int cve_area = request.getParameter("cve_area") != null && !request.getParameter("cve_area").equals("") ? Integer.parseInt(request.getParameter("cve_area")) : 0;
     int suma = request.getParameter("suma") != null && !request.getParameter("suma").equals("") ? Integer.parseInt(request.getParameter("suma")) : 0;
     float porcentaje = request.getParameter("porcentaje") != null && !request.getParameter("porcentaje").equals("") ? Float.parseFloat(request.getParameter("porcentaje")) : 0;
     String cuatrimestre = request.getParameter("cuatrimestre") != null && !request.getParameter("cuatrimestre").equals("") ? request.getParameter("cuatrimestre").replace("+", " ") : "-";
@@ -55,10 +56,12 @@
 
             temp_obj.addProperty("cve_t_servicio", cve_t_servicio);
             temp_obj.addProperty("cve_asesoria_proyecto", cve_asesoria_proyecto);
+            temp_obj.addProperty("cve_area", cve_area);
             temp_obj.addProperty("suma", suma);
             temp_obj.addProperty("porcentaje", porcentaje);
             temp_obj.addProperty("cuatrimestre", cuatrimestre);
             temp_obj.addProperty("comentarios", comentarios);
+            temp_obj.addProperty("usuario_registro", usuario_registro);
 
             parametros.add(temp_obj);
             out.println(datos.Registro(parametros, "guardarEncuesta"));
@@ -68,6 +71,9 @@
             break;
         case 4:
             out.println(datos.Consultas(parametros, "constultarAsesoriaProyecto"));
+            break;
+        case 5:
+            out.println(datos.Consultas(parametros, "consultarArea"));
             break;
         default:
             out.print("ENTRO A CONTROLADOR"+ accion);

@@ -34,35 +34,42 @@
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
 
                                 <v-col md=5>
-                                    <!--Empleado-->
-                                    <v-autocomplete v-model="cve_empleado" outlined label="Empleado" persistent-hint
-                                        v-validate="'required|max:100'" data-vv-name="empleado" :items="arrayEmpleado"
+                                    <!--Solicitante-->
+                                    <v-autocomplete v-model="cve_empleado" outlined label="Nombre de solicitante"
+                                        persistent-hint v-validate="'required|max:100'"
+                                        data-vv-name="nombre de solicitante" :items="arrayEmpleado"
                                         item-value="cve_empleado" item-text="nombre_completo"
-                                        :error="errors.has('empleado')"
-                                        :error-messages="errors.first('empleado')"></v-autocomplete>
+                                        :error="errors.has('nombre de solicitante')"
+                                        :error-messages="errors.first('nombre de solicitante')" :readonly="modoEdicion"></v-autocomplete>
                                     <!--Materia-->
                                     <v-text-field v-model="materia" outlined label="Materia" persistent-hint
                                         v-validate="'required|max:55'" data-vv-name="materia"
                                         :error="errors.has('materia')"
-                                        :error-messages="errors.first('materia')"></v-text-field>
+                                        :error-messages="errors.first('materia')" :readonly="modoEdicion"></v-text-field>
+                                    <!--Academia-->
+                                    <v-autocomplete v-model="cve_academia" outlined label="Nombre de academia"
+                                        persistent-hint v-validate="'required|max:100'"
+                                        data-vv-name="nombre de academia" :items="arrayAcademia"
+                                        item-value="cve_academia" item-text="nombre_academia"
+                                        :error="errors.has('nombre de academia')"
+                                        :error-messages="errors.first('nombre de academia')" :readonly="modoEdicion"></v-autocomplete>
                                 </v-col>
 
                                 <v-col md=5>
                                     <!--Fecha-->
-                                    <v-menu ref="menu1" :close-on-content-click="false"
-                                        :return-value.sync="fecha_registro" transition="scale-transition" offset-y
-                                        min-width="auto">
+                                    <v-menu ref="menu1" :close-on-content-click="false" :return-value.sync="fecha"
+                                        transition="scale-transition" offset-y min-width="auto">
                                         <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field v-model="fecha_registro" label="Fecha de aplicación"
+                                            <v-text-field v-model="fecha" label="Fecha de aplicación"
                                                 prepend-icon="mdi-calendar" readonly v-bind="attrs"
                                                 v-on="on"></v-text-field>
                                         </template>
-                                        <v-date-picker v-model="fecha_registro" no-title scrollable>
+                                        <v-date-picker v-model="fecha" no-title scrollable :readonly="modoEdicion">
                                             <v-spacer></v-spacer>
                                             <v-btn text color="primary" @click="menu1 = false">
                                                 Cancel
                                             </v-btn>
-                                            <v-btn text color="primary" @click="$refs.menu1.save(fecha_registro)">
+                                            <v-btn text color="primary" @click="$refs.menu1.save(fecha)">
                                                 OK
                                             </v-btn>
                                         </v-date-picker>
@@ -73,7 +80,7 @@
                                     <v-textarea v-model="motivo_solicitud" outlined label="Motivo de la solicitud:"
                                         persistent-hint v-validate="'required|max:255'" data-vv-name="motivo"
                                         :error="errors.has('motivo')"
-                                        :error-messages="errors.first('motivo')"></v-textarea>
+                                        :error-messages="errors.first('motivo')" :readonly="modoEdicion"></v-textarea>
                                 </v-col>
 
                                 <v-col md="4">
@@ -81,7 +88,7 @@
                                     <v-textarea v-model="entrevista" outlined label="Breve relatoria de la entrevista:"
                                         persistent-hint v-validate="'required|max:255'" data-vv-name="entrevista"
                                         :error="errors.has('entrevista')"
-                                        :error-messages="errors.first('entrevista')"></v-textarea>
+                                        :error-messages="errors.first('entrevista')" :readonly="modoEdicion"></v-textarea>
                                 </v-col>
 
                                 <v-col md=4>
@@ -89,12 +96,16 @@
                                     <v-textarea v-model="sugerencias" outlined label="Sugerencias:" persistent-hint
                                         v-validate="'required|max:255'" data-vv-name="sugerencias"
                                         :error="errors.has('sugerencias')"
-                                        :error-messages="errors.first('sugerencias')"></v-textarea>
+                                        :error-messages="errors.first('sugerencias')" :readonly="modoEdicion"></v-textarea>
                                 </v-col>
 
                                 <v-col md="2">
-                                    <v-checkbox v-model="firma" label="Validación/Firma" color="success" value=true
-                                        hide-details :disabled="!flagEditar"></v-checkbox>
+                                    <!--Firma-->
+                                    <v-radio-group v-model="activo" v-if="modoEdicion">
+                                        Firma / Validación
+                                        <v-radio label="Validado" value="opc_validado"></v-radio>
+                                        <v-radio label="No Validado" value="opc_noValidado"></v-radio>
+                                    </v-radio-group>
                                 </v-col>
 
                             </v-row>
@@ -112,6 +123,20 @@
                                         @click="fnLimpiarCampos()"><v-icon>mdi-cancel</v-icon>Cancelar</v-btn>
                                 </v-row>
 
+                                <v-card>
+                                    <v-card-title class="text-h5 grey lighten-2">
+                                        Búsqueda Avanzada
+                                    </v-card-title>
+                                    <v-card-text>
+                                        <v-row justify="center">
+                                            <v-col md=8>
+                                                <v-text-field outlined label="Solicitante | Usuario de registro | Academia"
+                                                    v-model="nombreBuscar" append-icon="mdi-magnify"
+                                                    @input="fnBusqueda()"></v-text-field>
+                                            </v-col>
+                                        </v-row>
+                                    </v-card-text>
+                                </v-card>
                                 <v-row justify="center">
                                     <v-col md=12>
                                         <v-data-table :headers="headersDNAP" :items="dataDNAP" :search="searchDNAP"
@@ -129,23 +154,11 @@
                                                                 <%-- <span>d</span> --%>
                                                                     <%-- </v-tooltip> --%>
                                             </template>
-                                            <template v-slot:item.editar="{item}">
-                                                <v-btn fab small color="warning" @click="flagEditar = true; itemEditar = item;
-                                                cve_asesoria = item.cve_asesoria;
-                                                cve_empleado = item.cve_empleado;
-                                                materia = item.materia;
-                                                fecha = item.fecha;
-                                                motivo_solicitud = item.motivo_solicitud;
-                                                sugerencias = item.sugerencias;
-                                                entrevista = item.entrevista;
-                                                firma = item.firma;
-                                                activo = item.activo;
-                                                fecha_registro = item.fecha_registro;
-                                                usuario_registro = item.usuario_registro;
-                                                
-                                                    
-                                                "><v-icon>mdi-square-edit-outline</v-icon></v-btn>
-                                            </template>
+                                            <template v-slot:item.editar="{ item }">
+                                                <v-btn fab small color="warning" @click="fnEditarItem(item)" :disabled="!userPermission">
+                                                  <v-icon>mdi-square-edit-outline</v-icon>
+                                                </v-btn>
+                                              </template>
                                             <template v-slot:item.password="{item}">
                                                 <v-tooltip bottom>
                                                     <template v-slot:activator="{on, attrs}">
@@ -161,27 +174,6 @@
                         </v-container>
                     </v-card>
                 </v-container>
-                <v-card>
-                    <v-card-title class="text-h5 grey lighten-2">
-                        Búsqueda Avanzada
-                    </v-card-title>
-
-                    <v-card-text>
-                        <v-row justify="center">
-                            <v-col md=8>
-                                <v-text-field outlined label="Materia" v-model="nombreBuscar"
-                                    @keyup.enter="fnBusquedaMateria()"></v-text-field>
-                            </v-col>
-                        </v-row>
-
-                        <v-row justify="center">
-                            <v-col md=4 offset-md=8>
-                                <v-text-field label="Filtrar" v-model="searchBusqueda"></v-text-field>
-                            </v-col>
-                        </v-row>
-
-                    </v-card-text>
-                </v-card>
 
                 <!-- TODO: ALERTAS DE SISTEMA-->
                 <v-snackbar v-model="snackbar" top="top" :bottom="true" :multi-line="true" :color="color_snackbar">
@@ -228,20 +220,29 @@
 
                         const cve_asesoria = ref("");
                         const cve_empleado = ref("");
+                        const cve_academia = ref("");
                         const materia = ref("");
                         const fecha = ref("");
                         const motivo_solicitud = ref("");
                         const sugerencias = ref("");
                         const entrevista = ref("");
-                        const firma = ref("");
                         const activo = ref("");
                         const fecha_registro = ref("");
-                        const usuario_registro = ref("");
                         const arrayEmpleado = ref([]);
+                        const arrayAcademia = ref([]);
+
+                        const opc_validado = ref("");
+                        const opc_noValidado = ref("");
 
                         const menu2 = false;
                         const modal2 = false;
 
+                        const currentUser = localStorage.getItem("currentUser");
+                        const currentUserObj = JSON.parse(currentUser);
+                        const usuario_registro = currentUserObj[0].cve_persona;
+
+                        const userPermission = ref(false);
+                        const arrayUsuario = ref([]);
                         //SNACKBAR
                         const loader = ref(false);
                         const snackbar = ref(false);
@@ -256,16 +257,21 @@
                         const flagEditar = ref(false);
                         const itemEditar = ref({});
 
+                        //Bloquear edicion de los campos cuando flagEditar es true
+                        const modoEdicion = ref(false);
+
                         //DataUsuarios
                         const dataDNAP = ref([]);
                         const dataUsuarios = ref([]);
                         const headersDNAP = ref([
                             { text: 'No', align: 'left', sortable: true, value: 'cve_asesoria' },
-                            { text: 'Nombre del empleado', align: 'left', sortable: true, value: 'nombre_completo' },
+                            { text: 'Nombre del solicitante', align: 'left', sortable: true, value: 'nombre_completo_solicitante' },
+                            { text: 'Nombre de academia', align: 'left', sortable: true, value: 'nombre_academia' },
                             { text: 'Materia', align: 'left', sortable: true, value: 'materia' },
                             { text: 'Fecha de aplicación', align: 'left', sortable: true, value: 'fecha' },
+                            { text: 'Firma de validación', align: 'left', sortable: true, value: 'activo' },
+                            { text: 'Usuario de registro', align: 'left', sortable: true, value: 'nombre_completo' },
                             { text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro' },
-                            { text: 'Firma de validación', align: 'left', sortable: true, value: 'firma' },
                             { text: 'Editar', align: 'left', sortable: true, value: 'editar' },
                         ]);
                         const searchDNAP = ref([]);
@@ -283,6 +289,8 @@
                         onMounted(() => {
                             fnConsultarTabla();
                             fnEmpleado();
+                            fnAcademia();
+                            fnConsultarUsuario();
                         });
 
                         //Consultar datos en la base de datos.
@@ -295,6 +303,23 @@
                                 if (status == 200) {
                                     if (data.length > 0) {
                                         arrayEmpleado.value = data;
+                                    }
+                                }
+                            } catch (error) {
+                                mostrarSnackbar('error');
+                                console.error(error);
+                            } finally {
+                                swal.close();
+                            }
+                        } async function fnAcademia() {
+                            try {
+                                preloader("../../");
+                                let parametros = new URLSearchParams();
+                                parametros.append("accion", 5);
+                                let { data, status } = await axios.post(ctr, parametros)
+                                if (status == 200) {
+                                    if (data.length > 0) {
+                                        arrayAcademia.value = data;
                                     }
                                 }
                             } catch (error) {
@@ -317,10 +342,10 @@
                                 if (status == 200) {
                                     if (data.length > 0) {
                                         data.forEach(item => {
-                                            if (item.firma === false) {
-                                                item.firma = "No validado";
+                                            if (item.activo === false) {
+                                                item.activo = "No validado";
                                             } else {
-                                                item.firma = "Validado";
+                                                item.activo = "Validado";
                                             }
                                         });
                                         dataDNAP.value = data
@@ -334,8 +359,71 @@
                             }
                         }
 
-                        function fnBusquedaMateria() {
-                            this.dataDNAP = this.dataDNAP.filter(item => item.materia === this.nombreBuscar);
+                        //Sirve para encontrar a los usuarios que pueden editar unicamente.
+                        async function fnConsultarUsuario() {
+                            try {
+                                preloader("../../");
+                                let parametros = new URLSearchParams();
+                                parametros.append("accion", 6);
+
+                                let { data, status } = await axios.post(ctr, parametros);
+                                if (status == 200) {
+                                    if (data.length > 0) {
+                                        arrayUsuario.value = data;
+                                        for (let i = 0; i < arrayUsuario.value.length; i++) {
+                                            if (
+                                                arrayUsuario.value[i].cve_persona === usuario_registro &&
+                                                arrayUsuario.value[i].cve_tipo_pesto === 33
+                                            ) {
+                                                console.log(arrayUsuario.value[i].cve_tipo_pesto);
+                                                userPermission.value = true;
+                                                
+                                                break;
+                                            } else {
+                                                userPermission.value = false;
+                                            }
+                                        }
+                                    } else {
+                                        userPermission.value = false;
+                                    }
+                                    console.log(userPermission.value);
+                                }
+                            } catch (error) {
+                                mostrarSnackbar("error");
+                                console.error(error);
+                            } finally {
+                                swal.close();
+                            }
+                        }
+
+                        function fnBusqueda() {
+                            if (this.nombreBuscar === '') {
+                                this.fnConsultarTabla();
+                            } else {
+                                this.dataDNAP = this.dataDNAP.filter(item => {
+                                    const nombreAcademiaMatch = item.nombre_academia.toLowerCase().includes(this.nombreBuscar.toLowerCase());
+                                    const usuarioRegistroMatch = item.nombre_completo.toLowerCase().includes(this.nombreBuscar.toLowerCase());
+                                    const solicitanteMatch = item.nombre_completo.toString().includes(this.nombreBuscar);
+
+                                    return nombreAcademiaMatch || usuarioRegistroMatch || solicitanteMatch;
+                                });
+                            }
+                        }
+
+                        function fnEditarItem(item) {
+                            this.modoEdicion = true;
+                            this.flagEditar = true;
+                            this.itemEditar = item;
+                            this.cve_asesoria = item.cve_asesoria;
+                            this.cve_empleado = item.cve_empleado;
+                            this.cve_academia = item.cve_academia;
+                            this.materia = item.materia;
+                            this.fecha = item.fecha;
+                            this.motivo_solicitud = item.motivo_solicitud;
+                            this.sugerencias = item.sugerencias;
+                            this.entrevista = item.entrevista;
+                            this.fecha_registro = item.fecha_registro;
+                            this.activo = item.activo === "Validado" ? "opc_validado" : "opc_noValidado";
                         }
 
 
@@ -349,12 +437,13 @@
 
                                         console.log(cve_empleado.value);
                                         parametros.append("cve_empleado", cve_empleado.value);
+                                        parametros.append("cve_academia", cve_academia.value);
                                         parametros.append("materia", materia.value);
-                                        parametros.append("fecha", fecha_registro.value);
+                                        parametros.append("fecha", fecha.value);
                                         parametros.append("motivo_solicitud", motivo_solicitud.value);
                                         parametros.append("sugerencias", sugerencias.value);
                                         parametros.append("entrevista", entrevista.value);
-                                        parametros.append("firma", firma.value);
+                                        parametros.append("usuario_registro", this.usuario_registro);
 
                                         let { data, status } = await axios.post(ctr, parametros)
                                         if (status == 200) {
@@ -389,12 +478,21 @@
 
                                         parametros.append("cve_asesoria", cve_asesoria.value);
                                         parametros.append("cve_empleado", cve_empleado.value);
+                                        parametros.append("cve_academia", cve_academia.value);
                                         parametros.append("materia", materia.value);
                                         parametros.append("fecha", fecha.value);
                                         parametros.append("motivo_solicitud", motivo_solicitud.value);
                                         parametros.append("sugerencias", sugerencias.value);
                                         parametros.append("entrevista", entrevista.value);
-                                        parametros.append("firma", firma.value);
+
+                                        if (activo.value === "opc_noValidado") {
+                                            parametros.append("activo", false);
+                                        } else if (activo.value === "opc_validado") {
+                                            parametros.append("activo", true);
+                                        } else {
+                                            mostrarSnackbar("error", "Estatus inválido");
+                                            return;
+                                        }
 
                                         let { data, status } = await axios.post(ctr, parametros)
                                         if (status == 200) {
@@ -421,15 +519,20 @@
                         function fnLimpiarCampos(cx) {//cx = contexto
                             cve_asesoria.value = "";
                             cve_empleado.value = "";
+                            cve_academia.value = "";
                             materia.value = "";
                             fecha.value = "";
                             motivo_solicitud.value = "";
                             sugerencias.value = "";
                             entrevista.value = "";
-                            firma.value = "";
                             activo.value = "";
                             fecha_registro.value = "";
-                            usuario_registro.value = "";
+                            modoEdicion.value = false;
+
+                            nombreBuscar.value = "";
+
+                            opc_validado.value = "";
+                            opc_noValidado.value = "";
 
                             flagEditar.value = false;
                             itemEditar.value = {};
@@ -443,10 +546,12 @@
                         }
 
                         return {
-                            cve_asesoria, cve_empleado, materia, fecha, motivo_solicitud,
-                            sugerencias, entrevista, firma, activo, fecha_registro, usuario_registro,
-                            arrayEmpleado,
-                            menu2, modal2, fnBusquedaMateria,
+                            cve_asesoria, cve_empleado, cve_academia, materia, fecha, motivo_solicitud,
+                            sugerencias, entrevista, activo, fecha_registro, usuario_registro,
+                            arrayEmpleado, arrayAcademia,
+                            currentUser, currentUserObj, userPermission, arrayUsuario,
+                            opc_validado, opc_noValidado, modoEdicion,
+                            menu2, modal2, fnBusqueda, fnEditarItem, fnConsultarTabla, fnConsultarUsuario,
                             dialogBuscador, nombreBuscar, searchBusqueda,
                             color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar,
                             headersDNAP, flagEditar, dataDNAP, searchDNAP, fnLimpiarCampos, fnGuardar,

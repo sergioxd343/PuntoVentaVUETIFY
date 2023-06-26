@@ -7,23 +7,21 @@ and open the template in the editor.
 <CatalogoProveedores>
 	<tablaEncuestaSatisfaccion>
 		<query>
-			SELECT        TOP (200) evaluacion_resultado.cve_eval_resul, evaluacion_resultado.cve_t_servicio, evaluacion_resultado.cve_asesoria_proyecto, evaluacion_resultado.suma, evaluacion_resultado.porcentaje, 
-                         evaluacion_resultado.cuatrimestre, evaluacion_resultado.comentarios, evaluacion_resultado.activo, evaluacion_resultado.fecha_registro, evaluacion_resultado.usuario_registro, asesoria.materia, asesoria.cve_asesoria, 
-                         tipo_servicio.cve_tipo_servicio, tipo_servicio.nombre_tipo_servicio
-FROM            evaluacion_resultado INNER JOIN
-                         asesoria ON evaluacion_resultado.cve_asesoria_proyecto = asesoria.cve_asesoria INNER JOIN
-                         tipo_servicio ON evaluacion_resultado.cve_t_servicio = tipo_servicio.cve_tipo_servicio
+			SELECT TOP (200) evaluacion_resultado.cve_eval_resul, evaluacion_resultado.cve_t_servicio, evaluacion_resultado.cve_asesoria_proyecto, evaluacion_resultado.cve_area, 
+       evaluacion_resultado.suma, evaluacion_resultado.porcentaje, evaluacion_resultado.cuatrimestre, evaluacion_resultado.comentarios, evaluacion_resultado.activo, 
+       evaluacion_resultado.fecha_registro, evaluacion_resultado.usuario_registro, persona.cve_persona, persona.nombre, persona.apellido_peterno, persona.apellido_materno, 
+       tipo_servicio.nombre_tipo_servicio, asesoria.cve_empleado, asesoria.cve_academia, asesoria.materia, area.cve_area, area.nombre_area, CONCAT(persona.nombre, ' ', persona.apellido_peterno, ' ', persona.apellido_materno) AS nombre_completo
+FROM evaluacion_resultado
+LEFT JOIN persona ON evaluacion_resultado.usuario_registro = persona.cve_persona
+LEFT JOIN tipo_servicio ON evaluacion_resultado.cve_t_servicio = tipo_servicio.cve_tipo_servicio
+LEFT JOIN asesoria ON evaluacion_resultado.cve_asesoria_proyecto = asesoria.cve_asesoria
+LEFT JOIN area ON evaluacion_resultado.cve_area = area.cve_area
 		</query>
 	</tablaEncuestaSatisfaccion>
 	<guardarEncuesta>
 		<query>
-			EXEC InsertarEvaluacionResultado
-				@cve_t_servicio = ?,
-				@cve_asesoria_proyecto = ?,
-				@suma = ?,
-				@porcentaje = ?,
-				@cuatrimestre = ?,
-				@comentarios = ?;
+			INSERT INTO evaluacion_resultado (cve_t_servicio, cve_asesoria_proyecto, cve_area, suma, porcentaje, cuatrimestre, comentarios, usuario_registro)
+	VALUES (?, ?, ?, ?, ?, ?, ?, ?);
 		</query>
 	</guardarEncuesta>
 
@@ -35,8 +33,22 @@ FROM            tipo_servicio
 	</consultarTipoServicio>
 	<constultarAsesoriaProyecto>
 		<query>
-			SELECT        TOP (200) cve_asesoria, cve_empleado, materia
-FROM            asesoria
+			SELECT TOP (200)
+  asesoria.cve_asesoria,
+  asesoria.cve_academia,
+  asesoria.materia,
+  asesoria.fecha,
+  academia.nombre_academia,
+  academia.cve_academia AS Expr1,
+  CONCAT(asesoria.materia, '- ', academia.nombre_academia) AS asesoria_proyecto
+FROM asesoria
+INNER JOIN academia ON asesoria.cve_academia = academia.cve_academia
 		</query>
 	</constultarAsesoriaProyecto>
+	<consultarArea>
+		<query>
+			SELECT   TOP (200) cve_area, nombre_area, activo, fecha_registro, usuario_registro
+FROM         area
+		</query>
+	</consultarArea>
 </CatalogoProveedores>
