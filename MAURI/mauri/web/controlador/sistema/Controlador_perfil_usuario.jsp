@@ -39,6 +39,8 @@
 	int accion = request.getParameter("accion")!=null && !request.getParameter("accion").equals("")?Integer.parseInt(request.getParameter("accion")):0;
 	
 	int cve_persona = request.getParameter("cve_persona")!=null && !request.getParameter("cve_persona").equals("")?Integer.parseInt(request.getParameter("cve_persona")):0;
+	int cve_usuario = request.getParameter("cve_usuario")!=null && !request.getParameter("cve_usuario").equals("")?Integer.parseInt(request.getParameter("cve_usuario")):0;
+	int activo = request.getParameter("activo")!=null && !request.getParameter("activo").equals("")?Integer.parseInt(request.getParameter("activo")):0;
 	int cve_grupo_seguridad = request.getParameter("cve_grupo_seguridad")!=null && !request.getParameter("cve_grupo_seguridad").equals("")?Integer.parseInt(request.getParameter("cve_grupo_seguridad")):0;
 	String usuario = request.getParameter("usuario")!=null && !request.getParameter("usuario").equals("")?request.getParameter("usuario"): "";
 	String password = request.getParameter("password")!=null && !request.getParameter("password").equals("")?request.getParameter("password"): "";
@@ -60,7 +62,13 @@
 			parametros.add(temp_obj);
 			out.println(datos.Registro(parametros, "grupoSeguridad"));
 		break;
-		
+		case 4:
+			temp_obj = new JsonObject();			
+			temp_obj.addProperty("activo", activo);
+			temp_obj.addProperty("cve_usuario", cve_usuario);			
+			parametros.add(temp_obj);
+			out.println(datos.Registro(parametros, "cambiarEstatus"));
+		break;
 		
 	}
 %>

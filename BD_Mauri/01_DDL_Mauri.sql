@@ -72,6 +72,7 @@ CREATE TABLE usuario_grupo_seguridad(
 
 -- ------------- TABLA USUARIO_GRUPO_SEGURIDAD -------------- --
 CREATE TABLE usuario(
+	cve_usuario					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	cve_persona 				INT NOT NULL,
 	nombre_usuario 				VARCHAR(50),
 	contrasenia 				VARCHAR(50),
@@ -235,7 +236,7 @@ CREATE TABLE asesoria(
 	cve_academia				INT NOT NULL,
 	materia						VARCHAR(50),
 	fecha						DATE,
-	motivo_solicitud			VARCHAR(50),
+	motivo_solicitud			TEXT,
 	sugerencias					TEXT,
 	entrevista					TEXT,
 	activo 						BIT DEFAULT 1,
@@ -246,7 +247,6 @@ CREATE TABLE asesoria(
 -- ----------------- TABLA ASESORIA_D ------------------- --
 CREATE TABLE asesoria_d(
 	cve_asesoria 				INT NOT NULL,
-	cve_compromiso 				INT NOT NULL,
 	cve_responsable 			INT NOT NULL,
 	compromiso 					TEXT,
 	fecha_seguimiento 			DATE,
@@ -280,6 +280,7 @@ CREATE TABLE rubrica_observacion_clase(
 	calificacion_seccion 		INT,
 	calificacion_total			INT,
 	cometario 					TEXT,
+	estatus						BIT, -- Cancelado/Activo
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
 	usuario_registro 			INT
@@ -289,8 +290,9 @@ CREATE TABLE rubrica_observacion_clase(
 CREATE TABLE evaluacion_resultado(
 	cve_eval_resul				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	cve_t_servicio 				INT NOT NULL,
-	cve_asesoria_proyecto		INT NOT NULL,
+	cve_asesoria_proyecto		INT,
 	cve_area					INT NOT NULL,
+	nombre_proyecto				VARCHAR(100),
 	suma						INT,
 	porcentaje 					FLOAT,
 	cuatrimestre				VARCHAR(8),
@@ -325,6 +327,7 @@ CREATE TABLE solicitud_formacion_docente(
 	transferencia_banco 		VARCHAR(20),
 	transferencia_clave 		VARCHAR(25),
 	observaciones 				TEXT,
+	estatus						INT, -- 1.- validado, 2.- con observaciones, 3.- autorizado
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
 	usuario_registro 			INT
@@ -374,6 +377,7 @@ CREATE TABLE necesidad_capacitacion_anual (
 	total_participantes 		INT,
 	total_hombres 				INT,
 	total_mujeres 				INT,
+	estatus						INT, -- 1.- permiso de ediciión, 2.- no autorizado, 3.- autorizado
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
 	usuario_registro 			INT
@@ -395,6 +399,7 @@ CREATE TABLE solicitud_capacitacion_interna(
 	horas_tema 					INT,
 	resultado_aprendizaje 		TEXT,
 	perfil_participante 		TEXT,
+	estatus						INT, -- 1.- permiso de ediciión, 2.- no autorizado, 3.- autorizado
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
 	usuario_registro 			INT
@@ -404,9 +409,8 @@ CREATE TABLE solicitud_capacitacion_interna(
 CREATE TABLE analisis_docente(
 	cve_analisis_docente 		INT IDENTITY (1,1) PRIMARY KEY,
 	cve_unidad_academica		INT NOT NULL,
-	cve_departamento			INT NOT NULL,
-	cve_tipo_evento 			INT NOT NULL,
-	cve_ugac					INT NOT NULL,
+	cve_academia				INT NOT NULL,
+	programa_educativo			VARCHAR(100),
 	numero_ptc					INT,
 	anio_aplicacion				INT,
 	media_evaluacion_docente 	FLOAT,
@@ -419,6 +423,7 @@ CREATE TABLE analisis_docente(
 	necesidades					TEXT,
 	prioridad_capacitacion 		TEXT,
 	estrategias_intervencion 	TEXT,
+	estatus						BIT,
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
 	usuario_registro 			INT
@@ -505,6 +510,7 @@ CREATE TABLE evento_programado(
 	horario_fin 				TIME,
 	fecha_inicio 				DATE,
 	fecha_fin 					DATE,
+	estatus						INT, -- Cancelado, Cerrado, Programado y en Proceso
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
 	usuario_registro 			INT
@@ -795,6 +801,7 @@ CREATE TABLE horario(
 	cve_horario 				INT NOT NULL PRIMARY KEY IDENTITY(1,1),
 	hora_inicio 				TIME,
 	hora_fin 					TIME,
+	descripcion					VARCHAR(30),
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
 	usuario_registro 			INT
@@ -834,6 +841,7 @@ CREATE TABLE autoevaluacion_capacitacion_docente(
 	factores_identificacion		TEXT,
 	factores_aplicacion			TEXT,
 	promedio					FLOAT,
+	estatus						INT, -- 1.- Cancelado, 2.- Proceso, 3.- Cerrado
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
 	usuario_registro 			INT

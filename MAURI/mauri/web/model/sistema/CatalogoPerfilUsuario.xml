@@ -14,4 +14,9 @@
             INSERT INTO usuario_grupo_seguridad (cve_grupo_seguridad, cve_persona, usuario_registro) VALUES (?, ?, 1);
         </query>
     </grupoSeguridad>
+    <cambiarEstatus>
+        <query>
+            UPDATE usuario SET activo = ? WHERE cve_usuario = ?
+        </query>
+    </cambiarEstatus>
 </CatalogoPerfilUsuario>

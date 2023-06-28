@@ -1,0 +1,7 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "MAURI/mauri/web/WEB-INF/lib/gson-2.8.5.jar",
+        "MAURI/mauri/web/WEB-INF/lib/jdom-2.0.6.jar"
+    ]
+}

@@ -33,7 +33,7 @@ GO
 CREATE VIEW v_usuario_persona AS
 SELECT			
 				ROW_NUMBER() OVER (ORDER BY usuario.cve_persona) AS numero_fila,
-				usuario.cve_persona, 
+				usuario.cve_usuario, 
 				usuario.nombre_usuario, 
 				usuario.contrasenia, 
 				usuario.activo, 

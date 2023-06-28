@@ -128,6 +128,13 @@
                                                 email = item.email
                                                 movil = item.movil"><v-icon>mdi-card-plus</v-icon></v-btn>
                                             </template>
+                                            <template v-slot:item.estatus="{item}">
+                                                <v-chip class="ma-2" link @click="fnCambiarEstatus(item)"
+                                                    :color="item.activo ? 'success' : 'grey'" outlined>
+                                                    {{ item.activo ?
+                                                    "Activo" : "Inactivo" }}
+                                                </v-chip>
+                                            </template>
                                         </v-data-table>
                                     </v-col>
                                 </v-row>
@@ -218,7 +225,7 @@
                         { text: "Segundo Apellido", align: "left", sortable: true, value: "apellido_materno" },
                         { text: "Nombre Usuario", align: "left", sortable: true, value: "nombre_usuario" },
                         { text: "RFC", align: "left", sortable: true, value: "rfc" },
-                        { text: "Email", align: "left", sortable: true, value: "email" },
+                        { text: "Estatus", align: "left", sortable: true, value: "estatus" },
                         { text: "Asignar Acceso", align: "left", sortable: true, value: "editar" }
                     ]);
                     const searchCapacitacion = ref([]);
@@ -256,6 +263,37 @@
                             if (status == 200) {
                                 if (data.length > 0) {
                                     usuarios.value = data;
+                                }
+                            }
+                        } catch (error) {
+                            mostrarSnackbar("error");
+                            console.error(error);
+                        } finally {
+                            swal.close();
+                        }
+                    }
+
+                    async function fnCambiarEstatus(item) {
+                        try {
+                            preloader("../");
+                            let parametros = new URLSearchParams();
+                            parametros.append("accion", 4);
+                            parametros.append("cve_usuario", item.cve_usuario);
+                            parametros.append("activo", (item.activo == true ? 0 : 1));
+                            console.log("🚀 ~ file: perfil_usuario.jsp:283 ~ fnCambiarEstatus ~ parametros:", parametros)
+                            let { data, status } = await axios.post(ctr, parametros);
+                            if (status == 200) {
+                                if (data == "1") {
+                                    mostrarSnackbar(
+                                        "success",
+                                        "Registro actualizado correctamente."
+                                    );
+                                    fnConsultarTabla();
+                                    // this.$validator.pause();
+                                    // Vue.nextTick(() => {
+                                    //     this.$validator.errors.clear();
+                                    //     this.$validator.resume();
+                                    // });
                                 }
                             }
                         } catch (error) {
@@ -351,6 +389,7 @@
                         headerCapacitacion,
                         searchCapacitacion,
                         fnConsultarTabla,
+                        fnCambiarEstatus,
                         dataUsuario,
                         fnLimpiarCampos,
                         fnEditar,

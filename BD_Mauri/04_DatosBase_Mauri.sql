@@ -154,6 +154,12 @@ INSERT INTO tipo_servicio (nombre_tipo_servicio, usuario_registro)
             VALUES  ('Asesoría pedagógica', 1),
                     ('Desarrollo de proyecto', 1);
 
+-- ------------- INSERTS DE TIPO_ESPACIO -------------- --
+INSERT INTO tipo_espacio (nombre_tipo_espacio, usuario_registro)
+            VALUES      ('Auditorio', 1),
+                        ('Sala', 1),
+                        ('Centros de computo', 1);
+
 
 -- ------------- INSERTS DE AREA -------------- --
 INSERT INTO area (nombre_area, usuario_registro)
@@ -260,9 +266,21 @@ INSERT INTO curso (nombre_curso, usuario_registro)
 						('Técnicas de aprendizaje', 1);
 
 
-INSERT INTO periodo (fecha_inicio, fecha_fin, numero_periodo, descripcion, usuario_registro) VALUES      ('2023-09-05', '2023-12-17', 1, 'Septiembre - Diciembre', 1),
-                                ('2024-01-09', '2023-04-29', 1, 'Enero - Abril', 1),
-                                ('2024-05-02', '2023-08-26', 1, 'Mayo - Agosto', 1)
+INSERT INTO periodo (fecha_inicio, fecha_fin, numero_periodo, descripcion, usuario_registro) 
+VALUES                          ('2023-09-05', '2023-12-17', 1, 'Septiembre - Diciembre', 1),
+                                ('2024-01-09', '2023-04-29', 2, 'Enero - Abril', 1),
+                                ('2024-05-02', '2023-08-26', 3, 'Mayo - Agosto', 1);
+
+INSERT INTO horario (hora_inicio, hora_fin, descripcion, usuario_registro) 
+VALUES                          ('07:00', '07:55', '7:00 - 7:55', 1),
+                                ('08:00', '08:50', '8:00 - 8:50', 1),
+                                ('08:55', '09:45', '8:55 - 9:45', 1),
+                                ('09:50', '10:40', '9:50 - 10:40', 1),
+                                ('10:45', '11:45', '10:45 - 11:45', 1),
+                                ('11:40', '12:30', '11:40 - 12:30', 1),
+                                ('12:35', '13:25', '12:35 - 13:25', 1),
+                                ('13:30', '14:20', '13:30 - 14:20', 1),
+                                ('14:00', '15:15', '14:25 - 15:15', 1);
 
 
 INSERT INTO necesidad_capacitacion_anual   (cve_area_registro,
@@ -283,53 +301,23 @@ INSERT INTO necesidad_capacitacion_anual   (cve_area_registro,
 											objetivo_evento,--15
 											justificacion,--16
 											otro_tipo_evento,--17
-											proveedor,--18
-											costo_capacitacion,--19
-											mes,--20
-											fecha_inicio,--21
-											fecha_temino,--22
-											num_dias,--23
-											num_horas_efectivas,--24
-											participantes_ptc,--25
-											participantes_laboratoristas,--26
-											participantes_administrativo,--27
-											otros_participantes,--28
-											total_participantes,--29
-											total_hombres,--30
-											total_mujeres)--31
+											proveedor,
+											costo_capacitacion,
+											mes,
+											fecha_inicio,
+											fecha_temino,
+											num_dias,
+											num_horas_efectivas,
+											participantes_ptc,
+											participantes_laboratoristas,
+											participantes_administrativo,
+											otros_participantes,
+											total_participantes,
+											total_hombres,
+											total_mujeres)
 				VALUES
-										   (1, -- 1 
-										   1,
-										   2, --2
-										   1, --3
-										   1, --4
-										   1, --5
-										   1, --6
-										   1, --7
-										   1, --8
-										   'T.S.U', --9
-										   'Dirección de Sustentabilidad para el desarrollo',--10 
-										   'TSU en TI Área Entornos Virtuales y Negocios Digitales', --11
-										   '2022', --12
-                                                                                   'Falta de eficiencia', --13
-                                                                                   'Evento de comunicación', --14
-										   'Mejorar', --15
-										   'Quejas de alumnos',--16 
-										   '', --17
-										   'UTL', --18
-										   234, --19
-										   'Junio', --20
-										   '2023-06-07', --21
-										   '2023-06-13',--22
-										   12,--23
-										   2,--24
-										   0,--25
-										   8,--26
-										   22,--27
-										   10,--28
-										   12,--29
-										   1,
-                                                                                   1)--30
+						(1, 1, 2, 1, 1, 1, 1, 1, 1, 'T.S.U', 'Dirección de Sustentabilidad para el desarrollo', 'TSU en TI Área Entornos Virtuales y Negocios Digitales', --11
+						'2022', 'Falta de eficiencia', 'Evento de comunicación', 'Mejorar', 'Quejas de alumnos', '', 'UTL', 234, 'Junio', '2023-06-07', '2023-06-13', 12, 2, 0, 8, 22, 10, 12, 1, 1)
 
 
 INSERT INTO ugac (nombre_ugac, usuario_registro) 
