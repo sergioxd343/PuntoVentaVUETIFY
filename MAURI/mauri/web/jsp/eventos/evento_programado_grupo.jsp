@@ -23,242 +23,40 @@
                 <v-container fluid>
                     <v-card>
                         <v-card-title  style="background-color: #00b293; color:#ffffff; headline" >		
-                            Evento Programado en Grupo
+                            Evento programado en grupo
                         </v-card-title>
                         <v-container fluid>
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                 <!--Columna-->
-                                <v-col md=6>
-                                    <v-select 
-                                        v-model="tipo"
-                                        outlined
-                                        label="Empleado"
-                                        v-validate="'required'"
-                                        :items="arrayTiposUsuario"
-                                        item-value="id_tipo_usuario"
-                                        item-text="nombre"
-                                        data-vv-name="tipo"
-                                        :error="errors.has('tipo')"
-                                        :error-messages="errors.first('tipo')"
-                                    ></v-select>
-                                </v-col>
+                                <v-col md="12">
+                                    <v-card-title  style="background-color: #00b293; color:#ffffff; headline" >		
+                                        Eventos programados
+                                    </v-card-title>
+                                    <v-data-table
+                                      :headers="headersProveedores"
+                                      :items="dataProveedores"
+                                      class="elevation-1"
+                                    >
+                                      <template v-slot:item.select="{ item }">
+                                        <v-checkbox v-model="item.selected"></v-checkbox>
+                                      </template>
+                                    </v-data-table>
 
-                                
-                                <v-col md=6>
-                                    <v-text-field 
-                                        v-model="nombreUsuario"
-                                        outlined
-                                        label="id Evento Programado"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
-                                    ></v-text-field>
-                                </v-col>
-
-
-                                <v-col md=3>
-                                    <v-text-field 
-                                        v-model="nombreUsuario"
-                                        outlined
-                                        type="number"
-                                        label="Calificación del Empleado"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
-                                    ></v-text-field>
-                                </v-col>
-
-                                <v-col md=3>
-                                    <v-text-field 
-                                        v-model="nombreUsuario"
-                                        outlined
-                                        type="number"
-                                        label="Numero de Faltas del Empleado"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
-                                    ></v-text-field>
-                                </v-col>
-
-                                <v-col md=3>
-                                    <v-text-field 
-                                        v-model="nombreUsuario"
-                                        outlined
-                                        type="number"
-                                        label="Calificacion de Curso"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
-                                    ></v-text-field>
-                                </v-col>
-
-                                <v-col md=3>
-                                    <v-text-field 
-                                        v-model="nombreUsuario"
-                                        outlined
-                                        label="Observacion del Curso"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
-                                    ></v-text-field>
-                                </v-col>
-
-                                <v-col cols="12" sm="6" md="4">
-                                    <v-menu 
-                                            ref="menu1"  
-                                            :close-on-content-click="false"
-                                            :return-value.sync="fecha" 
-                                            transition="scale-transition" 
-                                            offset-y min-width="auto">
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field v-model="fecha" label="Fecha de Calificación de Empleado" prepend-icon="mdi-calendar"
-                                                readonly v-bind="attrs" v-on="on"></v-text-field>
-                                        </template>
-                                        <v-date-picker v-model="fecha" no-title scrollable>
-                                            <v-spacer></v-spacer>
-                                            <v-btn text color="primary" @click="menu1 = false">
-                                                Cancel
-                                            </v-btn>
-                                            <v-btn text color="primary" @click="$refs.menu1.save(fecha)">
-                                                OK
-                                            </v-btn>
-                                        </v-date-picker>
-                                    </v-menu>
-                                </v-col>
-
-                                <v-col md=6>
-                                    <v-text-field 
-                                        v-model="nombreUsuario"
-                                        outlined
-                                        label="Calificación de Curso"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
-                                    ></v-text-field>
-                                </v-col>
-
-                                <v-col md=6>
-                                    <v-text-field 
-                                        v-model="nombreUsuario"
-                                        outlined
-                                        label="Calificación de Organizacion"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
-                                    ></v-text-field>
-                                </v-col>
-
-                                <v-col md=6>
-                                    <v-text-field 
-                                        v-model="nombreUsuario"
-                                        outlined
-                                        label="Impacto"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
-                                    ></v-text-field>
-                                </v-col>
-
-                                <v-col md=6>
-                                    <v-subheader>¿Recomendarias el Curso?</v-subheader>
-                                    <v-radio-group v-model="nombreUsuario">
-                                        <v-radio label="Si" :value="true"></v-radio>
-                                        <v-radio label="No" :value="false"></v-radio>
-                                      </v-radio-group>
-                                </v-col>
-
-                                <v-col cols="12" sm="6" md="4">
-                                    <v-menu 
-                                            ref="menu1"  
-                                            :close-on-content-click="false"
-                                            :return-value.sync="fecha" 
-                                            transition="scale-transition" 
-                                            offset-y min-width="auto">
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field v-model="fecha" label="Fecha de Calificación de Curso" prepend-icon="mdi-calendar"
-                                                readonly v-bind="attrs" v-on="on"></v-text-field>
-                                        </template>
-                                        <v-date-picker v-model="fecha" no-title scrollable>
-                                            <v-spacer></v-spacer>
-                                            <v-btn text color="primary" @click="menu1 = false">
-                                                Cancel
-                                            </v-btn>
-                                            <v-btn text color="primary" @click="$refs.menu1.save(fecha)">
-                                                OK
-                                            </v-btn>
-                                        </v-date-picker>
-                                    </v-menu>
-                                </v-col>
-
-                                <v-col md=6>
-                                    <v-text-field 
-                                        v-model="nombreUsuario"
-                                        outlined
-                                        label="Calificacion Autoevaluación"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
-                                    ></v-text-field>
-                                </v-col>
-
-                                <v-col md=6>
-                                    <v-text-field 
-                                        v-model="nombreUsuario"
-                                        outlined
-                                        label="Evidencia Aplicacion del curso"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
-                                    ></v-text-field>
-
-                                </v-col>
-
-                                <v-col cols="12" sm="6" md="4">
-                                    <v-menu 
-                                            ref="menu1"  
-                                            :close-on-content-click="false"
-                                            :return-value.sync="fecha" 
-                                            transition="scale-transition" 
-                                            offset-y min-width="auto">
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field v-model="fecha" label="Fecha Autoevaluación" prepend-icon="mdi-calendar"
-                                                readonly v-bind="attrs" v-on="on"></v-text-field>
-                                        </template>
-                                        <v-date-picker v-model="fecha" no-title scrollable>
-                                            <v-spacer></v-spacer>
-                                            <v-btn text color="primary" @click="menu1 = false">
-                                                Cancel
-                                            </v-btn>
-                                            <v-btn text color="primary" @click="$refs.menu1.save(fecha)">
-                                                OK
-                                            </v-btn>
-                                        </v-date-picker>
-                                    </v-menu>
                                 </v-col>
                                 
-
-
-
+                                    <v-btn color="primary" dark @click="moveSelectedProveedores">Mover seleccionados</v-btn>
+                                </v-row>
+                                    <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+                                        <v-col md="12">
+                                        <v-card-title  style="background-color: #00b293; color:#ffffff; headline" >		
+                                            Eventos a los que asistiré
+                                        </v-card-title>
+                                    <v-data-table
+                                      :headers="headersProveedores"
+                                      :items="selectedProveedores"
+                                      class="elevation-1"
+                                    ></v-data-table>
+                                  </v-col>
                                 
                                 
 
@@ -282,50 +80,7 @@
                                 <v-btn color="error" @click="fnLimpiarCampos()"><v-icon>mdi-cancel</v-icon>Cancelar</v-btn>
                             </v-row>
                             
-                            <v-row justify="center">
-                                <v-col md=12>
-                                    <v-data-table
-                                        :headers="headersProveedores"
-                                        :items="dataProveedores"
-                                        :search="searchProveedores"
-                                        class="elevation-2"
-                                        no-data-text="No se encontro ningun registro"
-                                        :hide-default-header="dataProveedores.length < 1"
-                                        :hide-default-footer="dataProveedores.length < 1"
-                                        locale="es-ES"
-                                        :mobile-breakpoint="NaN"
-                                        items-per-page="10"
-                                    >   
-                                        <template v-slot:item.status="{item}">
-                                            <%-- <v-tooltip bottom> --%>
-                                                <%-- <template v-slot:activator="{on, attrs}"> --%>
-                                                <%-- v-bind="attrs" v-on="on" --%>
-                                                    <v-switch v-model="item.status" @change="fnCambiarEstatus(item)"></v-switch>
-                                                <%-- </template> --%>
-                                                <%-- <span>d</span> --%>
-                                            <%-- </v-tooltip> --%>
-                                        </template>
-                                        <template v-slot:item.editar="{item}">
-                                            <v-btn fab small color="warning" @click="flagEditar = true; itemEditar = item;
-                                                tipo = item.tipo;
-                                                nombreUsuario = item.nombre;
-                                                fecha = item.fecha;
-                                            "><v-icon>mdi-square-edit-outline</v-icon></v-btn>
-                                        </template>
-                                        <template v-slot:item.eliminar="{item}">
-                                            <v-btn fab small color="error" @click="fnEliminar(item);"><v-icon>mdi-trash-can</v-icon></v-btn>
-                                        </template>
-                                        <template v-slot:item.password="{item}">
-                                            <v-tooltip bottom>
-                                                <template v-slot:activator="{on, attrs}">
-                                                    <span v-bind="attrs" v-on="on" @click="navigator.clipboard.writeText(item.password); mostrarSnackbar('success', 'Texto copiado al portapapeles.')"><b>{{item.password}}</b></span>
-                                                </template>
-                                                <span>Copiar contraseña</span>
-                                            </v-tooltip>
-                                        </template>
-                                    </v-data-table>
-                                </v-col>
-                            </v-row>
+                            
                         </v-container>
                     </v-card>
                 </v-container>
@@ -348,19 +103,10 @@
                             <v-row justify="center">
                                 <v-col md=12>
                                     <v-data-table
-                                        :headers="headersBusqueda"
-                                        :items="dataBusqueda"
-                                        :search="searchBusqueda"
-                                        class="elevation-2"
-                                        no-data-text="No se encontro ningun registro"
-                                        :hide-default-header="dataBusqueda.length < 1"
-                                        :hide-default-footer="dataBusqueda.length < 1"
-                                        locale="es-ES"
-                                        :mobile-breakpoint="NaN"
-                                        items-per-page="10"
-                                        @click:row="seleccionarUsuario"
-                                    >
-                                    </v-data-table>
+                                        :headers="headersEventos"
+                                        :items="selectedProveedores"
+                                        class="elevation-1"
+                                        ></v-data-table>
                                 </v-col>
                             </v-row>
                         </v-card-text>
@@ -423,17 +169,15 @@
                     onMounted,
                     watch
                 } = VueCompositionAPI;
-                const ctr = "../../controlador/ejemplo_usuario/Controlador_catalogo_usuario.jsp";
-                //Variables POST
-                const tipo = ref("");
-                const nombreUsuario = ref("");
-                const fecha = ref("");
-                const rfc = ref("");
-                const padron = ref("");
-                const nombrePerfil = ref("");
-                const correoContacto = ref("");
-                const telefonoContacto = ref("");
-                const estatus = ref("");
+                const ctr = "../../controlador/eventos/Controlador_evento_programado_grupo.jsp";
+                //Variables primera tabla
+                const singleSelect = ref("");
+                const tableSelected = ref("");
+
+
+                //pruebas
+                const selectedProveedores = ref([]);
+
                 //Otras variables
                 const flagEditar = ref(false);
                 const itemEditar = ref({});
@@ -447,6 +191,7 @@
                 const snackbar = ref(false);
                 const mensaje_snackbar = ref('');
                 const color_snackbar = ref('');
+                 
                 //Loaders
                 //Dialogs
                 const dialogBuscador = ref(false);
@@ -458,23 +203,33 @@
                 //dataUsuarios
                 const dataProveedores = ref([]); 
                 const dataUsuarios = ref([]);
-                const headersProveedores = ref([
+                const headersEventos = ref([
                     {text: 'No', align: 'left', sortable: true, value: 'id_usuario'},
-                    {text: 'Nombre', align: 'left', sortable: true, value: 'nombre'},
-                    {text: 'Tipo de Usuario ', align: 'left', sortable: true, value: 'Expr1'},
-                    {text: 'Fecha', align: 'left', sortable: true, value: 'fecha'},
-                    {text: 'Editar', align: 'left', sortable: true, value: 'editar'},
-                    {text: 'Estatus', align: 'left', sortable: true, value: 'activo'},
-                    {text: 'Eliminar', align: 'left', sortable: true, value: 'eliminar'},
+                ]);
+                const headersProveedores = ref([
+                    {text: 'Nombre del evento', align: 'left', sortable: true, value: 'nombre_evento'},
+                    {text: 'Nombre origen', align: 'left', sortable: true, value: 'nombre_origen'},
+                    {text: 'Horario inicio ', align: 'left', sortable: true, value: 'horario_inicio'},
+                    {text: 'Horario fin', align: 'left', sortable: true, value: 'horario_fin'},
+                    {text: 'fecha Inicio', align: 'left', sortable: true, value: 'fecha_inicio'},
+                    {text: 'Fecha fin', align: 'left', sortable: true, value: 'fecha_fin'},
+                    { text: 'Seleccionar', align: 'left', sortable: false, value: 'select' },
                 ]);
                 const searchProveedores = ref([]);
 
                 //Accion automatizada para mostrar la tabla
                 onMounted(() => {
                     fnConsultarTabla();
-                    fnTiposUsuario();
-                    //fnTiposProveedor();
                 });
+
+                function moveSelectedProveedores() {
+                    const selected = dataProveedores.value.filter((proveedor) => proveedor.selected);
+                    selectedProveedores.value.push(...selected);
+                    dataProveedores.value = dataProveedores.value.filter((proveedor) => !proveedor.selected);
+                    selected.forEach((proveedor) => {
+                        proveedor.selected = false;
+                    });
+                }
 
                 async function fnTiposUsuario(){
                     try{
@@ -658,9 +413,9 @@
 
                 return{
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
-                    tipo, nombreUsuario, fecha, rfc, padron, nombrePerfil, correoContacto, telefonoContacto,estatus,
-                    dataProveedores, headersProveedores, searchProveedores, arrayTiposUsuario, 
-                    dialogBuscador, dialogDetallesCotizacion, dialogProveedor,
+                    tableSelected, singleSelect, selectedProveedores,
+                    dataProveedores, headersProveedores, headersEventos, searchProveedores, arrayTiposUsuario, 
+                    dialogBuscador, dialogDetallesCotizacion, dialogProveedor, moveSelectedProveedores,
                     fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, itemEditar
                 }
             },

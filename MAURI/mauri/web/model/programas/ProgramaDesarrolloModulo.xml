@@ -12,8 +12,9 @@ and open the template in the editor.
 	</tablaProgramaDesarrollo>
     <guardarProgramaDesarrolloModulo>
 		<query>
-			INSERT INTO programa_desarrollo_modulo (cve_prog_des, cve_modulo, nombre_modulo, num_materias, color, usuario_registro)
-VALUES (?, 1, ?, ?, ?,1);
+			DECLARE @cve_prog_des INT = ?;
+INSERT INTO programa_desarrollo_modulo (cve_prog_des, cve_modulo, nombre_modulo, num_materias, color, usuario_registro)
+VALUES (@cve_prog_des, (SELECT numero_modulos FROM programa_desarrollo WHERE cve_prog_des = @cve_prog_des), ?, ?, ?, 1);
 
 		</query>
 	</guardarProgramaDesarrolloModulo>
