@@ -64,20 +64,25 @@ String activo = request.getParameter("activo") != null && !request.getParameter(
      int cve_tipo_evento = request.getParameter("cve_tipo_evento") != null && !request.getParameter("cve_tipo_evento").equals("") ? Integer.parseInt(request.getParameter("cve_tipo_evento")) : 0;
      switch (accion) {
         case 1:
-          out.println(datos.Consultas(parametros, "tablaTipoEvento"));
+            out.println(datos.Consultas(parametros, "tablaTipoEvento"));
           break;
         case 2:
         temp_obj = new JsonObject();
             temp_obj.addProperty("nombre_tipo_evento", nombreTipoEvento);
             parametros.add(temp_obj);
-           out.println(datos.Registro(parametros, "guardarTipoEvento"));
+            out.println(datos.Registro(parametros, "guardarTipoEvento"));
            break;
         case 3:
-        temp_obj =new JsonObject();
-        temp_obj.addProperty("activo", activo);
+            temp_obj =new JsonObject();
             temp_obj.addProperty("cve_tipo_evento", cve_tipo_evento);
             parametros.add(temp_obj);
-           out.println(datos.Registro(parametros, "eliminar"));
+            out.println(datos.Registro(parametros, "eliminar"));
+           break;
+        case 4:
+            temp_obj =new JsonObject();
+            temp_obj.addProperty("cve_tipo_evento", cve_tipo_evento);
+            parametros.add(temp_obj);
+            out.println(datos.Registro(parametros, "activar"));
            break;
           default:
            out.print("ENTRO A CONTROLADOR"+ accion);

@@ -32,10 +32,10 @@
 
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
 
-                                <v-col md=2>
+                                <v-col md=4>
                                     <v-text-field 
                                         v-model="nombreTipoEvento" 
-                                        outlined label="Nombre del evento" 
+                                        label="Nombre tipo evento" 
                                         persistent-hint
                                         v-validate="'required|max:200'" 
                                         data-vv-name="nombre tipo evento"
@@ -63,19 +63,17 @@
                                         :mobile-breakpoint="NaN"
                                         items-per-page="10"
                                     >
-                                     
-                                    <template v-slot:item.activo="{item}">
-                                        <v-container class="px-0" fluid>
-                                            <v-switch v-model="item.activo" @change="fnEliminarEvento(item)"></v-switch>
-                                            
-                                        </v-container>
+                                    
+                                    <template v-slot:item.eliminar="{item}">
+                                        <v-btn  small color="grey" @click="fnEliminarEvento(item);" :disabled="!item.activo" >Inactivo</v-btn>
                                     </template>
-                                    <template v-slot:item.editar={item}>
-                                        <v-container class="px-0" fluid>
-                                            <v-btn  small :style="{ backgroundColor: item.activo ? 'green' : 'red' }">{{ item.activo ? 'Activo' : 'Inactivo' }}</v-btn>
-                                        </v-container>
-                                    </template>
+                                    <template v-slot:item.editar="{item}">
+                                        <v-btn  small color="success" @click="fnActivar(item);" :disabled="item.activo">Activo</v-btn>
 
+                                    </template><template v-slot:item.activo="{ item }">
+                                        <span>{{ item.activo ? 'Activo' : 'Inactivo' }}</span>
+                                      </template>
+                                   
                                     </v-data-table>
                                 </v-col>
                             </v-row>    
@@ -182,7 +180,7 @@
                 const ctr = "../../controlador/catalogos_pequenios/Controlador_tipo_evento.jsp";
                 //Variables POST
                 
-                
+                const arrayEstatus = ref([]);
                 const nombreTipoEvento = ref("");
                 
                 //Otras variables
@@ -211,8 +209,9 @@
                     {text: 'No', align: 'left', sortable: true, value: 'cve_tipo_evento'},
                     {text: 'Nombre evento', align: 'left', sortable: true, value: 'nombre_tipo_evento'},
                     {text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro'},
-                    {text: 'Estatus', align: 'left', sortable: true, value: 'editar'},
-                    {text: 'Activar o desactivar', align: 'left', sortable: true, value: 'activo'},
+                    {text: 'Estatus actual', align: 'left', sortable: true, value: 'activo'},
+                    {text: 'Activar', align: 'left', sortable: true, value: 'editar'},
+                    {text: 'Desactivar', align: 'left', sortable: true, value: 'eliminar'},
                 ]);
             
                 const searchTipos = ref([]);
@@ -277,7 +276,6 @@
                                 preloader("../../");
                                 let parametros = new URLSearchParams();
                                 parametros.append("accion", 3 );
-                                parametros.append("activo", (item.activo == true ? 1 : 0));
                                 parametros.append("cve_tipo_evento", item.cve_tipo_evento);
                                 let {data,status} = await axios.post(ctr, parametros)
                                 if(status == 200){
@@ -293,6 +291,47 @@
                             }
 
                         }
+
+                        async function fnActivar(item){
+                            try{
+                                preloader("../../");
+                                let parametros = new URLSearchParams();
+                                parametros.append("accion", 4);
+                                parametros.append("cve_tipo_evento", item.cve_tipo_evento);
+                                let {data,status} = await axios.post(ctr, parametros)
+                                if(status == 200){
+                                    if(data=="1"){
+                                        fnConsultarTablaTipoEvento();
+                                    }
+                                }
+                            } catch(error){
+                                mostrarSnackbar('error');
+                                console.error(error);
+                            } finally{
+                                swal.close();
+                            }
+
+                        }
+
+
+                    async function fnEstatus(){
+                    try{
+                        preloader("../");
+                        let parametros = new URLSearchParams();
+                        parametros.append("accion", 4);
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                arrayEstatus.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                }
 
                 function fnLimpiarCampos(cx){//cx = contexto
                     nombreTipoEvento.value = "";
@@ -318,8 +357,8 @@
                 return{
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
                     nombreTipoEvento, searchTipos, dataTipoEvento, fnConsultarTablaTipoEvento, headersTipoEvento, 
-                    fnGuardarTipoEvento, fnLimpiarCampos, fnEliminarEvento,
-                    dialogBuscador, dialogDetallesCotizacion, dialogProveedor,
+                    fnGuardarTipoEvento, fnLimpiarCampos, fnEliminarEvento, arrayEstatus, fnEstatus,
+                    dialogBuscador, dialogDetallesCotizacion, dialogProveedor, fnActivar,
                     
                     //fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, itemEditar
                 }

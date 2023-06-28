@@ -18,6 +18,12 @@
         body {
             font-family: 'Roboto';
         }
+
+        .seccion_1 {
+            border: 1px solid black;
+            padding: 10px;
+            border-radius: 5px;
+        }
     </style>
 
     <body>
@@ -33,34 +39,100 @@
                         <v-container fluid class="elevation-2">
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
 
-                                <v-col md=5>
-                                    <!--Solicitante-->
-                                    <v-autocomplete v-model="cve_empleado" outlined label="Nombre de solicitante"
-                                        persistent-hint v-validate="'required|max:100'"
-                                        data-vv-name="nombre de solicitante" :items="arrayEmpleado"
-                                        item-value="cve_empleado" item-text="nombre_completo"
-                                        :error="errors.has('nombre de solicitante')"
-                                        :error-messages="errors.first('nombre de solicitante')" :readonly="modoEdicion"></v-autocomplete>
+
+                                <v-col md="8">
+                                    <!--Nombre del/la docente-->
+                                    <v-text-field outlined label="Nombre del/la docente:" persistent-hint
+                                        v-validate="'required|max:100'" :readonly="true"
+                                        :value="nombreCompleto"></v-text-field>
+                                </v-col>
+                                <v-col md="8">
                                     <!--Materia-->
-                                    <v-text-field v-model="materia" outlined label="Materia" persistent-hint
+                                    <v-text-field v-model="materia" outlined label="Materia:" persistent-hint
                                         v-validate="'required|max:55'" data-vv-name="materia"
-                                        :error="errors.has('materia')"
-                                        :error-messages="errors.first('materia')" :readonly="modoEdicion"></v-text-field>
+                                        :error="errors.has('materia')" :error-messages="errors.first('materia')"
+                                        :readonly="modoEdicion"></v-text-field>
+                                </v-col>
+                                <v-col md=8>
                                     <!--Academia-->
-                                    <v-autocomplete v-model="cve_academia" outlined label="Nombre de academia"
-                                        persistent-hint v-validate="'required|max:100'"
-                                        data-vv-name="nombre de academia" :items="arrayAcademia"
-                                        item-value="cve_academia" item-text="nombre_academia"
+                                    <v-autocomplete v-model="cve_academia" outlined label="Academia:" persistent-hint
+                                        v-validate="'required|max:100'" data-vv-name="nombre de academia"
+                                        :items="arrayAcademia" item-value="cve_academia" item-text="nombre_academia"
                                         :error="errors.has('nombre de academia')"
-                                        :error-messages="errors.first('nombre de academia')" :readonly="modoEdicion"></v-autocomplete>
+                                        :error-messages="errors.first('nombre de academia')"
+                                        :readonly="modoEdicion"></v-autocomplete>
+                                </v-col>
+                                <v-col md="8">
+                                    <!--Solicitante-->
+                                    <v-autocomplete v-model="cve_empleado" outlined label="Solicitante:" persistent-hint
+                                        v-validate="'required|max:100'" data-vv-name="nombre de solicitante"
+                                        :items="arrayEmpleado" item-value="cve_empleado" item-text="nombre_completo"
+                                        :error="errors.has('nombre de solicitante')"
+                                        :error-messages="errors.first('nombre de solicitante')"
+                                        :readonly="modoEdicion"></v-autocomplete>
                                 </v-col>
 
-                                <v-col md=5>
+                                <v-col md="8">
+                                    <!--Fecha-->
+                                    <v-text-field outlined label="Fecha:" persistent-hint
+                                        v-validate="'required|max:100'" :readonly="true"
+                                        v-model="fechaActual"></v-text-field>
+                                </v-col>
+
+                                <v-col md="10">
+                                    <p class="font-weight-thin">
+                                        Redacte brevemente los motivos por los que solicita asesoramiento pedagógico.
+                                    </p>
+                                    <!--Motivo de solicitud-->
+                                    <v-textarea v-model="motivo_solicitud" outlined label="Motivo de la solicitud:"
+                                        persistent-hint v-validate="'required'" data-vv-name="motivo"
+                                        :error="errors.has('motivo')" :error-messages="errors.first('motivo')"
+                                        :readonly="modoEdicion" class="mx-2" rows="1"
+                                        prepend-icon="mdi-comment"></v-textarea>
+                                </v-col>
+                                <v-col md="10" class="seccion_1">
+                                    <v-col md="10">
+                                        <p class="font-weight-thin">
+                                            ¿Se le han dado algunas sugerencias sobre su práctica docente?
+                                        </p>
+                                        <!--Pregunta-->
+                                        <v-radio-group v-model="sugerenciasActivo">
+                                            <v-radio label="Si" value="opc_si"></v-radio>
+                                            <v-radio label="No" value="opc_no"></v-radio>
+                                        </v-radio-group>
+                                    </v-col>
+                                    <v-col md="10" v-if="sugerenciasActivo === 'opc_si'">
+                                        <!--Explicación sugerencias-->
+                                        <v-textarea v-model="sugerencias" outlined label="Explique brevemente:"
+                                            persistent-hint data-vv-name="sugerencias"
+                                            :error="errors.has('sugerencias')"
+                                            :error-messages="errors.first('sugerencias')" :readonly="modoEdicion"
+                                            class="mx-2" rows="1" prepend-icon="mdi-comment"></v-textarea>
+                                    </v-col>
+                                </v-col>
+                                <v-col md="10">
+                                    <!--Entrevista-->
+                                    <v-textarea v-model="entrevista" outlined label="Breve relatoria de la entrevista:"
+                                        persistent-hint v-validate="'required'" data-vv-name="entrevista"
+                                        :error="errors.has('entrevista')" :error-messages="errors.first('entrevista')"
+                                        :readonly="modoEdicion" class="mx-2" rows="1"
+                                        prepend-icon="mdi-comment"></v-textarea>
+                                </v-col>
+
+                                <v-col md="4">
+                                    <!--Compromisos-->
+                                    <v-textarea v-model="compromisos" outlined label="Compromisos:" persistent-hint
+                                        v-validate="'required'" data-vv-name="compromisos"
+                                        :error="errors.has('compromisos')" :error-messages="errors.first('compromisos')"
+                                        :readonly="modoEdicion" class="mx-2" rows="1"
+                                        prepend-icon="mdi-comment"></v-textarea>
+                                </v-col>
+                                <v-col md="4">
                                     <!--Fecha-->
                                     <v-menu ref="menu1" :close-on-content-click="false" :return-value.sync="fecha"
                                         transition="scale-transition" offset-y min-width="auto">
                                         <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field v-model="fecha" label="Fecha de aplicación"
+                                            <v-text-field v-model="fecha" label="Fecha de seguimiento"
                                                 prepend-icon="mdi-calendar" readonly v-bind="attrs"
                                                 v-on="on"></v-text-field>
                                         </template>
@@ -74,32 +146,16 @@
                                             </v-btn>
                                         </v-date-picker>
                                 </v-col>
-
-                                <v-col md=4>
-                                    <!--Motivo de solicitud-->
-                                    <v-textarea v-model="motivo_solicitud" outlined label="Motivo de la solicitud:"
-                                        persistent-hint v-validate="'required|max:255'" data-vv-name="motivo"
-                                        :error="errors.has('motivo')"
-                                        :error-messages="errors.first('motivo')" :readonly="modoEdicion"></v-textarea>
+                                <v-col md="4">
+                                    <!--Responsable-->
+                                    <v-autocomplete v-model="responsable" outlined label="Responsable:" persistent-hint
+                                        v-validate="'required|max:100'" data-vv-name="responsable"
+                                        :items="arrayEmpleado" item-value="cve_empleado" item-text="nombre_completo"
+                                        :error="errors.has('responsable')" :error-messages="errors.first('responsable')"
+                                        :readonly="modoEdicion"></v-autocomplete>
                                 </v-col>
 
                                 <v-col md="4">
-                                    <!--Entrevista-->
-                                    <v-textarea v-model="entrevista" outlined label="Breve relatoria de la entrevista:"
-                                        persistent-hint v-validate="'required|max:255'" data-vv-name="entrevista"
-                                        :error="errors.has('entrevista')"
-                                        :error-messages="errors.first('entrevista')" :readonly="modoEdicion"></v-textarea>
-                                </v-col>
-
-                                <v-col md=4>
-                                    <!--Explicación sugerencias-->
-                                    <v-textarea v-model="sugerencias" outlined label="Sugerencias:" persistent-hint
-                                        v-validate="'required|max:255'" data-vv-name="sugerencias"
-                                        :error="errors.has('sugerencias')"
-                                        :error-messages="errors.first('sugerencias')" :readonly="modoEdicion"></v-textarea>
-                                </v-col>
-
-                                <v-col md="2">
                                     <!--Firma-->
                                     <v-radio-group v-model="activo" v-if="modoEdicion">
                                         Firma / Validación
@@ -130,7 +186,8 @@
                                     <v-card-text>
                                         <v-row justify="center">
                                             <v-col md=8>
-                                                <v-text-field outlined label="Solicitante | Usuario de registro | Academia"
+                                                <v-text-field outlined
+                                                    label="Solicitante | Usuario de registro | Academia"
                                                     v-model="nombreBuscar" append-icon="mdi-magnify"
                                                     @input="fnBusqueda()"></v-text-field>
                                             </v-col>
@@ -155,10 +212,11 @@
                                                                     <%-- </v-tooltip> --%>
                                             </template>
                                             <template v-slot:item.editar="{ item }">
-                                                <v-btn fab small color="warning" @click="fnEditarItem(item)" :disabled="!userPermission">
-                                                  <v-icon>mdi-square-edit-outline</v-icon>
+                                                <v-btn fab small color="warning" @click="fnEditarItem(item)"
+                                                    :disabled="!userPermission">
+                                                    <v-icon>mdi-square-edit-outline</v-icon>
                                                 </v-btn>
-                                              </template>
+                                            </template>
                                             <template v-slot:item.password="{item}">
                                                 <v-tooltip bottom>
                                                     <template v-slot:activator="{on, attrs}">
@@ -226,13 +284,21 @@
                         const motivo_solicitud = ref("");
                         const sugerencias = ref("");
                         const entrevista = ref("");
-                        const activo = ref("");
+                        const compromisos = ref("");
+                        const responsable = ref(""); //cve_empleado
+                        const fechaActual = ref("");
+
                         const fecha_registro = ref("");
                         const arrayEmpleado = ref([]);
                         const arrayAcademia = ref([]);
 
+                        const activo = ref("");
                         const opc_validado = ref("");
                         const opc_noValidado = ref("");
+
+                        const sugerenciasActivo = ref("");
+                        const opc_si = ref("");
+                        const opc_no = ref("");
 
                         const menu2 = false;
                         const modal2 = false;
@@ -240,6 +306,8 @@
                         const currentUser = localStorage.getItem("currentUser");
                         const currentUserObj = JSON.parse(currentUser);
                         const usuario_registro = currentUserObj[0].cve_persona;
+
+                        const nombreCompleto = ref("");
 
                         const userPermission = ref(false);
                         const arrayUsuario = ref([]);
@@ -268,7 +336,7 @@
                             { text: 'Nombre del solicitante', align: 'left', sortable: true, value: 'nombre_completo_solicitante' },
                             { text: 'Nombre de academia', align: 'left', sortable: true, value: 'nombre_academia' },
                             { text: 'Materia', align: 'left', sortable: true, value: 'materia' },
-                            { text: 'Fecha de aplicación', align: 'left', sortable: true, value: 'fecha' },
+                            { text: 'Fecha de seguimiento', align: 'left', sortable: true, value: 'fecha' },
                             { text: 'Firma de validación', align: 'left', sortable: true, value: 'activo' },
                             { text: 'Usuario de registro', align: 'left', sortable: true, value: 'nombre_completo' },
                             { text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro' },
@@ -291,6 +359,7 @@
                             fnEmpleado();
                             fnAcademia();
                             fnConsultarUsuario();
+                            fnReasignacionDatos();
                         });
 
                         //Consultar datos en la base de datos.
@@ -376,7 +445,7 @@
                                                 arrayUsuario.value[i].cve_grupo_seguridad === 2
                                             ) {
                                                 userPermission.value = true;
-                                                
+
                                                 break;
                                             } else {
                                                 userPermission.value = false;
@@ -416,15 +485,32 @@
                             this.cve_asesoria = item.cve_asesoria;
                             this.cve_empleado = item.cve_empleado;
                             this.cve_academia = item.cve_academia;
+                            this.nombreCompleto = item.nombre_completo_solicitante;
                             this.materia = item.materia;
                             this.fecha = item.fecha;
+                            this.fechaActual = item.fecha_registro;
                             this.motivo_solicitud = item.motivo_solicitud;
                             this.sugerencias = item.sugerencias;
                             this.entrevista = item.entrevista;
+                            this.compromisos = item.compromisos;
+                            this.responsable = item.responsable;
                             this.fecha_registro = item.fecha_registro;
                             this.activo = item.activo === "Validado" ? "opc_validado" : "opc_noValidado";
+
+                            if (item.sugerencias !== null && item.sugerencias !== "-") {
+                                this.sugerenciasActivo = "opc_si";
+                            }else{
+                                this.sugerenciasActivo = "opc_no";
+                            }
                         }
 
+                        function fnReasignacionDatos() {
+                            nombreCompleto.value = currentUserObj[0].nombre + ' ' + currentUserObj[0].apellido_peterno + ' ' + currentUserObj[0].apellido_materno;
+
+                            const calculo_fecha = new Date();
+                            const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                            fechaActual.value = calculo_fecha.toLocaleDateString(undefined, options); // Asignar la fecha actual al formato deseado
+                        }
 
                         async function fnGuardar() {
                             this.$validator.validate().then(async esValido => {
@@ -442,6 +528,8 @@
                                         parametros.append("motivo_solicitud", motivo_solicitud.value);
                                         parametros.append("sugerencias", sugerencias.value);
                                         parametros.append("entrevista", entrevista.value);
+                                        parametros.append("compromisos", compromisos.value);
+                                        parametros.append("responsable", responsable.value);
                                         parametros.append("usuario_registro", this.usuario_registro);
 
                                         let { data, status } = await axios.post(ctr, parametros)
@@ -524,18 +612,25 @@
                             motivo_solicitud.value = "";
                             sugerencias.value = "";
                             entrevista.value = "";
-                            activo.value = "";
+                            compromisos.value = "";
+                            responsable.value = "";
                             fecha_registro.value = "";
                             modoEdicion.value = false;
 
                             nombreBuscar.value = "";
 
+                            activo.value = "";
                             opc_validado.value = "";
                             opc_noValidado.value = "";
+
+                            sugerenciasActivo.value = "";
+                            opc_si.value = "";
+                            opc_no.value = "";
 
                             flagEditar.value = false;
                             itemEditar.value = {};
 
+                            fnReasignacionDatos();
                             fnConsultarTabla();
 
                             if (this == undefined)
@@ -545,13 +640,13 @@
                         }
 
                         return {
-                            cve_asesoria, cve_empleado, cve_academia, materia, fecha, motivo_solicitud,
+                            cve_asesoria, cve_empleado, cve_academia, materia, fecha, motivo_solicitud, compromisos, responsable,
                             sugerencias, entrevista, activo, fecha_registro, usuario_registro,
-                            arrayEmpleado, arrayAcademia,
+                            arrayEmpleado, arrayAcademia, sugerenciasActivo, opc_si, opc_no,
                             currentUser, currentUserObj, userPermission, arrayUsuario,
-                            opc_validado, opc_noValidado, modoEdicion,
-                            menu2, modal2, fnBusqueda, fnEditarItem, fnConsultarTabla, fnConsultarUsuario,
-                            dialogBuscador, nombreBuscar, searchBusqueda,
+                            opc_validado, opc_noValidado, modoEdicion, nombreCompleto,
+                            menu2, modal2, fnBusqueda, fnEditarItem, fnConsultarTabla, fnConsultarUsuario, fnReasignacionDatos,
+                            dialogBuscador, nombreBuscar, searchBusqueda, fechaActual,
                             color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar,
                             headersDNAP, flagEditar, dataDNAP, searchDNAP, fnLimpiarCampos, fnGuardar,
                             fnEditar, itemEditar

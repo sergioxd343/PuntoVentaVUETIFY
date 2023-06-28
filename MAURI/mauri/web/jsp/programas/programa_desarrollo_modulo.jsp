@@ -45,15 +45,7 @@
                                     ></v-select>
                                   </v-col>
 
-                                  <v-col md="6">
-                                    <v-select
-                                      v-model="cve_modulo"
-                                      :items="ArrayModulo"
-                                      outlined
-                                      label="Módulo"
-                                      persistent-hint
-                                      ></v-select>
-                                  </v-col>
+                                  
 
                                 <v-col md=6>
                                     <v-text-field 
@@ -308,7 +300,7 @@
       { text: 'Amarillo', value: 'yellow' },
       { text: 'Magenta', value: 'magenta' },
       { text: 'Cian', value: 'cyan' }
-    ])
+    ]);
                 //dataUsuarios
                 const dataProveedores = ref([]); 
                 const dataUsuarios = ref([]);

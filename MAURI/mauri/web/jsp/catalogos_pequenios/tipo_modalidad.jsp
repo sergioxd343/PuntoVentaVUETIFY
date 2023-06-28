@@ -30,10 +30,10 @@
 
 
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-                                <v-col md=2>
+                                <v-col md=4>
                                     <v-text-field 
                                         v-model="nombreTipoModalidad" 
-                                        outlined label="Nombre modalidad" 
+                                        label="Nombre tipo modalidad:" 
                                         persistent-hint
                                         v-validate="'required|max:200'" 
                                         data-vv-name="nombre tipo modalidad"
@@ -62,16 +62,16 @@
                                         :mobile-breakpoint="NaN"
                                         items-per-page="10"
                                     >
-                                    <template v-slot:item.activo="{item}">
-                                        <v-container class="px-0" fluid>
-                                            <v-switch v-model="item.activo" @change="fnEliminarInstructor(item)"></v-switch>
-                                        </v-container>
+                                    <template v-slot:item.eliminar="{item}">
+                                        <v-btn  small color="grey" @click="fnEliminarModalidad(item);" :disabled="!item.activo" >Inactivo</v-btn>
                                     </template>
-                                    <template v-slot:item.editar={item}>
-                                        <v-container class="px-0" fluid>
-                                            <v-btn  small :style="{ backgroundColor: item.activo ? 'green' : 'red' }">{{ item.activo ? 'Activo' : 'Inactivo' }}</v-btn>
-                                        </v-container>
-                                    </template>
+                                    <template v-slot:item.editar="{item}">
+                                        <v-btn  small color="success" @click="fnActivar(item);" :disabled="item.activo">Activo</v-btn>
+
+                                    </template><template v-slot:item.activo="{ item }">
+                                        <span>{{ item.activo ? 'Activo' : 'Inactivo' }}</span>
+                                      </template>
+
                                     </v-data-table>
                                 </v-col>
                             </v-row>
@@ -208,8 +208,9 @@
                     {text: 'No', align: 'left', sortable: true, value: 'cve_tipo_modalidad'},
                     {text: 'Nombre modalidad', align: 'left', sortable: true, value: 'nombre_tipo_modalidad'},
                     {text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro'},
-                    {text: 'Estatus', align: 'left', sortable: true, value: 'editar'},
-                    {text: 'Eliminar', align: 'left', sortable: true, value: 'activo'},
+                    {text: 'Estatus actual', align: 'left', sortable: true, value: 'activo'},
+                    {text: 'Activar', align: 'left', sortable: true, value: 'editar'},
+                    {text: 'Desactivar', align: 'left', sortable: true, value: 'eliminar'},
                 ]);
                 
                 const searchProveedores = ref([]);
@@ -279,7 +280,28 @@
                         preloader("../../");
                         let parametros = new URLSearchParams();
                         parametros.append("accion", 3);
-                        parametros.append("activo", (item.activo == true ? 1 : 0));
+                        parametros.append("cve_tipo_modalidad", item.cve_tipo_modalidad);
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data=="1"){
+                                fnConsultarTablaTipoModalidad();
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+
+                }
+
+                async function fnActivar(item){
+                    
+                    try{
+                        preloader("../../");
+                        let parametros = new URLSearchParams();
+                        parametros.append("accion", 4);
                         parametros.append("cve_tipo_modalidad", item.cve_tipo_modalidad);
                         let {data,status} = await axios.post(ctr, parametros)
                         if(status == 200){
@@ -320,7 +342,7 @@
                 return{
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
                     nombreTipoModalidad, fnConsultarTablaTipoModalidad, dataTipoModalidad, headersTipoModalidad,
-                    fnGuardarTipoModalidad, fnEliminarModalidad, searchTipos, fnLimpiarCamposModalidad,
+                    fnGuardarTipoModalidad, fnEliminarModalidad, searchTipos, fnLimpiarCamposModalidad, fnActivar,
                     
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor,
                     

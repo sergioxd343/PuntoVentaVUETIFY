@@ -17,6 +17,13 @@
         body {
           font-family: 'Roboto';
         }
+        .custom-switch .v-input--selection-controls__input {
+  
+  
+  margin: 0px;
+  padding: 0px;
+  
+}
     </style>
     <body>
         <div id="app">
@@ -24,17 +31,17 @@
                 <v-container fluid>
                     <v-card>
                         <v-card-title  style="background-color: #00b293; color:#ffffff; headline" >		
-                            orieentación
+                            Orientación
                         </v-card-title>
                         <v-container fluid>
                             
                             
 
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-                                <v-col md=2>
+                                <v-col md=4>
                                     <v-text-field 
                                         v-model="nombreTipoOrientacion" 
-                                        outlined label="Nombre orientación" 
+                                        label="Nombre tipo orientación:" 
                                         persistent-hint
                                         v-validate="'required|max:200'" 
                                         data-vv-name="nombre tipo orientacion"
@@ -55,7 +62,7 @@
                                         :headers="headersTiposOrientacion"
                                         :items="dataTiposOrientacion"
                                         :search="searchTipos"
-                                        class="elevation-2"
+                                        class="elevation-1"
                                         no-data-text="No se encontro ningun registro"
                                         :hide-default-header="dataTiposOrientacion.length < 1"
                                         :hide-default-footer="dataTiposOrientacion.length < 1"
@@ -63,16 +70,16 @@
                                         :mobile-breakpoint="NaN"
                                         items-per-page="10"
                                     >
-                                    <template v-slot:item.activo="{item}">
-                                        <v-container class="px-0" fluid>
-                                            <v-switch v-model="item.activo" @change="fnEliminarOrientacion(item)"></v-switch>
-                                        </v-container>
+                                    <template v-slot:item.eliminar="{item}">
+                                        <v-btn  small color="grey" @click="fnEliminarOrientacion(item);" :disabled="!item.activo" >Inactivo</v-btn>
                                     </template>
-                                    <template v-slot:item.editar={item}>
-                                        <v-container class="px-0" fluid>
-                                            <v-btn  small :style="{ backgroundColor: item.activo ? 'green' : 'red' }">{{ item.activo ? 'Activo' : 'Inactivo' }}</v-btn>
-                                        </v-container>
-                                    </template>
+                                    <template v-slot:item.editar="{item}">
+                                        <v-btn  small color="success" @click="fnActivar(item);" :disabled="item.activo">Activo</v-btn>
+
+                                    </template>}<template v-slot:item.activo="{ item }">
+                                        <span>{{ item.activo ? 'Activo' : 'Inactivo' }}</span>
+                                      </template>
+
                                     </v-data-table>
                                 </v-col>
                             </v-row>
@@ -204,8 +211,9 @@
                     {text: 'No', align: 'left', sortable: true, value: 'cve_tipo_orientacion'},
                     {text: 'Nombre orientación', align: 'left', sortable: true, value: 'nombre_tipo_orientacion'},
                     {text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro'},
-                    {text: 'Estatus', align: 'left', sortable: true, value: 'editar'},
-                    {text: 'Activar o desactivar', align: 'left', sortable: true, value: 'activo'},
+                    {text: 'Estatus actual', align: 'left', sortable: true, value: 'activo'},
+                    {text: 'Activar', align: 'left', sortable: true, value: 'editar'},
+                    {text: 'Desactivar', align: 'left', sortable: true, value: 'eliminar'},
                 ]);
                 
                 const searchProveedores = ref([]);
@@ -274,7 +282,26 @@
                                 preloader("../../");
                                 let parametros = new URLSearchParams();
                                 parametros.append("accion", 3);
-                                parametros.append("activo", (item.activo == true ? 1 : 0));
+                                parametros.append("cve_tipo_orientacion", item.cve_tipo_orientacion);
+                                let {data,status} = await axios.post(ctr, parametros)
+                                if(status == 200){
+                                    if(data=="1"){
+                                        fnConsultarTablaTipoOrientacion();
+                                    }
+                                }
+                            } catch(error){
+                                mostrarSnackbar('error');
+                                console.error(error);
+                            } finally{
+                                swal.close();
+                            }
+
+                        }
+                        async function fnActivar(item){
+                            try{
+                                preloader("../../");
+                                let parametros = new URLSearchParams();
+                                parametros.append("accion", 4);
                                 parametros.append("cve_tipo_orientacion", item.cve_tipo_orientacion);
                                 let {data,status} = await axios.post(ctr, parametros)
                                 if(status == 200){
@@ -317,7 +344,7 @@
                     nombreTipoOrientacion, 
                     headersTiposOrientacion, fnConsultarTablaTipoOrientacion, dataTiposOrientacion, 
                     searchTipos, fnLimpiarCampos, fnGuardarTipoOrientacion, fnEliminarOrientacion ,
-                    dialogBuscador, dialogDetallesCotizacion, dialogProveedor, 
+                    dialogBuscador, dialogDetallesCotizacion, dialogProveedor, fnActivar,
                     
                     //fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, itemEditar
                 }

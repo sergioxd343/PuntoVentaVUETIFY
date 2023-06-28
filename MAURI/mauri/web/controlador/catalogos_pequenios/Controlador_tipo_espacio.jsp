@@ -59,6 +59,7 @@
      String pass = request.getParameter("pass") != null && !request.getParameter("pass").equals("") ? request.getParameter("pass") : "-";
      
      int cve_tipo_espacio = request.getParameter("cve_tipo_espacio") != null && !request.getParameter("cve_tipo_espacio").equals("") ? Integer.parseInt(request.getParameter("cve_tipo_espacio")) : 0;
+     int usuarioRegistro = request.getParameter("cve_persona") != null && !request.getParameter("cve_persona").equals("") ? Integer.parseInt(request.getParameter("cve_persona")) : 0;
      switch (accion) {
         case 1:
            out.println(datos.Consultas(parametros, "tablaTipoEspacio"));
@@ -66,15 +67,22 @@
         case 2:
             temp_obj = new JsonObject();
             temp_obj.addProperty("nombre_tipo_espacio", nombreEspacio);
+            temp_obj.addProperty("usuarioRegistro", usuarioRegistro);
             parametros.add(temp_obj);
             out.println(datos.Registro(parametros, "guardarTipoEspacio"));
             break;  
         case 3:
             temp_obj =new JsonObject();
-            temp_obj.addProperty("activo", activo);
+            
             temp_obj.addProperty("cve_tipo_espacio", cve_tipo_espacio);
             parametros.add(temp_obj);
          out.println(datos.Registro(parametros, "eliminar"));
+           break;
+           case 4:
+            temp_obj =new JsonObject();
+            temp_obj.addProperty("cve_tipo_espacio", cve_tipo_espacio);
+            parametros.add(temp_obj);
+         out.println(datos.Registro(parametros, "activar"));
            break;   
        default:
            out.print("ENTRO A CONTROLADOR"+ accion);

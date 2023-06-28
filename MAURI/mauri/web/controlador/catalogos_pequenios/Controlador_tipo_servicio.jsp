@@ -71,10 +71,15 @@
             break;  
         case 3:
             temp_obj =new JsonObject();
-            temp_obj.addProperty("activo", activo);
             temp_obj.addProperty("cve_tipo_servicio", cve_tipo_servicio);
             parametros.add(temp_obj);
-         out.println(datos.Registro(parametros, "eliminar"));
+            out.println(datos.Registro(parametros, "eliminar"));
+           break;  
+        case 4:
+            temp_obj =new JsonObject();
+            temp_obj.addProperty("cve_tipo_servicio", cve_tipo_servicio);
+            parametros.add(temp_obj);
+            out.println(datos.Registro(parametros, "activar"));
            break;   
        default:
            out.print("ENTRO A CONTROLADOR"+ accion);

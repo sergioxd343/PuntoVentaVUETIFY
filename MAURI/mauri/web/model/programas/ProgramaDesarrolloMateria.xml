@@ -13,9 +13,23 @@ and open the template in the editor.
 
     <guardarProgramaDesarrolloMateria>
 		<query>
-			INSERT INTO programa_desarrollo_materia (cve_prog_des, cve_modulo, cve_materia, duracion, objetivo, resultado_aprendizaje, usuario_registro)
-VALUES (?, 1, 1, ?, ?, ?, 1);
+		DECLARE @cve_prog_des INT = ?;
+DECLARE @nombre_materia VARCHAR(70) = ?;
+DECLARE @duracion VARCHAR(20) = ?;
+DECLARE @objetivo VARCHAR(MAX) = ?;
+DECLARE @resultado_aprendizaje VARCHAR(MAX) = ?;
 
+INSERT INTO programa_desarrollo_materia (cve_prog_des, cve_modulo, cve_materia, nombre_materia, duracion, objetivo, resultado_aprendizaje, usuario_registro)
+VALUES (
+    @cve_prog_des,
+    (SELECT TOP 1 numero_modulos FROM programa_desarrollo WHERE cve_prog_des = @cve_prog_des),
+    (SELECT MAX(num_materias) FROM programa_desarrollo_modulo WHERE cve_prog_des = @cve_prog_des),
+    @nombre_materia,
+    @duracion,
+    @objetivo,
+    @resultado_aprendizaje,
+    1
+);
 		</query>
 	</guardarProgramaDesarrolloMateria>
 

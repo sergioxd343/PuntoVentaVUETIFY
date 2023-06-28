@@ -25,11 +25,17 @@ and open the template in the editor.
     <eliminar>
 		<query>
 			UPDATE tipo_capacitacion
-			SET          activo = ?
+			SET          activo = 'False'
 			WHERE  cve_tipo_capacitacion = ?
 		</query>
 	</eliminar>
-
+	<activar>
+		<query>
+			UPDATE tipo_capacitacion
+			SET          activo = 'True'
+			WHERE  cve_tipo_capacitacion = ?
+		</query>
+	</activar>
 	
 
 </CatalogoTipos>

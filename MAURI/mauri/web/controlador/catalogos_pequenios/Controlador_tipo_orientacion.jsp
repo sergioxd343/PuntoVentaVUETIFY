@@ -63,85 +63,23 @@
         case 1:
           out.println(datos.Consultas(parametros, "tablaTipoOrientacion"));
           break;
-        /*case 2:
-           out.println(datos.Consultas(parametros, "tablaTipoEvento"));
-           break;
-        case 3:
-           out.println(datos.Consultas(parametros, "tablaTipoModalidad"));
-           break;
-        case 4:
-           out.println(datos.Consultas(parametros, "tablaTipoInstructor"));
-           break;
-        case 5:
-           out.println(datos.Consultas(parametros, "tablaTipoOrigen"));
-           break;
-        case 6:
-           out.println(datos.Consultas(parametros, "tablaTipoCapacitacion"));
-           break;
-        case 7:
-           out.println(datos.Consultas(parametros, "tablaTipoServicio"));
-           break;
-        case 8:
-           out.println(datos.Consultas(parametros, "tablaTipoEspacio"));
-           break;*/
         case 2:
             temp_obj = new JsonObject();
-            
             temp_obj.addProperty("nombre_tipo_orientacion", nombreOrientacion);
             parametros.add(temp_obj);
             out.println(datos.Registro(parametros, "guardarTipoOrientacion"));
             break;
-        /*case 10:
-            temp_obj = new JsonObject();
-            temp_obj.addProperty("nombre_tipo_evento", nombreEvento);
-            parametros.add(temp_obj);
-            out.println(datos.Registro(parametros, "guardarTipoEvento"));
-            break;
-        case 11:
-            temp_obj = new JsonObject();
-            temp_obj.addProperty("nombre_tipo_modalidad", nombreModalidad);
-            parametros.add(temp_obj);
-            out.println(datos.Registro(parametros, "guardarTipoModalidad"));
-            break;
-        case 12:
-            temp_obj = new JsonObject();
-            temp_obj.addProperty("nombre_tipo_instructor", nombreInstructor);
-            parametros.add(temp_obj);
-            out.println(datos.Registro(parametros, "guardarTipoInstructor"));
-            break;
-        case 13:
-            temp_obj = new JsonObject();
-            temp_obj.addProperty("nombre_tipo_origen", nombreOrigen);
-            parametros.add(temp_obj);
-            out.println(datos.Registro(parametros, "guardarTipoOrigen"));
-            break;   
-        case 14:
-            temp_obj = new JsonObject();
-            temp_obj.addProperty("nombre_tipo_capacitacion", nombreCapacitacion);
-            parametros.add(temp_obj);
-            out.println(datos.Registro(parametros, "guardarTipoCapacitacion"));
-            break;     
-        case 15:
-            temp_obj = new JsonObject();
-            temp_obj.addProperty("nombre_tipo_servicio", nombreServicio);
-            parametros.add(temp_obj);
-            out.println(datos.Registro(parametros, "guardarTipoServicio"));
-            break;  
-        case 16:
-            temp_obj = new JsonObject();
-            temp_obj.addProperty("nombre_tipo_espacio", nombreEspacio);
-            parametros.add(temp_obj);
-            out.println(datos.Registro(parametros, "guardarTipoEspacio"));
-            break;  
-        case 18:
-          out.println(datos.Consultas(parametros, "itemOrientacion"));
-          break;*/
-          case 3:
+        case 3:
             temp_obj =new JsonObject();
-            temp_obj.addProperty("activo", activo);
             temp_obj.addProperty("cve_tipo_orientacion", cve_tipo_orientacion);
             parametros.add(temp_obj);
-         out.println(datos.Registro(parametros, "eliminar"));
+            out.println(datos.Registro(parametros, "eliminar"));
+           break;   
+        case 4:
+            temp_obj =new JsonObject();
+            temp_obj.addProperty("cve_tipo_orientacion", cve_tipo_orientacion);
+            parametros.add(temp_obj);
+            out.println(datos.Registro(parametros, "activar"));
            break;   
        default:
            out.print("ENTRO A CONTROLADOR"+ accion);

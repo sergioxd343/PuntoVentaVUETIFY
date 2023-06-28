@@ -29,16 +29,19 @@
                         <v-container fluid>
                             
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-                                <v-col md=4>
+                                <v-col md=6>
+                                    
                                     <v-text-field 
                                         v-model="nombreTipoCapacitacion" 
-                                        outlined label="Nombre capacitación" 
+                                        label="Nombre tipo capacitación:" 
                                         persistent-hint
                                         v-validate="'required|max:200'" 
                                         data-vv-name="nombre tipo capacitacion"
                                         :error="errors.has('nombre tipo capacitacion')"
-                                        :error-messages="errors.first('nombre tipo capacitacion')"></v-text-field>
+                                        :error-messages="errors.first('nombre tipo capacitacion')"
+                                        variant="underlined"></v-text-field>
                                 </v-col>
+                 
                                 <v-row justify="center">
                                     <v-btn color="primary" @click="flagEditar ? fnEditar() : fnGuardarTipoCapacitacion()"><v-icon>mdi-content-save</v-icon>{{flagEditar ? 'Editar' : 'Guardar'}}</v-btn>
                                     &nbsp;
@@ -64,16 +67,15 @@
                                         
                                     >
                                     <template v-slot:item.eliminar="{item}">
-                                        <v-container class="px-0" fluid>
-                                            <v-switch v-model="item.activo" @change="fnEliminarCapacitacion(item)"></v-switch>
-                                        </v-container>
+                                        <v-btn  small color="grey" @click="fnEliminarCapacitacion(item);" :disabled="!item.activo" >Inactivo</v-btn>
                                     </template>
-                                    <template v-slot:item.editar={item}>
-                                        <v-container class="px-0" fluid>
-                                            <v-btn  small :style="{ backgroundColor: item.activo ? 'green' : 'red' }">{{ item.activo ? 'Activo' : 'Inactivo' }}</v-btn>
-                                        </v-container>
-                                    </template>
+                                    <template v-slot:item.editar="{item}">
+                                        <v-btn  small color="success" @click="fnActivar(item);" :disabled="item.activo">Activo</v-btn>
 
+                                    </template><template v-slot:item.activo="{ item }">
+                                        <span>{{ item.activo ? 'Activo' : 'Inactivo' }}</span>
+                                      </template>
+                                      
                                     </v-data-table>
                                 </v-col>                            
                         </v-container>                            
@@ -209,8 +211,9 @@
                     {text: 'No', align: 'left', sortable: true, value: 'cve_tipo_capacitacion'},
                     {text: 'Nombre capacitación', align: 'left', sortable: true, value: 'nombre_tipo_capacitacion'},
                     {text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro'},
-                    {text: 'Estatus', align: 'left', sortable: true, value: 'editar'},
-                    {text: 'Activar o desactivar', align: 'left', sortable: true, value: 'eliminar'},
+                    {text: 'Estatus actual', align: 'left', sortable: true, value: 'activo'},
+                    {text: 'Activar', align: 'left', sortable: true, value: 'editar'},
+                    {text: 'Desactivar', align: 'left', sortable: true, value: 'eliminar'},
                 ]);
                 const searchProveedores = ref([]);
                 const searchTipos = ref([]);
@@ -279,7 +282,6 @@
                                 preloader("../../");
                                 let parametros = new URLSearchParams();
                                 parametros.append("accion", 3);
-                                parametros.append("activo", (item.activo == true ? 1 : 0));
                                 parametros.append("cve_tipo_capacitacion", item.cve_tipo_capacitacion);
                                 let {data,status} = await axios.post(ctr, parametros)
                                 if(status == 200){
@@ -295,6 +297,27 @@
                             }
 
                         }
+                        async function fnActivar(item){
+                            try{
+                                preloader("../../");
+                                let parametros = new URLSearchParams();
+                                parametros.append("accion", 4);
+                                parametros.append("cve_tipo_capacitacion", item.cve_tipo_capacitacion);
+                                let {data,status} = await axios.post(ctr, parametros)
+                                if(status == 200){
+                                    if(data=="1"){
+                                        fnConsultarTablaTipoCapacitacion();
+                                    }
+                                }
+                            } catch(error){
+                                mostrarSnackbar('error');
+                                console.error(error);
+                            } finally{
+                                swal.close();
+                            }
+
+                        }
+
 
                 function fnLimpiarCampos(cx){//cx = contexto
                     nombreTipoCapacitacion.value = "";
@@ -321,7 +344,7 @@
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
                     nombreTipoCapacitacion, dataTipoCapacitacion, headersTipoCapacitacion,
                     fnConsultarTablaTipoCapacitacion, fnGuardarTipoCapacitacion, fnLimpiarCampos,
-                    fnEliminarCapacitacion, searchTipos,
+                    fnEliminarCapacitacion, searchTipos, fnActivar,
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor,
                     
                     //fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, itemEditar

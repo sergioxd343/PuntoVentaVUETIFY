@@ -17,6 +17,13 @@
         body {
           font-family: 'Roboto';
         }
+        .custom-switch .v-input--selection-controls__input {
+  
+  
+  margin: 0px;
+  padding: 0px;
+  
+}
     </style>
     <body>
         <div id="app">
@@ -24,54 +31,63 @@
                 <v-container fluid>
                     <v-card>
                         <v-card-title  style="background-color: #00b293; color:#ffffff; headline" >		
-                            Origen
+                            Periodo
                         </v-card-title>
                         <v-container fluid>
+                            
+                            
 
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-                                <v-col md=4>
+                                <v-col md=2>
                                     <v-text-field 
-                                        v-model="nombreTipoOrigen" 
-                                        label="Nombre tipo origen:" 
+                                        v-model="nombreTipoPeriodo" 
+                                        outlined label="Nombre tipo periodo" 
                                         persistent-hint
                                         v-validate="'required|max:200'" 
-                                        data-vv-name="nombre tipo origen"
-                                        :error="errors.has('nombre tipo origen')"
-                                        :error-messages="errors.first('nombre tipo origen')"></v-text-field>
+                                        data-vv-name="nombre tipo periodo"
+                                        :error="errors.has('nombre tipo periodo')"
+                                        :error-messages="errors.first('nombre tipo periodo')"></v-text-field>
                                 </v-col>
 
+                                
+
+
+
                                 <v-row justify="center">
-                                    <v-btn color="primary" @click="flagEditar ? fnEditar() : fnGuardarTipoOrigen()"><v-icon>mdi-content-save</v-icon>{{flagEditar ? 'Editar' : 'Guardar'}}</v-btn>
+                                    <v-btn color="primary" @click="flagEditar ? fnEditar() : fnGuardarTipoOrientacion()"><v-icon>mdi-content-save</v-icon>{{flagEditar ? 'Editar' : 'Guardar'}}</v-btn>
                                     &nbsp;
                                     <v-btn color="error" @click="fnLimpiarCampos()"><v-icon>mdi-cancel</v-icon>Cancelar</v-btn>
                                 </v-row>
-
+                               
                             </v-row>
-                            <!-- Tabla tipo origen -->
+                            <!-- Tabla tipo orieentación -->
                             <v-row justify="center">
                                 <v-col md=12>
                                     <v-data-table
-                                        :headers="headersTipoOrigen"
-                                        :items="dataTipoOrigen"
+                                        :headers="headersTiposOrientacion"
+                                        :items="dataTiposOrientacion"
                                         :search="searchTipos"
-                                        class="elevation-2"
+                                        class="elevation-1"
                                         no-data-text="No se encontro ningun registro"
-                                        :hide-default-header="dataTipoOrigen.length < 1"
-                                        :hide-default-footer="dataTipoOrigen.length < 1"
+                                        :hide-default-header="dataTiposOrientacion.length < 1"
+                                        :hide-default-footer="dataTiposOrientacion.length < 1"
                                         locale="es-ES"
                                         :mobile-breakpoint="NaN"
                                         items-per-page="10"
                                     >
-                                    <template v-slot:item.eliminar="{item}">
-                                        <v-btn  small color="grey" @click="fnEliminarOrigen(item);" :disabled="!item.activo" >Inactivo</v-btn>
-                                    </template>
-                                    <template v-slot:item.editar="{item}">
-                                        <v-btn  small color="success" @click="fnActivar(item);" :disabled="item.activo">Activo</v-btn>
-
-                                    </template><template v-slot:item.activo="{ item }">
-                                        <span>{{ item.activo ? 'Activo' : 'Inactivo' }}</span>
+                                    <template v-slot:item.activo="{ item }" class="my-0">
+                                        <v-container class="custom-switch" fluid>
+                                          <v-radio label="" :value="true" v-model="item.activo" @change="fnEliminarOrientacion(item)"></v-radio>
+                                        </v-container>
                                       </template>
-
+                                      
+                                      
+                                      
+                                    <template v-slot:item.editar={item} class="my-0">
+                                        <v-container class="px-0 my-0" fluid>
+                                            <v-btn  small :style="{ backgroundColor: item.activo ? 'green' : 'red' }">{{ item.activo ? 'Activo' : 'Inactivo' }}</v-btn>
+                                        </v-container>
+                                    </template>
                                     </v-data-table>
                                 </v-col>
                             </v-row>
@@ -174,15 +190,14 @@
                     onMounted,
                     watch
                 } = VueCompositionAPI;
-                const ctr = "../../controlador/catalogos_pequenios/Controlador_tipo_origen.jsp";
+                const ctr = "../../controlador/catalogos_pequenios/Controlador_tipo_orientacion.jsp";
                 //Variables POST
-                
-                const nombreTipoOrigen = ref("");
-                
+            
+                const nombreTipoOrientacion = ref("");
                 //Otras variables
                 const flagEditar = ref(false);
                 const itemEditar = ref({});
-                
+                //Setup del calendario
                 
                 //SNACKBAR
                 const loader = ref(false);
@@ -197,27 +212,25 @@
                 const dialogProveedor = ref(false);
 
                 //DataTable
-                const dataTipoOrigen = ref([]);
                 
-            
-                const headersTipoOrigen = ref([
-                    {text: 'No', align: 'left', sortable: true, value: 'cve_tipo_origen'},
-                    {text: 'Nombre origen', align: 'left', sortable: true, value: 'nombre_tipo_origen'},
+                const dataTiposOrientacion = ref([]);
+                
+                const headersTiposOrientacion = ref([
+                    {text: 'No', align: 'left', sortable: true, value: 'cve_tipo_orientacion'},
+                    {text: 'Nombre orientación', align: 'left', sortable: true, value: 'nombre_tipo_orientacion'},
                     {text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro'},
-                    {text: 'Estatus actual', align: 'left', sortable: true, value: 'activo'},
-                    {text: 'Activar', align: 'left', sortable: true, value: 'editar'},
-                    {text: 'Desactivar', align: 'left', sortable: true, value: 'eliminar'},
+                    {text: 'Activar o desactivar', align: 'left', sortable: true, value: 'activo'},
                 ]);
                 
                 const searchProveedores = ref([]);
                 const searchTipos = ref([]);
 
                 onMounted(() => {
-                    fnConsultarTablaTipoOrigen();
+                    fnConsultarTablaTipoOrientacion();
                     
                 });
                 
-               async function fnConsultarTablaTipoOrigen(){
+                async function fnConsultarTablaTipoOrientacion(){
                     try{
                         preloader("../../");
                         let parametros = new URLSearchParams();
@@ -226,7 +239,7 @@
                         if(status == 200){
                             if(data.length > 0){
 
-                                dataTipoOrigen.value = data
+                                dataTiposOrientacion.value = data
                             }
                         }
                     } catch(error){
@@ -236,20 +249,20 @@
                         swal.close();
                     }
                }
-
-                async function fnGuardarTipoOrigen(){
+               
+               async function fnGuardarTipoOrientacion(){
                     this.$validator.validate().then(async esValido => {
                         if(esValido){
                             try{
                                 preloader("../../");
                                 let parametros = new URLSearchParams();
                                 parametros.append("accion", 2);
-                                parametros.append("nombre_tipo_origen", nombreTipoOrigen.value);
+                                parametros.append("nombre_tipo_orientacion", nombreTipoOrientacion.value);
                                 let {data,status} = await axios.post(ctr, parametros)
                                 if(status == 200){
                                     if(data == "1"){
                                         mostrarSnackbar("success", "Registro guardado correctamente.");
-                                        fnConsultarTablaTipoOrigen();
+                                        fnConsultarTablaTipoOrientacion();
                                         fnLimpiarCampos(this);
                                         // this.$validator.pause();
                                         // Vue.nextTick(() => {
@@ -267,16 +280,20 @@
                         }
                     })
                 }
-              async function fnEliminarOrigen(item){
+             
+
+
+              async function fnEliminarOrientacion(item){
                             try{
                                 preloader("../../");
                                 let parametros = new URLSearchParams();
                                 parametros.append("accion", 3);
-                                parametros.append("cve_tipo_origen", item.cve_tipo_origen);
+                                parametros.append("activo", (item.activo == true ? 1 : 0));
+                                parametros.append("cve_tipo_orientacion", item.cve_tipo_orientacion);
                                 let {data,status} = await axios.post(ctr, parametros)
                                 if(status == 200){
                                     if(data=="1"){
-                                        fnConsultarTablaTipoOrigen();
+                                        fnConsultarTablaTipoOrientacion();
                                     }
                                 }
                             } catch(error){
@@ -285,31 +302,12 @@
                             } finally{
                                 swal.close();
                             }
-                        }
 
-                        async function fnActivar(item){
-                            try{
-                                preloader("../../");
-                                let parametros = new URLSearchParams();
-                                parametros.append("accion", 4);
-                                parametros.append("cve_tipo_origen", item.cve_tipo_origen);
-                                let {data,status} = await axios.post(ctr, parametros)
-                                if(status == 200){
-                                    if(data=="1"){
-                                        fnConsultarTablaTipoOrigen();
-                                    }
-                                }
-                            } catch(error){
-                                mostrarSnackbar('error');
-                                console.error(error);
-                            } finally{
-                                swal.close();
-                            }
                         }
+                                
 
                 function fnLimpiarCampos(cx){//cx = contexto
-                    nombreTipoOrigen.value = "";
-                    
+                    nombreTipoOrientacion.value = "";                    
                     flagEditar.value = false;
                     itemEditar.value = {};
 
@@ -330,10 +328,10 @@
 
                 return{
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
-                    nombreTipoOrigen, dataTipoOrigen, headersTipoOrigen,
-                    fnConsultarTablaTipoOrigen, fnConsultarTablaTipoOrigen, fnGuardarTipoOrigen,
-                    fnEliminarOrigen, fnLimpiarCampos, searchTipos, fnActivar,
-                    dialogBuscador, dialogDetallesCotizacion, dialogProveedor,
+                    nombreTipoOrientacion, 
+                    headersTiposOrientacion, fnConsultarTablaTipoOrientacion, dataTiposOrientacion, 
+                    searchTipos, fnLimpiarCampos, fnGuardarTipoOrientacion, fnEliminarOrientacion ,
+                    dialogBuscador, dialogDetallesCotizacion, dialogProveedor, 
                     
                     //fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, itemEditar
                 }

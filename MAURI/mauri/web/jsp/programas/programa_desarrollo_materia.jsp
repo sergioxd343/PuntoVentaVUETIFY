@@ -45,26 +45,19 @@
                                     ></v-select>
                                   </v-col>
 
-                                  <v-col md="6">
-                                    <v-select
-                                      v-model="cve_modulo"
-                                      :items="ArrayModulo"
-                                      outlined
-                                      label="Modulo"
-                                      persistent-hint
-                                      v-validate="'required|max:200'"
-                                      ></v-select>
-                                  </v-col>
-                                  
+                                                                 
 
                                 <v-col md=6>
-                                    <v-select 
-                                        v-model="cve_materia"
-                                        :items="ArrayMateria"
+                                    <v-text-field 
+                                        v-model="nombre_materia"
                                         outlined
-                                        label="Materia de programa obligatorio"
+                                        label="Nombre de la Materia"
                                         persistent-hint
-                                        ></v-select>
+                                        v-validate="'required|max:200'"
+                                        data-vv-name="nombre de la materia"
+                                        :error="errors.has('nombre de la materia')"
+                                        :error-messages="errors.first('nombre de la materia')"
+                                    ></v-text-field>
                                 </v-col>
 
                                 <v-col md=6>
@@ -288,6 +281,7 @@
                 const cve_prog_des = ref("");
                 const cve_modulo = ref("");
                 const cve_materia = ref("");
+                const nombre_materia =ref("");
                 const duracion = ref("");
                 const objetivo = ref("");
                 const resultado_aprendizaje = ref("");
@@ -325,11 +319,14 @@
                 const dataProveedores = ref([]); 
                 const dataUsuarios = ref([]);
                 const headersProveedores = ref([
+                    {text: 'Nombre de la materia', align: 'left', sortable: true, value: 'nombre_materia'},
                     {text: 'Duracion', align: 'left', sortable: true, value: 'duracion'},
                     {text: 'Objetivo', align: 'left', sortable: true, value: 'objetivo'},
                     {text: 'Resultado del Aprendizaje', align: 'left', sortable: true, value: 'resultado_aprendizaje'},
                     {text: 'Estatus', align: 'left', sortable: true, value: 'activo'},
                     {text: 'Desactivar', align: 'left', sortable: true, value: 'eliminar'},
+                    {text: 'Clave Módulo', align: 'left', sortable: true, value: 'cve_modulo'},
+                    {text: 'Clave Materia', align: 'left', sortable: true, value: 'cve_materia'},
                 ]);
                 const searchProveedores = ref([]);
 
@@ -389,6 +386,7 @@
                                 let parametros = new URLSearchParams();
                                 parametros.append("accion", 2);
                                 parametros.append("cve_prog_des", cve_prog_des.value);
+                                parametros.append("nombre_materia", nombre_materia.value);
                                 parametros.append("duracion", duracion.value);
                                 parametros.append("objetivo", objetivo.value);
                                 parametros.append("resultado_aprendizaje", resultado_aprendizaje.value);
@@ -481,7 +479,7 @@
                     duracion.value = "";
                     objetivo.value = "";
                     resultado_aprendizaje.value = "";
-                    estatus.value = "";
+                    nombre_materia.value = "";
                     flagEditar.value = false;
                     itemEditar.value = {};
 
@@ -503,7 +501,7 @@
                 return{
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
                     cve_prog_des,cve_modulo, cve_materia, duracion, objetivo, resultado_aprendizaje,
-                    dataProveedores, headersProveedores, searchProveedores, ArrayProgramaDesarrollo, 
+                    dataProveedores, headersProveedores, searchProveedores, ArrayProgramaDesarrollo,  nombre_materia,
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor,searchBusqueda, ArrayModulo, ArrayMateria,
                     fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, itemEditar
                 }

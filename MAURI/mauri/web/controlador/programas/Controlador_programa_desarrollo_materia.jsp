@@ -38,6 +38,7 @@
     int numero_modulos = request.getParameter("numero_modulos") != null && !request.getParameter("numero_modulos").equals("") ? Integer.parseInt(request.getParameter("numero_modulos")) : 0;
 
     String duracion = request.getParameter("duracion") != null && !request.getParameter("duracion").equals("") ? request.getParameter("duracion") : "-";
+    String nombre_materia = request.getParameter("nombre_materia") != null && !request.getParameter("nombre_materia").equals("") ? request.getParameter("nombre_materia") : "-";
     String objetivo = request.getParameter("objetivo") != null && !request.getParameter("objetivo").equals("") ? request.getParameter("objetivo") : "-";
     String resultado_aprendizaje = request.getParameter("resultado_aprendizaje") != null && !request.getParameter("resultado_aprendizaje").equals("") ? request.getParameter("resultado_aprendizaje") : "-";
 
@@ -49,6 +50,7 @@
         case 2:
             temp_obj = new JsonObject();
             temp_obj.addProperty("cve_prog_des",cve_prog_des);
+            temp_obj.addProperty("nombre_materia",nombre_materia);
             temp_obj.addProperty("duracion", duracion);
             temp_obj.addProperty("objetivo",objetivo);
             temp_obj.addProperty("resultado_aprendizaje", resultado_aprendizaje);
