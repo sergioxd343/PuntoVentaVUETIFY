@@ -15,18 +15,24 @@ and open the template in the editor.
 	<guardarTipoEspacio>
 		<query>
 			
-			INSERT INTO tipo_espacio (nombre_tipo_espacio, activo, fecha_registro, usuario_registro) VALUES (?, 'True', GETDATE (), 5)
+			INSERT INTO tipo_espacio (nombre_tipo_espacio, activo, fecha_registro, usuario_registro) VALUES (?, 'True', GETDATE (), ?)
 
 		</query>
 	</guardarTipoEspacio>
     <eliminar>
 		<query>
 			UPDATE tipo_espacio
-			SET          activo = ?
+			SET          activo = 'False'
 			WHERE  cve_tipo_espacio = ?
 		</query>
 	</eliminar>
-
+<activar>
+		<query>
+			UPDATE tipo_espacio
+			SET          activo = 'True'
+			WHERE  cve_tipo_espacio = ?
+		</query>
+	</activar>
 	
 
 </CatalogoTipos>

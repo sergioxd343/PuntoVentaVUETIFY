@@ -26,10 +26,17 @@ and open the template in the editor.
     <eliminar>
 		<query>
 			UPDATE tipo_origen
-			SET          activo = ?
+			SET          activo = 'False'
 			WHERE  cve_tipo_origen = ?
 		</query>
 	</eliminar>
+	<activar>
+		<query>
+			UPDATE tipo_origen
+			SET          activo = 'True'
+			WHERE  cve_tipo_origen = ?
+		</query>
+	</activar>
 
 	
 
