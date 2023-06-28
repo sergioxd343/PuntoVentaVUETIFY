@@ -74,9 +74,22 @@
 
                                 <v-col md="8">
                                     <!--Fecha-->
-                                    <v-text-field outlined label="Fecha:" persistent-hint
-                                        v-validate="'required|max:100'" :readonly="true"
-                                        v-model="fechaActual"></v-text-field>
+                                    <v-menu ref="menu1" :close-on-content-click="false" :return-value.sync="fecha"
+                                        transition="scale-transition" offset-y min-width="auto">
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-text-field v-model="fechaActual" label="Fecha"
+                                                prepend-icon="mdi-calendar" readonly v-bind="attrs"
+                                                v-on="on"></v-text-field>
+                                        </template>
+                                        <v-date-picker v-model="fecha" no-title scrollable :readonly="true">
+                                            <v-spacer></v-spacer>
+                                            <v-btn text color="primary" @click="menu1 = false">
+                                                Cancel
+                                            </v-btn>
+                                            <v-btn text color="primary" @click="$refs.menu1.save(fecha)">
+                                                OK
+                                            </v-btn>
+                                        </v-date-picker>
                                 </v-col>
 
                                 <v-col md="10">
@@ -499,17 +512,14 @@
 
                             if (item.sugerencias !== null && item.sugerencias !== "-") {
                                 this.sugerenciasActivo = "opc_si";
-                            }else{
+                            } else {
                                 this.sugerenciasActivo = "opc_no";
                             }
                         }
 
                         function fnReasignacionDatos() {
                             nombreCompleto.value = currentUserObj[0].nombre + ' ' + currentUserObj[0].apellido_peterno + ' ' + currentUserObj[0].apellido_materno;
-
-                            const calculo_fecha = new Date();
-                            const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-                            fechaActual.value = calculo_fecha.toLocaleDateString(undefined, options); // Asignar la fecha actual al formato deseado
+                            fechaActual.value = new Date().toISOString().substr(0, 10);
                         }
 
                         async function fnGuardar() {
@@ -524,12 +534,13 @@
                                         parametros.append("cve_empleado", cve_empleado.value);
                                         parametros.append("cve_academia", cve_academia.value);
                                         parametros.append("materia", materia.value);
-                                        parametros.append("fecha", fecha.value);
+                                        parametros.append("fecha", fechaActual.value);
                                         parametros.append("motivo_solicitud", motivo_solicitud.value);
                                         parametros.append("sugerencias", sugerencias.value);
                                         parametros.append("entrevista", entrevista.value);
                                         parametros.append("compromisos", compromisos.value);
                                         parametros.append("responsable", responsable.value);
+                                        parametros.append("fecha_seguimiento", fecha.value);
                                         parametros.append("usuario_registro", this.usuario_registro);
 
                                         let { data, status } = await axios.post(ctr, parametros)
