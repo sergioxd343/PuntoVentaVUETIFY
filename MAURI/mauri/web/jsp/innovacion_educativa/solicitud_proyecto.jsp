@@ -33,30 +33,23 @@
                         <v-container fluid class="elevation-2">
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
 
-                                <v-col md="3">
+                                <v-col md="8">
                                     <!--Nombre de proyecto-->
                                     <v-text-field v-model="nombre_proyecto" outlined label="Nombre del proyecto"
                                         persistent-hint v-validate="'required|max:100'"
                                         data-vv-name="nombre del proyecto" :error="errors.has('nombre del proyecto')"
                                         :error-messages="errors.first('nombre del proyecto')"
                                         :readonly="modoEdicion"></v-text-field>
-
-                                    <!--Objetivo de proyecto-->
-                                    <v-text-field v-model="objetivo_proyecto" outlined label="Objetivo del proyecto"
-                                        persistent-hint v-validate="'required|max:255'"
-                                        data-vv-name="objetivo del proyecto"
-                                        :error="errors.has('objetivo del proyecto')"
-                                        :error-messages="errors.first('objetivo del proyecto')"
-                                        :readonly="modoEdicion"></v-text-field>
                                 </v-col>
-
-                                <v-col md="3">
+                                <v-col md="8">
                                     <!--Área-->
                                     <v-autocomplete v-model="cve_area" outlined label="Área" persistent-hint
                                         v-validate="'required|max:55'" data-vv-name="área" :items="arrayArea"
                                         item-value="cve_area" item-text="nombre_area" :error="errors.has('área')"
                                         :error-messages="errors.first('área')" :readonly="modoEdicion"></v-autocomplete>
+                                </v-col>
 
+                                <v-col md="8">
                                     <!--Cuatrimestre-->
                                     <v-autocomplete v-model="cuatrimestre" outlined label="Cuatrimestre" persistent-hint
                                         v-validate="'required|max:55'" data-vv-name="cuatrimestre"
@@ -66,24 +59,45 @@
                                         :readonly="modoEdicion"></v-autocomplete>
                                 </v-col>
 
-                                <v-col md="3">
-                                    <!--Recursos necesarios-->
-                                    <v-textarea v-model="recursos_necesarios" class="mx-2" label="Recursos necesarios"
-                                        rows="1" prepend-icon="mdi-comment" v-validate="'max:255'"
+                                <v-col md="10">
+                                    <p class="font-weight-thin">
+                                        La finalidad de la creación del proyecto, ¿qué? ¿A quién se aplica? ¿Para
+                                        qué?¿cuándo?
+                                    </p>
+                                    <!--Objetivo del proyecto-->
+                                    <v-textarea v-model="objetivo_proyecto" class="mx-2" label="Objetivo del proyecto"
+                                        rows="1" prepend-icon="mdi-comment"
                                         :readonly="modoEdicion"></v-textarea>
-
-                                    <!--Acuerdos establecidos-->
-                                    <v-textarea v-model="acuerdos_establecidos" class="mx-2"
-                                        label="Acuerdos establecidos" rows="1" prepend-icon="mdi-comment"
-                                        v-validate="'max:255'" :readonly="modoEdicion"></v-textarea>
                                 </v-col>
 
-                                <v-col md="3">
+                                <v-col md="10">
+                                    <p class="font-weight-thin">
+                                        Describa brevemente el proyecto
+                                    </p>
                                     <!--Descripción del proyecto-->
                                     <v-textarea v-model="descripcion_proyecto" class="mx-2"
                                         label="Descripción del proyecto" rows="1" prepend-icon="mdi-comment"
-                                        v-validate="'max:255'" :readonly="modoEdicion"></v-textarea>
+                                        :readonly="modoEdicion"></v-textarea>
+                                </v-col>
 
+                                <v-col md="10">
+                                    <!--Recursos necesarios-->
+                                    <v-textarea v-model="recursos_necesarios" class="mx-2" label="Recursos necesarios"
+                                        rows="1" prepend-icon="mdi-comment"
+                                        :readonly="modoEdicion"></v-textarea>
+                                </v-col>
+
+                                <v-col md="10">
+                                    <p class="font-weight-thin">
+                                        (por Innovación Educativa)
+                                    </p>
+                                    <!--Acuerdos establecidos-->
+                                    <v-textarea v-model="acuerdos_establecidos" class="mx-2"
+                                        label="Acuerdos establecidos" rows="1" prepend-icon="mdi-comment"
+                                        :readonly="modoEdicion"></v-textarea>
+                                </v-col>
+
+                                <v-col md="4">
                                     <!--Estatus-->
                                     <v-radio-group v-model="estatus" v-if="modoEdicion">
                                         Seleccione el estatus del proyecto:
@@ -139,7 +153,8 @@
                                                                     <%-- </v-tooltip> --%>
                                             </template>
                                             <template v-slot:item.editar="{ item }">
-                                                <v-btn fab small color="warning" @click="fnEditarItem(item)" :disabled="!userPermission">
+                                                <v-btn fab small color="warning" @click="fnEditarItem(item)"
+                                                    :disabled="!userPermission">
                                                     <v-icon>mdi-square-edit-outline</v-icon>
                                                 </v-btn>
                                             </template>
@@ -305,7 +320,7 @@
                                 if (status == 200) {
                                     if (data.length > 0) {
                                         arrayUsuario.value = data;
-                                        
+
                                         for (let i = 0; i < arrayUsuario.value.length; i++) {
                                             if (
                                                 arrayUsuario.value[i].cve_persona === usuario_registro &&
@@ -313,7 +328,7 @@
                                             ) {
 
                                                 userPermission.value = true;
-                                                
+
                                                 break;
                                             } else {
                                                 userPermission.value = false;

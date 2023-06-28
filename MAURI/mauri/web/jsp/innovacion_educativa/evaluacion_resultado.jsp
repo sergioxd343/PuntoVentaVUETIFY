@@ -18,6 +18,12 @@
         body {
             font-family: 'Roboto';
         }
+
+        .seccion_1 {
+            border: 1px solid black;
+            padding: 20px;
+            border-radius: 5px;
+        }
     </style>
 
     <body>
@@ -33,13 +39,14 @@
                         <v-container fluid class="elevation-2">
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
 
-                                <v-col md="6">
-                                    <!--Área-->
-                                    <v-autocomplete v-model="cve_area" outlined label="Área" persistent-hint
-                                        v-validate="'required|max:100'" data-vv-name="área"
-                                        :items="arrayArea" item-value="cve_area" item-text="nombre_area"
-                                        :error="errors.has('área')"
-                                        :error-messages="errors.first('área')"></v-autocomplete>
+                                <v-col md="8">
+                                    <!--Nombre del/la evaluador/a-->
+                                    <v-text-field outlined label="Nombre del/la evaluador/a:" persistent-hint
+                                        v-validate="'required|max:100'" :readonly="true"
+                                        :value="nombreCompleto"></v-text-field>
+                                </v-col>
+
+                                <v-col md="8">
                                     <!--Cuatrimestre-->
                                     <v-autocomplete v-model="cuatrimestre" outlined label="Cuatrimestre" persistent-hint
                                         v-validate="'required|max:7'" data-vv-name="cuatrimestre"
@@ -48,24 +55,59 @@
                                         :error-messages="errors.first('cuatrimestre')"></v-autocomplete>
                                 </v-col>
 
-                                <v-col md="5">
-                                    <!--Tipo de servicio-->
-                                    <v-autocomplete v-model="cve_t_servicio" outlined label="Tipo de Servicio"
-                                        persistent-hint v-validate="'required|max:100'" data-vv-name="tipo de servicio"
-                                        :items="arrayTipoServicio" item-value="cve_tipo_servicio"
-                                        item-text="nombre_tipo_servicio" :error="errors.has('tipo de servicio')"
-                                        :error-messages="errors.first('tipo de servicio')"></v-autocomplete>
-
-                                    <!--Asesoria de Proyecto-->
-                                    <v-autocomplete v-model="cve_asesoria_proyecto" outlined
-                                        label="Asesoria de Proyecto" persistent-hint v-validate="'required|max:100'"
-                                        data-vv-name="asesoria de proyecto" :items="arrayAsesoriaProyecto"
-                                        item-value="cve_asesoria" item-text="asesoria_proyecto"
-                                        :error="errors.has('asesoria de Proyecto')"
-                                        :error-messages="errors.first('asesoria de proyecto')"></v-autocomplete>
+                                <v-col md="8">
+                                    <!--Área-->
+                                    <v-autocomplete v-model="cve_area" outlined label="Área académica" persistent-hint
+                                        v-validate="'required|max:100'" data-vv-name="área" :items="arrayArea"
+                                        item-value="cve_area" item-text="nombre_area" :error="errors.has('área')"
+                                        :error-messages="errors.first('área')"></v-autocomplete>
                                 </v-col>
 
                                 <v-col md="8">
+                                    <!--Fecha-->
+                                    <v-text-field outlined label="Fecha:" persistent-hint
+                                        v-validate="'required|max:100'" :readonly="true"
+                                        v-model="fechaActual"></v-text-field>
+                                </v-col>
+
+                                <v-col md="10" class="seccion_1">
+                                    <p>
+                                        Marque el servicio que resibió:
+                                    </p>
+                                    <v-col md="12">
+                                        
+                                        <!--Tipo de servicio-->
+                                        <v-autocomplete  v-model="cve_t_servicio" outlined label="Tipo de Servicio"
+                                            persistent-hint v-validate="'required|max:100'"
+                                            data-vv-name="tipo de servicio" :items="arrayTipoServicio"
+                                            item-value="cve_tipo_servicio" item-text="nombre_tipo_servicio"
+                                            :error="errors.has('tipo de servicio')"
+                                            :error-messages="errors.first('tipo de servicio')"></v-autocomplete>
+
+                                    </v-col>
+
+                                    <v-col md="12" >
+                                        <!--Asesoria de Proyecto-->
+                                        <v-autocomplete v-if="cve_t_servicio === 1" v-model="cve_asesoria_proyecto"
+                                            outlined label="Asesoria de Proyecto" persistent-hint
+                                            data-vv-name="asesoria de proyecto" :items="arrayAsesoriaProyecto"
+                                            item-value="cve_asesoria" item-text="asesoria_proyecto"
+                                            :error="errors.has('asesoria de Proyecto')"
+                                            :error-messages="errors.first('asesoria de proyecto')"></v-autocomplete>
+
+                                        <!--Nombre del proyecto-->
+                                        <v-text-field v-if="cve_t_servicio === 2" v-model="nombre_proyecto" outlined
+                                            label="Nombre del proyecto:" persistent-hint
+                                            data-vv-name="nombre de proyecto" :error="errors.has('nombre de proyecto')"
+                                            :error-messages="errors.first('nombre de proyecto')"></v-text-field>
+                                    </v-col>
+                                </v-col>
+
+                                <v-col md="12" >
+                                    <p class="font-weight-medium my-12 text-center" >
+                                        Califique el servicio que recibió de innovación educativa, considerando la
+                                        siguiente escala:
+                                    </p>
                                     <v-card>
                                         <v-list>
                                             <!-- Encabezado de la tabla -->
@@ -86,7 +128,7 @@
                                                         </v-list-item-title>
                                                     </v-list-item-content>
                                                 </v-col>
-                                                <v-col cols="2">
+                                                <v-col cols="3">
                                                     <v-list-item-content>
                                                         <v-list-item-title
                                                             class="font-weight-bold text-wrap text-center">
@@ -94,7 +136,7 @@
                                                         </v-list-item-title>
                                                     </v-list-item-content>
                                                 </v-col>
-                                                <v-col cols="2">
+                                                <v-col cols="3">
                                                     <v-list-item-content>
                                                         <v-list-item-title
                                                             class="font-weight-bold text-wrap text-center">
@@ -128,14 +170,14 @@
                                                         </v-list-item-title>
                                                     </v-list-item-content>
                                                 </v-col>
-                                                <v-col cols="2">
+                                                <v-col cols="3">
                                                     <v-list-item-content>
                                                         <v-list-item-title class="text-wrap text-center">
                                                             8
                                                         </v-list-item-title>
                                                     </v-list-item-content>
                                                 </v-col>
-                                                <v-col cols="2">
+                                                <v-col cols="3">
                                                     <v-list-item-content>
                                                         <v-list-item-title class="text-wrap text-center"
                                                             style="color:red; font-weight: bold;">
@@ -156,7 +198,7 @@
                                     </v-card>
                                 </v-col>
 
-                                <v-col md="10">
+                                <v-col md="12">
                                     <v-card>
                                         <v-list>
                                             <!-- Encabezado de la tabla -->
@@ -181,7 +223,7 @@
 
                                             <!-- Filas de la tabla -->
                                             <v-row>
-                                                <v-col cols="6">
+                                                <v-col cols="7">
                                                     <v-list-item-content>
                                                         <v-list-item-title class="text-wrap text-center">
                                                             Mostró facilidad para contactar y llevar a cabo el proyecto
@@ -205,7 +247,7 @@
 
                                             <!-- Filas de la tabla -->
                                             <v-row>
-                                                <v-col cols="6">
+                                                <v-col cols="7">
                                                     <v-list-item-content>
                                                         <v-list-item-title class="text-wrap text-center">
                                                             El asesoramiento que le proporcionó el departamento le fue
@@ -230,7 +272,7 @@
 
                                             <!-- Filas de la tabla -->
                                             <v-row>
-                                                <v-col cols="6">
+                                                <v-col cols="7">
                                                     <v-list-item-content>
                                                         <v-list-item-title class="text-wrap text-center">
                                                             Se cubrieron los objetivos establecidos al inicio del
@@ -255,7 +297,7 @@
 
                                             <!-- Filas de la tabla -->
                                             <v-row>
-                                                <v-col cols="6">
+                                                <v-col cols="7">
                                                     <v-list-item-content>
                                                         <v-list-item-title class="text-wrap text-center">
                                                             Acudiría nuevamente al departamento de Innovación Educativa
@@ -280,7 +322,7 @@
 
                                             <!-- Filas de la tabla -->
                                             <v-row>
-                                                <v-col cols="6">
+                                                <v-col cols="7">
                                                     <v-list-item-content>
                                                         <v-list-item-title class="text-wrap text-center">
                                                             El proyecto o asesoría se concluyó de manera satisfactoria
@@ -304,7 +346,7 @@
 
                                             <!-- Filas de la tabla -->
                                             <v-row>
-                                                <v-col cols="6">
+                                                <v-col cols="7">
                                                     <v-list-item-content>
                                                         <v-list-item-title
                                                             class="font-weight-bold text-wrap text-center">
@@ -327,7 +369,7 @@
                                 </v-col>
 
                                 <v-col md="6">
-                                    <v-textarea v-model="comentarios" class="mx-2" label="Comentarios" rows="1"
+                                    <v-textarea v-model="comentarios" class="mx-2" label="Comentarios/Sugerencias" rows="1"
                                         prepend-icon="mdi-comment"></v-textarea>
                                 </v-col>
 
@@ -353,7 +395,8 @@
                                     <v-card-text>
                                         <v-row justify="center">
                                             <v-col md=8>
-                                                <v-text-field outlined label="Área | Cuatrimestre | Año | Usuario de registro"
+                                                <v-text-field outlined
+                                                    label="Área | Cuatrimestre | Año | Usuario de registro"
                                                     v-model="nombreBuscar" append-icon="mdi-magnify"
                                                     @input="fnBusqueda()"></v-text-field>
                                             </v-col>
@@ -441,6 +484,7 @@
                         const cve_t_servicio = ref("");
                         const cve_asesoria_proyecto = ref("");
                         const cve_area = ref("");
+                        const nombre_proyecto = ref("");
                         const suma = ref("");
                         const porcentaje = ref("");
                         const cuatrimestre = ref("");
@@ -455,18 +499,22 @@
                         const arrayAsesoriaProyecto = ref([]);
                         const arrayArea = ref([]);
 
+                        const fechaActual = ref("");
+
                         const currentUser = localStorage.getItem("currentUser");
                         const currentUserObj = JSON.parse(currentUser);
                         const usuario_registro = currentUserObj[0].cve_persona;
 
+                        const nombreCompleto = ref("");
+
                         const headersEncuesta = ref([
                             { text: 'No', align: 'left', sortable: true, value: 'cve_eval_resul' },
+                            { text: 'Nombre del/la evaluador/a', align: 'left', sortable: true, value: 'nombre_completo' },
                             { text: 'Cuatrimestre', align: 'left', sortable: true, value: 'cuatrimestre' },
                             { text: 'Tipo de servicio', align: 'left', sortable: true, value: 'nombre_tipo_servicio' },
                             { text: 'Nombre de la área', align: 'left', sortable: true, value: 'nombre_area' },
                             { text: 'Total Calificación', align: 'left', sortable: true, value: 'suma' },
                             { text: 'Porcentaje Calificación', align: 'left', sortable: true, value: 'porcentaje' },
-                            { text: 'Usuario de registro', align: 'left', sortable: true, value: 'nombre_completo' },
                             { text: 'Fecha', align: 'left', sortable: true, value: 'fecha_registro' },
                         ]);
                         const dataEncuesta = ref([]);
@@ -501,6 +549,7 @@
                             fnTipoServicio();
                             fnAsesoriaProyecto();
                             fnConsultarArea();
+                            fnReasignacionDatos();
                         });
 
                         //Consultar datos en la base de datos.
@@ -560,6 +609,7 @@
                         }
 
 
+
                         async function fnConsultarTabla() {
                             try {
                                 preloader("../../");
@@ -597,6 +647,15 @@
                             }
                         }
 
+
+                        function fnReasignacionDatos() {
+                            nombreCompleto.value = currentUserObj[0].nombre + ' ' + currentUserObj[0].apellido_peterno + ' ' + currentUserObj[0].apellido_materno;
+
+                            const calculo_fecha = new Date();
+                            const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                            fechaActual.value = calculo_fecha.toLocaleDateString(undefined, options); // Asignar la fecha actual al formato deseado
+                        }
+
                         async function fnGuardar() {
                             this.$validator.validate().then(async esValido => {
                                 if (esValido) {
@@ -608,6 +667,7 @@
                                         parametros.append("cve_t_servicio", cve_t_servicio.value);
                                         parametros.append("cve_asesoria_proyecto", cve_asesoria_proyecto.value);
                                         parametros.append("cve_area", cve_area.value);
+                                        parametros.append("nombre_proyecto", nombre_proyecto.value);
                                         parametros.append("suma", suma.value);
                                         parametros.append("porcentaje", porcentaje.value);
                                         parametros.append("cuatrimestre", cuatrimestre.value);
@@ -642,6 +702,7 @@
                             cve_t_servicio.value = "";
                             cve_asesoria_proyecto.value = "";
                             cve_area.value = "";
+                            nombre_proyecto.value = "";
                             porcentaje.value = "";
                             cuatrimestre.value = "";
                             comentarios.value = "";
@@ -654,6 +715,7 @@
                             flagEditar.value = false;
                             itemEditar.value = {};
 
+                            fnReasignacionDatos();
                             fnConsultarTabla();
 
                             if (this == undefined)
@@ -664,10 +726,10 @@
 
                         return {
                             cve_eval_resul, cve_t_servicio, cve_asesoria_proyecto,
-                            suma, porcentaje, cuatrimestre, comentarios, activo,
-                            fecha_registro, usuario_registro, calificaciones, cve_area,
+                            suma, porcentaje, cuatrimestre, comentarios, activo, nombre_proyecto,
+                            fecha_registro, usuario_registro, calificaciones, cve_area, nombreCompleto, fechaActual,
                             arrayCuatrimestre, arrayTipoServicio, arrayAsesoriaProyecto, arrayArea,
-                            headersEncuesta, dataEncuesta, searchEncuesta,fnBusqueda,
+                            headersEncuesta, dataEncuesta, searchEncuesta, fnBusqueda, fnReasignacionDatos,
                             dialogBuscador, nombreBuscar, searchBusqueda, currentUser, currentUserObj,
                             fnConsultarTabla, fnTipoServicio, fnAsesoriaProyecto, fnConsultarArea,
                             color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar,

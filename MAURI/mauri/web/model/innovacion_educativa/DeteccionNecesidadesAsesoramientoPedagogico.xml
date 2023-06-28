@@ -8,7 +8,7 @@ and open the template in the editor.
 	<tablaDNAP>
 		<query>
 		SELECT TOP (200) asesoria.cve_asesoria, asesoria.cve_empleado, asesoria.cve_academia, asesoria.materia, asesoria.fecha, asesoria.motivo_solicitud, asesoria.sugerencias, asesoria.entrevista, 
-                         asesoria.activo, asesoria.fecha_registro, asesoria.usuario_registro, persona.cve_persona, persona.nombre, persona.apellido_peterno, persona.apellido_materno,
+                         asesoria.compromisos, asesoria.responsable, asesoria.activo, asesoria.fecha_registro, asesoria.usuario_registro, persona.cve_persona, persona.nombre, persona.apellido_peterno, persona.apellido_materno,
                          persona.nombre + ' ' + persona.apellido_peterno + ' ' + persona.apellido_materno AS nombre_completo,
                          academia.cve_academia AS Expr1, academia.cve_unidad_academica, academia.nombre_academia, empleado.cve_empleado AS Expr2, empleado.cve_persona AS Expr3, 
                          persona_1.nombre AS Expr4, persona_1.cve_persona AS Expr5, persona_1.apellido_peterno AS Expr6, persona_1.apellido_materno AS Expr7,
@@ -22,8 +22,8 @@ INNER JOIN persona AS persona_1 ON empleado.cve_persona = persona_1.cve_persona
 	</tablaDNAP>
 	<guardarDNAP>
 		<query>
-			INSERT INTO asesoria (cve_empleado, cve_academia, materia, fecha, motivo_solicitud, sugerencias, entrevista, usuario_registro)
-	VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+			INSERT INTO asesoria (cve_empleado, cve_academia, materia, fecha, motivo_solicitud, sugerencias, entrevista, compromisos, responsable, usuario_registro)
+	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 		</query>
 	</guardarDNAP>
 	<consultarEmpleado>
@@ -55,13 +55,6 @@ FROM         usuario_grupo_seguridad
 		<query>
 			UPDATE asesoria
 			SET
-				cve_empleado = ?,
-				cve_academia = ?,
-				materia = ?,
-				fecha = ?,
-				motivo_solicitud = ?,
-				sugerencias = ?,
-				entrevista = ?,
 				activo = ?
 			WHERE
 				cve_asesoria = ?;

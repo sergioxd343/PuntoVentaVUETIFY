@@ -38,6 +38,7 @@
     int cve_empleado = request.getParameter("cve_empleado") != null && !request.getParameter("cve_empleado").equals("") ? Integer.parseInt(request.getParameter("cve_empleado")) : 0;
     int cve_academia = request.getParameter("cve_academia") != null && !request.getParameter("cve_academia").equals("") ? Integer.parseInt(request.getParameter("cve_academia")) : 0;
     int usuario_registro = request.getParameter("usuario_registro") != null && !request.getParameter("usuario_registro").equals("") ? Integer.parseInt(request.getParameter("usuario_registro")) : 0;
+    int responsable = request.getParameter("responsable") != null && !request.getParameter("responsable").equals("") ? Integer.parseInt(request.getParameter("responsable")) : 0;
 
     boolean activo = request.getParameter("activo") != null && !request.getParameter("activo").equals("") ? Boolean.parseBoolean(request.getParameter("activo")) : false;
     
@@ -46,6 +47,8 @@
     String motivo_solicitud = request.getParameter("motivo_solicitud") != null && !request.getParameter("motivo_solicitud").equals("") ? request.getParameter("motivo_solicitud").replace("+", " ") : "-";
     String sugerencias = request.getParameter("sugerencias") != null && !request.getParameter("sugerencias").equals("") ? request.getParameter("sugerencias").replace("+", " ") : "-";
     String entrevista = request.getParameter("entrevista") != null && !request.getParameter("entrevista").equals("") ? request.getParameter("entrevista").replace("+", " ") : "-";
+    String compromisos = request.getParameter("compromisos") != null && !request.getParameter("compromisos").equals("") ? request.getParameter("compromisos").replace("+", " ") : "-";
+    
    
     switch (accion) {
         case 1:
@@ -60,6 +63,8 @@
             temp_obj.addProperty("motivo_solicitud", motivo_solicitud);
             temp_obj.addProperty("sugerencias", sugerencias);
             temp_obj.addProperty("entrevista", entrevista);
+            temp_obj.addProperty("compromisos", compromisos);
+            temp_obj.addProperty("responsable", responsable);
             temp_obj.addProperty("usuario_registro", usuario_registro);
 
             parametros.add(temp_obj);
@@ -68,14 +73,6 @@
         case 3:
             temp_obj = new JsonObject();
            
-            temp_obj.addProperty("cve_empleado", cve_empleado);
-            temp_obj.addProperty("cve_academia", cve_academia);
-            temp_obj.addProperty("materia", materia);
-            temp_obj.addProperty("fecha", fecha);
-            temp_obj.addProperty("motivo_solicitud", motivo_solicitud);
-            temp_obj.addProperty("sugerencias", sugerencias);
-            temp_obj.addProperty("entrevista", entrevista);
-
             temp_obj.addProperty("activo", activo);
             temp_obj.addProperty("cve_asesoria", cve_asesoria);
 
