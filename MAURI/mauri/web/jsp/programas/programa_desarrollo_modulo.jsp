@@ -310,6 +310,7 @@
                     {text: 'Color ', align: 'left', sortable: true, value: 'color'},
                     {text: 'Estatus', align: 'left', sortable: true, value: 'activo'},
                     {text: 'Desactivar', align: 'left', sortable: true, value: 'eliminar'},
+                    {text: 'Clave modulo', align: 'left', sortable: true, value: 'cve_modulo'},
                 ]);
                 const searchProveedores = ref([]);
 

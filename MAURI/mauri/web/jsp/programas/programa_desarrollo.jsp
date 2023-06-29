@@ -30,16 +30,15 @@
                                 <!--Columna-->
  
                                 <v-col md="6">
-                                    <v-select
+                                    <v-text-field
                                       v-model="nombre_programa"
-                                      :items="['Diplomado', 'Investigación', 'Educación basada en competencias', 'Competencias digitales', 'Competencias tecnopedagógicas']"
                                       label="Nombre de programa de desarrollo"
                                       outlined
                                       persistent-hint
                                       v-validate="'required|max:200'"
                                       :error="errors.has('nombre programa de desarrollo')"
                                       :error-messages="errors.first('nombre programa de desarrollo')"
-                                    ></v-select>
+                                    ></v-text-field>
                                   </v-col>
 
                                 <v-col md=6>
@@ -87,15 +86,7 @@
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-text-field v-model="fecha" label="Fecha de Registro" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                                         </template>
-                                        <v-date-picker v-model="fecha" no-title scrollable :readonly="true">
-                                            <v-spacer></v-spacer>
-                                            <v-btn text color="primary" @click="menu1 = false">
-                                                Cancel
-                                            </v-btn>
-                                            <v-btn text color="primary" @click="$refs.menu1.save(fecha)">
-                                                OK
-                                            </v-btn>
-                                        </v-date-picker>
+                                        
                                     </v-menu>
                                 </v-col>
 

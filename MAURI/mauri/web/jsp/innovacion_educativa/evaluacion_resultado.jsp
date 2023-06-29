@@ -608,8 +608,6 @@
                             }
                         }
 
-
-
                         async function fnConsultarTabla() {
                             try {
                                 preloader("../../");

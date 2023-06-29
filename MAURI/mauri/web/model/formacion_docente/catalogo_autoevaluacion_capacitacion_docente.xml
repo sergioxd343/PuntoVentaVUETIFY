@@ -35,12 +35,18 @@ and open the template in the editor.
 		</query>
 	</areasCapacitacion>
 
-	 <periodo>
+	<periodo>
 		<query>
 			SELECT cve_periodo, descripcion FROM periodo;
 		</query>
 	</periodo>
 
+	<cursoTomado>
+		<query>
+			SELECT * FROM evento_programado_grupo WHERE cve_empleado = ?
+		</query>
+	</cursoTomado>
+	
 
 
 </CatalogoProveedores>

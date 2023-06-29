@@ -55,7 +55,11 @@
                                       :headers="headersProveedores"
                                       :items="selectedProveedores"
                                       class="elevation-1"
-                                    ></v-data-table>
+                                    >
+                                    <template v-slot:item.select="{ item }">
+                                        <v-checkbox v-model="item.selected"></v-checkbox>
+                                      </template>
+                                    </v-data-table>
                                   </v-col>
                                 
                                 
@@ -74,7 +78,7 @@
                             <v-divider></v-divider>
                            
 
-                            <v-row justify="center">
+                            <v-row justify="center" hidden>
                                 <v-btn color="primary" @click="flagEditar ? fnEditar() : fnGuardar()"><v-icon>mdi-content-save</v-icon>{{flagEditar ? 'Editar' : 'Guardar'}}</v-btn>
                                 &nbsp;
                                 <v-btn color="error" @click="fnLimpiarCampos()"><v-icon>mdi-cancel</v-icon>Cancelar</v-btn>
