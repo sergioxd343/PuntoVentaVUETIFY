@@ -50,7 +50,7 @@ INSERT INTO menu (cve_padre, nombre, ruta, orden, usuario_registro)
                     (0, 'Innovación Educativa', '-', 9, 1),
                     (0, 'Eventos', '-', 15, 1),
                     (0, 'Catalogos Pequeños', '-', 19, 1),
-                    (0, 'Programas', '-', 28, 1),
+                    (0, 'Programas', '-', 30, 1),
 					(0, 'Sistema', '-', 32, 1);
 
 -- ------------- INSERTS DE  SUBMENU -------------- --
@@ -70,18 +70,20 @@ INSERT INTO submenu (cve_menu, cve_padre, nombre, ruta, orden, usuario_registro)
                     (3, 3, 'Evento Programado', '../eventos/evento_programado.jsp', 16, 1),
                     (3, 3, 'Evento Programado Grupo', '../eventos/evento_programado_grupo.jsp', 17, 1),
                     (3, 3, 'Cumple programa de Desarrollo', '../eventos/cumple_programa_desarrollo.jsp', 18, 1),
-                    (4, 4, 'Tipo Capacitación', '../catalogos_pequenios/tipo_capacitacion.jsp', 25, 1),
-                    (4, 4, 'Tipo Espacio', '../catalogos_pequenios/tipo_espacio.jsp', 27, 1),
-                    (4, 4, 'Tipo Evento', '../catalogos_pequenios/tipo_evento.jsp', 21, 1),
+                    (4, 4, 'Tipo Capacitación', '../catalogos_pequenios/tipo_capacitacion.jsp', 20, 1),
+                    (4, 4, 'Tipo Espacio', '../catalogos_pequenios/tipo_espacio.jsp', 21, 1),
+                    (4, 4, 'Tipo Evento', '../catalogos_pequenios/tipo_evento.jsp', 22, 1),
                     (4, 4, 'Tipo Instructor', '../catalogos_pequenios/tipo_instructor.jsp', 23, 1),
-                    (4, 4, 'Tipo Modalidad', '../catalogos_pequenios/tipo_modalidad.jsp', 22, 1),
-                    (4, 4, 'Tipo Orientación', '../catalogos_pequenios/tipo_orientacion.jsp',20, 1),
-                    (4, 4, 'Tipo Origen', '../catalogos_pequenios/tipo_origen.jsp', 24, 1),
-                    (4, 4, 'Tipo Servicio', '../catalogos_pequenios/tipo_servicio.jsp', 26, 1),
-                    (5, 5, 'Programa de Desarrollo', '../programas/programa_desarrollo.jsp', 29, 1),
-                    (5, 5, 'Programa de Desarrollo de Módulos', '../programas/programa_desarrollo_modulo.jsp', 30, 1),
-                    (5, 5, 'Programa de Desarrollo de Materia', '../programas/programa_desarrollo_materia.jsp', 31, 1),
-					(6, 6, 'Perfil de usuario', 'perfil_usuario.jsp', 33, 1);
+                    (4, 4, 'Tipo Modalidad', '../catalogos_pequenios/tipo_modalidad.jsp', 24, 1),
+                    (4, 4, 'Tipo Orientación', '../catalogos_pequenios/tipo_orientacion.jsp',25, 1),
+                    (4, 4, 'Tipo Origen', '../catalogos_pequenios/tipo_origen.jsp', 26, 1),
+                    (4, 4, 'Tipo Servicio', '../catalogos_pequenios/tipo_servicio.jsp', 27, 1),
+                    (4, 4, 'Periodo', '../catalogos_pequenios/periodo.jsp', 28, 1),
+                    (4, 4, 'Horario', '../catalogos_pequenios/horario.jsp', 29, 1),
+                    (5, 5, 'Programa de Desarrollo', '../programas/programa_desarrollo.jsp', 31, 1),
+                    (5, 5, 'Programa de Desarrollo de Módulos', '../programas/programa_desarrollo_modulo.jsp', 32, 1),
+                    (5, 5, 'Programa de Desarrollo de Materia', '../programas/programa_desarrollo_materia.jsp', 33, 1),
+					(6, 6, 'Perfil de usuario', 'perfil_usuario.jsp', 34, 1);
 
 -- ------------- INSERTS DE MENU_PERMISOS -------------- --
 INSERT INTO menu_permisos (cve_grupo_seguridad, cve_menu, usuario_registro) 

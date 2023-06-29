@@ -387,23 +387,15 @@ CREATE TABLE necesidad_capacitacion_anual (
 CREATE TABLE solicitud_capacitacion_interna(
 	cve_sol_cap_int 			INT NOT NULL PRIMARY KEY IDENTITY(1,1),
 	cve_instructor 				INT NOT NULL,
-<<<<<<< HEAD
 	cve_horario					INT NOT NULL,
 	tipo_competencia			VARCHAR(15),
-=======
-	cve_horario			 		INT NOT NULL,
->>>>>>> 3f4edf42262c4742f083a995d8bce1355ca29063
 	nombre						VARCHAR(50),
 	total_dias 					INT,
 	total_horas 				INT,
 	fecha_inicio				DATE,
 	fecha_fin					DATE,
 	lugar						VARCHAR(100),
-<<<<<<< HEAD
 	curso						VARCHAR(30), -- abierto a la comunidad utl, grupo cerrado
-=======
-	curso						VARCHAR(30),
->>>>>>> 3f4edf42262c4742f083a995d8bce1355ca29063
 	numero_participantes 		INT,
 	objetivo 					TEXT,
 	alcance 					TEXT,
