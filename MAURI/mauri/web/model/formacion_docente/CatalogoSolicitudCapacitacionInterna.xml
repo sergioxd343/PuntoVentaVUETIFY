@@ -1,26 +1,9 @@
 <CatalogoSolicitudCapacitacionInterna>
 
-    <buscar_cve_docente>
-		<query>
-			SELECT * FROM v_empleado_evento
-		</query>
-	</buscar_cve_docente>
-
-    <cursos>
-		<query>
-			SELECT * FROM curso
-		</query>
-	</cursos>
-
-    <tipoInstructor>
-		<query>
-			SELECT cve_tipo_instructor, nombre_tipo_instructor FROM tipo_instructor
-		</query>
-	</tipoInstructor>
-
+    
     <facilitadores>
 		<query>
-			SELECT cve_tipo_instructor, cve_instructor, nombre_instructor FROM instructor
+			SELECT * FROM instructor WHERE cve_tipo_instructor = 1;
 		</query>
 	</facilitadores>
 
@@ -30,25 +13,30 @@
 		</query>
 	</areas>
 
+    <programaEducativo>
+		<query>
+			SELECT cve_ugac, nombre_ugac FROM ugac
+		</query>
+	</programaEducativo>
+
+    <horarios>
+		<query>
+			SELECT cve_horario, descripcion FROM horario
+		</query>
+	</horarios>
+
     <tablaSolicitud>
         <query>
-            SELECT       dbo.curso.nombre_curso, dbo.solicitud_capacitacion_interna.total_dias, dbo.solicitud_capacitacion_interna.total_horas, dbo.solicitud_capacitacion_interna.objetivo, dbo.solicitud_capacitacion_interna.alcance, 
-                         dbo.instructor.nombre_instructor, dbo.tipo_instructor.nombre_tipo_instructor, dbo.solicitud_capacitacion_interna.numero_participantes, dbo.solicitud_capacitacion_interna.metodologia, 
-                         dbo.solicitud_capacitacion_interna.programa_evento, dbo.solicitud_capacitacion_interna.horas_tema, dbo.solicitud_capacitacion_interna.resultado_aprendizaje, dbo.solicitud_capacitacion_interna.perfil_participante, 
-                         dbo.curso.cve_curso, dbo.instructor.cve_instructor, dbo.instructor.cve_tipo_instructor
-			FROM dbo.curso INNER JOIN
-                         dbo.solicitud_capacitacion_interna ON dbo.curso.cve_curso = dbo.solicitud_capacitacion_interna.cve_curso INNER JOIN
-                         dbo.instructor ON dbo.solicitud_capacitacion_interna.cve_instructor = dbo.instructor.cve_instructor INNER JOIN
-                         dbo.tipo_instructor ON dbo.instructor.cve_tipo_instructor = dbo.tipo_instructor.cve_tipo_instructor
+            SELECT * FROM solicitud_capacitacion_interna
         </query>
     </tablaSolicitud>
 
     <insertarSolicitud>
         <query>
-            INSERT INTO solicitud_capacitacion_interna (cve_instructor, cve_orientacion_evento, cve_curso, total_dias, total_horas,
-                numero_participantes, objetivo, alcance, metodologia, programa_evento, horas_tema, resultado_aprendizaje, 
-                perfil_participante, activo, fecha_registro, usuario_registro) 
-                VALUES (?, 1, ?, ?, ?, ?, ? , ?, ?, ?, ?, ?, ?, 1, GETDATE(), 1);
+            INSERT INTO solicitud_capacitacion_interna (cve_instructor,	cve_horario, tipo_competencia, nombre, total_dias, total_horas, 
+            fecha_inicio,fecha_fin, lugar, curso, numero_participantes, objetivo, alcance, metodologia, programa_evento, resultado_aprendizaje,
+    	    perfil_participante, estatus, activo, fecha_registro, usuario_registro) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1, GETDATE(), ?);
         </query>
     </insertarSolicitud>
     

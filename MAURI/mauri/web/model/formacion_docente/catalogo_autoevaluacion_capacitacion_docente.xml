@@ -8,8 +8,6 @@ and open the template in the editor.
 
 	<tablaAutoevaluacion>
 		<query>
-			
-			
 			SELECT evento_programado.nombre_evento, evento_programado_grupo.cve_empleado, empleado.cve_puesto, persona.nombre + ' ' 
 			+ persona.apellido_peterno + ' ' + persona.apellido_materno AS nombre, 
 			autoevaluacion_capacitacion_docente.promedio, autoevaluacion_capacitacion_docente.fecha_registro
@@ -19,16 +17,10 @@ and open the template in the editor.
 			INNER JOIN persona ON empleado.cve_persona = persona.cve_persona
 			INNER JOIN autoevaluacion_capacitacion_docente ON empleado.cve_empleado = autoevaluacion_capacitacion_docente.cve_empleado
 			WHERE evento_programado_grupo.cve_empleado = autoevaluacion_capacitacion_docente.cve_empleado
-
 		</query>
 	</tablaAutoevaluacion>
 
-	<buscar_cve_docente>
-		<query>
-			SELECT * FROM v_empleado_evento
-		</query>
-	</buscar_cve_docente>
-
+	
 	<guardarAutoevaluacion>
 		<query>
 			insert into autoevaluacion_capacitacion_docente (cve_empleado, evidencias, factores_identificacion, factores_aplicacion, promedio,  activo, fecha_registro, usuario_registro) 

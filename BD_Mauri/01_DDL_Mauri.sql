@@ -8,14 +8,14 @@
 USE master;
 GO
 
-IF DB_ID('mauri') IS NOT NULL
-DROP DATABASE mauri;
+IF DB_ID('mauri1') IS NOT NULL
+DROP DATABASE mauri1;
 GO
 
-CREATE DATABASE mauri;
+CREATE DATABASE mauri1;
 GO
 
-USE mauri;
+USE mauri1;
 GO
 
 -- ------------- TABLA MENU -------------- --
@@ -387,10 +387,14 @@ CREATE TABLE necesidad_capacitacion_anual (
 CREATE TABLE solicitud_capacitacion_interna(
 	cve_sol_cap_int 			INT NOT NULL PRIMARY KEY IDENTITY(1,1),
 	cve_instructor 				INT NOT NULL,
-	cve_orientacion_evento 		INT NOT NULL,
-	cve_curso 					INT NOT NULL,
+	cve_horario			 		INT NOT NULL,
+	nombre						VARCHAR(50),
 	total_dias 					INT,
 	total_horas 				INT,
+	fecha_inicio				DATE,
+	fecha_fin					DATE,
+	lugar						VARCHAR(100),
+	curso						VARCHAR(30),
 	numero_participantes 		INT,
 	objetivo 					TEXT,
 	alcance 					TEXT,

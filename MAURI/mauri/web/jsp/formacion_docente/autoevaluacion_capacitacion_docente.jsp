@@ -33,238 +33,78 @@
                                 <v-col class="text-center"><b>Datos del docente capacitado</b></v-col>
                             </v-row>
                             <v-divider></v-divider>
-                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+                            <v-row class="align-center" style="padding: 0px 50px 0px 50px">
+                                    <v-col md=5>
+                                        <label for="nombre">Nombre: {{nombre}} {{ape1}} {{ape2}}</label>
+                                    </v-col>
 
-                                    <!-- NUMERO DE CONTROL -->
                                     <v-col md=2>
-                                        <v-text-field 
-                                            v-model="numeroControl"
-                                            outlined
-                                            label="N&uacute;mero de control"
-                                            persistent-hint
-                                            v-validate="'required|max:200'"
-                                            data-vv-name="numeroControl"
-                                            :error="errors.has('numeroControl')"
-                                            :error-messages="errors.first('numeroControl')"
-                                            @keyup.enter="fnBuscarDocente()"
-                                        ></v-text-field>
+                                        <label for="sexo">Sexo: {{sexo}}</label>
                                     </v-col>
 
-                                    <!-- NOMBRE DEL DOCENTE -->
-                                    <v-col md=4>
-                                        <v-text-field 
-                                            disabled
-                                            v-model="nombreDocente"
-                                            outlined
-                                            label="Nombre(s)"
-                                            persistent-hint
-                                            v-validate="'required|max:200'"
-                                            data-vv-name="nombreDocente"
-                                            :error="errors.has('nombreDocente')"
-                                            :error-messages="errors.first('nombreDocente')"
-                                        ></v-text-field>
-                                    </v-col>
-
-                                    <!-- PRIMER APELLIDO DEL DOCENTE -->
                                     <v-col md=3>
-                                        <v-text-field 
-                                            disabled
-                                            v-model="primerApellidoD"
-                                            outlined
-                                            label="Primer apellido"
-                                            persistent-hint
-                                            v-validate="'required|max:200'"
-                                            data-vv-name="primerApellidoD"
-                                            :error="errors.has('primerApellidoD')"
-                                            :error-messages="errors.first('primerApellidoD')"
-                                        ></v-text-field>
+                                        <label for="puesto">Puesto: {{puesto}}</label>
                                     </v-col>
-
-                                     <!-- SEGUNDO APELLIDO DEL DOCENTE -->
-                                     <v-col md=3>
-                                        <v-text-field 
-                                            disabled
-                                            v-model="segundoApellidoD"
-                                            outlined
-                                            label="Segundo apellido"
-                                            persistent-hint
-                                            v-validate="'required|max:200'"
-                                            data-vv-name="segundoApellidoD"
-                                            :error="errors.has('segundoApellidoD')"
-                                            :error-messages="errors.first('segundoApellidoD')"
-                                        ></v-text-field>
-                                    </v-col>
-                                </v-row>
+                            </v-row>
 
                                 
-                                <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-
-                                <!-- IDENTIDAD / SEXO -->
-                                <v-col md=5 >   
-                                    <p>Sexo</p>                              
-                                    <v-radio-group
-                                        disabled
-                                        v-model="sexo"                                                                                         
-                                        class="mt-0"
-                                        v-validate="'required'"
-                                        data-vv-name="tipo de persona"
-                                        :error="errors.has('tipo de persona')"
-                                        :error-messages="errors.first('tipo de persona')"
-                                        row> 
-                                        <v-radio
-                                            label="Masculino"
-                                            value='Masculino'
-                                        ></v-radio>
-                                        <v-radio
-                                            label="Femenino"
-                                            value='Femenino'
-                                        ></v-radio>
-                                        <v-radio
-                                            label="No binario"
-                                            value='No binario'
-                                        ></v-radio>
-                                        <v-radio
-                                            label="Otro"
-                                            value='Otro'
-                                        ></v-radio>
-                                    </v-radio-group>
+                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+                               <v-col md=7>
+                                    <label for="area">Área: {{area}}</label>
                                 </v-col>
 
-                                <!-- PUESTO -->
-                                <v-col md=2 >   
-                                    <p>Puesto</p>                              
-                                    <v-radio-group
-                                        disabled
-                                        v-model="puesto"                                                                                         
-                                        class="mt-0"
-                                        v-validate="'required'"
-                                        data-vv-name="puesto"
-                                        :error="errors.has('puesto')"
-                                        :error-messages="errors.first('puesto')"
-                                        row> 
-                                        <v-radio
-                                            label="PTC"
-                                            value='PTC'
-                                        ></v-radio>
-                                        <v-radio
-                                            label="PA"
-                                            value='PA'
-                                        ></v-radio>
+                                <v-col md=5>
+                                    <label for="area">Carrera: {{carrera}}</label>
+                                </v-col>                               
+                               
+                            </v-row> <br>
 
-                                    </v-radio-group>
-                                </v-col>
+                            <v-row justfy="center" dense >
+                                <v-col class="text-center"><b>Datos del curso asistido </b></v-col>
+                            </v-row>
+                                <v-divider></v-divider> 
 
-                                  <!-- AREA -->
-                                 <v-col md=3>
-                                    <v-text-field 
-                                        disabled
-                                        v-model="area"
+                            <v-row class="align-center" style="padding: 0px 50px 0px 50px">
+                                <v-col md=5>
+                                    <v-select 
+                                        v-model="areaCapacitacion"
                                         outlined
-                                        label="Área"
+                                        label="Seleccione el curso del cual desea hacer su autoevaluación"
                                         v-validate="'required'"
-                                        :items="arrayAreas"
+                                        :items="arrayCursosTomados"
                                         item-value="cve_area"
                                         item-text="nombre_area"
-                                        data-vv-name="area"
-                                        :error="errors.has('area')"
-                                        :error-messages="errors.first('area')"
-                                    ></v-text-field>
+                                        data-vv-name="areaCapacitacion"
+                                        :error="errors.has('areaCapacitacion')"
+                                        :error-messages="errors.first('areaCapacitacion')"
+                                    ></v-select>
+                                </v-col>
+                                    
+                                <v-col md=5>
+                                    <label for="area">Tema: </label>
                                 </v-col>
 
-                                
-                                <!--CARRERA-->
-
-                                <v-col md=2>
-                                    <v-text-field   
-                                        disabled
-                                        v-model="carrera"
-                                        outlined
-                                        label="Carrera"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="carrera"
-                                        :error="errors.has('carrera')"
-                                        :error-messages="errors.first('carrera')"
-                                    ></v-text-field>
+                                <v-col md=5>
+                                    <label for="area">Objetivo: </label>
                                 </v-col>
 
-                               <!-- <v-col md=2>
-                                    <v-select 
-                                        v-model="carrera"
-                                        outlined
-                                        label="Carrera"
-                                        v-validate="'required'"
-                                        :items="arrayCarreras"
-                                        item-value="idCarrera"
-                                        item-text="nombre"
-                                        data-vv-name="carrera"
-                                        :error="errors.has('carrera')"
-                                        :error-messages="errors.first('carrera')"
-                                    ></v-select>
-                                </v-col> -->
-                                </v-row> <br>
+                                <v-col md=5>
+                                    <label for="area">Alcance: </label>
+                                </v-col>
+                            </v-row>
 
-                                <v-row justfy="center" dense >
-                                    <v-col class="text-center"><b>Datos del curso asistido </b></v-col>
-                                </v-row>
-                                <v-divider></v-divider> 
-                                <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-                                    <!--TEMA-->
-                                    <v-col md=3>
-                                        <v-text-field 
-                                            v-model="tema"
-                                            outlined
-                                            label="Tema"
-                                            persistent-hint
-                                            v-validate="'required|max:200'"
-                                            data-vv-name="tema"
-                                            :error="errors.has('tema')"
-                                            :error-messages="errors.first('tema')"
-                                        ></v-text-field>
-                                    </v-col>
+                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+                                    
+                                <v-col md=5>
+                                    <label for="area">Periodo: </label>
+                                </v-col>
 
-                                    <!--OBJETIVO-->
-                                    <v-col md=4>
-                                        <v-text-field 
-                                            v-model="objetivo"
-                                            outlined
-                                            label="Objetivo"
-                                            v-validate="'required|max:200'"
-                                            data-vv-name="objetivo"
-                                            :error="errors.has('objetivo')"
-                                            :error-messages="errors.first('objetivo')"
-                                        ></v-text-field>
-                                    </v-col>
+                                <v-col md=5>
+                                    <label for="area">Fecha inicio: </label>
+                                </v-col>
 
-                                    <!--ALCANCE-->
-                                    <v-col md=5>
-                                        <v-text-field
-                                            v-model="alcance"
-                                            outlined
-                                            label="Alcance"
-                                            v-validate="'required|max:20'"
-                                            data-vv-name="alcance"
-                                            :error="errors.has('alcance')"
-                                            :error-messages="errors.first('alcance')"
-                                        ></v-text-field>
-                                    </v-col>
-                                </v-row>
-
-                                <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-                                    <!--PERIODO-->
-                                <v-col md=6>
-                                    <v-select 
-                                        v-model="periodo"
-                                        outlined
-                                        label="Periodo"
-                                        v-validate="'required'"
-                                        :items="arrayPeriodo"
-                                        item-value="cve_periodo"
-                                        item-text="descripcion"
-                                        data-vv-name="periodo"
-                                        :error="errors.has('periodo')"
-                                        :error-messages="errors.first('periodo')"
-                                    ></v-select>
+                                <v-col md=5>
+                                    <label for="area">Fecha fin: </label>
                                 </v-col>
 
                                  <!-- AREA EN QUE SE CAPACITO -->
@@ -275,54 +115,14 @@
                                         label="Competencia en que se capacito"
                                         v-validate="'required'"
                                         :items="arrayAreasCapacitacion"
-                                        item-value="cve_area"
-                                        item-text="nombre_area"
+                                        
                                         data-vv-name="areaCapacitacion"
                                         :error="errors.has('areaCapacitacion')"
                                         :error-messages="errors.first('areaCapacitacion')"
                                     ></v-select>
                                 </v-col>
                                 
-                                <!-- FECHA DEL EVENTO -->
-                                  <v-col cols="12" sm="6" md="3" >
-                                    <v-dialog
-                                        ref="dialog"
-                                        :return-value.sync="fecha"
-                                        //persistent
-                                        width="290px"
-                                    >
-                                        <template v-slot:activator="{ on, attrs }">
-                                        <v-text-field
-                                            v-model="fecha"
-                                            label="Fecha"
-                                            prepend-icon="mdi-calendar"
-                                            readonly
-                                            v-bind="attrs"
-                                            v-on="on"
-                                        ></v-text-field>
-                                        </template>
-                                        <v-date-picker
-                                        v-model="fecha"
-                                        scrollable
-                                        >
-                                        <v-spacer></v-spacer>
-                                        <v-btn
-                                            text
-                                            color="primary"
-                                            @click="modal = false"
-                                        >
-                                            Cancel
-                                        </v-btn>
-                                        <v-btn
-                                            text
-                                            color="primary"
-                                            @click="$refs.dialog.save(fecha)"
-                                        >
-                                            OK
-                                        </v-btn>
-                                        </v-date-picker>
-                                    </v-dialog>
-                                </v-col>
+                                
 
                                
                                 </v-row>
@@ -474,10 +274,17 @@
                                             5.- Seleccione el tipo de evidencia que utiliz&oacute; para verificar el impacto de las t&eacute;cnicas, estrategias o acciones aprendidas en el curso:
                                         </v-p>
                                     </v-col>
+
+                                    <v-col md=2>
+                                        <v-text-field
+                                            v-model="promedio"
+                                            v-show="true"
+                                        ></v-text-field>
+                                    </v-col>
                                 </v-row>
 
                                 <v-row  class="align-center" style="padding: 0px 50px 0px 50px">
-                                <v-col md=10>
+                                <v-col md=5>
                                     <v-radio-group v-model="evidencias">
                                         <v-radio value="Calificaciones de estudiantes" label="Calificaciones de estudiantes"></v-radio>
                                         <v-radio value="Encuestas a estudiantes" label="Encuestas a estudiantes"></v-radio>
@@ -498,12 +305,7 @@
                                     ></v-text-field>
                                 </v-col>
 
-                                <v-col md=2>
-                                <v-text-field
-                                    v-model="promedio"
-                                    v-show="false"
-                                ></v-text-field>
-                                </v-col>
+                                
 
 
 
@@ -540,19 +342,7 @@
                                     </template>
 
                                        
-                                        <template v-slot:item.editar="{item}">
-                                            <v-btn fab small color="warning" @click="flagEditar = true; itemEditar = item;
-                                                tipo = item.cve_tipo;
-                                                nombreCorto = item.nombre_corto;
-                                                razonSocial = item.nombre;
-                                                rfc = item.rfc;
-                                                padron = item.clave_patron;
-                                                nombreContacto = item.nombre_contacto;
-                                                correoContacto = item.correo;
-                                                telefonoContacto = item.telefono;
-                                                tipoPersona = item.tipo_persona
-                                            "><v-icon>mdi-square-edit-outline</v-icon></v-btn>
-                                        </template>
+                                        
                                        
                                         <template v-slot:item.password="{item}">
                                             <v-tooltip bottom>
@@ -617,15 +407,7 @@
                     watch
                 } = VueCompositionAPI;
                 const ctr = "../../controlador/formacion_docente/controlador_catalogo_autoevaluacion_capacitacion_docente.jsp";
-
-                const numeroControl= ref("");
-                const nombreDocente = ref("");
-                const primerApellidoD = ref("");
-                const segundoApellidoD = ref("");
-                const sexo = ref("");
-                const puesto = ref("");
-                const area = ref("");
-                const carrera = ref("");
+                
                 const tema = ref("");
                 const objetivo = ref("");
                 const alcance = ref("");
@@ -648,21 +430,14 @@
                 const otro = ref("");
                 const promedio = ref("");
                 
-                
-
-                
-
-                const arrayAreas = ref(["Tecnologias de la informacion","Quimica"]);
+                //ARREGLOS
                 const arrayCarreras = ref([]);
                 const arrayAreasCapacitacion = ref(["Estrategias pedagógicas", "Comunicación", 
                 "Herramientas digitales", "Tutoreo", "Procesos institucionales", "Investigación", 
                 "Competencias técnicas"]);
                 const arrayEscala = ref([10,9,8,7,6]);
-                const dataBusqueda = ref([]);
                 const arrayPeriodo = ref([]);
-
-
-                
+                const arrayCursos = ref([]);
 
                 
                 //Otras variables
@@ -701,12 +476,24 @@
                 ]);
                 const searchProveedores = ref([]);
 
+                const currentUser = localStorage.getItem('currentUser');
+                const user = JSON.parse(currentUser);
+                const cve_persona = user[0].cve_persona;
+                const idEmpleado = user[0].cve_empleado;
+                const nombre = user[0].nombre;
+                const ape1 = user[0].apellido_peterno;
+                const ape2 = user[0].apellido_materno;
+                const sexo = user[0].sexo;
+                const puesto = user[0].nombre_puesto;
+                const area = user[0].nombre_area;
+                const carrera = user[0].nombre_ugac;
+
                 
 
                 onMounted(() => {
                     fnConsultarTabla();
-                    fnbuscar_cve_docente();
                     periodos();
+                    console.log({idEmpleado});
                 });
 
                 async function fnVerde(){
@@ -729,6 +516,8 @@
                         text: 'Cancelado',
                     });
                 }
+
+
                 /*function verificarEmpleado(cve_empleado, tabla) {
                     console.log('hola popo'+cve_empleado)
                     for (let i = 0; i < tabla.length; i++) {
@@ -783,7 +572,6 @@
                     })
                 }
 
-
                 async function fnConsultarTabla(){
                     try{
                         preloader("../");
@@ -828,68 +616,8 @@
                     }
                 }
                 
-                
-                async function fnbuscar_cve_docente(){
-                    try{
-                        preloader("../../");
-                        let parametros = new URLSearchParams();
-                        parametros.append("accion", 3);
-                        let {data,status} = await axios.post(ctr, parametros)
-                        if(status == 200){
-                            if(data.length > 0){
-                                dataBusqueda.value = data
-                                
-                            }
-                        }
-                    } catch(error){
-                        mostrarSnackbar('error');
-                        console.error(error);
-                    } finally{
-                        swal.close();
-                    }
-                }
-
-                async function fnBuscarDocente() {
-
-                    const numeroControl = this.numeroControl;
-                    console.log(numeroControl);
-
-                    let encontrado = false; 
-                    for (let i = 0; i < this.dataBusqueda.length; i++) {
-                        if (numeroControl === this.dataBusqueda[i].cve_empleado.toString()) {
-                            this.nombreDocente = this.dataBusqueda[i].nombre;
-                            this.primerApellidoD = this.dataBusqueda[i].apellido_peterno;
-                            this.segundoApellidoD = this.dataBusqueda[i].apellido_materno;
-                            this.sexo = this.dataBusqueda[i].sexo;
-                            this.puesto = this.dataBusqueda[i].nombre_puesto;
-                            this.area = this.dataBusqueda[i].nombre_area;
-                            this.carrera = this.dataBusqueda[i].nombre_ugac;
-                            this.tema = this.dataBusqueda[i].nombre_evento;
-                            this.fecha = this.dataBusqueda[i].fecha_registro;
-                        encontrado = true; 
-                            break; 
-                            }
-                        }
-                        if (!encontrado) {
-                            Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'El número de control no coincide.',
-                            });
-                        }
-                    }
-
-                
                 function fnLimpiarCampos(cx){//cx = contexto
 
-                    numeroControl.value = "";
-                    nombreDocente.value = "";
-                    primerApellidoD.value = "";
-                    segundoApellidoD.value = "";
-                    sexo.value = "";
-                    puesto.value = "";
-                    area.value = "";
-                    carrera.value = "";
                     tema.value = "";
                     objetivo.value = "";
                     alcance.value = "";
@@ -935,24 +663,24 @@
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
                     nombreBuscar,
 
-                    numeroControl, nombreDocente, primerApellidoD, segundoApellidoD, sexo, puesto, area, carrera, tema,
+                    area, carrera, tema,
                     objetivo, alcance, periodo, fecha, areaCapacitacion, escala1, escala2, escala3, escala4, escala5,  otraAct, otraAct1,
-                    option, option1, option2, option3, option4, otro, evidencias, promedio,
+                    option, option1, option2, option3, option4, otro, evidencias, promedio, currentUser, nombre, ape1, ape2, sexo, puesto,
                     
 
-                    arrayAreas, arrayCarreras, arrayAreasCapacitacion, arrayEscala, arrayPeriodo,
+                    arrayCarreras, arrayAreasCapacitacion, arrayEscala, arrayPeriodo, arrayCursos,
                     
                     
                     dataProveedores, headersProveedores, searchProveedores, arrayTiposProveedores, 
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor,
-                    fnLimpiarCampos, itemEditar, searchBusqueda, fnBuscarDocente,
-                    dataBusqueda, fnConsultarTabla, fnGuardar, fnRojo, periodos, fnAmarillo, fnVerde
+                    fnLimpiarCampos, itemEditar, searchBusqueda,
+                    fnConsultarTabla, fnGuardar, fnRojo, periodos, fnAmarillo, fnVerde
                 }
             },
             methods: {
                 calcularPromedio() {
                     const sumaEscalas = this.escala1 + this.escala2 + this.escala3 + this.escala4;
-                    this.promedio = sumaEscalas / 4;
+                    this.promedio = "Promedio: "+ sumaEscalas / 4;
                     console.log(this.promedio);
                 },
             },
