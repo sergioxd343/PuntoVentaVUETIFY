@@ -44,6 +44,7 @@
     
     String materia = request.getParameter("materia") != null && !request.getParameter("materia").equals("") ? request.getParameter("materia").replace("+", " ") : "-";
     String fecha = request.getParameter("fecha") != null && !request.getParameter("fecha").equals("") ? request.getParameter("fecha").replace("+", " ") : "-";
+    String fecha_seguimiento = request.getParameter("fecha_seguimiento") != null && !request.getParameter("fecha_seguimiento").equals("") ? request.getParameter("fecha_seguimiento").replace("+", " ") : "-";
     String motivo_solicitud = request.getParameter("motivo_solicitud") != null && !request.getParameter("motivo_solicitud").equals("") ? request.getParameter("motivo_solicitud").replace("+", " ") : "-";
     String sugerencias = request.getParameter("sugerencias") != null && !request.getParameter("sugerencias").equals("") ? request.getParameter("sugerencias").replace("+", " ") : "-";
     String entrevista = request.getParameter("entrevista") != null && !request.getParameter("entrevista").equals("") ? request.getParameter("entrevista").replace("+", " ") : "-";
@@ -63,8 +64,9 @@
             temp_obj.addProperty("motivo_solicitud", motivo_solicitud);
             temp_obj.addProperty("sugerencias", sugerencias);
             temp_obj.addProperty("entrevista", entrevista);
-            temp_obj.addProperty("compromisos", compromisos);
-            temp_obj.addProperty("responsable", responsable);
+            temp_obj.addProperty("cve_responsable", responsable);
+            temp_obj.addProperty("compromiso", compromisos);
+            temp_obj.addProperty("fecha_seguimiento", fecha_seguimiento);
             temp_obj.addProperty("usuario_registro", usuario_registro);
 
             parametros.add(temp_obj);

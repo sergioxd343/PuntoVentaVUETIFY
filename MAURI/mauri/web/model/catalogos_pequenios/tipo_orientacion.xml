@@ -17,25 +17,19 @@ and open the template in the editor.
     <guardarTipoOrientacion>
 		<query>
 			
-			INSERT INTO tipo_orientacion (nombre_tipo_orientacion, activo, fecha_registro, usuario_registro) VALUES (?, 'True', GETDATE (), 5)
+			INSERT INTO tipo_orientacion (nombre_tipo_orientacion, activo, fecha_registro, usuario_registro) VALUES (?, 'True', GETDATE (), ?)
 
 		</query>
 	</guardarTipoOrientacion>
-    <eliminar>
+    
+	<cambiarEstatus>
 		<query>
 			UPDATE tipo_orientacion
-			SET          activo = 'False'
+			SET          activo = ?
 			WHERE  cve_tipo_orientacion = ?
 		</query>
-	</eliminar>
+	</cambiarEstatus>
 
-    <activar>
-		<query>
-			UPDATE tipo_orientacion
-			SET          activo = 'True'
-			WHERE  cve_tipo_orientacion = ?
-		</query>
-	</activar>
 	
 
 </CatalogoTipos>

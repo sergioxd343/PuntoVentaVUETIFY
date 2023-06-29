@@ -68,15 +68,14 @@
                                         items-per-page="10"
                                         body-height="10px"
                                     >
-                                    <template v-slot:item.eliminar="{item}">
-                                        <v-btn  small color="grey" @click="fnEliminarEspacio(item);" :disabled="!item.activo" >Inactivo</v-btn>
+                                     
+                                    <template v-slot:item.estatus="{item}">
+                                        <v-chip class="ma-2" link @click="fnCambiarEstatus(item)"
+                                            :color="item.activo ? 'success' : 'grey'" outlined>
+                                            {{ item.activo ?
+                                            "Activo" : "Inactivo" }}
+                                        </v-chip>
                                     </template>
-                                    <template v-slot:item.editar="{item}">
-                                        <v-btn  small color="success" @click="fnActivar(item);" :disabled="item.activo">Activo</v-btn>
-
-                                    </template><template v-slot:item.activo="{ item }">
-                                        <span>{{ item.activo ? 'Activo' : 'Inactivo' }}</span>
-                                      </template>
 
                                     </v-data-table>
                                 </v-col>
@@ -186,9 +185,9 @@
                 
                 const nombreTipoEspacio = ref("");
 
-                const currentUser = localStorage.getItem('currentUser');
-                const user = JSON.parse(currentUser);
-                const cve_persona = user[0].cve_persona;
+                const currentUser = localStorage.getItem("currentUser");
+                const currentUserObj = JSON.parse(currentUser);
+                const usuario_registro = currentUserObj[0].cve_persona;
                 
                 //Otras variables
                 const flagEditar = ref(false);
@@ -213,9 +212,7 @@
                     {text: 'No', align: 'left', sortable: true, value: 'cve_tipo_espacio'},
                     {text: 'Nombre espacio', align: 'left', sortable: true, value: 'nombre_tipo_espacio'},
                     {text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro'},
-                    {text: 'Estatus actual', align: 'left', sortable: true, value: 'activo'},
-                    {text: 'Activar', align: 'left', sortable: true, value: 'editar'},
-                    {text: 'Desactivar', align: 'left', sortable: true, value: 'eliminar'},
+                    { text: "Estatus", align: "left", sortable: true, value: 'estatus' },
                 ]);
                 const searchProveedores = ref([]);
                 const searchTipos = ref([]);
@@ -246,8 +243,6 @@
                }
                
 
-// Luego puedes utilizar la variable cvePersona en tu función fnGuardarTipoEspacio
-
                 async function fnGuardarTipoEspacio(){
                     this.$validator.validate().then(async esValido => {
                         if(esValido){
@@ -256,13 +251,15 @@
                                 let parametros = new URLSearchParams();
                                 parametros.append("accion", 2);
                                 parametros.append("nombre_tipo_espacio", nombreTipoEspacio.value);
-                                parametros.append("cve_persona", cve_persona.value);
+                                parametros.append("cve_persona",this.usuario_registro); // Agrega el valor de cve_persona
+                                
                                 let {data,status} = await axios.post(ctr, parametros)
                                 if(status == 200){
                                     if(data == "1"){
                                         mostrarSnackbar("success", "Registro guardado correctamente.");
                                         fnConsultarTablaTipoEspacio();
                                         fnLimpiarCampos(this);
+                                        
                                         // this.$validator.pause();
                                         // Vue.nextTick(() => {
                                         //     this.$validator.errors.clear();
@@ -280,48 +277,36 @@
                     })
                 }
 
-              async function fnEliminarEspacio(item){
-                            try{
-                                preloader("../../");
-                                let parametros = new URLSearchParams();
-                                parametros.append("accion", 3);
-                                
-                                parametros.append("cve_tipo_espacio", item.cve_tipo_espacio);
-                                let {data,status} = await axios.post(ctr, parametros)
-                                if(status == 200){
-                                    if(data=="1"){
-                                        fnConsultarTablaTipoEspacio();
-                                    }
+                async function fnCambiarEstatus(item) {
+                        try {
+                            preloader("../");
+                            let parametros = new URLSearchParams();
+                            parametros.append("accion", 3);
+                            parametros.append("cve_tipo_espacio", item.cve_tipo_espacio);
+                            parametros.append("activo", (item.activo == true ? 0 : 1));
+                            console.log("🚀 ~ file: tipo_espacio.jsp:283 ~ fnCambiarEstatus ~ parametros:", parametros)
+                            let { data, status } = await axios.post(ctr, parametros);
+                            if (status == 200) {
+                                if (data == "1") {
+                                    mostrarSnackbar(
+                                        "success",
+                                        "Registro actualizado correctamente."
+                                    );
+                                    fnConsultarTablaTipoEspacio();
+                                    // this.$validator.pause();
+                                    // Vue.nextTick(() => {
+                                    //     this.$validator.errors.clear();
+                                    //     this.$validator.resume();
+                                    // });
                                 }
-                            } catch(error){
-                                mostrarSnackbar('error');
-                                console.error(error);
-                            } finally{
-                                swal.close();
                             }
-
+                        } catch (error) {
+                            mostrarSnackbar("error");
+                            console.error(error);
+                        } finally {
+                            swal.close();
                         }
-                        async function fnActivar(item){
-                            try{
-                                preloader("../../");
-                                let parametros = new URLSearchParams();
-                                parametros.append("accion", 4);
-                                
-                                parametros.append("cve_tipo_espacio", item.cve_tipo_espacio);
-                                let {data,status} = await axios.post(ctr, parametros)
-                                if(status == 200){
-                                    if(data=="1"){
-                                        fnConsultarTablaTipoEspacio();
-                                    }
-                                }
-                            } catch(error){
-                                mostrarSnackbar('error');
-                                console.error(error);
-                            } finally{
-                                swal.close();
-                            }
-
-                        }
+                    }
 
                 function fnLimpiarCampos(cx){//cx = contexto
                     nombreTipoEspacio.value = "";
@@ -347,7 +332,7 @@
                 return{
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
                     nombreTipoEspacio, dataTipoEspacio, headersTipoEspacio, fnConsultarTablaTipoEspacio, fnLimpiarCampos,
-                    fnGuardarTipoEspacio, fnEliminarEspacio,searchTipos, currentUser, user, cve_persona, fnActivar,
+                    fnGuardarTipoEspacio, searchTipos, currentUser, fnCambiarEstatus, currentUserObj, usuario_registro,
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor,
                     
                     //fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, itemEditar

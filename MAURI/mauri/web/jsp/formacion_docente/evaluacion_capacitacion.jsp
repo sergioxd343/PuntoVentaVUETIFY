@@ -45,7 +45,7 @@
                                         >
                                             <template v-slot:item.ingresar="{ item }">
                                                             
-                                                <v-icon color="green" @click="fnObtenerDocente(item); fnLlenar()">mdi-arrow-right</v-icon>
+                                                <v-icon color="green" @click="fnObtener(item); fnLlenar()">mdi-arrow-right</v-icon>
                                             
                                             </template>
                                         </v-data-table>
@@ -66,6 +66,13 @@
                                             :mobile-breakpoint="NaN"
                                             items-per-page="10"
                                         >
+
+                                            <template v-slot:item.calificacion="{ item }">
+                                                                
+                                                <v-text-field outlined persistent-hint></v-text-field>
+                                            
+                                            </template>
+                                        </v-data-table>
                                     </v-col>
                                 </template>
 
@@ -151,14 +158,15 @@
                 
 
                 const headersGrupos = ref([
-                    {text: 'Grupo', align: 'left', sortable: true, value: 'nombre_evento'},
-                    {text: 'Grupo', align: 'left', sortable: true, value: 'ingresar'},
+                    {text: 'Curso', align: 'left', sortable: true, value: 'nombre_evento'},
+                    {text: '', align: 'left', sortable: true, value: 'ingresar'},
                 ]);
                 const dataGrupos = ref([]);
 
                 const headersParticipantes = ref([
                     {text: 'Número de control', align: 'left', sortable: true, value: 'cve_empleado'},
                     {text: 'Nombre', align: 'left', sortable: true, value: 'nombre'},
+                    {text: 'Calificación final', align: 'left', sortable: true, value: 'calificacion'},
                 ]);
                 const dataParticipantes = ref([]);
                 
@@ -167,14 +175,13 @@
                 onMounted(() => {
                     fnConsultarTabla();
                     
-                    
                 });
 
-                function fnObtenerDocente(grupo) {
+                function fnObtener(grupo) {
                    
                     const arregloGrupo = Object.values(grupo);
                     console.log('Arreglo del grupo:', arregloGrupo);
-                    console.log('Nombre del evento:', arregloGrupo[0]);
+                    console.log('id evento:', arregloGrupo[0]);
                     this.cve = arregloGrupo[0];
                     
                 }
@@ -189,15 +196,8 @@
                                     parametros.append("cve", this.cve);
                                     let { data, status } = await axios.post(ctr, parametros);
                                     if (status == 200) {
-                                        if (data == "1") {
-                                            mostrarSnackbar(
-                                                "success",
-                                                "Registro guardado correctamente."
-                                            );
-                                            
-                                            fnConsultarTabla2();
-                                            
-                                        }
+                                            dataParticipantes.value = data;
+                                            console.log('valor participantes ', dataParticipantes)
                                     }
                                 } catch (error) {
                                     mostrarSnackbar("error");
@@ -231,27 +231,7 @@
                     }
                 }
 
-                async function fnConsultarTabla2(){
-                    try{
-                        preloader("../../");
-                        let parametros = new URLSearchParams();
-                        parametros.append("accion", 2);
-                        let {data,status} = await axios.post(ctr, parametros)
-                        if(status == 200){
-                            if(data.length > 0){
-
-                                dataParticipantes.value = data
-                            }
-                        }
-                    } catch(error){
-                        mostrarSnackbar('error');
-                        console.error(error);
-                    } finally{
-                        swal.close();
-                    }
-                }
-                
-
+            
                 function mostrarSnackbar(color, texto){
                     snackbar.value = true;
                     color_snackbar.value = color;
@@ -267,7 +247,7 @@
                    
                     dataGrupos, headersGrupos, dataParticipantes, headersParticipantes, cve:'',
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor,
-                    fnConsultarTabla, fnConsultarTabla2, fnObtenerDocente, fnLlenar, itemEditar
+                    fnConsultarTabla, fnObtener, fnLlenar, itemEditar
                 }
             },
         });

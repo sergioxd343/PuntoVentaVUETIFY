@@ -5,28 +5,29 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <CatalogoTipos>
-	<tablaTipoEvento>
+    <tablaHorario>
 		<query>
 
-		SELECT cve_tipo_evento, nombre_tipo_evento, activo, fecha_registro, usuario_registro
-	    FROM     tipo_evento
+		SELECT cve_horario, hora_inicio, hora_fin, activo, fecha_registro, usuario_registro
+		FROM     horario
 
 		</query>
-	</tablaTipoEvento>
-
-	<guardarTipoEvento>
+	</tablaHorario>
+	
+    <guardarHorario>
 		<query>
 			
-			INSERT INTO tipo_evento (nombre_tipo_evento, activo, fecha_registro, usuario_registro) VALUES (?, 'True', GETDATE (), ?)
+			INSERT INTO horario (hora_inicio, hora_fin, activo, fecha_registro, usuario_registro) 
+			VALUES (?, ?, 'True', GETDATE (), ?)
 
 		</query>
-	</guardarTipoEvento>
-
+	</guardarHorario>
+    
 	<cambiarEstatus>
 		<query>
-			UPDATE tipo_evento
+			UPDATE horario
 			SET          activo = ?
-			WHERE  (cve_tipo_evento = ?)
+			WHERE  cve_horario = ?
 		</query>
 	</cambiarEstatus>
 

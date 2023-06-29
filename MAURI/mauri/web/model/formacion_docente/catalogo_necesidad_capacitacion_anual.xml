@@ -38,15 +38,33 @@ and open the template in the editor.
     <guardarEvento>
 		<query>
 
+			INSERT INTO necesidad_capacitacion_anual (
+		cve_area_registro, cve_unidad_academica , cve_area,	cve_departamento, cve_empleado_responsable 	,
+		cve_orientacion_evento , cve_tipo_evento, cve_tipo_capacitacion ,
+		cve_origen_evento 			,
+		nivel_academico				,
+		direccion_subdireccion		,
+		programa_academico			,
+		anio_ejercicio 				,
+		necesidades_detectadas 		,
+		nombre_evento 				,
+		objetivo_evento 			,
+		justificacion 				,
+		otro_tipo_evento 			,
+		proveedor 					,
+		costo_capacitacion 			,
+		mes 						,
+		fecha_inicio 				,
+		fecha_temino 				,
+		num_dias 					,
+		num_horas_efectivas 		,
+		participantes_ptc ,	participantes_laboratoristas ,	participantes_administrativo ,	otros_participantes ,
+		total_participantes, total_hombres,	total_mujeres, 
+		estatus, activo, fecha_registro, usuario_registro 			
+	) VALUES (1, ?, ?, 1, 1, 1, ?, 1, 1, ?, ?, ?, ?, 
+	?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
+	?,?,?,?,?,?,?,?,?,1,1,GETDATE(),1);
 
-			INSERT INTO necesidad_capacitacion_anual (cve_area_registro, cve_unidad_academica, cve_nivel_academico, cve_area, 
-			cve_departamento, cve_empleado_responsable, cve_orientacion_evento, cve_tipo_evento, cve_tipo_capacitacion, cve_origen_evento,
-			nivel_academico, direccion_subdireccion, programa_academico,
-			anio_ejercicio, necesidades_detectadas, nombre_evento, objetivo_evento, justificacion, otro_tipo_evento, proveedor, 
-			costo_capacitacion, mes, fecha_inicio, fecha_temino, num_dias, num_horas_efectivas, participantes_ptc, participantes_laboratoristas, 
-			participantes_administrativo, otros_participantes, total_participantes, total_hombres, total_mujeres, activo,
-			fecha_registro, usuario_registro) 
-			VALUES (1,?,1,?,1,1,1,?,1,1,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1,GETDATE(),1);
 
 		</query>
 	</guardarEvento>

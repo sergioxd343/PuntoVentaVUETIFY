@@ -28,8 +28,6 @@
                         </v-card-title>
                         <v-container fluid>
                             
-                            
-
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
 
                                 <v-col md=4>
@@ -64,15 +62,13 @@
                                         items-per-page="10"
                                     >
                                     
-                                    <template v-slot:item.eliminar="{item}">
-                                        <v-btn  small color="grey" @click="fnEliminarEvento(item);" :disabled="!item.activo" >Inactivo</v-btn>
+                                    <template v-slot:item.estatus="{item}">
+                                        <v-chip class="ma-2" link @click="fnCambiarEstatus(item)"
+                                            :color="item.activo ? 'success' : 'grey'" outlined>
+                                            {{ item.activo ?
+                                            "Activo" : "Inactivo" }}
+                                        </v-chip>
                                     </template>
-                                    <template v-slot:item.editar="{item}">
-                                        <v-btn  small color="success" @click="fnActivar(item);" :disabled="item.activo">Activo</v-btn>
-
-                                    </template><template v-slot:item.activo="{ item }">
-                                        <span>{{ item.activo ? 'Activo' : 'Inactivo' }}</span>
-                                      </template>
                                    
                                     </v-data-table>
                                 </v-col>
@@ -179,9 +175,12 @@
                 } = VueCompositionAPI;
                 const ctr = "../../controlador/catalogos_pequenios/Controlador_tipo_evento.jsp";
                 //Variables POST
-                
-                const arrayEstatus = ref([]);
+            
                 const nombreTipoEvento = ref("");
+
+                const currentUser = localStorage.getItem("currentUser");
+                const currentUserObj = JSON.parse(currentUser);
+                const usuario_registro = currentUserObj[0].cve_persona;
                 
                 //Otras variables
                 const flagEditar = ref(false);
@@ -209,9 +208,7 @@
                     {text: 'No', align: 'left', sortable: true, value: 'cve_tipo_evento'},
                     {text: 'Nombre evento', align: 'left', sortable: true, value: 'nombre_tipo_evento'},
                     {text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro'},
-                    {text: 'Estatus actual', align: 'left', sortable: true, value: 'activo'},
-                    {text: 'Activar', align: 'left', sortable: true, value: 'editar'},
-                    {text: 'Desactivar', align: 'left', sortable: true, value: 'eliminar'},
+                    {text: 'Estatus', align: 'left', sortable: true, value: 'estatus'},
                 ]);
             
                 const searchTipos = ref([]);
@@ -248,6 +245,7 @@
                                 let parametros = new URLSearchParams();
                                 parametros.append("accion", 2);
                                 parametros.append("nombre_tipo_evento", nombreTipoEvento.value);
+                                parametros.append("cve_persona", this.usuario_registro);
                                 let {data,status} = await axios.post(ctr, parametros)
                                 if(status == 200){
                                     if(data == "1"){
@@ -271,68 +269,37 @@
                     })
                 }
 
-                async function fnEliminarEvento(item){
-                            try{
-                                preloader("../../");
-                                let parametros = new URLSearchParams();
-                                parametros.append("accion", 3 );
-                                parametros.append("cve_tipo_evento", item.cve_tipo_evento);
-                                let {data,status} = await axios.post(ctr, parametros)
-                                if(status == 200){
-                                    if(data=="1"){
-                                        fnConsultarTablaTipoEvento();
-                                    }
+                async function fnCambiarEstatus(item) {
+                        try {
+                            preloader("../");
+                            let parametros = new URLSearchParams();
+                            parametros.append("accion", 3);
+                            parametros.append("cve_tipo_evento", item.cve_tipo_evento);
+                            parametros.append("activo", (item.activo == true ? 0 : 1));
+                            console.log("🚀 ~ file: tipo_evento.jsp:283 ~ fnCambiarEstatus ~ parametros:", parametros)
+                            let { data, status } = await axios.post(ctr, parametros);
+                            if (status == 200) {
+                                if (data == "1") {
+                                    mostrarSnackbar(
+                                        "success",
+                                        "Registro actualizado correctamente."
+                                    );
+                                    fnConsultarTablaTipoEvento();
+                                    // this.$validator.pause();
+                                    // Vue.nextTick(() => {
+                                    //     this.$validator.errors.clear();
+                                    //     this.$validator.resume();
+                                    // });
                                 }
-                            } catch(error){
-                                mostrarSnackbar('error');
-                                console.error(error);
-                            } finally{
-                                swal.close();
                             }
-
+                        } catch (error) {
+                            mostrarSnackbar("error");
+                            console.error(error);
+                        } finally {
+                            swal.close();
                         }
-
-                        async function fnActivar(item){
-                            try{
-                                preloader("../../");
-                                let parametros = new URLSearchParams();
-                                parametros.append("accion", 4);
-                                parametros.append("cve_tipo_evento", item.cve_tipo_evento);
-                                let {data,status} = await axios.post(ctr, parametros)
-                                if(status == 200){
-                                    if(data=="1"){
-                                        fnConsultarTablaTipoEvento();
-                                    }
-                                }
-                            } catch(error){
-                                mostrarSnackbar('error');
-                                console.error(error);
-                            } finally{
-                                swal.close();
-                            }
-
-                        }
-
-
-                    async function fnEstatus(){
-                    try{
-                        preloader("../");
-                        let parametros = new URLSearchParams();
-                        parametros.append("accion", 4);
-                        let {data,status} = await axios.post(ctr, parametros)
-                        if(status == 200){
-                            if(data.length > 0){
-                                arrayEstatus.value = data
-                            }
-                        }
-                    } catch(error){
-                        mostrarSnackbar('error');
-                        console.error(error);
-                    } finally{
-                        swal.close();
                     }
-                }
-
+                    
                 function fnLimpiarCampos(cx){//cx = contexto
                     nombreTipoEvento.value = "";
                     flagEditar.value = false;
@@ -357,8 +324,8 @@
                 return{
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
                     nombreTipoEvento, searchTipos, dataTipoEvento, fnConsultarTablaTipoEvento, headersTipoEvento, 
-                    fnGuardarTipoEvento, fnLimpiarCampos, fnEliminarEvento, arrayEstatus, fnEstatus,
-                    dialogBuscador, dialogDetallesCotizacion, dialogProveedor, fnActivar,
+                    fnGuardarTipoEvento, fnLimpiarCampos, fnCambiarEstatus, currentUser, currentUserObj, usuario_registro,
+                    dialogBuscador, dialogDetallesCotizacion, dialogProveedor, 
                     
                     //fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, itemEditar
                 }

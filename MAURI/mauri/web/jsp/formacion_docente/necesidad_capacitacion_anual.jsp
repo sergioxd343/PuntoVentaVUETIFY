@@ -59,7 +59,7 @@
                                         id = "annioo"
                                         v-model="annio"
                                         outlined
-                                        :label="annioLabel"    
+                                        label="Año"    
                                         persistent-hint
                                         v-validate="'required|max:200'"
                                         data-vv-name="año a ejercer"
@@ -778,7 +778,6 @@
                     fnConsultarTabla();
                     fnUnidadAcademica();
                     fnDirecciones();
-                    fnAnio();
                 });
 
                 async function fnConsultarTabla(){
@@ -803,17 +802,7 @@
                     }
                 }
 
-                function fnAnio(){
-                const fecha = new Date(); 
-                const anio = fecha.getFullYear(); 
-
-                const annio = document.getElementById('annioo');
-                annio.value = anio;
-                const annioLabel = `(${anio})`;
-                annio.setAttribute('aria-label', annioLabel);
-
-                console.log(anio);
-                }
+                
 
                 async function fnUnidadAcademica(){
                     try{
@@ -874,64 +863,65 @@
 
                 async function fnCambiarEstatus(item){}
 
-                async function fnGuardar(){
-                    this.$validator.validate().then(async esValido => {
-                        if(esValido){
-                            try{
-                                preloader("../../");
-                                let parametros = new URLSearchParams();
-                                parametros.append("accion", 4);
-                                
-                                parametros.append("unidadAcademica", unidadAcademica.value);
-                                parametros.append("direccionArea", direccionArea.value);
-                                parametros.append("tipoEvento", tipoEvento.value);
-                                parametros.append("nivelEducativo", nivelEducativo.value);
-                                parametros.append("direccion", direccion.value);
-                                parametros.append("programaEducativo", programaEducativo.value)
-                                parametros.append("annio", annio.value);
-                                parametros.append("necesidadesDetectadas", necesidadesDetectadas.value);
-                                parametros.append("nombreEventoCapacitacion", nombreEventoCapacitacion.value);
-                                parametros.append("objetivoEvento", objetivoEvento.value);
-                                parametros.append("justificacionEvento", justificacionEvento.value);
-                                parametros.append("otroEvento", otroEvento.value);
-                                parametros.append("proveedorSugerido", proveedorSugerido.value);
-                                parametros.append("costoCapacitacionSugerido", costoCapacitacionSugerido.value);
-                                parametros.append("mes", mes.value);
-                                parametros.append("fechaInicio", fechaInicio.value);
-                                parametros.append("fechaTermino", fechaInicio.value);
-                                parametros.append("numDias", numDias.value);    
-                                parametros.append("numHorasEfectivas", numHorasEfectivas.value);  
-                                parametros.append("ptc", ptc.value);  
-                                parametros.append("laboratoristas", laboratoristas.value);  
-                                parametros.append("administrativo", administrativo.value);  
-                                parametros.append("otros", otros.value);  
-                                parametros.append("total", total.value);  
-                                parametros.append("totalH", totalH.value);  
-                                parametros.append("totalM", totalM.value);  
-                                parametros.append("numHorasEfectivas", numHorasEfectivas.value);        
-                                
-                                let {data,status} = await axios.post(ctr, parametros)
-                                if(status == 200){
-                                    if(data == "1"){
-                                        mostrarSnackbar("success", "Registro guardado correctamente.");
-                                        fnConsultarTabla();
-                                        fnLimpiarCampos(this);
-                                        // this.$validator.pause();
-                                        // Vue.nextTick(() => {
-                                        //     this.$validator.errors.clear();
-                                        //     this.$validator.resume();
-                                        // });   
+                async function fnGuardar() {
+                        this.$validator.validate().then(async (esValido) => {
+                            if (esValido) {
+                                try {
+                                    preloader("../../");
+                                    let parametros = new URLSearchParams();
+                                    parametros.append("accion", 4);
+                                    parametros.append("unidadAcademica", unidadAcademica.value);
+                                    parametros.append("direccionArea", direccionArea.value);
+                                    parametros.append("tipoEvento", tipoEvento.value);
+                                    parametros.append("nivelEducativo", nivelEducativo.value);
+                                    parametros.append("direccion", direccion.value);
+                                    parametros.append("programaEducativo", programaEducativo.value);
+                                    parametros.append("annio", annio.value);
+                                    parametros.append("necesidadesDetectadas", necesidadesDetectadas.value);
+                                    parametros.append("nombreEventoCapacitacion", nombreEventoCapacitacion.value);
+                                    parametros.append("objetivoEvento", objetivoEvento.value);
+                                    parametros.append("justificacionEvento", justificacionEvento.value);
+                                    parametros.append("otroEvento", otroEvento.value);
+                                    parametros.append("proveedorSugerido", proveedorSugerido.value);
+                                    parametros.append("costoCapacitacionSugerido", costoCapacitacionSugerido.value);
+                                    parametros.append("mes", mes.value);                                    
+                                    parametros.append("fechaInicio", fechaInicio.value);
+                                    parametros.append("fechaTermino", fechaTermino.value);
+                                    parametros.append("numDias", numDias.value);
+                                    parametros.append("numHorasEfectivas", numHorasEfectivas.value);
+                                    parametros.append("ptc", ptc.value);
+                                    parametros.append("laboratoristas", laboratoristas.value);
+                                    parametros.append("administrativo", administrativo.value);
+                                    parametros.append("otros", otros.value);
+                                    parametros.append("total", total.value);
+                                    parametros.append("totalH", totalH.value);
+                                    parametros.append("totalM", totalM.value);
+                                    
+                                    let { data, status } = await axios.post(ctr, parametros);
+                                    if (status == 200) {
+                                        if (data == "1") {
+                                            mostrarSnackbar(
+                                                "success",
+                                                "Registro guardado correctamente."
+                                            );
+                                            fnConsultarTabla();
+                                            fnLimpiarCampos(this);
+                                            // this.$validator.pause();
+                                            // Vue.nextTick(() => {
+                                            //     this.$validator.errors.clear();
+                                            //     this.$validator.resume();
+                                            // });
+                                        }
                                     }
+                                } catch (error) {
+                                    mostrarSnackbar("error");
+                                    console.error(error);
+                                } finally {
+                                    swal.close();
                                 }
-                            } catch(error){
-                                mostrarSnackbar('error');
-                                console.error(error);
-                            } finally{
-                                swal.close();
                             }
-                        }
-                    })
-                }
+                        });
+                    }
 
                 
                 
@@ -1014,7 +1004,7 @@
 
                     flagEditar, itemEditar,
                     dataEventos,headersEventos, searchEventos, color_snackbar, snackbar, mensaje_snackbar,loader
-                    ,fnLimpiarCampos,fnGuardar,fnEliminar, fnCambiarEstatus, fnAnio
+                    ,fnLimpiarCampos,fnGuardar,fnEliminar, fnCambiarEstatus, 
                     
                     
                 }
@@ -1030,14 +1020,7 @@
                     console.log(datosFiltrados())
                     },
                   
-                    annioLabel() {
-                        
-                        const fecha = new Date();
-                        const annio = fecha.getFullYear();
-                        return annio.toString();
-                        console.log(annio)
-                        
-                    }
+                   
 
             },
             watch: {

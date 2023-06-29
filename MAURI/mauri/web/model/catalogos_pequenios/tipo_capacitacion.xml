@@ -17,25 +17,18 @@ and open the template in the editor.
 	<guardarTipoCapacitacion>
 		<query>
 			
-			INSERT INTO tipo_capacitacion (nombre_tipo_capacitacion, activo, fecha_registro, usuario_registro) VALUES (?, 'True', GETDATE (), 5)
+			INSERT INTO tipo_capacitacion (nombre_tipo_capacitacion, activo, fecha_registro, usuario_registro) VALUES (?, 'True', GETDATE (), ?)
 
 		</query>
 	</guardarTipoCapacitacion>
 
-    <eliminar>
+    <cambiarEstatus>
 		<query>
 			UPDATE tipo_capacitacion
-			SET          activo = 'False'
+			SET          activo = ?
 			WHERE  cve_tipo_capacitacion = ?
 		</query>
-	</eliminar>
-	<activar>
-		<query>
-			UPDATE tipo_capacitacion
-			SET          activo = 'True'
-			WHERE  cve_tipo_capacitacion = ?
-		</query>
-	</activar>
+	</cambiarEstatus>
 	
 
 </CatalogoTipos>

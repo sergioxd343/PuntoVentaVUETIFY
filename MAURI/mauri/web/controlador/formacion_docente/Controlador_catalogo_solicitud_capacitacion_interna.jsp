@@ -43,11 +43,6 @@
     int accion = request.getParameter("accion") != null && !request.getParameter("accion").equals("") ? Integer.parseInt(request.getParameter("accion")) : 0;
     
 
-    String numeroControl = request.getParameter("numeroControl") != null && !request.getParameter("numeroControl").equals("") ? request.getParameter("numeroControl") : "-";
-    String direccion = request.getParameter("direccion") != null && !request.getParameter("direccion").equals("") ? request.getParameter("direccion") : "-";
-    String programa = request.getParameter("programa") != null && !request.getParameter("programa").equals("") ? request.getParameter("programa") : "-";
-    String puesto = request.getParameter("puesto") != null && !request.getParameter("puesto").equals("") ? request.getParameter("puesto") : "-";
-    String nombre = request.getParameter("nombre") != null && !request.getParameter("nombre").equals("") ? request.getParameter("nombre") : "-";
     String tipoCompetencia = request.getParameter("tipoCompetencia") != null && !request.getParameter("tipoCompetencia").equals("") ? request.getParameter("tipoCompetencia") : "-";
     String nombreCurso = request.getParameter("nombreCurso") != null && !request.getParameter("nombreCurso").equals("") ? request.getParameter("nombreCurso") : "-";
     String fechaInicio = request.getParameter("fechaInicio") != null && !request.getParameter("fechaInicio").equals("") ? request.getParameter("fechaInicio") : "-";
@@ -62,29 +57,36 @@
     String alcance = request.getParameter("alcance") != null && !request.getParameter("alcance").equals("") ? request.getParameter("alcance") : "-";
     String metodologia = request.getParameter("metodologia") != null && !request.getParameter("metodologia").equals("") ? request.getParameter("metodologia") : "-";
     String programaCurso = request.getParameter("programaCurso") != null && !request.getParameter("programaCurso").equals("") ? request.getParameter("programaCurso") : "-";
-    String horasPorTema = request.getParameter("horasPorTema") != null && !request.getParameter("horasPorTema").equals("") ? request.getParameter("horasPorTema") : "-";
+    
     String resultadoAprendizaje = request.getParameter("resultadoAprendizaje") != null && !request.getParameter("resultadoAprendizaje").equals("") ? request.getParameter("resultadoAprendizaje") : "-";
     String perfil = request.getParameter("perfil") != null && !request.getParameter("perfil").equals("") ? request.getParameter("perfil") : "-";
-    String tipoFacilitador = request.getParameter("tipoFacilitador") != null && !request.getParameter("tipoFacilitador").equals("") ? request.getParameter("tipoFacilitador") : "-";
+   
     String nombreFacilitador = request.getParameter("nombreFacilitador") != null && !request.getParameter("nombreFacilitador").equals("") ? request.getParameter("nombreFacilitador") : "-";
     String areaPertenece = request.getParameter("areaPertenece") != null && !request.getParameter("areaPertenece").equals("") ? request.getParameter("areaPertenece") : "-";
     String programaEducativo = request.getParameter("programaEducativo") != null && !request.getParameter("programaEducativo").equals("") ? request.getParameter("programaEducativo") : "-";
+    String id = request.getParameter("id") != null && !request.getParameter("id").equals("") ? request.getParameter("id") : "-";
    
     switch(accion){
         case 1:
             temp_obj = new JsonObject();
             temp_obj.addProperty("nombreFacilitador", nombreFacilitador);
+            temp_obj.addProperty("horario", horario);
+            temp_obj.addProperty("tipoCompetencia", tipoCompetencia);
             temp_obj.addProperty("nombreCurso", nombreCurso);
             temp_obj.addProperty("dias", dias);
             temp_obj.addProperty("horas", horas);
+            temp_obj.addProperty("fechaInicio", fechaInicio);
+            temp_obj.addProperty("fechaFin", fechaFin);
+            temp_obj.addProperty("lugar", lugar);
+            temp_obj.addProperty("tipoCurso", tipoCurso);
             temp_obj.addProperty("numeroParticipantes", numeroParticipantes);
             temp_obj.addProperty("objetivo", objetivo);
             temp_obj.addProperty("alcance", alcance);
             temp_obj.addProperty("metodologia", metodologia);
             temp_obj.addProperty("programaCurso", programaCurso);
-            temp_obj.addProperty("horasPorTema", horasPorTema);
             temp_obj.addProperty("resultadoAprendizaje", resultadoAprendizaje);
             temp_obj.addProperty("perfil", perfil);
+            temp_obj.addProperty("id", id);
             parametros.add(temp_obj);
             out.println(datos.Registro(parametros, "insertarSolicitud"));
             break;
@@ -93,25 +95,21 @@
             break;
 
         case 3:
-            out.println(datos.Consultas(parametros, "cursos"));
-            break;
-
-        case 4: 
-            out.println(datos.Consultas(parametros, "buscar_cve_docente"));
-            break;
-
-        case 5:
-            out.println(datos.Consultas(parametros, "tipoInstructor"));
-            break;
-
-        case 6:
             out.println(datos.Consultas(parametros, "facilitadores"));
             break;
         
-            case 7:
+        case 4:
             out.println(datos.Consultas(parametros, "areas"));
             break;
+
+        case 5:
+            out.println(datos.Consultas(parametros, "programaEducativo"));
+            break; 
+        case 6:
+            out.println(datos.Consultas(parametros, "horarios"));
+            break;
     }
+    
 
 
 %>

@@ -92,7 +92,7 @@
             out.println(datos.Registro(parametros, "guardarAutoevaluacion"));
             break;
         case 3: 
-            out.println(datos.Consultas(parametros, "buscar_cve_docente"));
+            
             break;
         case 4: 
             out.println(datos.Consultas(parametros, "periodo"));

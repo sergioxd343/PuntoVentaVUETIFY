@@ -57,7 +57,7 @@
      String nombreServicio = request.getParameter("nombre_tipo_servicio") != null && !request.getParameter("nombre_tipo_servicio").equals("") ? request.getParameter("nombre_tipo_servicio") : "-";
      String activo = request.getParameter("activo") != null && !request.getParameter("activo").equals("") ? request.getParameter("activo") : "-";
      String pass = request.getParameter("pass") != null && !request.getParameter("pass").equals("") ? request.getParameter("pass") : "-";
-     
+     int cve_persona = request.getParameter("cve_persona") != null && !request.getParameter("cve_persona").equals("") ? Integer.parseInt(request.getParameter("cve_persona")) : 0;
      int cve_tipo_servicio = request.getParameter("cve_tipo_servicio") != null && !request.getParameter("cve_tipo_servicio").equals("") ? Integer.parseInt(request.getParameter("cve_tipo_servicio")) : 0;
      switch (accion) {
         case 1:
@@ -66,21 +66,17 @@
         case 2:
             temp_obj = new JsonObject();
             temp_obj.addProperty("nombre_tipo_servicio", nombreServicio);
+            temp_obj.addProperty("usuario_registro", cve_persona);
             parametros.add(temp_obj);
             out.println(datos.Registro(parametros, "guardarTipoServicio"));
             break;  
         case 3:
             temp_obj =new JsonObject();
+            temp_obj.addProperty("activo", activo);
             temp_obj.addProperty("cve_tipo_servicio", cve_tipo_servicio);
             parametros.add(temp_obj);
-            out.println(datos.Registro(parametros, "eliminar"));
+            out.println(datos.Registro(parametros, "cambiarEstatus"));
            break;  
-        case 4:
-            temp_obj =new JsonObject();
-            temp_obj.addProperty("cve_tipo_servicio", cve_tipo_servicio);
-            parametros.add(temp_obj);
-            out.println(datos.Registro(parametros, "activar"));
-           break;   
        default:
            out.print("ENTRO A CONTROLADOR"+ accion);
            break;

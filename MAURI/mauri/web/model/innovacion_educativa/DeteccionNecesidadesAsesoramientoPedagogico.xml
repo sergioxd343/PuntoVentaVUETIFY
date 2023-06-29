@@ -7,23 +7,36 @@ and open the template in the editor.
 <CatalogoProveedores>
 	<tablaDNAP>
 		<query>
-		SELECT TOP (200) asesoria.cve_asesoria, asesoria.cve_empleado, asesoria.cve_academia, asesoria.materia, asesoria.fecha, asesoria.motivo_solicitud, asesoria.sugerencias, asesoria.entrevista, 
-                         asesoria.compromisos, asesoria.responsable, asesoria.activo, asesoria.fecha_registro, asesoria.usuario_registro, persona.cve_persona, persona.nombre, persona.apellido_peterno, persona.apellido_materno,
-                         persona.nombre + ' ' + persona.apellido_peterno + ' ' + persona.apellido_materno AS nombre_completo,
-                         academia.cve_academia AS Expr1, academia.cve_unidad_academica, academia.nombre_academia, empleado.cve_empleado AS Expr2, empleado.cve_persona AS Expr3, 
-                         persona_1.nombre AS Expr4, persona_1.cve_persona AS Expr5, persona_1.apellido_peterno AS Expr6, persona_1.apellido_materno AS Expr7,
+		SELECT   TOP (200) asesoria.cve_asesoria, asesoria.cve_empleado, asesoria.cve_academia, asesoria.materia, asesoria.fecha, asesoria.motivo_solicitud, asesoria.sugerencias, asesoria.entrevista, 
+                         asesoria.activo, asesoria.fecha_registro, asesoria.usuario_registro, asesoria_d.cve_asesoria AS Expr1, asesoria_d.compromiso, asesoria_d.fecha_seguimiento, 
+                         asesoria_d.cve_responsable,persona.cve_persona, persona.nombre, persona.apellido_peterno, persona.apellido_materno,
+                         persona.nombre + ' ' + persona.apellido_peterno + ' ' + persona.apellido_materno AS nombre_completo, academia.cve_academia AS Expr2, 
+                         academia.nombre_academia, academia.cve_unidad_academica, empleado.cve_empleado AS Expr3, empleado.cve_persona AS Expr4,
+						 persona_1.nombre AS Expr5, persona_1.cve_persona AS Expr6, persona_1.apellido_peterno AS Expr7, persona_1.apellido_materno AS Expr8,
                          persona_1.nombre + ' ' + persona_1.apellido_peterno + ' ' + persona_1.apellido_materno AS nombre_completo_solicitante
-FROM asesoria
-INNER JOIN persona ON asesoria.usuario_registro = persona.cve_persona
-INNER JOIN academia ON asesoria.cve_academia = academia.cve_academia
-INNER JOIN empleado ON asesoria.cve_empleado = empleado.cve_empleado
-INNER JOIN persona AS persona_1 ON empleado.cve_persona = persona_1.cve_persona
+FROM         asesoria 
+							INNER JOIN persona ON asesoria.usuario_registro = persona.cve_persona INNER JOIN
+                         academia ON asesoria.cve_academia = academia.cve_academia INNER JOIN
+                         empleado ON asesoria.cve_empleado = empleado.cve_empleado INNER JOIN
+                         asesoria_d ON asesoria.cve_asesoria = asesoria_d.cve_asesoria
+						 INNER JOIN persona AS persona_1 ON empleado.cve_persona = persona_1.cve_persona
 		</query>
 	</tablaDNAP>
 	<guardarDNAP>
 		<query>
-			INSERT INTO asesoria (cve_empleado, cve_academia, materia, fecha, motivo_solicitud, sugerencias, entrevista, compromisos, responsable, usuario_registro)
-	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+			EXEC InsertarAsesoria
+				@cve_empleado = ?,
+				@cve_academia = ?,
+				@materia = ?,
+				@fecha = ?,
+				@motivo_solicitud = ?,
+				@sugerencias = ?,
+				@entrevista = ?,
+				@cve_responsable = ?,
+				@compromiso = ?,
+				@fecha_seguimiento = ?,
+				@usuario_registro = ?;
+
 		</query>
 	</guardarDNAP>
 	<consultarEmpleado>

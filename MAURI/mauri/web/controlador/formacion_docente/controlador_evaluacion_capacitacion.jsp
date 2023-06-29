@@ -70,13 +70,11 @@
             out.println(datos.Consultas(parametros, "tablaPrincipal"));
             break;
         case 2:
-            temp_obj = new JsonObject();
-            temp_obj.addProperty("cve", cve);
-            parametros.add(temp_obj);
+            //temp_obj = new JsonObject();
+            //temp_obj.addProperty("cve", cve);
+            parametros.add(cve);
             out.println(datos.Consultas(parametros, "tablaParticipantes"));
-            
             break;
-        
         default:
             out.print("ENTRO A CONTROLADOR"+ accion);
             break;

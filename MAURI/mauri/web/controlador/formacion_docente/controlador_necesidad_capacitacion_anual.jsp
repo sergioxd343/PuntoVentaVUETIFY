@@ -104,7 +104,6 @@
             break;
         case 4:
             temp_obj = new JsonObject();
-           
             temp_obj.addProperty("unidadAcademica", unidadAcademica);
             temp_obj.addProperty("direccionArea", direccionArea);
             temp_obj.addProperty("tipoEvento", tipoEvento);
