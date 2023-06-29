@@ -3,8 +3,8 @@
      * <p>Title        : 
      * <p>Description  : 
      * @author         :  Maria Guadalupe Gutiérrez Alcantar
-     * @version        :  2
-     * @date           :  18 - 06 - 2023
+     * @version        :  3
+     * @date           :  29 - 06 - 2023
      */
 
 --%>
@@ -75,7 +75,7 @@
     String evidencias = request.getParameter("evidencias") != null && !request.getParameter("evidencias").equals("") ? request.getParameter("evidencias") : "-";
     String otraAct = request.getParameter("otraAct") != null && !request.getParameter("otraAct").equals("") ? request.getParameter("otraAct") : "-";
     String otraAct1 = request.getParameter("otraAct1") != null && !request.getParameter("otraAct1").equals("") ? request.getParameter("otraAct1") : "-";
-    
+    String cve = request.getParameter("cve") != null && !request.getParameter("cve").equals("") ? request.getParameter("cve") : "-";
     
     switch (accion) {
         case 1:
@@ -92,10 +92,11 @@
             out.println(datos.Registro(parametros, "guardarAutoevaluacion"));
             break;
         case 3: 
-            
+            parametros.add(cve);
+            out.println(datos.Consultas(parametros, "cursoTomado")); 
             break;
         case 4: 
-            out.println(datos.Consultas(parametros, "periodo"));
+            out.println(datos.Consultas(parametros, "periodo")); 
             break;
     }
 %>

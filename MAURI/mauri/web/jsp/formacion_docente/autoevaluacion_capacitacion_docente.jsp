@@ -72,8 +72,8 @@
                                         label="Seleccione el curso del cual desea hacer su autoevaluación"
                                         v-validate="'required'"
                                         :items="arrayCursosTomados"
-                                        item-value="cve_area"
-                                        item-text="nombre_area"
+                                        item-value="cve_even_prog"
+                                        item-text="calificacion_curso"
                                         data-vv-name="areaCapacitacion"
                                         :error="errors.has('areaCapacitacion')"
                                         :error-messages="errors.first('areaCapacitacion')"
@@ -277,6 +277,7 @@
 
                                     <v-col md=2>
                                         <v-text-field
+                                            disabled
                                             v-model="promedio"
                                             v-show="true"
                                         ></v-text-field>
@@ -438,6 +439,7 @@
                 const arrayEscala = ref([10,9,8,7,6]);
                 const arrayPeriodo = ref([]);
                 const arrayCursos = ref([]);
+                const arrayCursosTomados = ref([]);
 
                 
                 //Otras variables
@@ -493,6 +495,7 @@
                 onMounted(() => {
                     fnConsultarTabla();
                     periodos();
+                    fnCursosTomados();
                     console.log({idEmpleado});
                 });
 
@@ -517,6 +520,28 @@
                     });
                 }
 
+                async function fnCursosTomados() {
+                        this.$validator.validate().then(async (esValido) => {
+                            if (esValido) {
+                                try {
+                                    preloader("../../");
+                                    let parametros = new URLSearchParams();
+                                    parametros.append("accion", 3);
+                                    parametros.append("cve", this.idEmpleado);
+                                    let { data, status } = await axios.post(ctr, parametros);
+                                    if (status == 200) {
+                                            arrayCursosTomados.value = data;
+                                    }
+                                } catch (error) {
+                                    mostrarSnackbar("error");
+                                    console.error(error);
+                                } finally {
+                                    swal.close();
+                                }
+                            }
+                        });
+                    }
+
 
                 /*function verificarEmpleado(cve_empleado, tabla) {
                     console.log('hola popo'+cve_empleado)
@@ -527,6 +552,8 @@
                     }
                     return false; 
                 }*/
+
+                
                 
                 async function fnGuardar(){
                     this.$validator.validate().then(async esValido => {
@@ -668,13 +695,13 @@
                     option, option1, option2, option3, option4, otro, evidencias, promedio, currentUser, nombre, ape1, ape2, sexo, puesto,
                     
 
-                    arrayCarreras, arrayAreasCapacitacion, arrayEscala, arrayPeriodo, arrayCursos,
+                    arrayCarreras, arrayAreasCapacitacion, arrayEscala, arrayPeriodo, arrayCursos, arrayCursosTomados,
                     
                     
                     dataProveedores, headersProveedores, searchProveedores, arrayTiposProveedores, 
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor,
                     fnLimpiarCampos, itemEditar, searchBusqueda,
-                    fnConsultarTabla, fnGuardar, fnRojo, periodos, fnAmarillo, fnVerde
+                    fnConsultarTabla, fnGuardar, fnRojo, periodos, fnAmarillo, fnVerde, fnCursosTomados
                 }
             },
             methods: {
