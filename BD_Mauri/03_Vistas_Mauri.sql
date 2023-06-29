@@ -33,6 +33,7 @@ GO
 CREATE VIEW v_usuario_persona AS
 SELECT			
 				ROW_NUMBER() OVER (ORDER BY usuario.cve_persona) AS numero_fila,
+				usuario.cve_persona,
 				usuario.cve_usuario, 
 				usuario.nombre_usuario, 
 				usuario.contrasenia, 
@@ -97,24 +98,22 @@ IF OBJECT_ID('solicitud_cursos', 'V') IS NOT NULL
     DROP VIEW solicitud_cursos;
 GO
 CREATE VIEW solicitud_cursos AS
-SELECT       	curso.nombre_curso, 
+SELECT        
 				solicitud_capacitacion_interna.total_dias, 
 				solicitud_capacitacion_interna.total_horas, 
 				solicitud_capacitacion_interna.objetivo, 
 				solicitud_capacitacion_interna.alcance, 
-                instructor.nombre_instructor, 
-				tipo_instructor.nombre_tipo_instructor, 
+				instructor.nombre_instructor, 
+                tipo_instructor.nombre_tipo_instructor, 
 				solicitud_capacitacion_interna.numero_participantes, 
 				solicitud_capacitacion_interna.metodologia, 
-                solicitud_capacitacion_interna.programa_evento, 
-				solicitud_capacitacion_interna.horas_tema, 
+				solicitud_capacitacion_interna.programa_evento, 
 				solicitud_capacitacion_interna.resultado_aprendizaje, 
 				solicitud_capacitacion_interna.perfil_participante, 
-                curso.cve_curso, instructor.cve_instructor, 
+				instructor.cve_instructor, 
 				instructor.cve_tipo_instructor
-FROM 
-				curso INNER JOIN
-                solicitud_capacitacion_interna ON curso.cve_curso = solicitud_capacitacion_interna.cve_curso INNER JOIN
+FROM            
+				solicitud_capacitacion_interna INNER JOIN
                 instructor ON solicitud_capacitacion_interna.cve_instructor = instructor.cve_instructor INNER JOIN
                 tipo_instructor ON instructor.cve_tipo_instructor = tipo_instructor.cve_tipo_instructor
 GO 

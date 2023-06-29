@@ -203,11 +203,11 @@ INSERT INTO curso (nombre_curso, usuario_registro)
 
 
 -- ------------- INSERTS DE SOLICITUD_CAPACITACION_INTERNA -------------- --
-INSERT INTO solicitud_capacitacion_interna (cve_instructor, cve_orientacion_evento, cve_curso, total_dias, total_horas, numero_participantes, objetivo, alcance, metodologia, programa_evento, horas_tema, resultado_aprendizaje, perfil_participante, usuario_registro)
+INSERT INTO solicitud_capacitacion_interna (cve_instructor, cve_horario, total_dias, total_horas, numero_participantes, objetivo, alcance, metodologia, programa_evento, resultado_aprendizaje, perfil_participante, usuario_registro)
                 VALUES 
-                        (1, 1, 1, 5, 40, 20, 'Capacitación en programación', 'Departamento de Desarrollo', 'Taller práctico', 'Programación Avanzada', 4, 'Los participantes podrán desarrollar aplicaciones web modernas', 'Desarrolladores con conocimientos básicos en programación', 1),
-                        (2, 1, 2, 3, 24, 15, 'Capacitación en diseño gráfico', 'Área de Diseño', 'Sesiones teóricas y prácticas', 'Diseño Digital', 2, 'Los participantes adquirirán habilidades en diseño de interfaces', 'Estudiantes de diseño gráfico', 1),
-                        (3, 2, 3, 2, 16, 10, 'Capacitación en metodologías ágiles', 'Departamento de Desarrollo', 'Talleres interactivos', 'Agile Scrum', 1, 'Los participantes comprenderán los principios de las metodologías ágiles', 'Equipo de proyectos', 1);
+                        (1, 1, 5, 40, 20, 'Capacitación en programación', 'Departamento de Desarrollo', 'Taller práctico', 'Programación Avanzada', 'Los participantes podrán desarrollar aplicaciones web modernas', 'Desarrolladores con conocimientos básicos en programación', 1),
+                        (2, 3, 3, 24, 15, 'Capacitación en diseño gráfico', 'Área de Diseño', 'Sesiones teóricas y prácticas', 'Diseño Digital', 'Los participantes adquirirán habilidades en diseño de interfaces', 'Estudiantes de diseño gráfico', 1),
+                        (3, 4, 2, 16, 10, 'Capacitación en metodologías ágiles', 'Departamento de Desarrollo', 'Talleres interactivos', 'Agile Scrum', 'Los participantes comprenderán los principios de las metodologías ágiles', 'Equipo de proyectos', 1);
 
 
 -- ------------- INSERTS DE INSTRUCTOR -------------- --
