@@ -35,9 +35,8 @@
     int accion = request.getParameter("accion") != null && !request.getParameter("accion").equals("") ? Integer.parseInt(request.getParameter("accion")) : 0;
     
     int cve_analisis_docente = request.getParameter("cve_analisis_docente") != null && !request.getParameter("cve_analisis_docente").equals("") ? Integer.parseInt(request.getParameter("cve_analisis_docente")) : 0;
+    int cve_academia = request.getParameter("cve_academia") != null && !request.getParameter("cve_academia").equals("") ? Integer.parseInt(request.getParameter("cve_academia")) : 0;
     int cve_unidad_academica = request.getParameter("cve_unidad_academica") != null && !request.getParameter("cve_unidad_academica").equals("") ? Integer.parseInt(request.getParameter("cve_unidad_academica")) : 0;
-    int cve_departamento = request.getParameter("cve_departamento") != null && !request.getParameter("cve_departamento").equals("") ? Integer.parseInt(request.getParameter("cve_departamento")) : 0;
-    int cve_tipo_evento = request.getParameter("cve_tipo_evento") != null && !request.getParameter("cve_tipo_evento").equals("") ? Integer.parseInt(request.getParameter("cve_tipo_evento")) : 0;
     int anio_aplicacion = request.getParameter("anio_aplicacion") != null && !request.getParameter("anio_aplicacion").equals("") ? Integer.parseInt(request.getParameter("anio_aplicacion")) : 0;
     int cve_ugac = request.getParameter("cve_ugac") != null && !request.getParameter("cve_ugac").equals("") ? Integer.parseInt(request.getParameter("cve_ugac")) : 0;
     int numero_ptc = request.getParameter("numero_ptc") != null && !request.getParameter("numero_ptc").equals("") ? Integer.parseInt(request.getParameter("numero_ptc")) : 0;
@@ -49,6 +48,7 @@
     float promedio_evaluacion_docente = request.getParameter("promedio_evaluacion_docente") != null && !request.getParameter("promedio_evaluacion_docente").equals("") ? Float.parseFloat(request.getParameter("promedio_evaluacion_docente")) : 0.0f;
     float porcentaje_docentes_acreditados = request.getParameter("porcentaje_docentes_acreditados") != null && !request.getParameter("porcentaje_docentes_acreditados").equals("") ? Float.parseFloat(request.getParameter("porcentaje_docentes_acreditados")) : 0.0f;
 
+    String programa_educativo = request.getParameter("programa_educativo") != null && !request.getParameter("programa_educativo").equals("") ? request.getParameter("programa_educativo") : "-";
     String fortalezas = request.getParameter("fortalezas") != null && !request.getParameter("fortalezas").equals("") ? request.getParameter("fortalezas") : "-";
     String debilidades = request.getParameter("debilidades") != null && !request.getParameter("debilidades").equals("") ? request.getParameter("debilidades") : "-";
     String necesidades = request.getParameter("necesidades") != null && !request.getParameter("necesidades").equals("") ? request.getParameter("necesidades") : "-";
@@ -57,6 +57,7 @@
     String fecha_registro = request.getParameter("fecha_registro") != null && !request.getParameter("fecha_registro").equals("") ? request.getParameter("fecha_registro") : "-";
 
     boolean activo = request.getParameter("activo") != null && !request.getParameter("activo").equals("") ? Boolean.parseBoolean(request.getParameter("activo")) : false;
+    boolean estatus = request.getParameter("estatus") != null && !request.getParameter("estatus").equals("") ? Boolean.parseBoolean(request.getParameter("estatus")) : true;
     
     switch (accion) {
         case 1:
@@ -65,35 +66,10 @@
         case 2:
             temp_obj = new JsonObject();
             temp_obj.addProperty("cve_unidad_academica", cve_unidad_academica);
-            temp_obj.addProperty("cve_departamento", cve_departamento);
-            temp_obj.addProperty("cve_tipo_evento", cve_tipo_evento);
-            temp_obj.addProperty("cve_ugac", cve_ugac);
+            temp_obj.addProperty("cve_academia", cve_academia);
+            temp_obj.addProperty("programa_educativo", programa_educativo);
             temp_obj.addProperty("numero_ptc", numero_ptc);
             temp_obj.addProperty("anio_aplicacion", anio_aplicacion);
-            temp_obj.addProperty("media_evaluacion_docente", media_evaluacion_docente);
-            temp_obj.addProperty("media_evaluacion_tutoreo", media_evaluacion_tutoreo);
-            temp_obj.addProperty("promedio_evaluacion_tutoreo", promedio_evaluacion_tutoreo);
-            temp_obj.addProperty("promedio_evaluacion_docente", promedio_evaluacion_docente);
-            temp_obj.addProperty("porcentaje_docentes_acreditados", porcentaje_docentes_acreditados);
-            temp_obj.addProperty("fortalezas", fortalezas);
-            temp_obj.addProperty("debilidades", debilidades);
-            temp_obj.addProperty("necesidades", necesidades);
-            temp_obj.addProperty("prioridad_capacitacion", prioridad_capacitacion);
-            temp_obj.addProperty("estrategias_intervencion", estrategias_intervencion);
-
-            parametros.add(temp_obj);
-            out.println(datos.Registro(parametros, "guardarAnalisis"));
-            break;
-        case 3:
-            temp_obj = new JsonObject();
-            temp_obj.addProperty("cve_analisis_docente", cve_analisis_docente);
-            temp_obj.addProperty("cve_unidad_academica", cve_unidad_academica);
-            temp_obj.addProperty("cve_departamento", cve_departamento);
-            temp_obj.addProperty("cve_tipo_evento", cve_tipo_evento);
-            temp_obj.addProperty("cve_ugac", cve_ugac);
-            temp_obj.addProperty("numero_ptc", numero_ptc);
-            temp_obj.addProperty("anio_aplicacion", anio_aplicacion);
-            temp_obj.addProperty("usuario_registro", usuario_registro);
             temp_obj.addProperty("media_evaluacion_docente", media_evaluacion_docente);
             temp_obj.addProperty("media_evaluacion_tutoreo", media_evaluacion_tutoreo);
             temp_obj.addProperty("promedio_evaluacion_tutoreo", promedio_evaluacion_tutoreo);
@@ -105,11 +81,20 @@
             temp_obj.addProperty("prioridad_capacitacion", prioridad_capacitacion);
             temp_obj.addProperty("estrategias_intervencion", estrategias_intervencion);
             temp_obj.addProperty("fecha_registro", fecha_registro);
-            temp_obj.addProperty("activo", activo);
+            temp_obj.addProperty("estatus", estatus);
+            temp_obj.addProperty("usuario_registro", usuario_registro);
 
-            
             parametros.add(temp_obj);
-            out.println(datos.Registro(parametros, "editarSolicitud"));
+            out.println(datos.Registro(parametros, "guardarAnalisis"));
+            break;
+        case 3:
+            temp_obj = new JsonObject();
+
+            temp_obj.addProperty("estatus", estatus);
+            temp_obj.addProperty("cve_analisis_docente", cve_analisis_docente);
+
+            parametros.add(temp_obj);
+            out.println(datos.Registro(parametros, "editarAnalisis"));
             break;
         case 4:
             out.println(datos.Consultas(parametros, "consultarUnidadAcademica"));
@@ -122,6 +107,9 @@
             break;
         case 7:
             out.println(datos.Consultas(parametros, "consultarUGAC"));
+            break;
+        case 8:
+            out.println(datos.Consultas(parametros, "consultarAcademia"));
             break;
         default:
             out.print("ENTRO A CONTROLADOR"+ accion);
