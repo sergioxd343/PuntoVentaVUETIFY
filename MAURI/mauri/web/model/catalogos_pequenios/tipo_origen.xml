@@ -17,26 +17,20 @@ and open the template in the editor.
 	<guardarTipoOrigen>
 		<query>
 			
-			INSERT INTO tipo_origen (nombre_tipo_origen, activo, fecha_registro, usuario_registro) VALUES (?, 'True', GETDATE (), 5)
+			INSERT INTO tipo_origen (nombre_tipo_origen, activo, fecha_registro, usuario_registro) VALUES (?, 'True', GETDATE (), ?)
 
 		</query>
 	</guardarTipoOrigen>
 
 
-    <eliminar>
+    <cambiarEstatus>
 		<query>
 			UPDATE tipo_origen
-			SET          activo = 'False'
+			SET          activo = ?
 			WHERE  cve_tipo_origen = ?
 		</query>
-	</eliminar>
-	<activar>
-		<query>
-			UPDATE tipo_origen
-			SET          activo = 'True'
-			WHERE  cve_tipo_origen = ?
-		</query>
-	</activar>
+	</cambiarEstatus>
+
 
 	
 

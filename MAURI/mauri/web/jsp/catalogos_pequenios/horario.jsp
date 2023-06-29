@@ -31,30 +31,91 @@
                 <v-container fluid>
                     <v-card>
                         <v-card-title  style="background-color: #00b293; color:#ffffff; headline" >		
-                            Periodo
+                            Horario
                         </v-card-title>
                         <v-container fluid>
-                            
-                            
-
+                 
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-                                <v-col md=2>
-                                    <v-text-field 
-                                        v-model="nombreTipoPeriodo" 
-                                        outlined label="Nombre tipo periodo" 
-                                        persistent-hint
-                                        v-validate="'required|max:200'" 
-                                        data-vv-name="nombre tipo periodo"
-                                        :error="errors.has('nombre tipo periodo')"
-                                        :error-messages="errors.first('nombre tipo periodo')"></v-text-field>
-                                </v-col>
-
                                 
-
-
-
+                                <v-col md=2>
+                                    <template>
+                                        <v-layout r>
+                                          <v-flex >
+                                            <v-menu
+                                              ref="menu1"
+                                              v-model="horaInicio"
+                                              :close-on-content-click="false"
+                                              :return-value.sync="time"
+                                              
+                                              transition="scale-transition"
+                                              offset-y
+                                              full-width
+                                              max-width="240px"
+                                              min-width="240px"
+                                            >
+                                              <template v-slot:activator="{ on }">
+                                                <v-text-field
+                                                  v-model="time"
+                                                  label="Hora de inicio"
+                                                  readonly
+                                                  v-on="on"
+                                                ></v-text-field>
+                                              </template>
+                                              <v-time-picker
+                                                v-if="horaInicio"
+                                                v-model="time"
+                                                full-width
+                                                @click:minute="$refs.menu1.save(time)"
+                                              ></v-time-picker>
+                                            </v-menu>
+                                          </v-flex>
+                                          <v-spacer></v-spacer>
+                                        </v-layout>
+                                      </template>
+                                      </v-col>
+                                      <v-col md=2>
+                                        <template>
+                                            <v-layout >
+                                              <v-flex >
+                                                <v-menu
+                                                  ref="menu"
+                                                  v-model="horaFin"
+                                                  :close-on-content-click="false"
+                                                  
+                                                  :return-value.sync="time1"
+                                                  
+                                                  transition="scale-transition"
+                                                  offset-y
+                                                  full-width
+                                                  max-width="240px"
+                                                  min-width="240px"
+                                                >
+                                                  <template v-slot:activator="{ on }">
+                                                    <v-text-field
+                                                      v-model="time1"
+                                                      label="Hora de fin"
+                                                      readonly
+                                                      v-on="on"
+                                                    ></v-text-field>
+                                                  </template>
+                                                  <v-time-picker
+                                                    v-if="horaFin"
+                                                    v-model="time1"
+                                                    full-width
+                                                    @click:minute="$refs.menu.save(time1)"
+                                                  ></v-time-picker>
+                                                </v-menu>
+                                              </v-flex>
+                                              <v-spacer></v-spacer>
+                                            </v-layout>
+                                          </template>
+                                          </v-col>
+                                    
+                            <v-col md=4>
+                                  
+                                </v-col>
                                 <v-row justify="center">
-                                    <v-btn color="primary" @click="flagEditar ? fnEditar() : fnGuardarTipoOrientacion()"><v-icon>mdi-content-save</v-icon>{{flagEditar ? 'Editar' : 'Guardar'}}</v-btn>
+                                    <v-btn color="primary" @click="flagEditar ? fnEditar() : fnGuardarHorario()"><v-icon>mdi-content-save</v-icon>{{flagEditar ? 'Editar' : 'Guardar'}}</v-btn>
                                     &nbsp;
                                     <v-btn color="error" @click="fnLimpiarCampos()"><v-icon>mdi-cancel</v-icon>Cancelar</v-btn>
                                 </v-row>
@@ -64,30 +125,25 @@
                             <v-row justify="center">
                                 <v-col md=12>
                                     <v-data-table
-                                        :headers="headersTiposOrientacion"
-                                        :items="dataTiposOrientacion"
+                                        :headers="headersHorario"
+                                        :items="dataHorario"
                                         :search="searchTipos"
                                         class="elevation-1"
                                         no-data-text="No se encontro ningun registro"
-                                        :hide-default-header="dataTiposOrientacion.length < 1"
-                                        :hide-default-footer="dataTiposOrientacion.length < 1"
+                                        :hide-default-header="dataHorario.length < 1"
+                                        :hide-default-footer="dataHorario.length < 1"
                                         locale="es-ES"
                                         :mobile-breakpoint="NaN"
                                         items-per-page="10"
                                     >
-                                    <template v-slot:item.activo="{ item }" class="my-0">
-                                        <v-container class="custom-switch" fluid>
-                                          <v-radio label="" :value="true" v-model="item.activo" @change="fnEliminarOrientacion(item)"></v-radio>
-                                        </v-container>
-                                      </template>
-                                      
-                                      
-                                      
-                                    <template v-slot:item.editar={item} class="my-0">
-                                        <v-container class="px-0 my-0" fluid>
-                                            <v-btn  small :style="{ backgroundColor: item.activo ? 'green' : 'red' }">{{ item.activo ? 'Activo' : 'Inactivo' }}</v-btn>
-                                        </v-container>
+                                    <template v-slot:item.estatus="{item}">
+                                        <v-chip class="ma-2" link @click="fnCambiarEstatus(item)"
+                                            :color="item.activo ? 'success' : 'grey'" outlined>
+                                            {{ item.activo ?
+                                            "Activo" : "Inactivo" }}
+                                        </v-chip>
                                     </template>
+
                                     </v-data-table>
                                 </v-col>
                             </v-row>
@@ -190,10 +246,17 @@
                     onMounted,
                     watch
                 } = VueCompositionAPI;
-                const ctr = "../../controlador/catalogos_pequenios/Controlador_tipo_orientacion.jsp";
+                const ctr = "../../controlador/catalogos_pequenios/Controlador_horario.jsp";
                 //Variables POST
             
-                const nombreTipoOrientacion = ref("");
+                
+                const horaInicio = ref("");
+                const horaFin = ref("");
+                const time = ref("");
+                const time1 = ref("");
+                const currentUser = localStorage.getItem("currentUser");
+                const currentUserObj = JSON.parse(currentUser);
+                const usuario_registro = currentUserObj[0].cve_persona;
                 //Otras variables
                 const flagEditar = ref(false);
                 const itemEditar = ref({});
@@ -213,24 +276,24 @@
 
                 //DataTable
                 
-                const dataTiposOrientacion = ref([]);
+                const dataHorario = ref([]);
                 
-                const headersTiposOrientacion = ref([
-                    {text: 'No', align: 'left', sortable: true, value: 'cve_tipo_orientacion'},
-                    {text: 'Nombre orientación', align: 'left', sortable: true, value: 'nombre_tipo_orientacion'},
-                    {text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro'},
-                    {text: 'Activar o desactivar', align: 'left', sortable: true, value: 'activo'},
+                const headersHorario = ref([
+                    {text: 'No', align: 'left', sortable: true, value: 'cve_horario'},
+                    {text: 'Hora de inicio', align: 'left', sortable: true, value: 'hora_inicio'},
+                    {text: 'Hora de fin', align: 'left', sortable: true, value: 'hora_fin'},
+                    {text: 'Estatus', align: 'left', sortable: true, value: 'estatus'},
                 ]);
                 
                 const searchProveedores = ref([]);
                 const searchTipos = ref([]);
 
                 onMounted(() => {
-                    fnConsultarTablaTipoOrientacion();
+                    fnConsultarHorario();
                     
                 });
                 
-                async function fnConsultarTablaTipoOrientacion(){
+                async function fnConsultarHorario(){
                     try{
                         preloader("../../");
                         let parametros = new URLSearchParams();
@@ -239,7 +302,7 @@
                         if(status == 200){
                             if(data.length > 0){
 
-                                dataTiposOrientacion.value = data
+                                dataHorario.value = data
                             }
                         }
                     } catch(error){
@@ -250,22 +313,24 @@
                     }
                }
                
-               async function fnGuardarTipoOrientacion(){
+               async function fnGuardarHorario(){
                     this.$validator.validate().then(async esValido => {
                         if(esValido){
                             try{
                                 preloader("../../");
                                 let parametros = new URLSearchParams();
                                 parametros.append("accion", 2);
-                                parametros.append("nombre_tipo_orientacion", nombreTipoOrientacion.value);
+                                parametros.append("hora_inicio", horaInicio.value);
+                                parametros.append("hora_fin", horaFin.value);
+                                parametros.append("cve_persona", this.usuario_registro);
                                 let {data,status} = await axios.post(ctr, parametros)
                                 if(status == 200){
                                     if(data == "1"){
                                         mostrarSnackbar("success", "Registro guardado correctamente.");
-                                        fnConsultarTablaTipoOrientacion();
+                                        fnConsultarHorario();
                                         fnLimpiarCampos(this);
                                         // this.$validator.pause();
-                                        // Vue.nextTick(() => {
+                                        // Vue.nextTick(() => {fn
                                         //     this.$validator.errors.clear();
                                         //     this.$validator.resume();
                                         // });   
@@ -281,33 +346,41 @@
                     })
                 }
              
-
-
-              async function fnEliminarOrientacion(item){
-                            try{
-                                preloader("../../");
-                                let parametros = new URLSearchParams();
-                                parametros.append("accion", 3);
-                                parametros.append("activo", (item.activo == true ? 1 : 0));
-                                parametros.append("cve_tipo_orientacion", item.cve_tipo_orientacion);
-                                let {data,status} = await axios.post(ctr, parametros)
-                                if(status == 200){
-                                    if(data=="1"){
-                                        fnConsultarTablaTipoOrientacion();
-                                    }
+                async function fnCambiarEstatus(item) {
+                        try {
+                            preloader("../");
+                            let parametros = new URLSearchParams();
+                            parametros.append("accion", 3);
+                            parametros.append("cve_horario", item.cve_horario);
+                            parametros.append("activo", (item.activo == true ? 0 : 1));
+                            console.log("🚀 ~ file: horario.jsp:283 ~ fnCambiarEstatus ~ parametros:", parametros)
+                            let { data, status } = await axios.post(ctr, parametros);
+                            if (status == 200) {
+                                if (data == "1") {
+                                    mostrarSnackbar(
+                                        "success",
+                                        "Registro actualizado correctamente."
+                                    );
+                                    fnConsultarHorario();
+                                    // this.$validator.pause();
+                                    // Vue.nextTick(() => {
+                                    //     this.$validator.errors.clear();
+                                    //     this.$validator.resume();
+                                    // });
                                 }
-                            } catch(error){
-                                mostrarSnackbar('error');
-                                console.error(error);
-                            } finally{
-                                swal.close();
                             }
-
+                        } catch (error) {
+                            mostrarSnackbar("error");
+                            console.error(error);
+                        } finally {
+                            swal.close();
                         }
+                    }
                                 
 
                 function fnLimpiarCampos(cx){//cx = contexto
-                    nombreTipoOrientacion.value = "";                    
+                    horaInicio.value = "";                    
+                    horaFin.value = "";                    
                     flagEditar.value = false;
                     itemEditar.value = {};
 
@@ -328,10 +401,10 @@
 
                 return{
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
-                    nombreTipoOrientacion, 
-                    headersTiposOrientacion, fnConsultarTablaTipoOrientacion, dataTiposOrientacion, 
-                    searchTipos, fnLimpiarCampos, fnGuardarTipoOrientacion, fnEliminarOrientacion ,
-                    dialogBuscador, dialogDetallesCotizacion, dialogProveedor, 
+                    horaFin, horaInicio, time, time1, currentUser, currentUserObj, usuario_registro,
+                    headersHorario, fnConsultarHorario, dataHorario, 
+                    searchTipos, fnLimpiarCampos, fnGuardarHorario, fnCambiarEstatus,
+                    dialogBuscador, dialogDetallesCotizacion, dialogProveedor, time,
                     
                     //fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, itemEditar
                 }

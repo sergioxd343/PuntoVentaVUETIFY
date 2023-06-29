@@ -31,25 +31,99 @@
                 <v-container fluid>
                     <v-card>
                         <v-card-title  style="background-color: #00b293; color:#ffffff; headline" >		
-                            Orientación
+                            Periodo
                         </v-card-title>
                         <v-container fluid>
-                            
-                            
 
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-                                <v-col md=2>
-                                    <v-text-field 
-                                        v-model="nombreTipoOrientacion" 
-                                        outlined label="Nombre orientación" 
+                                                
+                                
+                                <v-col cols="12" sm="6" md="3">
+                                    <v-menu 
+                                            ref="menu1"  
+                                            :close-on-content-click="false"
+                                            :return-value.sync="fechaInicio" 
+                                            transition="scale-transition" 
+                                            offset-y min-width="auto">
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-text-field v-model="fechaInicio" label="Fecha de inicio" prepend-icon="mdi-calendar"
+                                                readonly v-bind="attrs" v-on="on"></v-text-field>
+                                        </template>
+                                        <v-date-picker v-model="fechaInicio" no-title scrollable>
+                                            <v-spacer></v-spacer>
+                                            <v-btn text color="primary" @click="menu1 = false">
+                                                Cancel
+                                            </v-btn>
+                                            <v-btn text color="primary" @click="$refs.menu1.save(fechaInicio)">
+                                                OK
+                                            </v-btn>
+                                        </v-date-picker>
+                                    </v-menu>
+                                </v-col>
+                                <v-col cols="12" sm="6" md="3">
+                                    <v-menu 
+                                            ref="menu2"  
+                                            :close-on-content-click="false"
+                                            :return-value.sync="fechaFin" 
+                                            transition="scale-transition" 
+                                            offset-y min-width="auto">
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-text-field v-model="fechaFin" label="Fecha de fin" prepend-icon="mdi-calendar"
+                                                readonly v-bind="attrs" v-on="on"></v-text-field>
+                                        </template>
+                                        <v-date-picker v-model="fechaFin" no-title scrollable>
+                                            <v-spacer></v-spacer>
+                                            <v-btn text color="primary" @click="menu2 = false">
+                                                Cancel
+                                            </v-btn>
+                                            <v-btn text color="primary" @click="$refs.menu2.save(fechaFin)">
+                                                OK
+                                            </v-btn>
+                                        </v-date-picker>
+                                    </v-menu>
+                                </v-col>
+
+                                <v-col md=3>
+
+                                    <v-textarea
+                                        v-model="descripcion"  
                                         persistent-hint
                                         v-validate="'required|max:200'" 
-                                        data-vv-name="nombre tipo orientacion"
-                                        :error="errors.has('nombre tipo orientacion')"
-                                        :error-messages="errors.first('nombre tipo orientacion')"></v-text-field>
+                                        data-vv-name="descripcion"
+                                        :error="errors.has('descripcion')"
+                                        :error-messages="errors.first('descripcion')"
+                                        class="mx-2"
+                                        label="Descripción:"
+                                        rows="1"
+                                    ></v-textarea>
                                 </v-col>
+
+                                <v-col md=3 >
+                                    <v-radio-group
+                                        v-model="numeroPeriodo"
+                                        label="Numero de periodo"
+                                        v-validate="'required'"
+                                        data-vv-name="numeroPeriodo"
+                                        :error="errors.has('numeroPeriodo')"
+                                        :error-messages="errors.first('numeroPeriodo')"
+                                    >
+                                        <v-radio
+                                            label="1. Enero-Abril"
+                                            value=1
+                                        ></v-radio>
+                                        <v-radio
+                                            label="2. Mayo-Agosto"
+                                            value=2
+                                        ></v-radio>
+                                        <v-radio
+                                            label="3. Septiembre-Diciembre"
+                                            value=3
+                                        ></v-radio>
+                                    </v-radio-group>
+                                </v-col>
+
                                 <v-row justify="center">
-                                    <v-btn color="primary" @click="flagEditar ? fnEditar() : fnGuardarTipoOrientacion()"><v-icon>mdi-content-save</v-icon>{{flagEditar ? 'Editar' : 'Guardar'}}</v-btn>
+                                    <v-btn color="primary" @click="flagEditar ? fnEditar() : fnGuardarPeriodo()"><v-icon>mdi-content-save</v-icon>{{flagEditar ? 'Editar' : 'Guardar'}}</v-btn>
                                     &nbsp;
                                     <v-btn color="error" @click="fnLimpiarCampos()"><v-icon>mdi-cancel</v-icon>Cancelar</v-btn>
                                 </v-row>
@@ -59,29 +133,23 @@
                             <v-row justify="center">
                                 <v-col md=12>
                                     <v-data-table
-                                        :headers="headersTiposOrientacion"
-                                        :items="dataTiposOrientacion"
+                                        :headers="headersPeriodo"
+                                        :items="dataPeriodo"
                                         :search="searchTipos"
                                         class="elevation-1"
                                         no-data-text="No se encontro ningun registro"
-                                        :hide-default-header="dataTiposOrientacion.length < 1"
-                                        :hide-default-footer="dataTiposOrientacion.length < 1"
+                                        :hide-default-header="dataPeriodo.length < 1"
+                                        :hide-default-footer="dataPeriodo.length < 1"
                                         locale="es-ES"
                                         :mobile-breakpoint="NaN"
                                         items-per-page="10"
                                     >
-                                    <template v-slot:item.activo="{ item }" class="my-0">
-                                        <v-container class="custom-switch" fluid>
-                                          <v-radio label="" :value="true" v-model="item.activo" @change="fnEliminarOrientacion(item)"></v-radio>
-                                        </v-container>
-                                      </template>
-                                      
-                                      
-                                      
-                                    <template v-slot:item.editar={item} class="my-0">
-                                        <v-container class="px-0 my-0" fluid>
-                                            <v-btn  small :style="{ backgroundColor: item.activo ? 'green' : 'red' }">{{ item.activo ? 'Activo' : 'Inactivo' }}</v-btn>
-                                        </v-container>
+                                    <template v-slot:item.estatus="{item}">
+                                        <v-chip class="ma-2" link @click="fnCambiarEstatus(item)"
+                                            :color="item.activo ? 'success' : 'grey'" outlined>
+                                            {{ item.activo ?
+                                            "Activo" : "Inactivo" }}
+                                        </v-chip>
                                     </template>
                                     </v-data-table>
                                 </v-col>
@@ -185,10 +253,16 @@
                     onMounted,
                     watch
                 } = VueCompositionAPI;
-                const ctr = "../../controlador/catalogos_pequenios/Controlador_tipo_orientacion.jsp";
+                const ctr = "../../controlador/catalogos_pequenios/Controlador_periodo.jsp";
                 //Variables POST
             
-                const nombreTipoOrientacion = ref("");
+                const fechaInicio = ref("");
+                const fechaFin = ref("");
+                const numeroPeriodo = ref("");
+                const descripcion = ref("");
+                const currentUser = localStorage.getItem("currentUser");
+                const currentUserObj = JSON.parse(currentUser);
+                const usuario_registro = currentUserObj[0].cve_persona;
                 //Otras variables
                 const flagEditar = ref(false);
                 const itemEditar = ref({});
@@ -208,24 +282,26 @@
 
                 //DataTable
                 
-                const dataTiposOrientacion = ref([]);
+                const dataPeriodo = ref([]);
                 
-                const headersTiposOrientacion = ref([
-                    {text: 'No', align: 'left', sortable: true, value: 'cve_tipo_orientacion'},
-                    {text: 'Nombre orientación', align: 'left', sortable: true, value: 'nombre_tipo_orientacion'},
-                    {text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro'},
-                    {text: 'Activar o desactivar', align: 'left', sortable: true, value: 'activo'},
+                const headersPeriodo = ref([
+                    {text: 'No', align: 'left', sortable: true, value: 'cve_periodo'},
+                    {text: 'Fecha de inicio', align: 'left', sortable: true, value: 'fecha_inicio'},
+                    {text: 'Fecha de fin', align: 'left', sortable: true, value: 'fecha_fin'},
+                    {text: 'Numero de periodo', align: 'left', sortable: true, value: 'numero_periodo'},
+                    {text: 'Descripción', align: 'left', sortable: true, value: 'descripcion'},
+                    {text: 'Estatus', align: 'left', sortable: true, value: 'estatus'},
                 ]);
                 
                 const searchProveedores = ref([]);
                 const searchTipos = ref([]);
 
                 onMounted(() => {
-                    fnConsultarTablaTipoOrientacion();
+                    fnConsultarTablaPeriodo();
                     
                 });
                 
-                async function fnConsultarTablaTipoOrientacion(){
+                async function fnConsultarTablaPeriodo(){
                     try{
                         preloader("../../");
                         let parametros = new URLSearchParams();
@@ -234,7 +310,7 @@
                         if(status == 200){
                             if(data.length > 0){
 
-                                dataTiposOrientacion.value = data
+                                dataPeriodo.value = data
                             }
                         }
                     } catch(error){
@@ -245,19 +321,23 @@
                     }
                }
                
-               async function fnGuardarTipoOrientacion(){
+               async function fnGuardarPeriodo(){
                     this.$validator.validate().then(async esValido => {
                         if(esValido){
                             try{
                                 preloader("../../");
                                 let parametros = new URLSearchParams();
                                 parametros.append("accion", 2);
-                                parametros.append("nombre_tipo_orientacion", nombreTipoOrientacion.value);
+                                parametros.append("fecha_inicio", fechaInicio.value);
+                                parametros.append("fecha_fin", fechaFin.value);
+                                parametros.append("numero_periodo", numeroPeriodo.value);
+                                parametros.append("descripcion", descripcion.value);
+                                parametros.append("cve_persona", this.usuario_registro);
                                 let {data,status} = await axios.post(ctr, parametros)
                                 if(status == 200){
                                     if(data == "1"){
                                         mostrarSnackbar("success", "Registro guardado correctamente.");
-                                        fnConsultarTablaTipoOrientacion();
+                                        fnConsultarTablaPeriodo();
                                         fnLimpiarCampos(this);
                                         // this.$validator.pause();
                                         // Vue.nextTick(() => {
@@ -276,33 +356,43 @@
                     })
                 }
              
-
-
-              async function fnEliminarOrientacion(item){
-                            try{
-                                preloader("../../");
-                                let parametros = new URLSearchParams();
-                                parametros.append("accion", 3);
-                                parametros.append("activo", (item.activo == true ? 1 : 0));
-                                parametros.append("cve_tipo_orientacion", item.cve_tipo_orientacion);
-                                let {data,status} = await axios.post(ctr, parametros)
-                                if(status == 200){
-                                    if(data=="1"){
-                                        fnConsultarTablaTipoOrientacion();
-                                    }
+                async function fnCambiarEstatus(item) {
+                        try {
+                            preloader("../");
+                            let parametros = new URLSearchParams();
+                            parametros.append("accion", 3);
+                            parametros.append("cve_periodo", item.cve_periodo);
+                            parametros.append("activo", (item.activo == true ? 0 : 1));
+                            console.log("🚀 ~ file: periodo.jsp:283 ~ fnCambiarEstatus ~ parametros:", parametros)
+                            let { data, status } = await axios.post(ctr, parametros);
+                            if (status == 200) {
+                                if (data == "1") {
+                                    mostrarSnackbar(
+                                        "success",
+                                        "Registro actualizado correctamente."
+                                    );
+                                    fnConsultarTablaPeriodo();
+                                    // this.$validator.pause();
+                                    // Vue.nextTick(() => {
+                                    //     this.$validator.errors.clear();
+                                    //     this.$validator.resume();
+                                    // });
                                 }
-                            } catch(error){
-                                mostrarSnackbar('error');
-                                console.error(error);
-                            } finally{
-                                swal.close();
                             }
-
+                        } catch (error) {
+                            mostrarSnackbar("error");
+                            console.error(error);
+                        } finally {
+                            swal.close();
                         }
-                                
+                    }                  
 
                 function fnLimpiarCampos(cx){//cx = contexto
-                    nombreTipoOrientacion.value = "";                    
+                    fechaInicio.value = "";
+                    fechaFin.value = "";                    
+                    numeroPeriodo.value = "";
+                    descripcion.value = "";
+
                     flagEditar.value = false;
                     itemEditar.value = {};
 
@@ -323,9 +413,9 @@
 
                 return{
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
-                    nombreTipoOrientacion, 
-                    headersTiposOrientacion, fnConsultarTablaTipoOrientacion, dataTiposOrientacion, 
-                    searchTipos, fnLimpiarCampos, fnGuardarTipoOrientacion, fnEliminarOrientacion ,
+                    fechaInicio, fechaFin, numeroPeriodo, descripcion, currentUser, currentUserObj,
+                    headersPeriodo, fnConsultarTablaPeriodo, dataPeriodo, usuario_registro,
+                    searchTipos, fnLimpiarCampos, fnGuardarPeriodo, fnCambiarEstatus ,
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor, 
                     
                     //fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, itemEditar

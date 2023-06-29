@@ -62,15 +62,13 @@
                                         :mobile-breakpoint="NaN"
                                         items-per-page="10"
                                     >
-                                    <template v-slot:item.eliminar="{item}">
-                                        <v-btn  small color="grey" @click="fnEliminarOrigen(item);" :disabled="!item.activo" >Inactivo</v-btn>
+                                    <template v-slot:item.estatus="{item}">
+                                        <v-chip class="ma-2" link @click="fnCambiarEstatus(item)"
+                                            :color="item.activo ? 'success' : 'grey'" outlined>
+                                            {{ item.activo ?
+                                            "Activo" : "Inactivo" }}
+                                        </v-chip>
                                     </template>
-                                    <template v-slot:item.editar="{item}">
-                                        <v-btn  small color="success" @click="fnActivar(item);" :disabled="item.activo">Activo</v-btn>
-
-                                    </template><template v-slot:item.activo="{ item }">
-                                        <span>{{ item.activo ? 'Activo' : 'Inactivo' }}</span>
-                                      </template>
 
                                     </v-data-table>
                                 </v-col>
@@ -178,6 +176,9 @@
                 //Variables POST
                 
                 const nombreTipoOrigen = ref("");
+                const currentUser = localStorage.getItem("currentUser");
+                const currentUserObj = JSON.parse(currentUser);
+                const usuario_registro = currentUserObj[0].cve_persona;
                 
                 //Otras variables
                 const flagEditar = ref(false);
@@ -204,9 +205,7 @@
                     {text: 'No', align: 'left', sortable: true, value: 'cve_tipo_origen'},
                     {text: 'Nombre origen', align: 'left', sortable: true, value: 'nombre_tipo_origen'},
                     {text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro'},
-                    {text: 'Estatus actual', align: 'left', sortable: true, value: 'activo'},
-                    {text: 'Activar', align: 'left', sortable: true, value: 'editar'},
-                    {text: 'Desactivar', align: 'left', sortable: true, value: 'eliminar'},
+                    {text: 'Estatus', align: 'left', sortable: true, value: 'estatus'},
                 ]);
                 
                 const searchProveedores = ref([]);
@@ -245,6 +244,7 @@
                                 let parametros = new URLSearchParams();
                                 parametros.append("accion", 2);
                                 parametros.append("nombre_tipo_origen", nombreTipoOrigen.value);
+                                parametros.append("cve_persona", this.usuario_registro);
                                 let {data,status} = await axios.post(ctr, parametros)
                                 if(status == 200){
                                     if(data == "1"){
@@ -267,46 +267,38 @@
                         }
                     })
                 }
-              async function fnEliminarOrigen(item){
-                            try{
-                                preloader("../../");
-                                let parametros = new URLSearchParams();
-                                parametros.append("accion", 3);
-                                parametros.append("cve_tipo_origen", item.cve_tipo_origen);
-                                let {data,status} = await axios.post(ctr, parametros)
-                                if(status == 200){
-                                    if(data=="1"){
-                                        fnConsultarTablaTipoOrigen();
-                                    }
-                                }
-                            } catch(error){
-                                mostrarSnackbar('error');
-                                console.error(error);
-                            } finally{
-                                swal.close();
-                            }
-                        }
 
-                        async function fnActivar(item){
-                            try{
-                                preloader("../../");
-                                let parametros = new URLSearchParams();
-                                parametros.append("accion", 4);
-                                parametros.append("cve_tipo_origen", item.cve_tipo_origen);
-                                let {data,status} = await axios.post(ctr, parametros)
-                                if(status == 200){
-                                    if(data=="1"){
-                                        fnConsultarTablaTipoOrigen();
-                                    }
+                async function fnCambiarEstatus(item) {
+                        try {
+                            preloader("../");
+                            let parametros = new URLSearchParams();
+                            parametros.append("accion", 3);
+                            parametros.append("cve_tipo_origen", item.cve_tipo_origen);
+                            parametros.append("activo", (item.activo == true ? 0 : 1));
+                            console.log("🚀 ~ file: tipo_origen.jsp:283 ~ fnCambiarEstatus ~ parametros:", parametros)
+                            let { data, status } = await axios.post(ctr, parametros);
+                            if (status == 200) {
+                                if (data == "1") {
+                                    mostrarSnackbar(
+                                        "success",
+                                        "Registro actualizado correctamente."
+                                    );
+                                    fnConsultarTablaTipoOrigen();
+                                    // this.$validator.pause();
+                                    // Vue.nextTick(() => {
+                                    //     this.$validator.errors.clear();
+                                    //     this.$validator.resume();
+                                    // });
                                 }
-                            } catch(error){
-                                mostrarSnackbar('error');
-                                console.error(error);
-                            } finally{
-                                swal.close();
                             }
+                        } catch (error) {
+                            mostrarSnackbar("error");
+                            console.error(error);
+                        } finally {
+                            swal.close();
                         }
-
+                    }
+              
                 function fnLimpiarCampos(cx){//cx = contexto
                     nombreTipoOrigen.value = "";
                     
@@ -330,9 +322,9 @@
 
                 return{
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
-                    nombreTipoOrigen, dataTipoOrigen, headersTipoOrigen,
+                    nombreTipoOrigen, dataTipoOrigen, headersTipoOrigen, usuario_registro,
                     fnConsultarTablaTipoOrigen, fnConsultarTablaTipoOrigen, fnGuardarTipoOrigen,
-                    fnEliminarOrigen, fnLimpiarCampos, searchTipos, fnActivar,
+                    fnLimpiarCampos, searchTipos, fnCambiarEstatus, currentUser, currentUserObj,
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor,
                     
                     //fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, itemEditar

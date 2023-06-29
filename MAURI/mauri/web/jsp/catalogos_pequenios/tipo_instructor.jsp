@@ -63,15 +63,13 @@
                                         items-per-page="10"
                                     >
                                     
-                                    <template v-slot:item.eliminar="{item}">
-                                        <v-btn  small color="grey" @click="fnEliminarInstructor(item);" :disabled="!item.activo" >Inactivo</v-btn>
+                                    <template v-slot:item.estatus="{item}">
+                                        <v-chip class="ma-2" link @click="fnCambiarEstatus(item)"
+                                            :color="item.activo ? 'success' : 'grey'" outlined>
+                                            {{ item.activo ?
+                                            "Activo" : "Inactivo" }}
+                                        </v-chip>
                                     </template>
-                                    <template v-slot:item.editar="{item}">
-                                        <v-btn  small color="success" @click="fnActivar(item);" :disabled="item.activo">Activo</v-btn>
-
-                                    </template><template v-slot:item.activo="{ item }">
-                                        <span>{{ item.activo ? 'Activo' : 'Inactivo' }}</span>
-                                      </template>
 
                                     </v-data-table>
                                 </v-col>
@@ -181,6 +179,9 @@
                 //Variables POST
                 
                 const nombreTipoInstructor = ref ("");
+                const currentUser = localStorage.getItem("currentUser");
+                const currentUserObj = JSON.parse(currentUser);
+                const usuario_registro = currentUserObj[0].cve_persona;
                 
                 //Otras variables
                 const flagEditar = ref(false);
@@ -207,9 +208,7 @@
                     {text: 'No', align: 'left', sortable: true, value: 'cve_tipo_instructor'},
                     {text: 'Nombre tipo instructor', align: 'left', sortable: true, value: 'nombre_tipo_instructor'},
                     {text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro'},
-                    {text: 'Estatus actual', align: 'left', sortable: true, value: 'activo'},
-                    {text: 'Activar', align: 'left', sortable: true, value: 'editar'},
-                    {text: 'Desactivar', align: 'left', sortable: true, value: 'eliminar'},
+                    {text: 'Estatus', align: 'left', sortable: true, value: 'estatus'},
                 ]);
                 
                 const searchTipos = ref([]);
@@ -247,6 +246,7 @@
                                 let parametros = new URLSearchParams();
                                 parametros.append("accion", 2);
                                 parametros.append("nombre_tipo_instructor", nombreTipoInstructor.value);
+                                parametros.append("cve_persona", this.usuario_registro);
                                 let {data,status} = await axios.post(ctr, parametros)
                                 if(status == 200){
                                     if(data == "1"){
@@ -270,49 +270,36 @@
                     })
                 }              
 
-              async function fnEliminarInstructor(item){
-                    
-                            try{
-                                preloader("../../");
-                                let parametros = new URLSearchParams();
-                                parametros.append("accion", 3);
-                                parametros.append("cve_tipo_instructor", item.cve_tipo_instructor);
-                                let {data,status} = await axios.post(ctr, parametros)
-                                if(status == 200){
-                                    if(data=="1"){
-                                        fnConsultarTablaTipoInstructor();
-                                    }
+                async function fnCambiarEstatus(item) {
+                        try {
+                            preloader("../");
+                            let parametros = new URLSearchParams();
+                            parametros.append("accion", 3);
+                            parametros.append("cve_tipo_instructor", item.cve_tipo_instructor);
+                            parametros.append("activo", (item.activo == true ? 0 : 1));
+                            console.log("🚀 ~ file: tipo_instructor.jsp:283 ~ fnCambiarEstatus ~ parametros:", parametros)
+                            let { data, status } = await axios.post(ctr, parametros);
+                            if (status == 200) {
+                                if (data == "1") {
+                                    mostrarSnackbar(
+                                        "success",
+                                        "Registro actualizado correctamente."
+                                    );
+                                    fnConsultarTablaTipoInstructor();
+                                    // this.$validator.pause();
+                                    // Vue.nextTick(() => {
+                                    //     this.$validator.errors.clear();
+                                    //     this.$validator.resume();
+                                    // });
                                 }
-                            } catch(error){
-                                mostrarSnackbar('error');
-                                console.error(error);
-                            } finally{
-                                swal.close();
                             }
-
+                        } catch (error) {
+                            mostrarSnackbar("error");
+                            console.error(error);
+                        } finally {
+                            swal.close();
                         }
-            async function fnActivar(item){
-                    
-                    try{
-                        preloader("../../");
-                        let parametros = new URLSearchParams();
-                        parametros.append("accion", 4);
-                        parametros.append("cve_tipo_instructor", item.cve_tipo_instructor);
-                        let {data,status} = await axios.post(ctr, parametros)
-                        if(status == 200){
-                            if(data=="1"){
-                                fnConsultarTablaTipoInstructor();
-                            }
-                        }
-                    } catch(error){
-                        mostrarSnackbar('error');
-                        console.error(error);
-                    } finally{
-                        swal.close();
                     }
-
-                }
-
                         
 
                 function fnLimpiarCampos(cx){//cx = contexto
@@ -339,8 +326,8 @@
                 return{
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
                     nombreTipoInstructor, dataTipoInstructor, headersTipoInstructor, 
-                    fnConsultarTablaTipoInstructor, fnGuardarTipoInstructor, fnEliminarInstructor,
-                    fnLimpiarCampos, fnActivar,
+                    fnConsultarTablaTipoInstructor, fnGuardarTipoInstructor, fnCambiarEstatus,
+                    fnLimpiarCampos, currentUser, currentUserObj, usuario_registro,
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor, searchTipos
                     
                     //fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, itemEditar

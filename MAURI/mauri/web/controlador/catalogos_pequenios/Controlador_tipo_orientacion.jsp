@@ -57,7 +57,7 @@
      String nombreOrientacion = request.getParameter("nombre_tipo_orientacion") != null && !request.getParameter("nombre_tipo_orientacion").equals("") ? request.getParameter("nombre_tipo_orientacion") : "-";
      String activo = request.getParameter("activo") != null && !request.getParameter("activo").equals("") ? request.getParameter("activo") : "-";
      String pass = request.getParameter("pass") != null && !request.getParameter("pass").equals("") ? request.getParameter("pass") : "-";
-     
+     int cve_persona = request.getParameter("cve_persona") != null && !request.getParameter("cve_persona").equals("") ? Integer.parseInt(request.getParameter("cve_persona")) : 0;
      int cve_tipo_orientacion = request.getParameter("cve_tipo_orientacion") != null && !request.getParameter("cve_tipo_orientacion").equals("") ? Integer.parseInt(request.getParameter("cve_tipo_orientacion")) : 0;
      switch (accion) {
         case 1:
@@ -66,20 +66,16 @@
         case 2:
             temp_obj = new JsonObject();
             temp_obj.addProperty("nombre_tipo_orientacion", nombreOrientacion);
+            temp_obj.addProperty("usuario_registro", cve_persona);
             parametros.add(temp_obj);
             out.println(datos.Registro(parametros, "guardarTipoOrientacion"));
             break;
         case 3:
             temp_obj =new JsonObject();
+            temp_obj.addProperty("activo", activo);
             temp_obj.addProperty("cve_tipo_orientacion", cve_tipo_orientacion);
             parametros.add(temp_obj);
-            out.println(datos.Registro(parametros, "eliminar"));
-           break;   
-        case 4:
-            temp_obj =new JsonObject();
-            temp_obj.addProperty("cve_tipo_orientacion", cve_tipo_orientacion);
-            parametros.add(temp_obj);
-            out.println(datos.Registro(parametros, "activar"));
+            out.println(datos.Registro(parametros, "cambiarEstatus"));
            break;   
        default:
            out.print("ENTRO A CONTROLADOR"+ accion);

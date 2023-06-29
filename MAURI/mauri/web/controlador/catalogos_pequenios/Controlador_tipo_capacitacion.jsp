@@ -57,7 +57,7 @@
      String nombreCapacitacion = request.getParameter("nombre_tipo_capacitacion") != null && !request.getParameter("nombre_tipo_capacitacion").equals("") ? request.getParameter("nombre_tipo_capacitacion") : "-";
      String activo = request.getParameter("activo") != null && !request.getParameter("activo").equals("") ? request.getParameter("activo") : "-";
      String pass = request.getParameter("pass") != null && !request.getParameter("pass").equals("") ? request.getParameter("pass") : "-";
-     
+     int cve_persona = request.getParameter("cve_persona") != null && !request.getParameter("cve_persona").equals("") ? Integer.parseInt(request.getParameter("cve_persona")) : 0;
      int cve_tipo_capacitacion = request.getParameter("cve_tipo_capacitacion") != null && !request.getParameter("cve_tipo_capacitacion").equals("") ? Integer.parseInt(request.getParameter("cve_tipo_capacitacion")) : 0;
      switch (accion) {
         case 1:
@@ -66,20 +66,16 @@
         case 2:
             temp_obj = new JsonObject();
             temp_obj.addProperty("nombre_tipo_capacitacion", nombreCapacitacion);
+            temp_obj.addProperty("usuario_registro", cve_persona);
             parametros.add(temp_obj);
             out.println(datos.Registro(parametros, "guardarTipoCapacitacion"));
             break;     
         case 3:
             temp_obj =new JsonObject();
+            temp_obj.addProperty("activo", activo);
             temp_obj.addProperty("cve_tipo_capacitacion", cve_tipo_capacitacion);
             parametros.add(temp_obj);
-            out.println(datos.Registro(parametros, "eliminar"));
-           break;
-        case 4:
-            temp_obj =new JsonObject();
-            temp_obj.addProperty("cve_tipo_capacitacion", cve_tipo_capacitacion);
-            parametros.add(temp_obj);
-            out.println(datos.Registro(parametros, "activar"));
+            out.println(datos.Registro(parametros, "cambiarEstatus"));
            break;   
        default:
            out.print("ENTRO A CONTROLADOR"+ accion);

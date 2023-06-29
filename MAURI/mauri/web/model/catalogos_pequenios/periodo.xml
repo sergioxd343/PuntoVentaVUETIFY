@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<CatalogoTipos>
+    <tablaPeriodo>
+		<query>
+
+		SELECT cve_periodo, fecha_inicio, fecha_fin, numero_periodo, descripcion, activo, fecha_registro, usuario_registro
+		FROM     periodo
+
+		</query>
+	</tablaPeriodo>
+	
+    <guardarPeriodo>
+		<query>
+			
+			INSERT INTO periodo (fecha_inicio, fecha_fin, numero_periodo, descripcion, activo, fecha_registro, usuario_registro) 
+			VALUES (?, ?, ?, ?, 'True', GETDATE (), ?)
+
+		</query>
+	</guardarPeriodo>
+    
+	<cambiarEstatus>
+		<query>
+			UPDATE periodo
+			SET          activo = ?
+			WHERE  cve_periodo = ?
+		</query>
+	</cambiarEstatus>
+
+	
+
+</CatalogoTipos>

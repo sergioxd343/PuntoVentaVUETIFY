@@ -18,25 +18,19 @@ and open the template in the editor.
 	<guardarTipoModalidad>
 		<query>
 			
-			INSERT INTO tipo_modalidad (nombre_tipo_modalidad, activo, fecha_registro, usuario_registro) VALUES (?, 'True', GETDATE (), 5)
+			INSERT INTO tipo_modalidad (nombre_tipo_modalidad, activo, fecha_registro, usuario_registro) VALUES (?, 'True', GETDATE (), ?)
 
 		</query>
 	</guardarTipoModalidad>
 
-    <eliminar>
+    <cambiarEstatus>
 		<query>
 			UPDATE tipo_modalidad
-			SET          activo = 'False'
+			SET          activo = ?
 			WHERE  (cve_tipo_modalidad = ?)
 		</query>
-	</eliminar>
-	<activar>
-		<query>
-			UPDATE tipo_modalidad
-			SET          activo = 'True'
-			WHERE  (cve_tipo_modalidad = ?)
-		</query>
-	</activar>
+	</cambiarEstatus>
+	
 	
 
 </CatalogoTipos>

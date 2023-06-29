@@ -17,24 +17,18 @@ and open the template in the editor.
 	<guardarTipoInstructor>
 		<query>
 			
-			INSERT INTO tipo_instructor (nombre_tipo_instructor, activo, fecha_registro, usuario_registro) VALUES (?, 'True', GETDATE (), 5)
+			INSERT INTO tipo_instructor (nombre_tipo_instructor, activo, fecha_registro, usuario_registro) VALUES (?, 'True', GETDATE (), ?)
 
 		</query>
 	</guardarTipoInstructor>
 
-    <eliminar>
+    <cambiarEstatus>
 		<query>
 			UPDATE tipo_instructor
-			SET          activo = 'False'
+			SET          activo = ?
 			WHERE  cve_tipo_instructor = ?
 		</query>
-	</eliminar>
-	<activar>
-		<query>
-			UPDATE tipo_instructor
-			SET          activo = 'True'
-			WHERE  cve_tipo_instructor = ?
-		</query>
-	</activar>
+	</cambiarEstatus>
+	
 
 </CatalogoTipos>

@@ -44,7 +44,7 @@
     //VARIABLES DE PLANTILLA
 
      
-     String xml= String.valueOf(request.getRealPath(""))+"\\model\\catalogos_pequenios\\tipo_origen.xml";
+     String xml= String.valueOf(request.getRealPath(""))+"\\model\\catalogos_pequenios\\horario.xml";
      GeneralDAO datos = new GeneralDAO(xml);
 //
      //JsonArray parametros = new JsonArray();
@@ -54,29 +54,31 @@
      Gson gson = new Gson();
      
      int accion = request.getParameter("accion") != null && !request.getParameter("accion").equals("") ? Integer.parseInt(request.getParameter("accion")) : 0;
-     String nombreOrigen = request.getParameter("nombre_tipo_origen") != null && !request.getParameter("nombre_tipo_origen").equals("") ? request.getParameter("nombre_tipo_origen") : "-";
+     String horaInicio = request.getParameter("hora_inicio") != null && !request.getParameter("hora_inicio").equals("") ? request.getParameter("hora_inicio") : "-";
+     String horaFin = request.getParameter("hora_fin") != null && !request.getParameter("hora_fin").equals("") ? request.getParameter("hora_fin") : "-";
      String activo = request.getParameter("activo") != null && !request.getParameter("activo").equals("") ? request.getParameter("activo") : "-";
      String pass = request.getParameter("pass") != null && !request.getParameter("pass").equals("") ? request.getParameter("pass") : "-";
      int cve_persona = request.getParameter("cve_persona") != null && !request.getParameter("cve_persona").equals("") ? Integer.parseInt(request.getParameter("cve_persona")) : 0;
-     int cve_tipo_origen = request.getParameter("cve_tipo_origen") != null && !request.getParameter("cve_tipo_origen").equals("") ? Integer.parseInt(request.getParameter("cve_tipo_origen")) : 0;
+     int cve_horario = request.getParameter("cve_horario") != null && !request.getParameter("cve_horario").equals("") ? Integer.parseInt(request.getParameter("cve_horario")) : 0;
      switch (accion) {
         case 1:
-           out.println(datos.Consultas(parametros, "tablaTipoOrigen"));
-           break;
+          out.println(datos.Consultas(parametros, "tablaHorario"));
+          break;
         case 2:
             temp_obj = new JsonObject();
-            temp_obj.addProperty("nombre_tipo_origen", nombreOrigen);
+            temp_obj.addProperty("hora_inicio", horaInicio);
+            temp_obj.addProperty("hora_fin", horaFin);
             temp_obj.addProperty("usuario_registro", cve_persona);
             parametros.add(temp_obj);
-            out.println(datos.Registro(parametros, "guardarTipoOrigen"));
-            break;   
+            out.println(datos.Registro(parametros, "guardarHorario"));
+            break;
         case 3:
             temp_obj =new JsonObject();
             temp_obj.addProperty("activo", activo);
-            temp_obj.addProperty("cve_tipo_origen", cve_tipo_origen);
+            temp_obj.addProperty("cve_horario", cve_horario);
             parametros.add(temp_obj);
             out.println(datos.Registro(parametros, "cambiarEstatus"));
-           break;
+           break;   
        default:
            out.print("ENTRO A CONTROLADOR"+ accion);
            break;
