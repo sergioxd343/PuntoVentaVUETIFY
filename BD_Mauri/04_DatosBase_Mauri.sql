@@ -93,7 +93,12 @@ INSERT INTO menu_permisos (cve_grupo_seguridad, cve_menu, usuario_registro)
                     (1, 4, 1),
                     (1, 5, 1),
 					(1, 6, 1),
-					(2, 2, 1);
+					(2, 1, 1),
+					(2, 2, 1),
+					(2, 3, 1),
+					(3, 1, 1),
+					(3, 2, 1),
+					(3, 3, 1);
 
 -- ------------- INSERTS DE GRUPO_SEGURIDAD -------------- --
 INSERT INTO grupo_seguridad (nombre, tiempo_sesion, usuario_registro) 
@@ -197,12 +202,13 @@ INSERT INTO puesto (nombre_puesto, nivel_tabulador_puesto, usuario_registro)
 
 
 -- ------------- INSERTS DE CURSO -------------- --
-INSERT INTO curso (nombre_curso, usuario_registro)
-                VALUES 
-                        ('Programación Avanzada', 1),
-                        ('Diseño Digital', 2),
-                        ('Metodologías Ágiles', 3);
-
+INSERT INTO curso (cve_periodo, nombre_curso, tema, objetivo, alcance, fecha_autoevaluacion, usuario_registro)
+VALUES
+(1, 'Metodologías de Enseñanza Innovadoras', 'Diseño de estrategias pedagógicas creativas', 'Explorar diferentes enfoques y técnicas de enseñanza para fomentar la participación y el aprendizaje activo de los estudiantes.', 'El curso abarcará metodologías como el aprendizaje basado en proyectos, el aprendizaje invertido y el uso de la tecnología en el aula.', '2023-08-15', 1),
+(1, 'Evaluación Formativa y Retroalimentación', 'Prácticas efectivas de evaluación educativa', 'Desarrollar habilidades en la planificación y aplicación de estrategias de evaluación formativa para mejorar el proceso de enseñanza y aprendizaje.', 'El curso abarcará técnicas como la rúbrica, la autoevaluación y la retroalimentación efectiva.', '2023-07-30', 1),
+(2, 'Liderazgo Educativo', 'Gestión y liderazgo en entornos educativos', 'Examinar los conceptos y habilidades necesarios para ejercer un liderazgo efectivo en instituciones educativas y promover una cultura de mejora continua.', 'El curso abarcará temas como el liderazgo transformacional, la gestión del cambio y la toma de decisiones estratégicas.', '2023-09-10', 1),
+(2, 'Diseño de Programas de Formación Docente', 'Desarrollo de planes de capacitación para profesores', 'Aprender a diseñar programas de formación docente que promuevan el crecimiento profesional y la actualización de conocimientos y habilidades de los profesores.', 'El curso abarcará la identificación de necesidades de capacitación, el diseño de contenidos y la evaluación de programas.', '2023-09-05', 1),
+(3, 'Tecnología Educativa Aplicada', 'Integración de herramientas tecnológicas en la enseñanza', 'Explorar las posibilidades que ofrecen las tecnologías educativas para mejorar la enseñanza y el aprendizaje en el aula.', 'El curso abarcará el uso de plataformas digitales, aplicaciones móviles y recursos multimedia en la práctica docente.', '2023-10-15', 1);
 
 -- ------------- INSERTS DE SOLICITUD_CAPACITACION_INTERNA -------------- --
 INSERT INTO solicitud_capacitacion_interna (cve_instructor, cve_horario, total_dias, total_horas, numero_participantes, objetivo, alcance, metodologia, programa_evento, resultado_aprendizaje, perfil_participante, usuario_registro)
@@ -216,7 +222,10 @@ INSERT INTO solicitud_capacitacion_interna (cve_instructor, cve_horario, total_d
 INSERT INTO instructor (cve_tipo_instructor, nombre_instructor, usuario_registro)
                 VALUES 
                         (1, 'Maria Guadalupe', 1),
-                        (2, 'Simón Zendejas', 1);
+                        (2, 'Simón Zendejas', 1),
+                        (1, 'Sergio Tavarez', 1),
+                        (2, 'Carlos Andrade', 1),
+                        (1, 'Brenda Gutiérrez', 1);
 
 
 INSERT INTO espacio (nombre_espacio, usuario_registro) 
@@ -262,22 +271,20 @@ INSERT INTO categoria_evento (nombre_categoria, usuario_registro)
 						('Tutoreo', 1),
 						('Investigación', 1);
 
-INSERT INTO curso (nombre_curso, usuario_registro) 
-				VALUES
-						('Comunicación asertiva', 1),
-						('Técnicas de aprendizaje', 1);
-
 
 INSERT INTO periodo (fecha_inicio, fecha_fin, numero_periodo, descripcion, usuario_registro) 
-VALUES                          ('2023-09-05', '2023-12-17', 1, 'Septiembre - Diciembre', 1),
-                                ('2024-01-09', '2023-04-29', 2, 'Enero - Abril', 1),
-                                ('2024-05-02', '2023-08-26', 3, 'Mayo - Agosto', 1);
+VALUES                          ('2023-01-09', '2023-04-29', 1, 'Enero - Abril 2023', 1),
+                                ('2023-05-02', '2023-08-26', 2, 'Mayo - Agosto 2023', 1),
+                                ('2023-09-05', '2023-12-17', 3, 'Septiembre - Diciembre 2023', 1),
+                                ('2024-01-09', '2024-04-29', 1, 'Enero - Abril 2024', 1),
+                                ('2024-05-02', '2024-08-26', 2, 'Mayo - Agosto 2024', 1),
+                                ('2024-09-05', '2024-12-17', 3, 'Septiembre - Diciembre 2024', 1);
 
 INSERT INTO horario (hora_inicio, hora_fin, descripcion, usuario_registro) 
-VALUES                          ('07:00', '07:55', '7:00 - 7:55', 1),
-                                ('08:00', '08:50', '8:00 - 8:50', 1),
-                                ('08:55', '09:45', '8:55 - 9:45', 1),
-                                ('09:50', '10:40', '9:50 - 10:40', 1),
+VALUES                          ('07:00', '07:55', '07:00 - 07:55', 1),
+                                ('08:00', '08:50', '08:00 - 08:50', 1),
+                                ('08:55', '09:45', '08:55 - 09:45', 1),
+                                ('09:50', '10:40', '09:50 - 10:40', 1),
                                 ('10:45', '11:45', '10:45 - 11:45', 1),
                                 ('11:40', '12:30', '11:40 - 12:30', 1),
                                 ('12:35', '13:25', '12:35 - 13:25', 1),
@@ -286,23 +293,23 @@ VALUES                          ('07:00', '07:55', '7:00 - 7:55', 1),
 
 
 INSERT INTO necesidad_capacitacion_anual   (cve_area_registro,
-											cve_unidad_academica, -- 1
-											cve_area, -- 2
-											cve_departamento, -- 3
-											cve_empleado_responsable, -- 4
-											cve_orientacion_evento, -- 5
-											cve_tipo_evento, -- 6
-											cve_tipo_capacitacion, -- 7
-											cve_origen_evento, -- 8
-											nivel_academico, -- 9
-											direccion_subdireccion, -- 10
-											programa_academico,--11
-											anio_ejercicio,--12
-											necesidades_detectadas,--13
-											nombre_evento,--14
-											objetivo_evento,--15
-											justificacion,--16
-											otro_tipo_evento,--17
+											cve_unidad_academica,
+											cve_area,
+											cve_departamento,
+											cve_empleado_responsable,
+											cve_orientacion_evento,
+											cve_tipo_evento,
+											cve_tipo_capacitacion,
+											cve_origen_evento,
+											nivel_academico,
+											direccion_subdireccion,
+											programa_academico,
+											anio_ejercicio,
+											necesidades_detectadas,
+											nombre_evento,
+											objetivo_evento,
+											justificacion,
+											otro_tipo_evento,
 											proveedor,
 											costo_capacitacion,
 											mes,

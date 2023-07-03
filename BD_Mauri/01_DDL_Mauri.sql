@@ -151,7 +151,12 @@ CREATE TABLE ugac(
 -- ------------- TABLA CURSO -------------- --
 CREATE TABLE curso(
 	cve_curso 					INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	cve_periodo					INT NOT NULL,
 	nombre_curso 				VARCHAR(50),
+	tema						VARCHAR(70),
+	objetivo					TEXT,
+	alcance						TEXT,	
+	fecha_autoevaluacion		DATE,
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
 	usuario_registro 			INT
@@ -357,7 +362,7 @@ CREATE TABLE necesidad_capacitacion_anual (
 	nivel_academico				VARCHAR(15),
 	direccion_subdireccion		VARCHAR(50),
 	programa_academico			VARCHAR(100),
-	anio_ejercicio 				DATE,
+	anio_ejercicio 				VARCHAR(50),
 	necesidades_detectadas 		TEXT,
 	nombre_evento 				VARCHAR(50),
 	objetivo_evento 			TEXT,
@@ -654,30 +659,6 @@ CREATE TABLE modalidad_evento(
 CREATE TABLE asesoria_pedagogica(
 	cve_sesoria_pedagogica 		INT NOT NULL PRIMARY KEY IDENTITY(1,1),
 	nombre_asasoria_pedagogica 	VARCHAR(50),
-	activo 						BIT DEFAULT 1,
-	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT
-);
-
--- ------------- TABLA OTROS EVENTOS -------------- --
-CREATE TABLE otro_evento(
-	cve_otro_evento 			INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	nombre_otro_evento 			VARCHAR(50),
-	activo 						BIT DEFAULT 1,
-	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT
-);
-
--- ------------- TABLA EVENTO -------------- --
-CREATE TABLE evento(
-	cve_evento 					INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	cve_categoria_evento 		INT NOT NULL,
-	cve_modalidad 				INT NOT NULL,
-	cve_asesoria_pedagogica 	INT NOT NULL,
-	cve_prog_des 				INT NOT NULL,
-	cve_materia 				INT NOT NULL,
-	cve_otro_evento 			INT NOT NULL,
-	cve_nec_cap_anual 			INT NOT NULL,
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
 	usuario_registro 			INT

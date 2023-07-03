@@ -76,12 +76,12 @@
 
                             <v-list>
                                 <v-list-item link v-for="(item, index) in items" :key="index">
-                                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                                    <v-list-item-title @click="fnCerrarSesion">{{ item.title }}</v-list-item-title>
                                 </v-list-item>
                             </v-list>
                         </v-menu>
                     </v-card-title>
-                    <v-card class="backgruond">
+                    <v-card>
                         <v-row justify="center">
                             <v-col fluid md="3" style="padding: 0; margin: 0; height: 100%; overflow-y: auto">
                                 <v-navigation-drawer permanent absolute>
@@ -97,15 +97,17 @@
                                                 <v-list-item-icon>
                                                     <v-icon>mdi-chevron-right</v-icon>
                                                 </v-list-item-icon>
-                                                <v-list-item-title class="text-wrap" v-text="menuNv2.nombre"></v-list-item-title>
+                                                <v-list-item-title class="text-wrap"
+                                                    v-text="menuNv2.nombre"></v-list-item-title>
                                             </v-list-item>
                                         </v-list-group>
                                     </v-list>
                                 </v-navigation-drawer>
                             </v-col>
                             <v-col>
-                                <iframe name="iframe_modelo" src="../../images/1.2.jpg" style="border: none;"
-                                    class="align-center" width="100%" height="600px">
+                                <iframe name="iframe_modelo" src="../../images/1.2.jpg"
+                                    style="border: medium none;margin-left: -92px;margin-top: -12px;margin-right: 0px;"
+                                    class="align-center" width="110%" height="600px">
                                 </iframe>
                             </v-col>
                         </v-row>
@@ -237,6 +239,11 @@
 
                                 const [month, day, year] = date.split('/')
                                 return `${year}/${month.padStart(2, '0')}/${day.padStart(2, '0')}`
+                            }
+
+                            function fnCerrarSesion() {
+                                localStorage.removeItem('currentUser');
+                                window.location = "../../index.jsp";
                             }
 
                             async function fnCargarDatos(menus) {
@@ -384,6 +391,7 @@
                                 dateFechaInicioReporte,
                                 modalFechaFinReporte,
                                 dateFechaFinReporte,
+                                fnCerrarSesion,
                                 fnCargarDatos, save, formatDate,
                                 parseDate,
                                 showMenu,

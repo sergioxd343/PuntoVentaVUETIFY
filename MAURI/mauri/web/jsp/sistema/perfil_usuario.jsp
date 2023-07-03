@@ -52,6 +52,10 @@
         .align-center {
             align-items: center;
         }
+
+        .fixed-width {
+            width: 80px;
+        }
     </style>
 
     <body>
@@ -129,7 +133,9 @@
                                                 movil = item.movil"><v-icon>mdi-card-plus</v-icon></v-btn>
                                             </template>
                                             <template v-slot:item.estatus="{item}">
-                                                <v-chip class="ma-2" link @click="fnCambiarEstatus(item)"
+                                                <v-chip class="ma-2"
+                                                    style="width: 80px; display: flex; justify-content: center; align-items: center;"
+                                                    link @click="fnCambiarEstatus(item)"
                                                     :color="item.activo ? 'success' : 'grey'" outlined>
                                                     {{ item.activo ?
                                                     "Activo" : "Inactivo" }}
@@ -225,8 +231,8 @@
                         { text: "Segundo Apellido", align: "left", sortable: true, value: "apellido_materno" },
                         { text: "Nombre Usuario", align: "left", sortable: true, value: "nombre_usuario" },
                         { text: "RFC", align: "left", sortable: true, value: "rfc" },
-                        { text: "Estatus", align: "left", sortable: true, value: "estatus" },
-                        { text: "Asignar Acceso", align: "left", sortable: true, value: "editar" }
+                        { text: "Estatus", align: "center", sortable: false, value: "estatus" },
+                        { text: "Asignar Acceso", align: "center", sortable: false, value: "editar" }
                     ]);
                     const searchCapacitacion = ref([]);
 
