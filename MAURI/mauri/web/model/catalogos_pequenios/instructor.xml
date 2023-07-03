@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<CatalogoTipos>
+    <tablaInstructor>
+		<query>
+
+		SELECT cve_instructor, cve_tipo_instructor, nombre_instructor, area_academica, programa_educativo, activo, fecha_registro, usuario_registro
+		FROM     instructor
+
+		</query>
+	</tablaInstructor>
+	
+    <guardarInstructor>
+		<query>
+			
+			INSERT INTO instructor (cve_tipo_instructor, nombre_instructor, area_academica, programa_educativo, activo, fecha_registro, usuario_registro) 
+			VALUES (?, ?, ?, 'Desarrollo de software' , 'True', GETDATE (), ?)
+
+		</query>
+	</guardarInstructor>
+    
+	<cambiarEstatus>
+		<query>
+			UPDATE instructor
+			SET          activo = ?
+			WHERE  cve_instructor = ?
+		</query>
+	</cambiarEstatus>
+
+	<tipoInstructor>
+		<query>
+			SELECT cve_tipo_instructor, nombre_tipo_instructor, activo
+			FROM     tipo_instructor
+			WHERE  (activo = 'True')
+		</query>
+	</tipoInstructor>
+
+	<areaAcademica>
+		<query>
+			SELECT cve_area, nombre_area, activo
+			FROM     area
+			WHERE  (activo = 'True')
+		</query>
+	</areaAcademica>
+
+	<empleado>
+		<query>
+			
+			SELECT persona.nombre
+FROM persona
+INNER JOIN empleado ON persona.cve_persona = empleado.cve_persona
+WHERE empleado.activo = 'True'
+ORDER BY persona.nombre ASC;
+		</query>
+	</empleado>
+
+	
+
+</CatalogoTipos>

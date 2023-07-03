@@ -38,8 +38,9 @@
                                 <v-col md=4>
                                         <v-text-field 
                                             v-model="nombreTipoEspacio" 
-                                            label="Nombre tipo espacio:" 
+                                            outlined label="Nombre tipo espacio:" 
                                             persistent-hint
+                                            hint="Ingresa el nombre del tipo de espacio"
                                             v-validate="'required|max:200'" 
                                             data-vv-name="nombre tipo espacio"
                                             :error="errors.has('nombre tipo espacio')"
@@ -70,7 +71,7 @@
                                     >
                                      
                                     <template v-slot:item.estatus="{item}">
-                                        <v-chip class="ma-2" link @click="fnCambiarEstatus(item)"
+                                        <v-chip style="width: 80px; justify-content: center;" class="ma-2" link @click="fnCambiarEstatus(item)"
                                             :color="item.activo ? 'success' : 'grey'" outlined>
                                             {{ item.activo ?
                                             "Activo" : "Inactivo" }}

@@ -85,7 +85,7 @@
 
                                 <v-col md=3>
 
-                                    <v-textarea
+                                    <v-text-field
                                         v-model="descripcion"  
                                         persistent-hint
                                         v-validate="'required|max:200'" 
@@ -93,9 +93,9 @@
                                         :error="errors.has('descripcion')"
                                         :error-messages="errors.first('descripcion')"
                                         class="mx-2"
-                                        label="Descripción:"
+                                        outlined label="Descripción:"
                                         rows="1"
-                                    ></v-textarea>
+                                    ></v-v-text-field>
                                 </v-col>
 
                                 <v-col md=3 >
@@ -145,7 +145,7 @@
                                         items-per-page="10"
                                     >
                                     <template v-slot:item.estatus="{item}">
-                                        <v-chip class="ma-2" link @click="fnCambiarEstatus(item)"
+                                        <v-chip style="width: 80px; justify-content: center;" class="ma-2" link @click="fnCambiarEstatus(item)"
                                             :color="item.activo ? 'success' : 'grey'" outlined>
                                             {{ item.activo ?
                                             "Activo" : "Inactivo" }}
@@ -331,7 +331,7 @@
                                 parametros.append("fecha_inicio", fechaInicio.value);
                                 parametros.append("fecha_fin", fechaFin.value);
                                 parametros.append("numero_periodo", numeroPeriodo.value);
-                                parametros.append("descripcion", descripcion.value);
+                                parametros.append("descripcion", descripcion.value + ' ' + new Date(fechaFin.value).getFullYear());
                                 parametros.append("cve_persona", this.usuario_registro);
                                 let {data,status} = await axios.post(ctr, parametros)
                                 if(status == 200){

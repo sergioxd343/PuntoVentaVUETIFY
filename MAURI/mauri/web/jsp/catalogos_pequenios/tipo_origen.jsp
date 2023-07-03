@@ -32,8 +32,9 @@
                                 <v-col md=4>
                                     <v-text-field 
                                         v-model="nombreTipoOrigen" 
-                                        label="Nombre tipo origen:" 
+                                        outlined label="Nombre tipo origen:" 
                                         persistent-hint
+                                        hint="Ingresa el nombre del tipo de origen"
                                         v-validate="'required|max:200'" 
                                         data-vv-name="nombre tipo origen"
                                         :error="errors.has('nombre tipo origen')"
@@ -63,7 +64,7 @@
                                         items-per-page="10"
                                     >
                                     <template v-slot:item.estatus="{item}">
-                                        <v-chip class="ma-2" link @click="fnCambiarEstatus(item)"
+                                        <v-chip style="width: 80px; justify-content: center;" class="ma-2" link @click="fnCambiarEstatus(item)"
                                             :color="item.activo ? 'success' : 'grey'" outlined>
                                             {{ item.activo ?
                                             "Activo" : "Inactivo" }}
