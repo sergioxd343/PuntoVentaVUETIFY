@@ -54,36 +54,21 @@
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                 
                                 <!--AÑO -->
-                                <v-col md=3>
+                                <v-col md=3 class="text-right">
                                     <v-text-field 
                                         id = "annioo"
                                         v-model="annio"
                                         outlined
-                                        label="Año"    
+                                        label="Año a ejercer"    
                                         persistent-hint
                                         v-validate="'required|max:200'"
                                         data-vv-name="año a ejercer"
                                         
                                     ></v-text-field>
-                                </v-col>
+                                </v-col> 
+                                <v-col>&nbsp;&nbsp;&nbsp;&nbsp;</v-col>
 
-                                <v-col md=6>
-                                    <v-select
-                                        v-model="direccion"
-                                        outlined
-                                        label="Direcci&oacute;n o subdirecci&oacute;n responsable"
-                                        v-validate="'required'"
-                                        :items="arrayDireccSub"
-                                        item-value="cve_area"
-                                        item-text="nombre_area"
-                                        data-vv-name="dirección o subdirección"
-                                        :error="errors.has('dirección o subdirección')"
-                                        :error-messages="errors.first('dirección o subdirección')"
-                                        required
-                                    ></v-select>
-                                </v-col>
-
-                                <v-col cols="12" sm="6" md="3">
+                                <v-col cols="12" sm="6" md="4" class="text-left">
                                     <v-menu 
                                             ref="menu0"  
                                             :close-on-content-click="false"
@@ -110,7 +95,26 @@
                                         </v-date-picker>
                                     </v-menu>
                                 </v-col>
+                            </v-row>
 
+                            <v-row style="padding: 0px 50px 0px 50px">
+                                <v-col md=10>
+                                    <v-select
+                                        v-model="direccion"
+                                        outlined
+                                        label="Direcci&oacute;n o subdirecci&oacute;n responsable"
+                                        v-validate="'required'"
+                                        :items="arrayDireccSub"
+                                        item-value="cve_area"
+                                        item-text="nombre_area"
+                                        data-vv-name="dirección o subdirección"
+                                        :error="errors.has('dirección o subdirección')"
+                                        :error-messages="errors.first('dirección o subdirección')"
+                                        required
+                                    ></v-select>
+                                </v-col>
+
+                                
                             </v-row>
 
                                 <v-row justfy="center" dense >
@@ -132,11 +136,12 @@
                                         item-value="cve_unidad_academica"
                                         item-text="nombre_unidad_academica"
                                         data-vv-name="unidad acad&eacute;mica"
+                                        :menu-props="{ maxHeight: '200' }" 
                                         
                                     ></v-select>
                                 </v-col>
 
-                                <v-col md=4>
+                                <v-col md=2>
                                     <v-select
                                         v-model="nivelEducativo"
                                         outlined
@@ -152,7 +157,7 @@
                                     ></v-select>
                                 </v-col>
 
-                                <v-col md=4>
+                                <v-col md=6>
                                     <v-select
                                         v-model="direccionArea"
                                         outlined
@@ -172,20 +177,22 @@
 
                             <v-row  class="align-center" style="padding: 0px 50px 0px 50px">
 
-                                <v-col md=4>
-                                    <v-text-field 
+                                <v-col md=6>
+                                    <v-select
                                         v-model="programaEducativo"
                                         outlined
                                         label="Programa educativo"
-                                        persistent-hint
+                                        :items="arrayProgramas"
+                                        item-value="cve_ugac"
+                                        item-text="nombre_ugac"
                                         v-validate="'required|max:200'"
                                         data-vv-name="programa educativo"
                                         :error="errors.has('programa educativo')"
                                         :error-messages="errors.first('programa educativo')"
-                                    ></v-text-field>
+                                    ></v-select>
                                 </v-col>
 
-                                <v-col md=4>
+                                <v-col md=6>
                                     <v-text-field 
                                         v-model="nombreGestor"
                                         outlined
@@ -352,7 +359,7 @@
 
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
 
-                                <v-col md=2>
+                                <v-col md=4>
                                     <v-select  
                                         v-model="mes"
                                         outlined
@@ -364,7 +371,7 @@
                                     ></v-select>
                                 </v-col>
 
-                                <v-col cols="12" sm="6" md="2">
+                                <v-col cols="12" sm="6" md="4">
                                     <v-menu 
                                             ref="menu1"  
                                             :close-on-content-click="false"
@@ -392,7 +399,7 @@
                                     </v-menu>
                                 </v-col>
 
-                                <v-col cols="12" sm="6" md="2">
+                                <v-col cols="12" sm="6" md="4">
                                     <v-menu 
                                             ref="menu"  
                                             :close-on-content-click="false"
@@ -419,8 +426,10 @@
                                         </v-date-picker>
                                     </v-menu>
                                 </v-col>
-                                
+                            </v-row>
 
+
+                            <v-row class="align-center" style="padding: 0px 50px 0px 50px">
                                 <v-col md=3>
                                     <v-text-field 
                                         v-model="numDias"
@@ -435,7 +444,7 @@
                                     ></v-text-field>
                                 </v-col>
 
-                                <v-col md=3>
+                                <v-col md=4>
                                     <v-text-field 
                                         v-model="numHorasEfectivas"
                                         outlined
@@ -625,17 +634,7 @@
                             </v-row>    
                         </v-container>
                        <v-divider></v-divider>
-                        <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn
-                                color="primary"
-                                text
-                                @click="dialogBuscador = false"
-                            >
-                                Cerrar
-                            </v-btn>
-                        </v-card-actions>
-                    </v-card>
+                       
                 </v-container>
 
                 <v-snackbar v-model="snackbar" top="top" :bottom="true" :multi-line="true" :color="color_snackbar">
@@ -733,20 +732,16 @@
 
                 
 
-                const arrayUnidadesAcademicas = ref(["León","Acambaro"]);
+                const arrayUnidadesAcademicas = ref([]);
                 const arrayNivelEducativo = ref(["T.S.U","Ingenieria"]);
                 const arrayOrientacion = ref(["Pedagógicas","Investigación","Tutoreo","Digitales","Técnicas","Transversales","Desarrollo de habilidades"]);
                 const arrayJustificacion = ref(["Pedagógicas","Investigación","Tutoreo","Digitales","Técnicas","Transversales","Desarrollo de habilidades"]);
-                const arrayTipoEvento = ref(["Curso (3340)","Ponente (3830)","Certificación (3920)","Asistencia a congreso (3830)","Otro"]);
+                const arrayTipoEvento = ref([]);
                 const arrayTipoPrograma = ref(["Interna","Externa"]);
                 const arrayOrigen = ref(["PFCE","Formación docente","Dirección académica"]);
                 const arrayMes =ref(['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'])
-                const arrayAcademia =ref([]);
                 const arrayDireccSub =ref([]);
-
-                
-                
-
+                const arrayProgramas =ref([]);
 
                   //SNACKBAR
                 const loader = ref(false);
@@ -778,6 +773,8 @@
                     fnConsultarTabla();
                     fnUnidadAcademica();
                     fnDirecciones();
+                    fnProgramas();
+                    
                 });
 
                 async function fnConsultarTabla(){
@@ -823,6 +820,26 @@
                     }
                 }
 
+                async function fnProgramas(){
+                    try{
+                        preloader("../../");
+                        let parametros = new URLSearchParams();
+                        parametros.append("accion", 6);
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                arrayProgramas.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                }
+
+                
                 async function fnDirecciones(){
                     try{
                         preloader("../../");
@@ -842,6 +859,7 @@
                     }
                 }
 
+                
                 async function fnTipoEvento(){
                     try{
                         preloader("../../");
@@ -1000,7 +1018,7 @@
 
 
                     arrayOrientacion, arrayJustificacion, arrayTipoEvento, arrayTipoPrograma, arrayOrigen, arrayMes, arrayUnidadesAcademicas,
-                    arrayAcademia, arrayNivelEducativo, arrayDireccSub,
+                    arrayNivelEducativo, arrayDireccSub, arrayProgramas,
 
                     flagEditar, itemEditar,
                     dataEventos,headersEventos, searchEventos, color_snackbar, snackbar, mensaje_snackbar,loader
@@ -1016,7 +1034,7 @@
                     }
 
                     const keyword = this.buscar.toLowerCase();
-                    return this.dataEventos.filter(item => item.nombre_tipo_evento.toLowerCase().includes(keyword));
+                    return this.dataEventos.filter(item => item.nombre_evento.toLowerCase().includes(keyword));
                     console.log(datosFiltrados())
                     },
                   

@@ -26,6 +26,24 @@
         body {
             font-family: "Roboto";
         }
+
+        #tabla {
+            border-collapse: collapse;
+            margin: auto;
+        }
+
+        .th,
+        .td {
+            border: 1px solid gray;
+            padding: 1px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .td {
+            width: 685px;
+        }
+
     </style>
 
     <body>
@@ -42,34 +60,40 @@
                             </v-row>
                             <v-divider></v-divider>
                         <div id="imprimir">
-                            <v-row  class="align-center" style="padding: 0px 50px 0px 50px">
-                                <v-col md=6>
-                                    <label for="nombre">Nombre: {{nombre}} {{ape1}} {{ape2}}</label>
-                                </v-col>
+                            <v-row  style="padding: 0px 50px 0px 50px">
+                                <v-col md = 12>
+                                <table id="tabla" class="text-left">
+                                    <tbody>
+                                        <tr>
+                                            <th class="th">Área académica</th>
+                                            <td class="td"> {{area}} </td>
+                                        </tr>
 
-                                <v-col md=6>
-                                    <label for="nombre">Área: {{area}}</label>
-                                </v-col>
+                                        <tr>
+                                            <th class="th">Programa educativo</th>
+                                            <td class="td"> {{carrera}} </td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <th class="th">Nombre del solicitante</th>
+                                            <td class="td"> {{nombre}} {{ape1}} {{ape2}} </td>
+                                        </tr>
+                            
+                                        <tr>
+                                            <th class="th">Puesto</th>
+                                            <td class="td"> {{puesto}} </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </v-col>
                             </v-row>
+                               
 
-
-                            <v-row  class="align-center" style="padding: 0px 50px 0px 50px">
-                                <v-col md=6>
-                                    <label for="nombre">Programa educativo: {{carrera}}</label>
-                                </v-col>
-
-                                <v-col md=6>
-                                    <label for="nombre">Puesto: {{puesto}}</label>
-                                </v-col>
-                            </v-row>
-
-
-
-
+                             
                             <v-row  class="align-center" style="padding: 0px 50px 0px 50px">
                                 
                                 <!--TIPO DE COMPETENCIA-->
-                                <v-col md="7">
+                                <v-col md="12">
                                     <p>Seleccione el tipo de competencia: </p>  
                                     <v-radio-group 
                                         v-model="tipoCompetencia" 
@@ -97,15 +121,17 @@
                                 <v-divider></v-divider>
                                 <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                     <!--NOMBRE DEL CURSO-->
-                                    <v-col md="4">
-                                        <v-text-field v-model="nombreCurso" outlined label="Nombre del Curso" v-validate="'required'"
+                                    <v-col md="12">
+                                        <v-text-field v-model="nombreCurso" outlined label="Nombre del curso" v-validate="'required'"
                                             :error="errors.has('nombre del curso')" data-vv-name="nombre del curso"
                                             :error-messages="errors.first('nombre del curso')"
                                             ></v-text-field>
                                     </v-col>
+                                </v-row>
 
+                                <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                     <!-- FECHA INICIO -->
-                                    <v-col md="3">
+                                    <v-col md="6">
                                         <v-menu 
                                             ref="menu1" 
                                             :close-on-content-click="false"
@@ -138,7 +164,7 @@
                                     </v-col>
 
                                     <!-- FECHA TERMINO -->
-                                    <v-col md="3">
+                                    <v-col md="6">
                                         <v-menu ref="menu2" :close-on-content-click="false"
                                             :return-value.sync="fechaFin" transition="scale-transition" offset-y
                                             min-width="auto">
@@ -160,9 +186,22 @@
                                             </v-date-picker>
                                         </v-menu>
                                     </v-col>
+                                </v-row>
+                                
+                                
+                                <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+
+                                    <!-- TOTAL DE DÍAS-->
+                                    <v-col md="6">
+                                        <v-text-field v-model="dias" outlined label="Total de Días" inputmode="numeric"
+                                            pattern="[0-9]*" type="number" persistent-hint
+                                            v-validate="'required|max:500'" data-vv-name="total de días"
+                                            :error="errors.has('total de días')"
+                                            :error-messages="errors.first('total de días')" :disabled="deshabilitar"></v-text-field>
+                                    </v-col> 
 
                                     <!--HORARIO-->
-                                    <v-col md="2">
+                                    <v-col md="6">
                                         <v-select v-model="horario" label="Horario" v-validate="'required'" 
                                             :items="horarios"
                                             item-value="cve_horario" 
@@ -172,16 +211,48 @@
                                             prepend-icon="mdi-clock-outline"></v-select>
                                     </v-col>
 
+                                    
+                                </v-row>
+
+                                <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+
+                                    <!-- TOTAL DE HORAS -->
+                                    <v-col md="6">
+                                        <v-text-field v-model="horas" outlined label="Total de Horas" persistent-hint
+                                            inputmode="numeric" pattern="[0-9]*" type="number"
+                                            :disabled="deshabilitar"
+                                            v-validate="'required|max:500'" data-vv-name="total de horas"
+                                            :error="errors.has('total de horas')"
+                                            :error-messages="errors.first('total de horas')"></v-text-field>
+                                    </v-col>
+
                                     <!--LUGAR -->
-                                    <v-col md="4">
+                                    <v-col md="6">
                                         <v-text-field v-model="lugar" outlined label="Lugar" persistent-hint
                                             v-validate="'required|max:500'" data-vv-name="lugar"
                                             :error="errors.has('lugar')"
                                             :error-messages="errors.first('lugar')"></v-text-field>
                                     </v-col>
 
+                                    
+
+                                    
+                                </v-row>
+
+                                <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+
+                                    <v-col md="6|">
+                                        <v-text-field v-model="numeroParticipantes" outlined
+                                            label="Número de participantes" persistent-hint inputmode="numeric"
+                                            pattern="[0-9]*" type="number" v-validate="'required|max:500'"
+                                            data-vv-name="número de participantes"
+                                            :disabled="deshabilitar"
+                                            :error="errors.has('número de participantes')"
+                                            :error-messages="errors.first('número de participantes')"></v-text-field>
+                                    </v-col>
+
                                     <!-- TIPO CURSO -->
-                                    <v-col md="4">
+                                    <v-col md="6">
                                         <p>Curso</p>  
                                         <v-radio-group v-model="tipoCurso" v-validate="'required'"
                                             data-vv-name="curso" :error="errors.has('curso')"
@@ -191,40 +262,9 @@
                                         </v-radio-group>
                                     </v-col>
 
-                                    <!-- TOTAL DE DÍAS-->
-                                    <v-col md="2">
-                                        <v-text-field v-model="dias" outlined label="Total de Días" inputmode="numeric"
-                                            pattern="[0-9]*" type="number" persistent-hint
-                                            v-validate="'required|max:500'" data-vv-name="total de días"
-                                            :error="errors.has('total de días')"
-                                            :error-messages="errors.first('total de días')" :disabled="deshabilitar"></v-text-field>
-                                    </v-col>
-
-                                    <!-- TOTAL DE HORAS -->
-                                    <v-col md="2">
-                                        <v-text-field v-model="horas" outlined label="Total de Horas" persistent-hint
-                                            inputmode="numeric" pattern="[0-9]*" type="number"
-                                            :disabled="deshabilitar"
-                                            v-validate="'required|max:500'" data-vv-name="total de horas"
-                                            :error="errors.has('total de horas')"
-                                            :error-messages="errors.first('total de horas')"></v-text-field>
-                                    </v-col>
                                 </v-row>
 
-                                <v-row class="align-center" style="padding: 0px 50px 0px 50px">
-
-                                    <!--NÚMERO DE PARTICIPANTES -->
-                                    <v-col md="3">
-                                        <v-text-field v-model="numeroParticipantes" outlined
-                                            label="Número de participantes" persistent-hint inputmode="numeric"
-                                            pattern="[0-9]*" type="number" v-validate="'required|max:500'"
-                                            data-vv-name="número de participantes"
-                                            :disabled="deshabilitar"
-                                            :error="errors.has('número de participantes')"
-                                            :error-messages="errors.first('número de participantes')"></v-text-field>
-                                    </v-col>
-                                </v-row>
-                        
+                                
                                 <%-- <v-row justfy="center" dense>
                                     </v-row> --%>
                                     <v-divider></v-divider>
@@ -304,7 +344,7 @@
                                     
 
                                     <v-row justfy="center" dense>
-                                        <v-col class="text-center"><b>Facilitadores(as)</b></v-col>
+                                        <v-col class="text-center"><b>Instructores(as)</b></v-col>
                                     </v-row>
 
                                     <v-divider></v-divider>

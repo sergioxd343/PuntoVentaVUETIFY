@@ -3,8 +3,8 @@
      * <p>Title        : 
      * <p>Description  : 
      * @author         :  Maria Guadalupe Gutiérrez Alcantar
-     * @version        :  2
-     * @date           :  18 - 06 - 2023
+     * @version        :  3
+     * @date           :  01 - 07 - 2023
      */
 
 --%>
@@ -32,22 +32,23 @@
 
 <%@page import="sistema.DAO.GeneralDAO"%>
 
-
 <%
-    String xml= String.valueOf(request.getRealPath(""))+"\\model\\formacion_docente\\catalogo_necesidad_capacitacion_anual.xml";
+
+
+  //VARIABLES DE PLANTILLA
+  String xml= String.valueOf(request.getRealPath(""))+"\\model\\formacion_docente\\catalogo_necesidad_capacitacion_anual.xml";
+  GeneralDAO datos = new GeneralDAO(xml);
+
+  // JsonArray parametros = new JsonArray();
+  JsonArray parametros = new JsonArray();
+  JsonObject resultados = new JsonObject();
+  JsonObject temp_obj;
+  Gson gson = new Gson();
+
     
-    GeneralDAO datos = new GeneralDAO(xml);
-    
-    // JsonArray parametros = new JsonArray();
-    JsonArray parametros = new JsonArray();
-    JsonObject resultados = new JsonObject();
-    JsonObject temp_obj;
-    Gson gson = new Gson();
     
     int accion = request.getParameter("accion") != null && !request.getParameter("accion").equals("") ? Integer.parseInt(request.getParameter("accion")) : 0;
 
-    int idEvento = request.getParameter("idEvento") != null && !request.getParameter("idEvento").equals("") ? Integer.parseInt(request.getParameter("idEvento")) : 0;
-    
     String annio = request.getParameter("annio") != null && !request.getParameter("annio").equals("") ? request.getParameter("annio") : "-";
     String direccion = request.getParameter("direccion") != null && !request.getParameter("direccion").equals("") ? request.getParameter("direccion") : "-";
     String fechaElavoracion = request.getParameter("fechaElavoracion") != null && !request.getParameter("fechaElavoracion").equals("") ? request.getParameter("fechaElavoracion") : "-";
@@ -136,7 +137,8 @@
         case 5:
             out.println(datos.Consultas(parametros, "area"));
             break;
-        
-        
+        case 6:
+            out.println(datos.Consultas(parametros, "programaEducativo"));
+            break;
     }
 %>

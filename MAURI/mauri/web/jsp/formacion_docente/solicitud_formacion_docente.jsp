@@ -65,7 +65,19 @@
                         <v-container fluid>
                             <v-row justify="center" dense>
                                 <v-row style="padding: 0px 50px 0px 50px">
-                                    <v-col md="4">
+                                    
+                                    <v-col md="5" justify="center" class="align-center">
+                                        <v-radio-group v-model="direccionAcademia" label="Unidad Académica"
+                                            v-validate="'required'" data-vv-name="unidad académica"
+                                            :error="errors.has('unidad académica')"
+                                            :error-messages="errors.first('unidad académica')"
+                                            row>
+                                            <v-radio label="León" value="León"></v-radio>
+                                            <v-radio label="Acámbaro" value="Acámbaro"></v-radio>
+                                        </v-radio-group>
+                                    </v-col>
+                                    
+                                    <v-col md="4" class="align-end">
                                         <v-menu ref="menu" :close-on-content-click="false" :return-value.sync="fecha"
                                             transition="scale-transition" offset-y min-width="auto">
                                             <template v-slot:activator="{ on, attrs }">
@@ -85,17 +97,6 @@
                                             </v-date-picker>
                                         </v-menu>
                                     </v-col>
-                                    <v-col md="5" justify="center" class="align-center">
-                                        <v-radio-group v-model="direccionAcademia" label="Unidad Académica"
-                                            v-validate="'required'" data-vv-name="unidad académica"
-                                            :error="errors.has('unidad académica')"
-                                            :error-messages="errors.first('unidad académica')"
-                                            row>
-                                            <v-radio label="León" value="León"></v-radio>
-                                            <v-radio label="Acámbaro" value="Acámbaro"></v-radio>
-                                        </v-radio-group>
-                                    </v-col>
-                                    
                                     
                                 </v-row>
                                 
@@ -103,31 +104,44 @@
                                     <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                         <v-col md="12">
                                             <p class="tituloTh" style="margin-bottom: 0px;">
-                                                Dirección Académica</p>
+                                              Dirección Académica
+                                            </p>
                                             <table id="tabla">
-                                                <tbody>
-                                                    <tr>
-                                                        <th class="th">Área</th>
-                                                        <th class="th">EA</th>
-                                                        <th class="th">TEEI</th>
-                                                        <th class="th">DAyD</th>
-                                                        <th class="th">Idiomas</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="th">Programa Educativo</th>
-                                                        <td class="td"><v-text-field v-model="ea" outlined
-                                                                persistent-hint></v-text-field></td>
-                                                        <td class="td"><v-text-field v-model="teei" outlined
-                                                                persistent-hint></v-text-field></td>
-                                                        <td class="td"><v-text-field v-model="dayd" outlined
-                                                                persistent-hint></v-text-field></td>
-                                                        <td class="td"><v-text-field v-model="idiomas" outlined
-                                                                persistent-hint></v-text-field></td>
-                                                    </tr>
-                                                </tbody>
+                                              <tbody>
+                                                <tr>
+                                                  <th class="th">Área</th>
+                                                  <th class="th">EA</th>
+                                                  <th class="th">TEEI</th>
+                                                  <th class="th">DAyD</th>
+                                                  <th class="th">Idiomas</th>
+                                                </tr>
+                                                <tr>
+                                                  <th class="th">Programa Educativo</th>
+                                                  <td class="td" style="width: 200px;">
+                                                    <v-radio-group v-model="selectedArea" row>
+                                                      <v-radio  value="EA" class="align-center"></v-radio>
+                                                    </v-radio-group>
+                                                  </td>
+                                                  <td class="td" style="width: 200px;">
+                                                    <v-radio-group v-model="selectedArea" row>
+                                                      <v-radio value="TEEI"></v-radio>
+                                                    </v-radio-group>
+                                                  </td>
+                                                  <td class="td" style="width: 200px;">
+                                                    <v-radio-group v-model="selectedArea" row>
+                                                      <v-radio value="DAyD"></v-radio>
+                                                    </v-radio-group>
+                                                  </td>
+                                                  <td class="td" style="width: 200px;">
+                                                    <v-radio-group v-model="selectedArea" row>
+                                                      <v-radio value="Idiomas"></v-radio>
+                                                    </v-radio-group>
+                                                  </td>
+                                                </tr>
+                                              </tbody>
                                             </table>
-                                        </v-col>
-                                    </v-row>
+                                          </v-col>
+                                    </v-row> 
                                 </template>
 
                                 <template>
@@ -518,6 +532,7 @@
                     const admin = ref("");
                     const otro = ref("");
                     const numberOfInputs = 1;
+                    const selectedArea = ref("");
 
                     //Otras variables
                     const flagEditar = ref(false);
@@ -787,6 +802,7 @@
                         alumnado,
                         admin,
                         otro,
+                        selectedArea,
                         numberOfInputs
                     }
                 },

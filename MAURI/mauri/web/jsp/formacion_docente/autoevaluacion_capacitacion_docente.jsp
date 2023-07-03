@@ -17,6 +17,22 @@
         body {
           font-family: 'Roboto';
         }
+
+        #tabla {
+            border-collapse: collapse;
+            margin: auto;
+        }
+
+        .th,
+        .td {
+            
+            border: 1px solid gray;
+            padding: 1px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+
     </style>
     <body>
         <div id="app">
@@ -33,31 +49,41 @@
                                 <v-col class="text-center"><b>Datos del docente capacitado</b></v-col>
                             </v-row>
                             <v-divider></v-divider>
-                            <v-row class="align-center" style="padding: 0px 50px 0px 50px">
-                                    <v-col md=5>
-                                        <label for="nombre">Nombre: {{nombre}} {{ape1}} {{ape2}}</label>
-                                    </v-col>
-
-                                    <v-col md=2>
-                                        <label for="sexo">Sexo: {{sexo}}</label>
-                                    </v-col>
-
-                                    <v-col md=3>
-                                        <label for="puesto">Puesto: {{puesto}}</label>
-                                    </v-col>
+                            <v-row class="align-end" style="padding: 0px 50px 0px 50px">
+                                <v-col md=12>
+                                <table id="tabla" class="text-left">
+                                    <tbody>
+                                        <tr>
+                                            <th class="th">Número de control</th>
+                                            <td class="td" style="width: 670px;"> {{idEmpleado}} </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="th">Nombre del participante</th>
+                                            <td class="td" style="width: 670px;"> {{nombre}} {{ape1}} {{ape2}} </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="th">Sexo</th>
+                                            <td class="td" style="width: 670px;"> {{sexo}} </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="th">Puesto</th>
+                                            <td class="td" style="width: 670px;"> {{puesto}} </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="th">Área</th>
+                                            <td class="td" style="width: 670px;"> {{area}} </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="th">Carrera</th>
+                                            <td class="td" style="width: 670px;"> {{carrera}} </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </v-col>
                             </v-row>
 
                                 
-                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-                               <v-col md=7>
-                                    <label for="area">Área: {{area}}</label>
-                                </v-col>
-
-                                <v-col md=5>
-                                    <label for="area">Carrera: {{carrera}}</label>
-                                </v-col>                               
-                               
-                            </v-row> <br>
+                            
 
                             <v-row justfy="center" dense >
                                 <v-col class="text-center"><b>Datos del curso asistido </b></v-col>
@@ -65,7 +91,7 @@
                                 <v-divider></v-divider> 
 
                             <v-row class="align-center" style="padding: 0px 50px 0px 50px">
-                                <v-col md=5>
+                                <v-col md=7>
                                     <v-select 
                                         v-model="areaCapacitacion"
                                         outlined
@@ -80,10 +106,7 @@
                                     ></v-select>
                                 </v-col>
                                     
-                                <v-col md=5>
-                                    <label for="area">Tema: </label>
-                                </v-col>
-
+                               
                                 <v-col md=5>
                                     <label for="area">Objetivo: </label>
                                 </v-col>
@@ -336,9 +359,9 @@
 
                                     <template v-slot:item.estatus="{ item }">
                                                            
-                                        <v-icon id= "g" color="green" @click="fnVerde()">mdi-circle</v-icon>
-                                        <v-icon id= "y" color="yellow" @click="fnAmarillo()">mdi-circle</v-icon>
-                                        <v-icon id= "r" color="red" @click="fnRojo()">mdi-circle</v-icon>
+                                        <v-icon id= "g" color="green" @click="">mdi-circle</v-icon>
+                                        <v-icon id= "y" color="yellow" @click="">mdi-circle</v-icon>
+                                        <v-icon id= "r" color="red" @click="">mdi-circle</v-icon>
                                     
                                     </template>
 
@@ -409,7 +432,7 @@
                 } = VueCompositionAPI;
                 const ctr = "../../controlador/formacion_docente/controlador_catalogo_autoevaluacion_capacitacion_docente.jsp";
                 
-                const tema = ref("");
+                
                 const objetivo = ref("");
                 const alcance = ref("");
                 const periodo = ref("");
@@ -495,66 +518,12 @@
                 onMounted(() => {
                     fnConsultarTabla();
                     periodos();
-                    fnCursosTomados();
-                    console.log({idEmpleado});
+                    cursos();
+                    
                 });
 
-                async function fnVerde(){
-                    Swal.fire({
-                        icon: 'success',
-                        text: 'Cerrado',
-                    });
-                }
+        
 
-                async function fnAmarillo(){
-                    Swal.fire({
-                        icon: 'warning',
-                        text: 'En proceso',
-                    });
-                }
-
-                async function fnRojo(){
-                    Swal.fire({
-                        icon: 'error',
-                        text: 'Cancelado',
-                    });
-                }
-
-                async function fnCursosTomados() {
-                        this.$validator.validate().then(async (esValido) => {
-                            if (esValido) {
-                                try {
-                                    preloader("../../");
-                                    let parametros = new URLSearchParams();
-                                    parametros.append("accion", 3);
-                                    parametros.append("cve", this.idEmpleado);
-                                    let { data, status } = await axios.post(ctr, parametros);
-                                    if (status == 200) {
-                                            arrayCursosTomados.value = data;
-                                    }
-                                } catch (error) {
-                                    mostrarSnackbar("error");
-                                    console.error(error);
-                                } finally {
-                                    swal.close();
-                                }
-                            }
-                        });
-                    }
-
-
-                /*function verificarEmpleado(cve_empleado, tabla) {
-                    console.log('hola popo'+cve_empleado)
-                    for (let i = 0; i < tabla.length; i++) {
-                        if (tabla[i].cve_empleado !== cve_empleado) {
-                        return true; 
-                        }
-                    }
-                    return false; 
-                }*/
-
-                
-                
                 async function fnGuardar(){
                     this.$validator.validate().then(async esValido => {
                         if(esValido){
@@ -568,18 +537,7 @@
                                 parametros.append("otraAct1", otraAct1.value);
                                 parametros.append("promedio", promedio.value);
                                 
-                                /*console.log('hola kaka'+ this.numeroControl)
-                                const existe = verificarEmpleado(this.numeroControl, this.headersProveedores);
-                                
-                                if (existe) {
-                                    console.log('hola')
-                                    mostrarSnackbar("warning", "Ya registraste tu atoevaluación.");
-                                    fnLimpiarCampos(this);  
-
-                                return;
-                                } else {*/
-
-                                    let {data,status} = await axios.post(ctr, parametros);
+                                let {data,status} = await axios.post(ctr, parametros);
                                     console.log(parametros);
                                     if(status == 200){
                                         if(data == "1"){
@@ -643,9 +601,34 @@
                     }
                 }
                 
+                async function cursos(){
+                    try{
+                        preloader("../");
+                        //arreglo
+                        let parametros = new URLSearchParams();
+                        //le mandamos un parametro llamado accion
+                        parametros.append("accion", 3);
+                        //axios envia la peticion
+                        preloader("../../");
+                        parametros.append("cve", idEmpleado);
+                                    
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                arrayCursosTomados.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                }
+
                 function fnLimpiarCampos(cx){//cx = contexto
 
-                    tema.value = "";
+                    
                     objetivo.value = "";
                     alcance.value = "";
                     periodo.value = "";
@@ -690,7 +673,7 @@
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
                     nombreBuscar,
 
-                    area, carrera, tema,
+                    idEmpleado, area, carrera,
                     objetivo, alcance, periodo, fecha, areaCapacitacion, escala1, escala2, escala3, escala4, escala5,  otraAct, otraAct1,
                     option, option1, option2, option3, option4, otro, evidencias, promedio, currentUser, nombre, ape1, ape2, sexo, puesto,
                     
@@ -701,7 +684,7 @@
                     dataProveedores, headersProveedores, searchProveedores, arrayTiposProveedores, 
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor,
                     fnLimpiarCampos, itemEditar, searchBusqueda,
-                    fnConsultarTabla, fnGuardar, fnRojo, periodos, fnAmarillo, fnVerde, fnCursosTomados
+                    fnConsultarTabla, fnGuardar, periodos,
                 }
             },
             methods: {
