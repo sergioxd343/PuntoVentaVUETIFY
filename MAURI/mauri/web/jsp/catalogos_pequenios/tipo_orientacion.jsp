@@ -41,8 +41,9 @@
                                 <v-col md=4>
                                     <v-text-field 
                                         v-model="nombreTipoOrientacion" 
-                                        label="Nombre tipo orientación:" 
+                                        outlined label="Nombre tipo orientación:" 
                                         persistent-hint
+                                        hint="Ingresa el nombre del tipo de orientación"
                                         v-validate="'required|max:200'" 
                                         data-vv-name="nombre tipo orientacion"
                                         :error="errors.has('nombre tipo orientacion')"
@@ -71,7 +72,7 @@
                                         items-per-page="10"
                                     >
                                     <template v-slot:item.estatus="{item}">
-                                        <v-chip class="ma-2" link @click="fnCambiarEstatus(item)"
+                                        <v-chip style="width: 80px; justify-content: center;" class="ma-2" link @click="fnCambiarEstatus(item)"
                                             :color="item.activo ? 'success' : 'grey'" outlined>
                                             {{ item.activo ?
                                             "Activo" : "Inactivo" }}

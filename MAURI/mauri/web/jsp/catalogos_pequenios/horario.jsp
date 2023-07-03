@@ -13,7 +13,7 @@
         <script type="" src="../../javascript/VueJs/vue/vue-composition-api.prod.js" ></script>
         <title>JSP Page</title>
     </head>
-    <style>
+    <style><
         body {
           font-family: 'Roboto';
         }
@@ -37,82 +37,39 @@
                  
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                 
-                                <v-col md=2>
+                                <v-col md=4>
+                                
                                     <template>
-                                        <v-layout r>
-                                          <v-flex >
-                                            <v-menu
-                                              ref="menu1"
-                                              v-model="horaInicio"
-                                              :close-on-content-click="false"
-                                              :return-value.sync="time"
-                                              
-                                              transition="scale-transition"
-                                              offset-y
-                                              full-width
-                                              max-width="240px"
-                                              min-width="240px"
-                                            >
-                                              <template v-slot:activator="{ on }">
-                                                <v-text-field
-                                                  v-model="time"
-                                                  label="Hora de inicio"
-                                                  readonly
-                                                  v-on="on"
-                                                ></v-text-field>
-                                              </template>
+                                        <div>
+                                            <v-col style=" flex: 0 1 auto;">
+                                              <h4>Hora de inicio:</h4>
                                               <v-time-picker
-                                                v-if="horaInicio"
-                                                v-model="time"
-                                                full-width
-                                                @click:minute="$refs.menu1.save(time)"
+                                                v-model="horaInicio"
+                                                :max="horaFin"
+                                                width ="180px"
+                                                landscape
+                                                type="month"
+                                                
+                                                class="mt-3"
                                               ></v-time-picker>
-                                            </v-menu>
-                                          </v-flex>
-                                          <v-spacer></v-spacer>
-                                        </v-layout>
+                                            </v-col>
+                                            
+                                        </div>
                                       </template>
+                                </v-col>
+                                <v-col md=4>
+                                    <v-col style="flex: 0 1 auto;">
+                                        <h4>Hora de fin:</h4>
+                                        <v-time-picker
+                                          v-model="horaFin"
+                                          :min="horaInicio"
+                                          width ="180px"
+                                          landscape
+                                          type="month"
+                                          width="180"
+                                          class="mt-1"
+                                        ></v-time-picker>
                                       </v-col>
-                                      <v-col md=2>
-                                        <template>
-                                            <v-layout >
-                                              <v-flex >
-                                                <v-menu
-                                                  ref="menu"
-                                                  v-model="horaFin"
-                                                  :close-on-content-click="false"
-                                                  
-                                                  :return-value.sync="time1"
-                                                  
-                                                  transition="scale-transition"
-                                                  offset-y
-                                                  full-width
-                                                  max-width="240px"
-                                                  min-width="240px"
-                                                >
-                                                  <template v-slot:activator="{ on }">
-                                                    <v-text-field
-                                                      v-model="time1"
-                                                      label="Hora de fin"
-                                                      readonly
-                                                      v-on="on"
-                                                    ></v-text-field>
-                                                  </template>
-                                                  <v-time-picker
-                                                    v-if="horaFin"
-                                                    v-model="time1"
-                                                    full-width
-                                                    @click:minute="$refs.menu.save(time1)"
-                                                  ></v-time-picker>
-                                                </v-menu>
-                                              </v-flex>
-                                              <v-spacer></v-spacer>
-                                            </v-layout>
-                                          </template>
-                                          </v-col>
-                                    
-                            <v-col md=4>
-                                  
                                 </v-col>
                                 <v-row justify="center">
                                     <v-btn color="primary" @click="flagEditar ? fnEditar() : fnGuardarHorario()"><v-icon>mdi-content-save</v-icon>{{flagEditar ? 'Editar' : 'Guardar'}}</v-btn>
@@ -137,7 +94,7 @@
                                         items-per-page="10"
                                     >
                                     <template v-slot:item.estatus="{item}">
-                                        <v-chip class="ma-2" link @click="fnCambiarEstatus(item)"
+                                        <v-chip  style="width: 80px; justify-content: center;" class="ma-2" link @click="fnCambiarEstatus(item)"
                                             :color="item.activo ? 'success' : 'grey'" outlined>
                                             {{ item.activo ?
                                             "Activo" : "Inactivo" }}
@@ -250,10 +207,9 @@
                 //Variables POST
             
                 
-                const horaInicio = ref("");
-                const horaFin = ref("");
-                const time = ref("");
-                const time1 = ref("");
+                const horaInicio = ref();
+                const horaFin = ref();
+            
                 const currentUser = localStorage.getItem("currentUser");
                 const currentUserObj = JSON.parse(currentUser);
                 const usuario_registro = currentUserObj[0].cve_persona;
@@ -401,10 +357,10 @@
 
                 return{
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
-                    horaFin, horaInicio, time, time1, currentUser, currentUserObj, usuario_registro,
+                    horaFin, horaInicio, currentUser, currentUserObj, usuario_registro,
                     headersHorario, fnConsultarHorario, dataHorario, 
                     searchTipos, fnLimpiarCampos, fnGuardarHorario, fnCambiarEstatus,
-                    dialogBuscador, dialogDetallesCotizacion, dialogProveedor, time,
+                    dialogBuscador, dialogDetallesCotizacion, dialogProveedor, 
                     
                     //fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, itemEditar
                 }

@@ -33,8 +33,9 @@
                                 <v-col md=4>
                                     <v-text-field 
                                         v-model="nombreTipoEvento" 
-                                        label="Nombre tipo evento" 
+                                        outlined label="Nombre tipo evento" 
                                         persistent-hint
+                                        hint="Ingresa el nombre del tipo de evento"
                                         v-validate="'required|max:200'" 
                                         data-vv-name="nombre tipo evento"
                                         :error="errors.has('nombre tipo evento')"
@@ -63,7 +64,7 @@
                                     >
                                     
                                     <template v-slot:item.estatus="{item}">
-                                        <v-chip class="ma-2" link @click="fnCambiarEstatus(item)"
+                                        <v-chip style="width: 80px; justify-content: center;" class="ma-2" link @click="fnCambiarEstatus(item)"
                                             :color="item.activo ? 'success' : 'grey'" outlined>
                                             {{ item.activo ?
                                             "Activo" : "Inactivo" }}

@@ -33,8 +33,9 @@
                                 <v-col md=4>
                                     <v-text-field 
                                         v-model="nombreTipoInstructor" 
-                                        label="Nombre tipo instructor:" 
+                                        outlined label="Nombre tipo instructor:" 
                                         persistent-hint
+                                        hint="Ingresa el nombre del tipo de instructor"
                                         v-validate="'required|max:200'" 
                                         data-vv-name="nombre tipo instructor"
                                         :error="errors.has('nombre tipo instructor')"
@@ -64,7 +65,7 @@
                                     >
                                     
                                     <template v-slot:item.estatus="{item}">
-                                        <v-chip class="ma-2" link @click="fnCambiarEstatus(item)"
+                                        <v-chip style="width: 80px; justify-content: center;" class="ma-2" link @click="fnCambiarEstatus(item)"
                                             :color="item.activo ? 'success' : 'grey'" outlined>
                                             {{ item.activo ?
                                             "Activo" : "Inactivo" }}
