@@ -36,14 +36,16 @@
 
     int cve_solicitud_proyecto = request.getParameter("cve_solicitud_proyecto") != null && !request.getParameter("cve_solicitud_proyecto").equals("") ? Integer.parseInt(request.getParameter("cve_solicitud_proyecto")) : 0;
     int cve_area = request.getParameter("cve_area") != null && !request.getParameter("cve_area").equals("") ? Integer.parseInt(request.getParameter("cve_area")) : 0;
+    int cve_periodo = request.getParameter("cve_periodo") != null && !request.getParameter("cve_periodo").equals("") ? Integer.parseInt(request.getParameter("cve_periodo")) : 0;
 	String nombre_proyecto = request.getParameter("nombre_proyecto") != null && !request.getParameter("nombre_proyecto").equals("") ? request.getParameter("nombre_proyecto") : "-";
 	String objetivo_proyecto = request.getParameter("objetivo_proyecto") != null && !request.getParameter("objetivo_proyecto").equals("") ? request.getParameter("objetivo_proyecto") : "-";
 	String descripcion_proyecto = request.getParameter("descripcion_proyecto") != null && !request.getParameter("descripcion_proyecto").equals("") ? request.getParameter("descripcion_proyecto") : "-";
 	String recursos_necesarios = request.getParameter("recursos_necesarios") != null && !request.getParameter("recursos_necesarios").equals("") ? request.getParameter("recursos_necesarios") : "-";
 	String acuerdos_establecidos = request.getParameter("acuerdos_establecidos") != null && !request.getParameter("acuerdos_establecidos").equals("") ? request.getParameter("acuerdos_establecidos") : "-";
-	boolean estatus = request.getParameter("estatus") != null && !request.getParameter("estatus").equals("") ? Boolean.parseBoolean(request.getParameter("estatus")) : true;
-	String cuatrimestre = request.getParameter("cuatrimestre") != null && !request.getParameter("cuatrimestre").equals("") ? request.getParameter("cuatrimestre") : "-";
-	boolean activo = request.getParameter("activo") != null && !request.getParameter("activo").equals("") ? Boolean.parseBoolean(request.getParameter("activo")) : true;
+	int estatus = request.getParameter("estatus")!=null && !request.getParameter("estatus").equals("")?Integer.parseInt(request.getParameter("estatus")):0;
+	
+    int activo = request.getParameter("activo")!=null && !request.getParameter("activo").equals("")?Integer.parseInt(request.getParameter("activo")):0;
+	
 	String fecha_registro = request.getParameter("fecha_registro") != null && !request.getParameter("fecha_registro").equals("") ? request.getParameter("fecha_registro") : "-";
 	int usuario_registro = request.getParameter("usuario_registro") != null && !request.getParameter("usuario_registro").equals("") ? Integer.parseInt(request.getParameter("usuario_registro")) : 0;
 
@@ -54,8 +56,8 @@
         case 2:
             temp_obj = new JsonObject();
             temp_obj.addProperty("cve_area", cve_area);
+            temp_obj.addProperty("cve_periodo", cve_periodo);
             temp_obj.addProperty("nombre_proyecto", nombre_proyecto);
-            temp_obj.addProperty("cuatrimestre", cuatrimestre);
             temp_obj.addProperty("objetivo_proyecto", objetivo_proyecto);
             temp_obj.addProperty("descripcion_proyecto", descripcion_proyecto);
             temp_obj.addProperty("recursos_necesarios", recursos_necesarios);
@@ -82,6 +84,9 @@
             break;
         case 6:
             out.println(datos.Consultas(parametros, "consultarUsuario"));
+            break;
+        case 7:
+            out.println(datos.Consultas(parametros, "consultarPeriodo"));
             break;
         default:
             out.print("ENTRO A CONTROLADOR"+ accion);

@@ -7,18 +7,45 @@ and open the template in the editor.
 <CatalogoProveedores>
     <tablaSolicitud>
 		<query>
-			SELECT        TOP (200) solicitud_proyecto.cve_solicitud_proyecto, solicitud_proyecto.cve_area, solicitud_proyecto.nombre_proyecto, solicitud_proyecto.cuatrimestre, solicitud_proyecto.objetivo_proyecto, 
-                         solicitud_proyecto.descripcion_proyecto, solicitud_proyecto.recursos_necesarios, solicitud_proyecto.acuerdos_establecidos, solicitud_proyecto.estatus, solicitud_proyecto.activo, solicitud_proyecto.fecha_registro, 
-                         solicitud_proyecto.usuario_registro, persona.nombre, persona.apellido_peterno, persona.apellido_materno, persona.cve_persona, area.cve_area AS Expr1, area.nombre_area, CONCAT(persona.nombre, ' ', persona.apellido_peterno, ' ', persona.apellido_materno) AS nombre_completo
-FROM            solicitud_proyecto INNER JOIN
-                         area ON solicitud_proyecto.cve_area = area.cve_area LEFT JOIN
-                         persona ON solicitud_proyecto.usuario_registro = persona.cve_persona;
+		SELECT TOP (200)
+    solicitud_proyecto.cve_solicitud_proyecto,
+    solicitud_proyecto.cve_area,
+    solicitud_proyecto.cve_periodo,
+    solicitud_proyecto.nombre_proyecto,
+    solicitud_proyecto.objetivo_proyecto,
+    solicitud_proyecto.descripcion_proyecto,
+    solicitud_proyecto.recursos_necesarios,
+    solicitud_proyecto.acuerdos_establecidos,
+    solicitud_proyecto.estatus,
+    solicitud_proyecto.activo,
+    solicitud_proyecto.fecha_registro,
+    solicitud_proyecto.usuario_registro,
+    periodo.cve_periodo AS Expr1,
+    periodo.fecha_inicio,
+    periodo.fecha_fin,
+    periodo.numero_periodo,
+    periodo.descripcion,
+    area.cve_area AS Expr2,
+    area.nombre_area,
+    persona.nombre,
+    persona.apellido_peterno,
+    persona.apellido_materno,
+    CONCAT(persona.nombre, ' ', persona.apellido_peterno, ' ', persona.apellido_materno) AS nombre_completo
+FROM
+    solicitud_proyecto
+INNER JOIN
+    area ON solicitud_proyecto.cve_area = area.cve_area
+LEFT JOIN
+    periodo ON solicitud_proyecto.cve_periodo = periodo.cve_periodo
+INNER JOIN
+    persona ON solicitud_proyecto.usuario_registro = persona.cve_persona
+
 		</query>
 	</tablaSolicitud>
     <guardarSolicitud>
 		<query>
-			INSERT INTO solicitud_proyecto (cve_area, nombre_proyecto, cuatrimestre, objetivo_proyecto, descripcion_proyecto, recursos_necesarios, acuerdos_establecidos, usuario_registro)
-									VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+			INSERT INTO solicitud_proyecto (cve_area, cve_periodo, nombre_proyecto, objetivo_proyecto, descripcion_proyecto, recursos_necesarios, acuerdos_establecidos, usuario_registro)
+									VALUES ( ?, ?, ?, ?, ?, ?, ?, ?);
 		</query>
 	</guardarSolicitud>
     <consultarArea>
@@ -38,6 +65,12 @@ FROM            area ORDER BY nombre_area
 FROM         usuario_grupo_seguridad
 		</query>
 	</consultarUsuario>
+	<consultarPeriodo>
+		<query>
+			SELECT   TOP (200) cve_periodo, fecha_inicio, fecha_fin, numero_periodo, descripcion, activo, fecha_registro, usuario_registro
+FROM         periodo
+		</query>
+	</consultarPeriodo>
     <editarSolicitud>
 		<query>
 			UPDATE solicitud_proyecto

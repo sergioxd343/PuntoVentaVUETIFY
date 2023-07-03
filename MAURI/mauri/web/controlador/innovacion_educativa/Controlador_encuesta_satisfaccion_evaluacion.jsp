@@ -37,6 +37,7 @@
     int cve_eval_resul = request.getParameter("cve_eval_resul") != null && !request.getParameter("cve_eval_resul").equals("") ? Integer.parseInt(request.getParameter("cve_eval_resul")) : 0;
     int cve_t_servicio = request.getParameter("cve_t_servicio") != null && !request.getParameter("cve_t_servicio").equals("") ? Integer.parseInt(request.getParameter("cve_t_servicio")) : 0;
     int cve_asesoria_proyecto = request.getParameter("cve_asesoria_proyecto") != null && !request.getParameter("cve_asesoria_proyecto").equals("") ? Integer.parseInt(request.getParameter("cve_asesoria_proyecto")) : 0;
+    int cve_solicitud_proyecto = request.getParameter("cve_solicitud_proyecto") != null && !request.getParameter("cve_solicitud_proyecto").equals("") ? Integer.parseInt(request.getParameter("cve_solicitud_proyecto")) : 0;
     int cve_area = request.getParameter("cve_area") != null && !request.getParameter("cve_area").equals("") ? Integer.parseInt(request.getParameter("cve_area")) : 0;
     
 
@@ -59,7 +60,7 @@
             temp_obj.addProperty("cve_t_servicio", cve_t_servicio);
             temp_obj.addProperty("cve_asesoria_proyecto", cve_asesoria_proyecto);
             temp_obj.addProperty("cve_area", cve_area);
-            temp_obj.addProperty("nombre_proyecto", nombre_proyecto);
+            temp_obj.addProperty("cve_solicitud_proyecto", cve_solicitud_proyecto);
             temp_obj.addProperty("suma", suma);
             temp_obj.addProperty("porcentaje", porcentaje);
             temp_obj.addProperty("cuatrimestre", cuatrimestre);
@@ -80,6 +81,9 @@
             break;
         case 6: 
             out.println(datos.Consultas(parametros, "consultarEmpleado"));
+            break;
+        case 7: 
+            out.println(datos.Consultas(parametros, "consultarSolicitud"));
             break;
         default:
             out.print("ENTRO A CONTROLADOR"+ accion);

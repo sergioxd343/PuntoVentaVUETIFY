@@ -78,8 +78,7 @@
                                         transition="scale-transition" offset-y min-width="auto">
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-text-field v-model="fechaActual" label="Fecha"
-                                                prepend-icon="mdi-calendar" readonly v-bind="attrs"
-                                                v-on="on"></v-text-field>
+                                                prepend-icon="mdi-calendar" readonly></v-text-field>
                                         </template>
                                         <v-date-picker v-model="fecha" no-title scrollable :readonly="true">
                                             <v-spacer></v-spacer>
@@ -90,6 +89,7 @@
                                                 OK
                                             </v-btn>
                                         </v-date-picker>
+                                    </v-menu>
                                 </v-col>
 
                                 <v-col md="10">
@@ -230,14 +230,14 @@
                                                     <v-icon>mdi-square-edit-outline</v-icon>
                                                 </v-btn>
                                             </template>
-                                            <template v-slot:item.password="{item}">
-                                                <v-tooltip bottom>
-                                                    <template v-slot:activator="{on, attrs}">
-                                                        <span v-bind="attrs" v-on="on"
-                                                            @click="navigator.clipboard.writeText(item.password); mostrarSnackbar('success', 'Texto copiado al portapapeles.')"><b>{{item.password}}</b></span>
-                                                    </template>
-                                                    <span>Copiar contraseña</span>
-                                                </v-tooltip>
+                                            <template v-slot:item.activo="{item}">
+                                                <v-chip class="ma-2 "
+                                                    style="width: 100px; display: flex; justify-content: center; align-items: center;"
+                                                    link @click="fnCambiarEstatus(item)"
+                                                    :color="item.activo ? 'success' : 'grey'" outlined>
+                                                    {{ item.activo ?
+                                                    "Validado" : "No Validado" }}
+                                                </v-chip>
                                             </template>
                                         </v-data-table>
                                     </v-col>
@@ -350,10 +350,10 @@
                             { text: 'Nombre de academia', align: 'left', sortable: true, value: 'nombre_academia' },
                             { text: 'Materia', align: 'left', sortable: true, value: 'materia' },
                             { text: 'Fecha de seguimiento', align: 'left', sortable: true, value: 'fecha' },
-                            { text: 'Firma de validación', align: 'left', sortable: true, value: 'activo' },
                             { text: 'Usuario de registro', align: 'left', sortable: true, value: 'nombre_completo' },
                             { text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro' },
-                            { text: 'Editar', align: 'left', sortable: true, value: 'editar' },
+                            { text: 'Firma de validación', align: 'left', sortable: true, value: 'activo' },
+                            //{ text: 'Editar', align: 'left', sortable: true, value: 'editar' },
                         ]);
                         const searchDNAP = ref([]);
 
@@ -423,13 +423,6 @@
                                 let { data, status } = await axios.post(ctr, parametros)
                                 if (status == 200) {
                                     if (data.length > 0) {
-                                        data.forEach(item => {
-                                            if (item.activo === false) {
-                                                item.activo = "No validado";
-                                            } else {
-                                                item.activo = "Validado";
-                                            }
-                                        });
                                         dataDNAP.value = data
                                     }
                                 }
@@ -468,6 +461,38 @@
                                         userPermission.value = false;
                                     }
                                     console.log(userPermission.value);
+                                }
+                            } catch (error) {
+                                mostrarSnackbar("error");
+                                console.error(error);
+                            } finally {
+                                swal.close();
+                            }
+                        }
+
+                        async function fnCambiarEstatus(item) {
+                            try {
+                                preloader("../../");
+                                let parametros = new URLSearchParams();
+                                parametros.append("accion", 3);
+                                
+                                parametros.append("activo", (item.activo == true ? 0 : 1));
+                                parametros.append("cve_asesoria", item.cve_asesoria);
+                                console.log("🚀 ~ file: asesoria.jsp:481 ~ fnCambiarEstatus ~ parametros:", parametros)
+                                let { data, status } = await axios.post(ctr, parametros);
+                                if (status == 200) {
+                                    if (data == "1") {
+                                        mostrarSnackbar(
+                                            "success",
+                                            "Registro actualizado correctamente."
+                                        );
+                                        fnConsultarTabla();
+                                        // this.$validator.pause();
+                                        // Vue.nextTick(() => {
+                                        //     this.$validator.errors.clear();
+                                        //     this.$validator.resume();
+                                        // });
+                                    }
                                 }
                             } catch (error) {
                                 mostrarSnackbar("error");
@@ -655,7 +680,7 @@
                             sugerencias, entrevista, activo, fecha_registro, usuario_registro,
                             arrayEmpleado, arrayAcademia, sugerenciasActivo, opc_si, opc_no,
                             currentUser, currentUserObj, userPermission, arrayUsuario,
-                            opc_validado, opc_noValidado, modoEdicion, nombreCompleto,
+                            opc_validado, opc_noValidado, modoEdicion, nombreCompleto, fnCambiarEstatus,
                             menu2, modal2, fnBusqueda, fnEditarItem, fnConsultarTabla, fnConsultarUsuario, fnReasignacionDatos,
                             dialogBuscador, nombreBuscar, searchBusqueda, fechaActual,
                             color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar,

@@ -83,11 +83,37 @@ FROM            tipo_evento
 FROM            ugac
 		</query>
 	</consultarUGAC>
-    <editarAnalisis>
+    <editarEstatus>
 		<query>
 			UPDATE analisis_docente
 SET estatus = ?
 WHERE cve_analisis_docente = ?;
+
+		</query>
+	</editarEstatus>
+  <editarAnalisis>
+		<query>
+			UPDATE analisis_docente
+SET cve_unidad_academica = ?,
+    cve_academia = ?,
+    programa_educativo = ?,
+    numero_ptc = ?,
+    anio_aplicacion = ?,
+    media_evaluacion_docente = ?,
+    media_evaluacion_tutoreo = ?,
+    promedio_evaluacion_tutoreo = ?,
+    promedio_evaluacion_docente = ?,
+    porcentaje_docentes_acreditados = ?,
+    fortalezas = ?,
+    debilidades = ?,
+    necesidades = ?,
+    prioridad_capacitacion = ?,
+    estrategias_intervencion = ?,
+    fecha_registro  = ?,
+    activo  = ?,
+    usuario_registro = ?
+WHERE cve_analisis_docente = ?;
+
 
 		</query>
 	</editarAnalisis>

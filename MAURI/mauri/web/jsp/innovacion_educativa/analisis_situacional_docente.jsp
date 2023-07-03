@@ -35,24 +35,23 @@
 
                                 <v-col md="6">
                                     <!--Unidad Academica-->
-                                    <v-autocomplete v-model="cve_unidad_academica" :readonly="modoEdicion" outlined
-                                        label="Unidad Académica" persistent-hint v-validate="'required|max:100'"
-                                        data-vv-name="área académica" :items="arrayUnidadAcademica"
-                                        item-value="cve_unidad_academica" item-text="nombre_unidad_academica"
-                                        :error="errors.has('área académica')"
+                                    <v-autocomplete v-model="cve_unidad_academica" outlined label="Unidad Académica"
+                                        persistent-hint v-validate="'required|max:100'" data-vv-name="área académica"
+                                        :items="arrayUnidadAcademica" item-value="cve_unidad_academica"
+                                        item-text="nombre_unidad_academica" :error="errors.has('área académica')"
                                         :error-messages="errors.first('área académica')"></v-autocomplete>
 
                                     <!--Nombre de la Academia-->
-                                    <v-autocomplete v-model="cve_academia" :readonly="modoEdicion" outlined
-                                        label="Nombre de la academia:" persistent-hint v-validate="'required|max:100'"
+                                    <v-autocomplete v-model="cve_academia" outlined label="Nombre de la academia:"
+                                        persistent-hint v-validate="'required|max:100'"
                                         data-vv-name="nombre de academia" :items="arrayAcademia"
                                         item-value="cve_academia" item-text="nombre_academia"
                                         :error="errors.has('nombre de academia')"
                                         :error-messages="errors.first('nombre de academia')"></v-autocomplete>
 
                                     <!--Programa Educativo-->
-                                    <v-text-field v-model="programa_educativo" :readonly="modoEdicion" outlined
-                                        label="Programa educativo:" persistent-hint v-validate="'required|max:255'"
+                                    <v-text-field v-model="programa_educativo" outlined label="Programa educativo:"
+                                        persistent-hint v-validate="'required|max:255'"
                                         data-vv-name="programa educativo" type="text"
                                         :error="errors.has('programa educativo')"
                                         :error-messages="errors.first('programa educativo')"></v-text-field>
@@ -60,17 +59,18 @@
 
                                 <v-col md="6">
                                     <!--Numero PTC-->
-                                    <v-text-field v-model="numero_ptc" :readonly="modoEdicion" outlined
-                                        label="N° de PTC:" persistent-hint v-validate="'required|max:255'"
-                                        data-vv-name="ptc" pattern="[0-9]*" type="number" :error="errors.has('ptc')"
+                                    <v-text-field v-model="numero_ptc" outlined label="N° de PTC:" persistent-hint
+                                        v-validate="'required|max:255'" data-vv-name="ptc" pattern="[0-9]*"
+                                        type="number" :error="errors.has('ptc')"
                                         :error-messages="errors.first('ptc')"></v-text-field>
+
                                     <!--Fecha-->
-                                    <v-menu ref="menu1" :close-on-content-click="false" :return-value.sync="fechaActual"
-                                        transition="scale-transition" offset-y min-width="auto">
+                                    <v-menu style="margin-top: 10px;" ref="menu1" :close-on-content-click="false"
+                                        :return-value.sync="fechaActual" transition="scale-transition" offset-y
+                                        min-width="auto">
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-text-field v-model="fechaActual" label="Fecha"
-                                                prepend-icon="mdi-calendar" readonly v-bind="attrs"
-                                                v-on="on"></v-text-field>
+                                                prepend-icon="mdi-calendar" readonly></v-text-field>
                                         </template>
                                         <v-date-picker v-model="fechaActual" no-title scrollable :readonly="true">
                                             <v-spacer></v-spacer>
@@ -88,12 +88,11 @@
                                         :return-value.sync="anio_aplicacion" transition="scale-transition" offset-y
                                         min-width="auto">
                                         <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field v-model="anio_aplicacion" label="Año de aplicación:"
+                                            <v-text-field v-model="anio_aplicacion" label="Año de aplicación"
                                                 prepend-icon="mdi-calendar" readonly v-bind="attrs"
                                                 v-on="on"></v-text-field>
                                         </template>
-                                        <v-date-picker v-model="anio_aplicacion" no-title scrollable type="year"
-                                            :readonly="modoEdicion">
+                                        <v-date-picker v-model="anio_aplicacion" no-title scrollable type="year">
                                             <v-spacer></v-spacer>
                                             <v-btn text color="primary" @click="menu1 = false">
                                                 Cancel
@@ -168,7 +167,6 @@
                                                     <v-list-item-content>
                                                         <v-list-item-title class="text-wrap text-center">
                                                             <v-text-field v-model="media_evaluacion_docente" outlined
-                                                                :readonly="modoEdicion"
                                                                 label="Media de evaluación docente" persistent-hint
                                                                 v-validate="{required: true, min_value: 7, max_value: 10}"
                                                                 data-vv-name="evaluació docente" inputmode="numeric"
@@ -182,7 +180,6 @@
                                                     <v-list-item-content>
                                                         <v-list-item-title>
                                                             <v-text-field v-model="media_evaluacion_tutoreo" outlined
-                                                                :readonly="modoEdicion"
                                                                 label="Media de evaluación tutoreo" persistent-hint
                                                                 v-validate="{required: true, min_value: 7, max_value: 10}"
                                                                 data-vv-name="evaluación tutoreo" inputmode="numeric"
@@ -241,7 +238,6 @@
                                                     <v-list-item-content>
                                                         <v-list-item-title class="text-wrap text-center">
                                                             <v-text-field v-model="promedio_evaluacion_docente" outlined
-                                                                :readonly="modoEdicion"
                                                                 label="Promedio de evaluación docente" persistent-hint
                                                                 v-validate="{required: true, min_value: 7, max_value: 10}"
                                                                 data-vv-name="promedio evaluació docente"
@@ -255,7 +251,6 @@
                                                     <v-list-item-content>
                                                         <v-list-item-title>
                                                             <v-text-field v-model="promedio_evaluacion_tutoreo" outlined
-                                                                :readonly="modoEdicion"
                                                                 label="Promedio de evaluación tutoreo" persistent-hint
                                                                 v-validate="{required: true, min_value: 7, max_value: 10}"
                                                                 data-vv-name="promedio evaluación tutoreo"
@@ -307,8 +302,7 @@
                                                     <v-list-item-content>
                                                         <v-list-item-title class="text-wrap text-center">
                                                             <v-text-field v-model="porcentaje_docentes_acreditados"
-                                                                :readonly="modoEdicion" outlined
-                                                                label="Porcentaje de docentes acreditados"
+                                                                outlined label="Porcentaje de docentes acreditados"
                                                                 persistent-hint
                                                                 v-validate="{required: true, min_value: 0, max_value: 100}"
                                                                 data-vv-name="porcentaje docentes acreditados"
@@ -328,16 +322,16 @@
                                     <div class="hint-text">(Elementos positivos e internos que permitan el logro de los
                                         objetivos) </div>
                                     <v-textarea v-model="fortalezas" outlined label="Fortalezas:" persistent-hint
-                                        v-validate="'max:255'" class="mx-2" rows="1" prepend-icon="mdi-comment"
-                                        :readonly="modoEdicion"></v-textarea>
+                                        v-validate="'max:255'" class="mx-2" rows="1"
+                                        prepend-icon="mdi-comment"></v-textarea>
                                 </v-col>
                                 <v-col md="9">
                                     <!--Debilidades-->
                                     <div class="hint-text">(Elementos negativos internos que afectan el logro de los
                                         objetivos)</div>
                                     <v-textarea v-model="debilidades" outlined label="Debilidades:" persistent-hint
-                                        v-validate="'max:255'" class="mx-2" rows="1" prepend-icon="mdi-comment"
-                                        :readonly="modoEdicion"></v-textarea>
+                                        v-validate="'max:255'" class="mx-2" rows="1"
+                                        prepend-icon="mdi-comment"></v-textarea>
                                 </v-col>
                                 <v-col md="9">
                                     <!--Necesidades-->
@@ -346,7 +340,7 @@
                                         actualizaciones de PE, proyectando un proceso formativo de 1 año)</div>
                                     <v-textarea v-model="necesidades" outlined label="Necesidades detectadas:"
                                         persistent-hint v-validate="'max:255'" class="mx-2" rows="1"
-                                        prepend-icon="mdi-comment" :readonly="modoEdicion"></v-textarea>
+                                        prepend-icon="mdi-comment"></v-textarea>
                                 </v-col>
                                 <v-col md="9">
                                     <!--Tipos de necesidades-->
@@ -354,8 +348,7 @@
                                         taller, diplomado, certificación, etc.) </div>
                                     <v-textarea v-model="estrategias_intervencion" outlined
                                         label="Tipos de necesidades:" persistent-hint v-validate="'max:255'"
-                                        class="mx-2" rows="1" prepend-icon="mdi-comment"
-                                        :readonly="modoEdicion"></v-textarea>
+                                        class="mx-2" rows="1" prepend-icon="mdi-comment"></v-textarea>
                                 </v-col>
                                 <v-col md="9">
                                     <!--Prioridad de capacitación-->
@@ -365,14 +358,11 @@
                                         año) )</div>
                                     <v-textarea v-model="prioridad_capacitacion" outlined
                                         label="Prioridad de capacitación:" persistent-hint v-validate="'max:255'"
-                                        class="mx-2" rows="1" prepend-icon="mdi-comment"
-                                        :readonly="modoEdicion"></v-textarea>
+                                        class="mx-2" rows="1" prepend-icon="mdi-comment"></v-textarea>
                                 </v-col>
-
-
                                 <v-col md="4">
                                     <!--Estatus-->
-                                    <v-radio-group v-model="estatus" v-if="modoEdicion">
+                                    <v-radio-group v-model="estatus" v-if="false">
                                         Seleccione el estatus del proyecto:
                                         <v-radio label="Revisado" value="opc_revisado"></v-radio>
                                         <v-radio label="Cancelado" value="opc_cancelado"></v-radio>
@@ -431,14 +421,14 @@
                                                     <v-icon>mdi-square-edit-outline</v-icon>
                                                 </v-btn>
                                             </template>
-                                            <template v-slot:item.password="{item}">
-                                                <v-tooltip bottom>
-                                                    <template v-slot:activator="{on, attrs}">
-                                                        <span v-bind="attrs" v-on="on"
-                                                            @click="navigator.clipboard.writeText(item.password); mostrarSnackbar('success', 'Texto copiado al portapapeles.')"><b>{{item.password}}</b></span>
-                                                    </template>
-                                                    <span>Copiar contraseña</span>
-                                                </v-tooltip>
+                                            <template v-slot:item.estatus="{item}">
+                                                <v-chip class="ma-2 "
+                                                    style="width: 100px; display: flex; justify-content: center; align-items: center;"
+                                                    link @click="fnCambiarEstatus(item)"
+                                                    :color="item.estatus ? 'success' : 'yellow'" outlined>
+                                                    {{ item.estatus ?
+                                                    "Revisado" : "Cancelado" }}
+                                                </v-chip>
                                             </template>
                                         </v-data-table>
                                     </v-col>
@@ -519,8 +509,6 @@
                         const opc_revisado = ref("");
                         const opc_cancelado = ref("");
 
-                        //Bloquear edicion de los campos cuando flagEditar es true
-                        const modoEdicion = ref(false);
 
                         const arrayUnidadAcademica = ref([]);
                         const arrayAcademia = ref([]);
@@ -555,7 +543,7 @@
                             { text: 'Usuario de registro', align: 'left', sortable: true, value: 'nombre_completo' },
                             { text: 'Año de aplicación', align: 'left', sortable: true, value: 'anio_aplicacion' },
                             { text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro' },
-                            { text: 'Estatus', align: 'left', sortable: true, value: 'estatus' },
+                            { text: 'Estatus', align: 'center', sortable: true, value: 'estatus' },
                             { text: 'Editar', align: 'left', sortable: true, value: 'editar' },
                         ]);
                         const searchAnalisis = ref([]);
@@ -685,13 +673,6 @@
                                 let { data, status } = await axios.post(ctr, parametros)
                                 if (status == 200) {
                                     if (data.length > 0) {
-                                        data.forEach(item => {
-                                            if (item.estatus === false) {
-                                                item.estatus = "Cancelado";
-                                            } else {
-                                                item.estatus = "Revisado";
-                                            }
-                                        });
                                         dataAnalisis.value = data;
                                     }
                                 }
@@ -703,8 +684,39 @@
                             }
                         }
 
+                        async function fnCambiarEstatus(item) {
+                            try {
+                                preloader("../../");
+                                let parametros = new URLSearchParams();
+                                parametros.append("accion", 3);
+
+                                parametros.append("estatus", (item.estatus == true ? 0 : 1));
+                                parametros.append("cve_analisis_docente", item.cve_analisis_docente);
+                                console.log("🚀 ~ file: asesoria.jsp:481 ~ fnCambiarEstatus ~ parametros:", parametros)
+                                let { data, status } = await axios.post(ctr, parametros);
+                                if (status == 200) {
+                                    if (data == "1") {
+                                        mostrarSnackbar(
+                                            "success",
+                                            "Registro actualizado correctamente."
+                                        );
+                                        fnConsultarTabla();
+                                        // this.$validator.pause();
+                                        // Vue.nextTick(() => {
+                                        //     this.$validator.errors.clear();
+                                        //     this.$validator.resume();
+                                        // });
+                                    }
+                                }
+                            } catch (error) {
+                                mostrarSnackbar("error");
+                                console.error(error);
+                            } finally {
+                                swal.close();
+                            }
+                        }
+
                         function fnEditarItem(item) {
-                            this.modoEdicion = true;
                             this.flagEditar = true;
                             this.itemEditar = item;
                             this.cve_analisis_docente = item.cve_analisis_docente;
@@ -712,7 +724,7 @@
                             this.cve_academia = item.cve_academia;
                             this.numero_ptc = item.numero_ptc;
                             this.programa_educativo = item.programa_educativo;
-                            this.anio_aplicacion = item.anio_aplicacion;
+                            this.anio_aplicacion = item.anio_aplicacion.toString();
                             this.media_evaluacion_docente = item.media_evaluacion_docente;
                             this.media_evaluacion_tutoreo = item.media_evaluacion_tutoreo;
                             this.promedio_evaluacion_tutoreo = item.promedio_evaluacion_tutoreo;
@@ -727,6 +739,7 @@
                             this.activo = item.activo;
                             this.fecha_registro = item.fecha_registro;
                             this.usuario_registro = item.usuario_registro;
+                            this.estatus = item.estatus === "Revisado" ? "opc_validado" : "opc_cancelado";
                         }
 
                         function fnBusqueda() {
@@ -749,93 +762,100 @@
 
                         async function fnGuardar() {
                             this.$validator.validate().then(async esValido => {
-                                if (esValido) {
-                                    try {
-                                        preloader("../../");
-                                        let parametros = new URLSearchParams();
-                                        parametros.append("accion", 2);
-                                        parametros.append("cve_unidad_academica", cve_unidad_academica.value);
-                                        parametros.append("cve_academia", cve_academia.value);
-                                        //parametros.append("cve_departamento", cve_departamento.value);
-                                        //parametros.append("cve_tipo_evento", cve_tipo_evento.value);
-                                        //parametros.append("cve_ugac", cve_ugac.value);
-                                        parametros.append("programa_educativo", programa_educativo.value);
-                                        parametros.append("numero_ptc", numero_ptc.value);
-                                        parametros.append("anio_aplicacion", parseInt(anio_aplicacion.value.slice(0, 4), 10));
-                                        parametros.append("media_evaluacion_docente", media_evaluacion_docente.value);
-                                        parametros.append("media_evaluacion_tutoreo", media_evaluacion_tutoreo.value);
-                                        parametros.append("promedio_evaluacion_tutoreo", promedio_evaluacion_tutoreo.value);
-                                        parametros.append("promedio_evaluacion_docente", promedio_evaluacion_docente.value);
-                                        parametros.append("porcentaje_docentes_acreditados", porcentaje_docentes_acreditados.value);
-                                        parametros.append("fortalezas", fortalezas.value);
-                                        parametros.append("debilidades", debilidades.value);
-                                        parametros.append("necesidades", necesidades.value);
-                                        parametros.append("prioridad_capacitacion", prioridad_capacitacion.value);
-                                        parametros.append("estrategias_intervencion", estrategias_intervencion.value);
-                                        parametros.append("fecha_registro", fechaActual.value);
-                                        parametros.append("usuario_registro", this.usuario_registro);
+                                try {
+                                    preloader("../../");
+                                    let parametros = new URLSearchParams();
+                                    parametros.append("accion", 2);
+                                    parametros.append("cve_unidad_academica", cve_unidad_academica.value);
+                                    parametros.append("cve_academia", cve_academia.value);
+                                    //parametros.append("cve_departamento", cve_departamento.value);
+                                    //parametros.append("cve_tipo_evento", cve_tipo_evento.value);
+                                    //parametros.append("cve_ugac", cve_ugac.value);
+                                    parametros.append("programa_educativo", programa_educativo.value);
+                                    parametros.append("numero_ptc", numero_ptc.value);
+                                    parametros.append("anio_aplicacion", parseInt(anio_aplicacion.value.slice(0, 4), 10));
+                                    parametros.append("media_evaluacion_docente", media_evaluacion_docente.value);
+                                    parametros.append("media_evaluacion_tutoreo", media_evaluacion_tutoreo.value);
+                                    parametros.append("promedio_evaluacion_tutoreo", promedio_evaluacion_tutoreo.value);
+                                    parametros.append("promedio_evaluacion_docente", promedio_evaluacion_docente.value);
+                                    parametros.append("porcentaje_docentes_acreditados", porcentaje_docentes_acreditados.value);
+                                    parametros.append("fortalezas", fortalezas.value);
+                                    parametros.append("debilidades", debilidades.value);
+                                    parametros.append("necesidades", necesidades.value);
+                                    parametros.append("prioridad_capacitacion", prioridad_capacitacion.value);
+                                    parametros.append("estrategias_intervencion", estrategias_intervencion.value);
+                                    parametros.append("fecha_registro", fechaActual.value);
+                                    parametros.append("activo", activo.value);
+                                    parametros.append("usuario_registro", this.usuario_registro);
 
-                                        let { data, status } = await axios.post(ctr, parametros)
-                                        if (status == 200) {
-                                            if (data == "1") {
-                                                mostrarSnackbar("success", "Registro guardado correctamente.");
-                                                fnConsultarTabla();
-                                                fnLimpiarCampos(this);
-                                                // this.$validator.pause();
-                                                // Vue.nextTick(() => {
-                                                //     this.$validator.errors.clear();
-                                                //     this.$validator.resume();
-                                                // });   
-                                            }
+                                    let { data, status } = await axios.post(ctr, parametros)
+                                    if (status == 200) {
+                                        if (data == "1") {
+                                            mostrarSnackbar("success", "Registro guardado correctamente.");
+                                            fnConsultarTabla();
+                                            fnLimpiarCampos(this);
+                                            // this.$validator.pause();
+                                            // Vue.nextTick(() => {
+                                            //     this.$validator.errors.clear();
+                                            //     this.$validator.resume();
+                                            // });   
                                         }
-                                    } catch (error) {
-                                        mostrarSnackbar('error');
-                                        console.error(error);
-                                    } finally {
-                                        swal.close();
                                     }
+                                } catch (error) {
+                                    mostrarSnackbar('error');
+                                    console.error(error);
+                                } finally {
+                                    swal.close();
                                 }
                             })
                         }
 
                         async function fnEditar() {
                             this.$validator.validate().then(async esValido => {
-                                if (esValido) {
-                                    try {
-                                        preloader("../../");
-                                        let parametros = new URLSearchParams();
-                                        parametros.append("accion", 3);
+                                try {
+                                    preloader("../../");
+                                    let parametros = new URLSearchParams();
+                                    parametros.append("accion", 9);
 
-                                        if (estatus.value === "opc_cancelado") {
-                                            parametros.append("estatus", false);
-                                        } else if (estatus.value === "opc_revisado") {
-                                            parametros.append("estatus", true);
-                                        } else {
-                                            // Manejar el caso en el que el valor de "estatus" no sea ninguno de los esperados.
-                                            mostrarSnackbar("error", "Estatus inválido");
-                                            return;
-                                        }
-                                        parametros.append("cve_analisis_docente", cve_analisis_docente.value);
+                                    parametros.append("cve_unidad_academica", cve_unidad_academica.value);
+                                    parametros.append("cve_academia", cve_academia.value);
+                                    parametros.append("programa_educativo", programa_educativo.value);
+                                    parametros.append("numero_ptc", numero_ptc.value);
+                                    parametros.append("anio_aplicacion", parseInt(anio_aplicacion.value.slice(0, 4), 10));
+                                    parametros.append("media_evaluacion_docente", media_evaluacion_docente.value);
+                                    parametros.append("media_evaluacion_tutoreo", media_evaluacion_tutoreo.value);
+                                    parametros.append("promedio_evaluacion_tutoreo", promedio_evaluacion_tutoreo.value);
+                                    parametros.append("promedio_evaluacion_docente", promedio_evaluacion_docente.value);
+                                    parametros.append("porcentaje_docentes_acreditados", porcentaje_docentes_acreditados.value);
+                                    parametros.append("fortalezas", fortalezas.value);
+                                    parametros.append("debilidades", debilidades.value);
+                                    parametros.append("necesidades", necesidades.value);
+                                    parametros.append("prioridad_capacitacion", prioridad_capacitacion.value);
+                                    parametros.append("estrategias_intervencion", estrategias_intervencion.value);
+                                    parametros.append("fecha_registro", fecha_registro.value);
+                                    parametros.append("activo", (activo.value == true ? 0 : 1));
+                                    parametros.append("usuario_registro", this.usuario_registro);
 
-                                        let { data, status } = await axios.post(ctr, parametros)
-                                        if (status == 200) {
-                                            if (data == "1") {
-                                                mostrarSnackbar("success", "Registro actualizado correctamente.");
-                                                fnConsultarTabla();
-                                                fnLimpiarCampos(this);
-                                                // this.$validator.pause();
-                                                // Vue.nextTick(() => {
-                                                //     this.$validator.errors.clear();
-                                                //     this.$validator.resume();
-                                                // });   
-                                            }
+                                    parametros.append("cve_analisis_docente", cve_analisis_docente.value);
+
+                                    let { data, status } = await axios.post(ctr, parametros)
+                                    if (status == 200) {
+                                        if (data == "1") {
+                                            mostrarSnackbar("success", "Registro actualizado correctamente.");
+                                            fnConsultarTabla();
+                                            fnLimpiarCampos(this);
+                                            // this.$validator.pause();
+                                            // Vue.nextTick(() => {
+                                            //     this.$validator.errors.clear();
+                                            //     this.$validator.resume();
+                                            // });   
                                         }
-                                    } catch (error) {
-                                        mostrarSnackbar('error');
-                                        console.error(error);
-                                    } finally {
-                                        swal.close();
                                     }
+                                } catch (error) {
+                                    mostrarSnackbar('error');
+                                    console.error(error);
+                                } finally {
+                                    swal.close();
                                 }
                             })
                         }
@@ -866,7 +886,6 @@
 
                             estatus.value = "";
 
-                            modoEdicion.value = false;
 
                             flagEditar.value = false;
                             itemEditar.value = {};
@@ -888,8 +907,8 @@
                             fechaActual, fnReasignacionDatos, userPermission, currentUser, currentUserObj,
                             fecha_registro, usuario_registro, programa_educativo, arrayAcademia,
                             arrayUnidadAcademica, arrayUGAC, arrayTipoEvento, arrayDepartamento, fnBusqueda, fnEditarItem,
-                            dialogBuscador, nombreBuscar, searchBusqueda, modoEdicion,
-                            fnUnidadAcademica, fnConsultarTabla, fnAcademia,
+                            dialogBuscador, nombreBuscar, searchBusqueda,
+                            fnUnidadAcademica, fnConsultarTabla, fnAcademia, fnCambiarEstatus,
                             color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar,
                             headersAnalisis, flagEditar, dataAnalisis, searchAnalisis, fnLimpiarCampos, fnGuardar,
                             fnEditar, itemEditar

@@ -40,7 +40,7 @@
     int usuario_registro = request.getParameter("usuario_registro") != null && !request.getParameter("usuario_registro").equals("") ? Integer.parseInt(request.getParameter("usuario_registro")) : 0;
     int responsable = request.getParameter("responsable") != null && !request.getParameter("responsable").equals("") ? Integer.parseInt(request.getParameter("responsable")) : 0;
 
-    boolean activo = request.getParameter("activo") != null && !request.getParameter("activo").equals("") ? Boolean.parseBoolean(request.getParameter("activo")) : false;
+    int activo = request.getParameter("activo")!=null && !request.getParameter("activo").equals("")?Integer.parseInt(request.getParameter("activo")):0;
     
     String materia = request.getParameter("materia") != null && !request.getParameter("materia").equals("") ? request.getParameter("materia").replace("+", " ") : "-";
     String fecha = request.getParameter("fecha") != null && !request.getParameter("fecha").equals("") ? request.getParameter("fecha").replace("+", " ") : "-";

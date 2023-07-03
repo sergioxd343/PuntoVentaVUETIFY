@@ -65,14 +65,27 @@
 
                                 <v-col md="8">
                                     <!--Fecha-->
-                                    <v-text-field outlined label="Fecha:" persistent-hint
-                                        v-validate="'required|max:100'" :readonly="true"
-                                        v-model="fechaActual"></v-text-field>
+                                    <v-menu ref="menu1" :close-on-content-click="false" :return-value.sync="fecha"
+                                        transition="scale-transition" offset-y min-width="auto">
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-text-field v-model="fechaActual" label="Fecha"
+                                                prepend-icon="mdi-calendar" readonly></v-text-field>
+                                        </template>
+                                        <v-date-picker v-model="fecha" no-title scrollable :readonly="true">
+                                            <v-spacer></v-spacer>
+                                            <v-btn text color="primary" @click="menu1 = false">
+                                                Cancel
+                                            </v-btn>
+                                            <v-btn text color="primary" @click="$refs.menu1.save(fecha)">
+                                                OK
+                                            </v-btn>
+                                        </v-date-picker>
+                                    </v-menu>
                                 </v-col>
 
                                 <v-col md="10" class="seccion_1">
                                     <p>
-                                        Marque el servicio que resibió:
+                                        Marque el servicio que recibió:
                                     </p>
                                     <v-col md="12">
                                         
@@ -95,11 +108,13 @@
                                             :error="errors.has('asesoria de Proyecto')"
                                             :error-messages="errors.first('asesoria de proyecto')"></v-autocomplete>
 
-                                        <!--Nombre del proyecto-->
-                                        <v-text-field v-if="cve_t_servicio === 2" v-model="nombre_proyecto" outlined
-                                            label="Nombre del proyecto:" persistent-hint
-                                            data-vv-name="nombre de proyecto" :error="errors.has('nombre de proyecto')"
-                                            :error-messages="errors.first('nombre de proyecto')"></v-text-field>
+                                        <!--Solicitud del proyecto-->
+                                        <v-autocomplete v-if="cve_t_servicio === 2" v-model="cve_solicitud_proyecto"
+                                            outlined label="Solicitud de Proyecto" persistent-hint
+                                            data-vv-name="solicitud de proyecto" :items="arraySolicitud"
+                                            item-value="cve_solicitud_proyecto" item-text="nombre_proyecto"
+                                            :error="errors.has('solicitud de Proyecto')"
+                                            :error-messages="errors.first('solicitud de proyecto')"></v-autocomplete>
                                     </v-col>
                                 </v-col>
 
@@ -368,9 +383,9 @@
                                     </v-card>
                                 </v-col>
 
-                                <v-col md="6">
-                                    <v-textarea v-model="comentarios" class="mx-2" label="Comentarios/Sugerencias" rows="1"
-                                        prepend-icon="mdi-comment"></v-textarea>
+                                <v-col md="10">
+                                    <v-textarea v-model="comentarios" label="Comentarios/Sugerencias" 
+                                        prepend-icon="mdi-comment" solo></v-textarea>
                                 </v-col>
 
                             </v-row>
@@ -483,8 +498,8 @@
                         const cve_eval_resul = ref("");
                         const cve_t_servicio = ref("");
                         const cve_asesoria_proyecto = ref("");
+                        const cve_solicitud_proyecto = ref("");
                         const cve_area = ref("");
-                        const nombre_proyecto = ref("");
                         const suma = ref("");
                         const porcentaje = ref("");
                         const cuatrimestre = ref("");
@@ -497,9 +512,11 @@
                         const arrayCuatrimestre = ref(["Ene-Abr", "May-Jun", "Jul-Ags"]);
                         const arrayTipoServicio = ref([]);
                         const arrayAsesoriaProyecto = ref([]);
+                        const arraySolicitud = ref([]);
                         const arrayArea = ref([]);
 
                         const fechaActual = ref("");
+                        const fecha = ref("");
 
                         const currentUser = localStorage.getItem("currentUser");
                         const currentUserObj = JSON.parse(currentUser);
@@ -548,6 +565,7 @@
                             fnConsultarTabla();
                             fnTipoServicio();
                             fnAsesoriaProyecto();
+                            fnSolicitud();
                             fnConsultarArea();
                             fnReasignacionDatos();
                         });
@@ -580,6 +598,24 @@
                                 if (status == 200) {
                                     if (data.length > 0) {
                                         arrayAsesoriaProyecto.value = data
+                                    }
+                                }
+                            } catch (error) {
+                                mostrarSnackbar('error');
+                                console.error(error);
+                            } finally {
+                                swal.close();
+                            }
+                        }
+                        async function fnSolicitud() {
+                            try {
+                                preloader("../../");
+                                let parametros = new URLSearchParams();
+                                parametros.append("accion", 7);
+                                let { data, status } = await axios.post(ctr, parametros)
+                                if (status == 200) {
+                                    if (data.length > 0) {
+                                        arraySolicitud.value = data
                                     }
                                 }
                             } catch (error) {
@@ -651,7 +687,7 @@
 
                             const calculo_fecha = new Date();
                             const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-                            fechaActual.value = calculo_fecha.toLocaleDateString(undefined, options); // Asignar la fecha actual al formato deseado
+                            fechaActual.value = new Date().toISOString().substr(0, 10);
                         }
 
                         async function fnGuardar() {
@@ -665,7 +701,7 @@
                                         parametros.append("cve_t_servicio", cve_t_servicio.value);
                                         parametros.append("cve_asesoria_proyecto", cve_asesoria_proyecto.value);
                                         parametros.append("cve_area", cve_area.value);
-                                        parametros.append("nombre_proyecto", nombre_proyecto.value);
+                                        parametros.append("cve_solicitud_proyecto", cve_solicitud_proyecto.value);
                                         parametros.append("suma", suma.value);
                                         parametros.append("porcentaje", porcentaje.value);
                                         parametros.append("cuatrimestre", cuatrimestre.value);
@@ -698,10 +734,11 @@
                         function fnLimpiarCampos(cx) {//cx = contexto
                             cve_eval_resul.value = "";
                             cve_t_servicio.value = "";
+                            cve_solicitud_proyecto.value = "";
                             cve_asesoria_proyecto.value = "";
                             cve_area.value = "";
-                            nombre_proyecto.value = "";
                             porcentaje.value = "";
+                            fecha.value = "";
                             cuatrimestre.value = "";
                             comentarios.value = "";
                             suma.value = "";
@@ -723,11 +760,11 @@
                         }
 
                         return {
-                            cve_eval_resul, cve_t_servicio, cve_asesoria_proyecto,
-                            suma, porcentaje, cuatrimestre, comentarios, activo, nombre_proyecto,
+                            cve_eval_resul, cve_t_servicio, cve_asesoria_proyecto, cve_solicitud_proyecto,
+                            suma, porcentaje, cuatrimestre, comentarios, activo, fecha,
                             fecha_registro, usuario_registro, calificaciones, cve_area, nombreCompleto, fechaActual,
-                            arrayCuatrimestre, arrayTipoServicio, arrayAsesoriaProyecto, arrayArea,
-                            headersEncuesta, dataEncuesta, searchEncuesta, fnBusqueda, fnReasignacionDatos,
+                            arrayCuatrimestre, arrayTipoServicio, arrayAsesoriaProyecto, arrayArea, arraySolicitud,
+                            headersEncuesta, dataEncuesta, searchEncuesta, fnBusqueda, fnReasignacionDatos, fnSolicitud,
                             dialogBuscador, nombreBuscar, searchBusqueda, currentUser, currentUserObj,
                             fnConsultarTabla, fnTipoServicio, fnAsesoriaProyecto, fnConsultarArea,
                             color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar,

@@ -51,12 +51,31 @@
 
                                 <v-col md="8">
                                     <!--Cuatrimestre-->
-                                    <v-autocomplete v-model="cuatrimestre" outlined label="Cuatrimestre" persistent-hint
-                                        v-validate="'required|max:55'" data-vv-name="cuatrimestre"
-                                        :items="arrayCuatrimestre" item-value="cuatrimestre" item-text="cuatrimestre"
+                                    <v-autocomplete v-model="cve_periodo" outlined label="Cuatrimestre" persistent-hint
+                                        v-validate="'required|max:70'" data-vv-name="cuatrimestre" :items="arrayPeriodo"
+                                        item-value="cve_periodo" item-text="descripcion"
                                         :error="errors.has('cuatrimestre')"
                                         :error-messages="errors.first('cuatrimestre')"
                                         :readonly="modoEdicion"></v-autocomplete>
+                                </v-col>
+
+                                <v-col md="8">
+                                    <v-menu ref="menu1" :close-on-content-click="false" :return-value.sync="fecha"
+                                        transition="scale-transition" offset-y min-width="auto">
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-text-field v-model="fechaActual" label="Fecha"
+                                                prepend-icon="mdi-calendar" readonly></v-text-field>
+                                        </template>
+                                        <v-date-picker v-model="fecha" no-title scrollable :readonly="true">
+                                            <v-spacer></v-spacer>
+                                            <v-btn text color="primary" @click="menu1 = false">
+                                                Cancel
+                                            </v-btn>
+                                            <v-btn text color="primary" @click="$refs.menu1.save(fecha)">
+                                                OK
+                                            </v-btn>
+                                        </v-date-picker>
+                                    </v-menu>
                                 </v-col>
 
                                 <v-col md="10">
@@ -66,8 +85,7 @@
                                     </p>
                                     <!--Objetivo del proyecto-->
                                     <v-textarea v-model="objetivo_proyecto" class="mx-2" label="Objetivo del proyecto"
-                                        rows="1" prepend-icon="mdi-comment"
-                                        :readonly="modoEdicion"></v-textarea>
+                                        rows="1" prepend-icon="mdi-comment" :readonly="modoEdicion"></v-textarea>
                                 </v-col>
 
                                 <v-col md="10">
@@ -83,8 +101,7 @@
                                 <v-col md="10">
                                     <!--Recursos necesarios-->
                                     <v-textarea v-model="recursos_necesarios" class="mx-2" label="Recursos necesarios"
-                                        rows="1" prepend-icon="mdi-comment"
-                                        :readonly="modoEdicion"></v-textarea>
+                                        rows="1" prepend-icon="mdi-comment" :readonly="modoEdicion"></v-textarea>
                                 </v-col>
 
                                 <v-col md="10">
@@ -158,14 +175,14 @@
                                                     <v-icon>mdi-square-edit-outline</v-icon>
                                                 </v-btn>
                                             </template>
-                                            <template v-slot:item.password="{item}">
-                                                <v-tooltip bottom>
-                                                    <template v-slot:activator="{on, attrs}">
-                                                        <span v-bind="attrs" v-on="on"
-                                                            @click="navigator.clipboard.writeText(item.password); mostrarSnackbar('success', 'Texto copiado al portapapeles.')"><b>{{item.password}}</b></span>
-                                                    </template>
-                                                    <span>Copiar contraseña</span>
-                                                </v-tooltip>
+                                            <template v-slot:item.estatus="{item}">
+                                                <v-chip class="ma-2 "
+                                                    style="width: 100px; display: flex; justify-content: center; align-items: center;"
+                                                    link @click="fnCambiarEstatus(item)"
+                                                    :color="item.estatus ? 'success' : 'grey'" outlined>
+                                                    {{ item.estatus ?
+                                                    "Revisado" : "Cancelado" }}
+                                                </v-chip>
                                             </template>
                                         </v-data-table>
                                     </v-col>
@@ -220,12 +237,14 @@
 
                         const cve_solicitud_proyecto = ref("");
                         const cve_area = ref("");
+                        const cve_periodo = ref("");
                         const nombre_proyecto = ref("");
                         const cuatrimestre = ref("");
                         const objetivo_proyecto = ref("");
                         const descripcion_proyecto = ref("");
                         const recursos_necesarios = ref("");
                         const acuerdos_establecidos = ref("");
+                        const fecha = ref("");
 
                         const fecha_registro = ref("");
                         const activo = ref("");
@@ -233,9 +252,12 @@
                         const currentUserObj = JSON.parse(currentUser);
                         const usuario_registro = currentUserObj[0].cve_persona;
 
+                        const fechaActual = ref("");
+
                         const arrayCuatrimestre = ref(["Ene-Abr", "May-Ago", "Sep-Dic"]);
                         const arrayArea = ref([]);
                         const arrayUsuario = ref([]);
+                        const arrayPeriodo = ref([]);
                         const userPermission = ref(false);
 
                         const estatus = ref("");
@@ -266,11 +288,11 @@
                             { text: 'No', align: 'left', sortable: true, value: 'cve_solicitud_proyecto' },
                             { text: 'Nombre de Área', align: 'left', sortable: true, value: 'nombre_area' },
                             { text: 'Nombre del proyecto', align: 'left', sortable: true, value: 'nombre_proyecto' },
-                            { text: 'Cuatrimestre', align: 'left', sortable: true, value: 'cuatrimestre' },
-                            { text: 'Estatus', align: 'left', sortable: true, value: 'estatus' },
+                            { text: 'Cuatrimestre', align: 'left', sortable: true, value: 'descripcion' },
                             { text: 'Usuario de registro', align: 'left', sortable: true, value: 'nombre_completo' },
                             { text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro' },
-                            { text: 'Editar', align: 'left', sortable: true, value: 'editar' },
+                            { text: 'Estatus', align: 'center', sortable: true, value: 'estatus' },
+                            //{ text: 'Editar', align: 'left', sortable: true, value: 'editar' },
                         ]);
                         const searchSolicitud = ref([]);
 
@@ -286,8 +308,10 @@
                         //Accion automatizada para mostrar la tabla
                         onMounted(() => {
                             fnArea();
+                            fnPeriodo();
                             fnConsultarTabla();
                             fnConsultarUsuario();
+                            fnReasignacionDatos();
                         });
 
                         //Consulta a base de datos
@@ -300,6 +324,24 @@
                                 if (status == 200) {
                                     if (data.length > 0) {
                                         arrayArea.value = data
+                                    }
+                                }
+                            } catch (error) {
+                                mostrarSnackbar('error');
+                                console.error(error);
+                            } finally {
+                                swal.close();
+                            }
+                        }
+                        async function fnPeriodo() {
+                            try {
+                                preloader("../../");
+                                let parametros = new URLSearchParams();
+                                parametros.append("accion", 7);
+                                let { data, status } = await axios.post(ctr, parametros)
+                                if (status == 200) {
+                                    if (data.length > 0) {
+                                        arrayPeriodo.value = data
                                     }
                                 }
                             } catch (error) {
@@ -359,19 +401,42 @@
                                 //axios envia la peticion
                                 let { data, status } = await axios.post(ctr, parametros)
                                 if (status == 200) {
-                                    if (data.length > 0) {
-                                        for (let i = 0; i < data.length; i++) {
-                                            if (data[i].estatus === true) {
-                                                data[i].estatus = "Revisado";
-                                            } else if (data[i].estatus === false) {
-                                                data[i].estatus = "Cancelado";
-                                            }
-                                        }
-                                        dataSolicitud.value = data
-                                    }
+
+                                    dataSolicitud.value = data
                                 }
                             } catch (error) {
                                 mostrarSnackbar('error');
+                                console.error(error);
+                            } finally {
+                                swal.close();
+                            }
+                        }
+
+                        async function fnCambiarEstatus(item) {
+                            try {
+                                preloader("../../");
+                                let parametros = new URLSearchParams();
+                                parametros.append("accion", 4);
+                                parametros.append("cve_solicitud_proyecto", item.cve_solicitud_proyecto);
+                                parametros.append("estatus", (item.estatus == true ? 0 : 1));
+                                console.log("🚀 ~ file: solicitud_proyecto.jsp:422 ~ fnCambiarEstatus ~ parametros:", parametros)
+                                let { data, status } = await axios.post(ctr, parametros);
+                                if (status == 200) {
+                                    if (data == "1") {
+                                        mostrarSnackbar(
+                                            "success",
+                                            "Registro actualizado correctamente."
+                                        );
+                                        fnConsultarTabla();
+                                        // this.$validator.pause();
+                                        // Vue.nextTick(() => {
+                                        //     this.$validator.errors.clear();
+                                        //     this.$validator.resume();
+                                        // });
+                                    }
+                                }
+                            } catch (error) {
+                                mostrarSnackbar("error");
                                 console.error(error);
                             } finally {
                                 swal.close();
@@ -385,7 +450,7 @@
                                 this.dataSolicitud = this.dataSolicitud.filter(item => {
                                     const nombreAreaMatch = item.nombre_area.toLowerCase().includes(this.nombreBuscar.toLowerCase());
                                     const usuarioRegistroMatch = item.nombre_completo.toLowerCase().includes(this.nombreBuscar.toLowerCase());
-                                    const cuatrimestreMatch = item.cuatrimestre.toString().includes(this.nombreBuscar);
+                                    const cuatrimestreMatch = item.descripcion.toString().includes(this.nombreBuscar);
 
                                     return nombreAreaMatch || usuarioRegistroMatch || cuatrimestreMatch;
                                 });
@@ -398,6 +463,7 @@
                             this.itemEditar = item;
                             this.cve_solicitud_proyecto = item.cve_solicitud_proyecto;
                             this.cve_area = item.cve_area;
+                            this.cve_periodo = item.cve_periodo;
                             this.nombre_proyecto = item.nombre_proyecto;
                             this.cuatrimestre = item.cuatrimestre;
                             this.objetivo_proyecto = item.objetivo_proyecto;
@@ -405,10 +471,14 @@
                             this.recursos_necesarios = item.recursos_necesarios;
                             this.acuerdos_establecidos = item.acuerdos_establecidos;
                             this.estatus = item.estatus === "Revisado" ? "opc_revisado" : "opc_cancelado";
+                            this.fechaActual = item.fecha_registro;
                             this.fecha_registro = item.fecha_registro;
                             this.activo = item.activo;
                         }
 
+                        function fnReasignacionDatos() {
+                            fechaActual.value = new Date().toISOString().substr(0, 10);
+                        }
 
                         async function fnGuardar() {
                             this.$validator.validate().then(async esValido => {
@@ -419,6 +489,7 @@
                                         parametros.append("accion", 2);
 
                                         parametros.append("cve_area", cve_area.value);
+                                        parametros.append("cve_periodo", cve_periodo.value);
                                         parametros.append("nombre_proyecto", nombre_proyecto.value);
                                         parametros.append("cuatrimestre", cuatrimestre.value);
                                         parametros.append("objetivo_proyecto", objetivo_proyecto.value);
@@ -507,12 +578,14 @@
                         function fnLimpiarCampos(cx) {//cx = contexto
                             cve_solicitud_proyecto.value = "";
                             cve_area.value = "";
+                            cve_periodo.value = "";
                             nombre_proyecto.value = "";
                             cuatrimestre.value = "";
                             objetivo_proyecto.value = "";
                             descripcion_proyecto.value = "";
                             recursos_necesarios.value = "";
                             acuerdos_establecidos.value = "";
+                            fecha.value = "";
                             estatus.value = "";
                             modoEdicion.value = false;
 
@@ -528,6 +601,7 @@
                             itemEditar.value = {};
 
                             fnConsultarTabla();
+                            fnReasignacionDatos();
 
                             if (this == undefined)
                                 cx.$validator.reset();
@@ -536,10 +610,10 @@
                         }
 
                         return {
-                            cve_solicitud_proyecto, cve_area, nombre_proyecto, objetivo_proyecto,
-                            descripcion_proyecto, recursos_necesarios, acuerdos_establecidos, estatus,
-                            cuatrimestre, fecha_registro, activo, usuario_registro,
-                            opc_revisado, opc_cancelado, fnBusqueda, modoEdicion, currentUser, currentUserObj,
+                            cve_solicitud_proyecto, cve_area, cve_periodo, nombre_proyecto, objetivo_proyecto,
+                            descripcion_proyecto, recursos_necesarios, acuerdos_establecidos, estatus, fechaActual, fecha,
+                            cuatrimestre, fecha_registro, activo, usuario_registro, arrayPeriodo, fnPeriodo, fnCambiarEstatus,
+                            opc_revisado, opc_cancelado, fnBusqueda, modoEdicion, currentUser, currentUserObj, fnReasignacionDatos,
                             arrayCuatrimestre, arrayArea, arrayUsuario, fnArea, fnConsultarTabla, fnEditarItem, fnConsultarUsuario,
                             dialogBuscador, nombreBuscar, searchBusqueda, userPermission,
                             color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar,
