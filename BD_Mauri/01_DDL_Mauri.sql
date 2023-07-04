@@ -108,7 +108,6 @@ CREATE TABLE unidad_academica(
 );
 
 -- ------------- TABLA ACADEMIA -------------- --
--- Modificacion: 21/04/23 por Carlos René Andrade
 CREATE TABLE academia(
 	cve_academia 				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	cve_unidad_academica 		INT,
@@ -222,8 +221,7 @@ CREATE TABLE empleado(
 CREATE TABLE solicitud_proyecto(
 	cve_solicitud_proyecto 		INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	cve_area					INT NOT NULL,
-	nombre_proyecto				VARCHAR(100),
-	cuatrimestre				VARCHAR(8),
+	cve_periodo					INT NOT NULL,
 	objetivo_proyecto			TEXT,
 	descripcion_proyecto 		TEXT,
 	recursos_necesarios			TEXT,
@@ -297,7 +295,7 @@ CREATE TABLE evaluacion_resultado(
 	cve_t_servicio 				INT NOT NULL,
 	cve_asesoria_proyecto		INT,
 	cve_area					INT NOT NULL,
-	nombre_proyecto				VARCHAR(100),
+	cve_solicitud_proyecto		INT NOT NULL,
 	suma						INT,
 	porcentaje 					FLOAT,
 	cuatrimestre				VARCHAR(8),
@@ -391,7 +389,6 @@ CREATE TABLE necesidad_capacitacion_anual (
 -- ------------- TABLA SOLICITUD DE REGISTRO DE CAPACITACION INTERNA -------------- --
 CREATE TABLE solicitud_capacitacion_interna(
 	cve_sol_cap_int 			INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	cve_instructor 				INT NOT NULL,
 	cve_horario					INT NOT NULL,
 	tipo_competencia			VARCHAR(15),
 	nombre						VARCHAR(50),
@@ -408,7 +405,7 @@ CREATE TABLE solicitud_capacitacion_interna(
 	programa_evento 			VARCHAR(50),
 	resultado_aprendizaje 		TEXT,
 	perfil_participante 		TEXT,
-	estatus						INT, -- 1.- permiso de ediciión, 2.- no autorizado, 3.- autorizado
+	estatus						INT, -- 1.- permiso de edición, 2.- no autorizado, 3.- autorizado
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
 	usuario_registro 			INT
@@ -802,6 +799,14 @@ CREATE TABLE instructor(
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
 	usuario_registro 			INT
+);
+
+-- ------------- TABLA SOLICITUD_INSTRUCTOR -------------- --
+CREATE TABLE solicitud_instructor(
+	cve_sol_cap_int 			INT NOT NULL,
+	cve_instructor 				INT NOT NULL,
+	FOREIGN KEY (cve_sol_cap_int) REFERENCES solicitud_capacitacion_interna(cve_sol_cap_int),
+	FOREIGN KEY (cve_instructor) REFERENCES instructor(cve_instructor)
 );
 
 -- ------------- TABLA GRUPO EVENTOS -------------- --

@@ -50,8 +50,8 @@ INSERT INTO menu (cve_padre, nombre, ruta, orden, usuario_registro)
                     (0, 'Innovación Educativa', '-', 9, 1),
                     (0, 'Eventos', '-', 15, 1),
                     (0, 'Catalogos Pequeños', '-', 19, 1),
-                    (0, 'Programas', '-', 30, 1),
-					(0, 'Sistema', '-', 32, 1);
+                    (0, 'Programas', '-', 31, 1),
+					(0, 'Sistema', '-', 34, 1);
 
 -- ------------- INSERTS DE  SUBMENU -------------- --
 INSERT INTO submenu (cve_menu, cve_padre, nombre, ruta, orden, usuario_registro) 
@@ -80,10 +80,11 @@ INSERT INTO submenu (cve_menu, cve_padre, nombre, ruta, orden, usuario_registro)
                     (4, 4, 'Tipo Servicio', '../catalogos_pequenios/tipo_servicio.jsp', 27, 1),
                     (4, 4, 'Periodo', '../catalogos_pequenios/periodo.jsp', 28, 1),
                     (4, 4, 'Horario', '../catalogos_pequenios/horario.jsp', 29, 1),
-                    (5, 5, 'Programa de Desarrollo', '../programas/programa_desarrollo.jsp', 31, 1),
-                    (5, 5, 'Programa de Desarrollo de Módulos', '../programas/programa_desarrollo_modulo.jsp', 32, 1),
-                    (5, 5, 'Programa de Desarrollo de Materia', '../programas/programa_desarrollo_materia.jsp', 33, 1),
-					(6, 6, 'Perfil de usuario', 'perfil_usuario.jsp', 34, 1);
+                    (4, 4, 'Instructor', '../catalogos_pequenios/instructor.jsp', 30, 1),
+                    (5, 5, 'Programa de Desarrollo', '../programas/programa_desarrollo.jsp', 32, 1),
+                    (5, 5, 'Programa de Desarrollo de Módulos', '../programas/programa_desarrollo_modulo.jsp', 33, 1),
+                    (5, 5, 'Programa de Desarrollo de Materia', '../programas/programa_desarrollo_materia.jsp', 34, 1),
+					(6, 6, 'Perfil de usuario', 'perfil_usuario.jsp', 36, 1);
 
 -- ------------- INSERTS DE MENU_PERMISOS -------------- --
 INSERT INTO menu_permisos (cve_grupo_seguridad, cve_menu, usuario_registro) 
@@ -210,22 +211,14 @@ VALUES
 (2, 'Diseño de Programas de Formación Docente', 'Desarrollo de planes de capacitación para profesores', 'Aprender a diseñar programas de formación docente que promuevan el crecimiento profesional y la actualización de conocimientos y habilidades de los profesores.', 'El curso abarcará la identificación de necesidades de capacitación, el diseño de contenidos y la evaluación de programas.', '2023-09-05', 1),
 (3, 'Tecnología Educativa Aplicada', 'Integración de herramientas tecnológicas en la enseñanza', 'Explorar las posibilidades que ofrecen las tecnologías educativas para mejorar la enseñanza y el aprendizaje en el aula.', 'El curso abarcará el uso de plataformas digitales, aplicaciones móviles y recursos multimedia en la práctica docente.', '2023-10-15', 1);
 
--- ------------- INSERTS DE SOLICITUD_CAPACITACION_INTERNA -------------- --
-INSERT INTO solicitud_capacitacion_interna (cve_instructor, cve_horario, total_dias, total_horas, numero_participantes, objetivo, alcance, metodologia, programa_evento, resultado_aprendizaje, perfil_participante, usuario_registro)
-                VALUES 
-                        (1, 1, 5, 40, 20, 'Capacitación en programación', 'Departamento de Desarrollo', 'Taller práctico', 'Programación Avanzada', 'Los participantes podrán desarrollar aplicaciones web modernas', 'Desarrolladores con conocimientos básicos en programación', 1),
-                        (2, 3, 3, 24, 15, 'Capacitación en diseño gráfico', 'Área de Diseño', 'Sesiones teóricas y prácticas', 'Diseño Digital', 'Los participantes adquirirán habilidades en diseño de interfaces', 'Estudiantes de diseño gráfico', 1),
-                        (3, 4, 2, 16, 10, 'Capacitación en metodologías ágiles', 'Departamento de Desarrollo', 'Talleres interactivos', 'Agile Scrum', 'Los participantes comprenderán los principios de las metodologías ágiles', 'Equipo de proyectos', 1);
-
-
 -- ------------- INSERTS DE INSTRUCTOR -------------- --
-INSERT INTO instructor (cve_tipo_instructor, nombre_instructor, usuario_registro)
+INSERT INTO instructor (cve_tipo_instructor, nombre_instructor, area_academica, programa_educativo, usuario_registro)
                 VALUES 
-                        (1, 'Maria Guadalupe', 1),
-                        (2, 'Simón Zendejas', 1),
-                        (1, 'Sergio Tavarez', 1),
-                        (2, 'Carlos Andrade', 1),
-                        (1, 'Brenda Gutiérrez', 1);
+                        (1, 'Maria Guadalupe', 'Dirección de Servicios Informáticos', 'Desarrollo de software', 1),
+                        (2, 'Simón Zendejas', 'Dirección de Servicios Informáticos', 'Desarrollo de software', 1),
+                        (1, 'Sergio Tavarez', 'Secretaría de Vinculación', 'Academia de expreción oral y escrita', 1),
+                        (2, 'Carlos Andrade', 'Dirección de Administración y Finanzas', 'Academia de matematicas', 1),
+                        (1, 'Brenda Gutiérrez', 'Dirección de Desarrollo Académico y Docente', 'Academia de expreción oral y escrita', 1);
 
 
 INSERT INTO espacio (nombre_espacio, usuario_registro) 

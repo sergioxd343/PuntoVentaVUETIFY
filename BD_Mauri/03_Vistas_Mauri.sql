@@ -98,24 +98,32 @@ IF OBJECT_ID('solicitud_cursos', 'V') IS NOT NULL
     DROP VIEW solicitud_cursos;
 GO
 CREATE VIEW solicitud_cursos AS
-SELECT        
-				solicitud_capacitacion_interna.total_dias, 
-				solicitud_capacitacion_interna.total_horas, 
-				solicitud_capacitacion_interna.objetivo, 
-				solicitud_capacitacion_interna.alcance, 
-				instructor.nombre_instructor, 
-                tipo_instructor.nombre_tipo_instructor, 
-				solicitud_capacitacion_interna.numero_participantes, 
-				solicitud_capacitacion_interna.metodologia, 
-				solicitud_capacitacion_interna.programa_evento, 
-				solicitud_capacitacion_interna.resultado_aprendizaje, 
-				solicitud_capacitacion_interna.perfil_participante, 
-				instructor.cve_instructor, 
-				instructor.cve_tipo_instructor
-FROM            
-				solicitud_capacitacion_interna INNER JOIN
-                instructor ON solicitud_capacitacion_interna.cve_instructor = instructor.cve_instructor INNER JOIN
-                tipo_instructor ON instructor.cve_tipo_instructor = tipo_instructor.cve_tipo_instructor
+SELECT
+    solicitud_capacitacion_interna.cve_sol_cap_int,
+    solicitud_capacitacion_interna.cve_horario,
+    solicitud_capacitacion_interna.tipo_competencia,
+    solicitud_capacitacion_interna.nombre,
+    solicitud_capacitacion_interna.total_dias,
+    solicitud_capacitacion_interna.total_horas,
+    solicitud_capacitacion_interna.fecha_inicio,
+    solicitud_capacitacion_interna.fecha_fin,
+    solicitud_capacitacion_interna.lugar,
+    solicitud_capacitacion_interna.curso,
+    solicitud_capacitacion_interna.numero_participantes,
+    solicitud_capacitacion_interna.objetivo,
+    solicitud_capacitacion_interna.alcance,
+    solicitud_capacitacion_interna.metodologia,
+    solicitud_capacitacion_interna.programa_evento,
+    solicitud_capacitacion_interna.resultado_aprendizaje,
+    solicitud_capacitacion_interna.perfil_participante,
+    solicitud_instructor.cve_instructor,
+    instructor.nombre_instructor,
+    instructor.area_academica,
+	instructor.programa_educativo
+FROM
+    solicitud_capacitacion_interna solicitud_capacitacion_interna
+    INNER JOIN solicitud_instructor solicitud_instructor ON solicitud_capacitacion_interna.cve_sol_cap_int = solicitud_instructor.cve_sol_cap_int
+    INNER JOIN instructor instructor ON solicitud_instructor.cve_instructor = instructor.cve_instructor;
 GO 
 
 IF OBJECT_ID('v_empleado_evento', 'V') IS NOT NULL
