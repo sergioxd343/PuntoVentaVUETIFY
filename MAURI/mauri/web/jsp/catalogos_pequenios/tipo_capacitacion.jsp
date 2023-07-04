@@ -210,7 +210,7 @@
                 
                 const headersTipoCapacitacion = ref([
                     {text: 'No', align: 'left', sortable: true, value: 'cve_tipo_capacitacion'},
-                    {text: 'Nombre capacitación', align: 'left', sortable: true, value: 'nombre_tipo_capacitacion'},
+                    {text: 'Nombre tipo capacitación', align: 'left', sortable: true, value: 'nombre_tipo_capacitacion'},
                     {text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro'},
                     {text: 'Estatus', align: 'left', sortable: true, value: 'estatus'},
                 ]);

@@ -207,7 +207,7 @@
             
                 const headersTipoEvento = ref([
                     {text: 'No', align: 'left', sortable: true, value: 'cve_tipo_evento'},
-                    {text: 'Nombre evento', align: 'left', sortable: true, value: 'nombre_tipo_evento'},
+                    {text: 'Nombre tipo evento', align: 'left', sortable: true, value: 'nombre_tipo_evento'},
                     {text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro'},
                     {text: 'Estatus', align: 'left', sortable: true, value: 'estatus'},
                 ]);

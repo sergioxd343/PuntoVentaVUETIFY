@@ -90,6 +90,9 @@
         case 6:
           out.println(datos.Consultas(parametros, "empleado"));
           break;
+        case 7:
+          out.println(datos.Consultas(parametros, "nombreEmpleado"));
+          break;
        default:
            out.print("ENTRO A CONTROLADOR"+ accion);
            break;

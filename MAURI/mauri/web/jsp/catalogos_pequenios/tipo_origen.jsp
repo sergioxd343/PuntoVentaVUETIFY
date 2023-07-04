@@ -204,7 +204,7 @@
             
                 const headersTipoOrigen = ref([
                     {text: 'No', align: 'left', sortable: true, value: 'cve_tipo_origen'},
-                    {text: 'Nombre origen', align: 'left', sortable: true, value: 'nombre_tipo_origen'},
+                    {text: 'Nombre tipo origen', align: 'left', sortable: true, value: 'nombre_tipo_origen'},
                     {text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro'},
                     {text: 'Estatus', align: 'left', sortable: true, value: 'estatus'},
                 ]);
