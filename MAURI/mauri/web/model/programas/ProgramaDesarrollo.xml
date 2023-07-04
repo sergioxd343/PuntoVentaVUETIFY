@@ -24,4 +24,11 @@ SET activo = 0
 WHERE cve_prog_des = ?;
 		</query>
 	</desactivarProgramaDesarrollo>
+	<activarProgramaDesarrollo>
+		<query>
+			UPDATE programa_desarrollo
+SET activo = 1
+WHERE cve_prog_des = ?;
+		</query>
+	</activarProgramaDesarrollo>
 </CatalogoProveedores>

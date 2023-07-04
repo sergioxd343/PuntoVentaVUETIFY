@@ -20,7 +20,7 @@ VALUES (@cve_prog_des, (SELECT numero_modulos FROM programa_desarrollo WHERE cve
 	</guardarProgramaDesarrolloModulo>
     <selectProgramaDesarollo>
 		<query>
-			select * from programa_desarrollo;
+			select * from programa_desarrollo WHERE activo = 1;
 		</query>
 	</selectProgramaDesarollo>
 	<desactivarProgramaDesarrolloModulos>
@@ -31,4 +31,9 @@ VALUES (@cve_prog_des, (SELECT numero_modulos FROM programa_desarrollo WHERE cve
 
 		</query>
 	</desactivarProgramaDesarrolloModulos>
+	<consultaModulos>
+		<query>
+			SELECT numero_modulos FROM programa_desarrollo where cve_prog_des = ?;
+		</query>
+	</consultaModulos>
 </CatalogoProveedores>

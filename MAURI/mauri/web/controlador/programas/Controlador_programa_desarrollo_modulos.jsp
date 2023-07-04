@@ -67,6 +67,12 @@
             parametros.add(temp_obj);
             out.println(datos.Registro(parametros, "desactivarProgramaDesarrolloModulos"));
             break;
+            case 5:
+                temp_obj = new JsonObject();
+                temp_obj.addProperty("cve_prog_des", cve_prog_des);
+                parametros.add(temp_obj);
+            out.println(datos.Consultas(parametros, "consultaModulos"));
+            break;
         default:
             out.print("ENTRO A CONTROLADOR"+ accion);
             break;

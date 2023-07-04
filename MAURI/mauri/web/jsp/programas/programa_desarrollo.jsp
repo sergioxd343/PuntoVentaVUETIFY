@@ -41,20 +41,7 @@
                                     ></v-text-field>
                                   </v-col>
 
-                                <v-col md=6>
-                                    <v-text-field 
-                                        v-model="descripcion_programa"
-                                        outlined
-                                        label="Descripción del programa de desarrollo"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="descripcion del programa"
-                                        :error="errors.has('descripcion del programa')"
-                                        :error-messages="errors.first('descripcion del programa')"
-                                    ></v-text-field>
-                                </v-col>
-                                
-                                <v-col md=6>
+                                  <v-col md=6>
                                     <v-text-field 
                                         v-model="numero_modulos"
                                         outlined
@@ -68,6 +55,23 @@
                                         pattern="[0-9]*"
                                     ></v-text-field>
                                 </v-col>
+
+                                <v-col md=12>
+                                    <v-textarea
+                                        v-model="descripcion_programa"
+                                        outlined
+                                        label="Descripción del programa de desarrollo"
+                                        persistent-hint
+                                        v-validate="'required|max:200'"
+                                        data-vv-name="descripcion del programa"
+                                        :error="errors.has('descripcion del programa')"
+                                        :error-messages="errors.first('descripcion del programa')"
+                                        :rows="3"
+                                        :style="{ height: 'auto', 'max-height': '84px' }"
+                                    ></v-textarea>
+                                </v-col>
+                                
+                                
 
                                 
 
@@ -114,6 +118,7 @@
                                     outlined
                                     hide-details
                                   ></v-text-field>
+                                  
                                   <v-data-table
                                     :headers="headersProgramaDesarrollo"
                                     :items="dataProgramaDesarrollo"
@@ -126,13 +131,19 @@
                                     :mobile-breakpoint="NaN"
                                     items-per-page="10"
                                   >
+                                  
                                   <template v-slot:item.activo="{ item }">
                                     <td>
-                                      <v-icon :class="{'green--text': item.activo, 'red--text': !item.activo}">
-                                        {{ item.activo ? 'mdi-check' : 'mdi-close' }}
-                                      </v-icon>
+                                      <v-btn
+                                      outlined
+                                        :color="item.activo ? 'success' : 'error'"
+                                        @click="item.activo ? fnEliminar(item) : fnActivar(item)"
+                                      >
+                                        {{ item.activo ? 'Activo' : 'Inactivo' }}
+                                      </v-btn>
                                     </td>
                                   </template>
+
                                         <template v-slot:item.status="{item}">
                                             <%-- <v-tooltip bottom> --%>
                                                 <%-- <template v-slot:activator="{on, attrs}"> --%>
@@ -301,7 +312,6 @@
                     {text: 'Descripción', align: 'left', sortable: true, value: 'descripcion'},
                     {text: 'Fecha', align: 'left', sortable: true, value: 'fecha_registro'},
                     {text: 'Estatus', align: 'left', sortable: true, value: 'activo', valueFormat: (value) => value ? 'true' : 'false', color: (value) => value ? 'green' : 'red' },
-                    {text: 'Desactivar', align: 'left', sortable: true, value: 'eliminar'},
                 ]);
                 
                 const searchProgramaDesarrollo = ref([]);
@@ -398,6 +408,31 @@
                     })
                 }
 
+                async function fnActivar(item){
+                    confirmarE("¿Realmente quieres activar éste registro?").then(async (result) => {
+                        if(result.isConfirmed){
+                            try{
+                                preloader("../../");
+                                let parametros = new URLSearchParams();
+                                parametros.append("accion", 4);
+                                parametros.append("cve_prog_des", item.cve_prog_des);
+                                let {data,status} = await axios.post(ctr, parametros)
+                                if(status == 200){
+                                    if(data=="1"){
+                                        fnConsultarTabla();
+                                    }
+                                }
+                            } catch(error){
+                                mostrarSnackbar('error');
+                                console.error(error);
+                            } finally{
+                                swal.close();
+                            }
+
+                        }
+                    })
+                }
+
                 function fnLimpiarCampos(cx){//cx = contexto
                     nombre_programa.value = "";
                     descripcion_programa.value = "";
@@ -427,7 +462,7 @@
                      descripcion_programa, numero_modulos,
                     dataProgramaDesarrollo, headersProgramaDesarrollo, searchProgramaDesarrollo, arrayTiposUsuario, 
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor, search,
-                    fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEliminar, itemEditar
+                    fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEliminar, fnActivar,itemEditar
                 }
             },
             
@@ -436,4 +471,9 @@
 
         Vue.config.devtools = true;
 </script>
+<style>
+    .col-expanded {
+      height: 100%;
+    }
+    </style>
 </html>

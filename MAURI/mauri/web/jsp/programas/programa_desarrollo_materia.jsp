@@ -64,17 +64,19 @@
                                     <v-text-field 
                                         v-model="duracion"
                                         outlined
-                                        label="Duración"
+                                        label="Duración en horas"
                                         persistent-hint
                                         v-validate="'required|max:200'"
                                         data-vv-name="duración"
                                         :error="errors.has('duración')"
                                         :error-messages="errors.first('duración')"
+                                        type="number"
+                                        pattern="[0-9]*"
                                     ></v-text-field>
                                 </v-col>
 
-                                <v-col md=6>
-                                    <v-text-field 
+                                <v-col md=12>
+                                    <v-textarea 
                                         v-model="objetivo"
                                         outlined
                                         label="Objetivo"
@@ -83,10 +85,10 @@
                                         data-vv-name="objetivo"
                                         :error="errors.has('objetivo')"
                                         :error-messages="errors.first('objetivo')"
-                                    ></v-text-field>
+                                    ></v-textarea>
                                 </v-col>
-                                <v-col md=6>
-                                    <v-text-field 
+                                <v-col md=12>
+                                    <v-textarea 
                                         v-model="resultado_aprendizaje"
                                         outlined
                                         label="Resultado de Aprendizaje"
@@ -95,7 +97,7 @@
                                         data-vv-name="resultado aprendizaje"
                                         :error="errors.has('resultado aprendizaje')"
                                         :error-messages="errors.first('resultado aprendizaje')"
-                                    ></v-text-field>
+                                    ></v-textarea>
                                 </v-col>
 
                                 
@@ -144,13 +146,20 @@
                                                 <%-- <span>d</span> --%>
                                             <%-- </v-tooltip> --%>
                                         </template>
+                                        
+
                                         <template v-slot:item.activo="{ item }">
                                             <td>
-                                              <v-icon :class="{'green--text': item.activo, 'red--text': !item.activo}">
-                                                {{ item.activo ? 'mdi-check' : 'mdi-close' }}
-                                              </v-icon>
+                                              <v-btn
+                                              outlined
+                                                :color="item.activo ? 'success' : 'error'"
+                                                @click="item.activo ? fnEliminar(item) : fnActivar(item)"
+                                              >
+                                                {{ item.activo ? 'Activo' : 'Inactivo' }}
+                                              </v-btn>
                                             </td>
                                           </template>
+                                          
                                         <template v-slot:item.editar="{item}">
                                             <v-btn fab small color="warning" @click="flagEditar = true; itemEditar = item;
                                                 tipo = item.tipo;
@@ -324,7 +333,6 @@
                     {text: 'Objetivo', align: 'left', sortable: true, value: 'objetivo'},
                     {text: 'Resultado del Aprendizaje', align: 'left', sortable: true, value: 'resultado_aprendizaje'},
                     {text: 'Estatus', align: 'left', sortable: true, value: 'activo'},
-                    {text: 'Desactivar', align: 'left', sortable: true, value: 'eliminar'},
                     {text: 'Clave Módulo', align: 'left', sortable: true, value: 'cve_modulo'},
                     {text: 'Clave Materia', align: 'left', sortable: true, value: 'cve_materia'},
                 ]);

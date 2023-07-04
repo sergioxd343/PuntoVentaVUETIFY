@@ -42,9 +42,13 @@
                                       data-vv-name="programa de desarrollo"
                                       :error="errors.has('programa de desarrollo')"
                                       :error-messages="errors.first('programa de desarrollo')"
+                                      @change="fnConsultarModulo"
                                     ></v-select>
                                   </v-col>
 
+                                  
+
+                                  
                                   
 
                                 <v-col md=6>
@@ -131,13 +135,19 @@
                                     <template v-slot:item.color="{ item }">
                                         <v-icon :style="{ color: item.color }">mdi-circle</v-icon>
                                     </template>
+                                    
                                     <template v-slot:item.activo="{ item }">
                                         <td>
-                                          <v-icon :class="{'green--text': item.activo, 'red--text': !item.activo}">
-                                            {{ item.activo ? 'mdi-check' : 'mdi-close' }}
-                                          </v-icon>
+                                          <v-btn
+                                          outlined
+                                            :color="item.activo ? 'success' : 'error'"
+                                            @click="item.activo ? fnEliminar(item) : fnActivar(item)"
+                                          >
+                                            {{ item.activo ? 'Activo' : 'Inactivo' }}
+                                          </v-btn>
                                         </td>
                                       </template>
+
                                     <template v-slot:item.status="{ item }">
                                         <v-switch v-model="item.status" @change="fnCambiarEstatus(item)"></v-switch>
                                     </template>
@@ -303,13 +313,13 @@
     ]);
                 //dataUsuarios
                 const dataProveedores = ref([]); 
+                const dataModulo = ref([]); 
                 const dataUsuarios = ref([]);
                 const headersProveedores = ref([
                     {text: 'Nombre del módulo', align: 'left', sortable: true, value: 'nombre_modulo'},
                     {text: 'Número de materias', align: 'left', sortable: true, value: 'num_materias'},
                     {text: 'Color ', align: 'left', sortable: true, value: 'color'},
                     {text: 'Estatus', align: 'left', sortable: true, value: 'activo'},
-                    {text: 'Desactivar', align: 'left', sortable: true, value: 'eliminar'},
                     {text: 'Clave modulo', align: 'left', sortable: true, value: 'cve_modulo'},
                 ]);
                 const searchProveedores = ref([]);
@@ -319,6 +329,9 @@
                     fnConsultarTabla();
                     fnProgramaDesarrollo();
                 });
+
+
+                
 
                                 
                 async function fnConsultarTabla(){
@@ -334,6 +347,30 @@
                             if(data.length > 0){
 
                                 dataProveedores.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                }
+
+                async function fnConsultarModulo(){
+                    try{
+                        preloader("../../");
+                        //arreglo
+                        let parametros = new URLSearchParams();
+                        //le mandamos un parametro llamado accion
+                        parametros.append("accion", 5);
+                        parametros.append("cve_prog_des", cve_prog_des.value);
+                        //axios envia la peticion
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+
+                                dataModulo.value = data
                             }
                         }
                     } catch(error){
@@ -484,9 +521,9 @@
                 return{
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
                     nombreUsuario, cve_prog_des, cve_modulo,nombre_modulo, num_materias,color,
-                    dataProveedores, headersProveedores, searchProveedores, ArrayProgramaDesarrollo, ArrayModulo, search,
+                    dataProveedores, headersProveedores, dataModulo, searchProveedores, ArrayProgramaDesarrollo, ArrayModulo, search,
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor, coloresBasicos,
-                    fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, itemEditar
+                    fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar,fnConsultarModulo, itemEditar
                 }
             },
             
