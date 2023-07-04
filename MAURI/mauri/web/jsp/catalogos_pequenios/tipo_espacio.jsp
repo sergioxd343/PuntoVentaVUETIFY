@@ -211,7 +211,7 @@
 
                 const headersTipoEspacio = ref([
                     {text: 'No', align: 'left', sortable: true, value: 'cve_tipo_espacio'},
-                    {text: 'Nombre espacio', align: 'left', sortable: true, value: 'nombre_tipo_espacio'},
+                    {text: 'Nombre tipo espacio', align: 'left', sortable: true, value: 'nombre_tipo_espacio'},
                     {text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro'},
                     { text: "Estatus", align: "left", sortable: true, value: 'estatus' },
                 ]);

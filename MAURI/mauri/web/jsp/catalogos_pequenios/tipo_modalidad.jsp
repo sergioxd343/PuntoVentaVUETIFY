@@ -208,7 +208,7 @@
                                 
                 const headersTipoModalidad = ref([
                     {text: 'No', align: 'left', sortable: true, value: 'cve_tipo_modalidad'},
-                    {text: 'Nombre modalidad', align: 'left', sortable: true, value: 'nombre_tipo_modalidad'},
+                    {text: 'Nombre tipo modalidad', align: 'left', sortable: true, value: 'nombre_tipo_modalidad'},
                     {text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro'},
                     {text: 'Estatus', align: 'left', sortable: true, value: 'estatus'},
                 ]);

@@ -212,7 +212,7 @@
                 
                 const headersTiposOrientacion = ref([
                     {text: 'No', align: 'left', sortable: true, value: 'cve_tipo_orientacion'},
-                    {text: 'Nombre orientación', align: 'left', sortable: true, value: 'nombre_tipo_orientacion'},
+                    {text: 'Nombre tipo orientación', align: 'left', sortable: true, value: 'nombre_tipo_orientacion'},
                     {text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro'},
                     {text: 'Estatus', align: 'left', sortable: true, value: 'estatus'},
                 ]);
