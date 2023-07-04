@@ -33,10 +33,30 @@
 
     <insertarSolicitud>
         <query>
-            INSERT INTO solicitud_capacitacion_interna (cve_instructor,	cve_horario, tipo_competencia, nombre, total_dias, total_horas, 
-            fecha_inicio,fecha_fin, lugar, curso, numero_participantes, objetivo, alcance, metodologia, programa_evento, resultado_aprendizaje,
-    	    perfil_participante, estatus, activo, fecha_registro, usuario_registro) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1, GETDATE(), ?);
+			DECLARE @instructores VARCHAR(MAX);
+			SET @instructores = ?; 
+
+
+			EXEC InsertarSolicitudConInstructores
+				@cve_horario = ?,
+				@tipo_competencia = ?,
+				@nombre = ?,
+				@total_dias = ?,
+				@total_horas = ?,
+				@fecha_inicio = ?,
+				@fecha_fin = ?,
+				@lugar = ?,
+				@curso = ?,
+				@numero_participantes = ?,
+				@objetivo = ?,
+				@alcance = ?,
+				@metodologia = ?,
+				@programa_evento = ?,
+				@resultado_aprendizaje = ?,
+				@perfil_participante = ?,
+				@estatus = 1,
+				@usuario_registro = ?,
+				@instructores = @instructores;
         </query>
     </insertarSolicitud>
     

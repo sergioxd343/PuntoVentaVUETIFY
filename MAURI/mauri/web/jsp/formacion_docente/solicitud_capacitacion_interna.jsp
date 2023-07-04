@@ -348,10 +348,11 @@
                                     </v-row>
 
                                     <v-divider></v-divider>
-                                    <v-row v-for="index in numberOfInputs" :key="index" justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+                                    <v-row v-for="(item, index) in numberOfInputs" :key="index" justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                         <v-col md="4">
                                             <v-select 
                                             v-model="nombreFacilitador[index]" 
+                                            @change="agregarInstructor(nombreFacilitador[index])"
                                             outlined label="Nombre"
                                             persistent-hint 
                                             :items="facilitadores"
@@ -397,8 +398,27 @@
                                                 <v-btn color="primary" v-bind="attrs" v-on="on"
                                                     @click="numberOfInputs++"><v-icon>mdi-account-multiple-plus</v-icon></v-btn>
                                             </template>
-                                            <span>Agregar un nuevo facilitador</span>
+                                            <span>Agregar un nuevo instructor</span>
                                         </v-tooltip>
+
+                                     
+                                        <v-tooltip top>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn color="error" v-bind="attrs" v-on="on" @click="numberOfInputs--">
+                                                    <v-icon>mdi-close</v-icon>
+                                                </v-btn>
+                                            </template>
+                                            <span>Quitar instructor</span>
+                                        </v-tooltip>
+                                        
+                                        
+
+                                        
+                                       
+
+
+                                        
+                                          
 
                                         
                                     <!--BOTONES CRUD-->
@@ -553,6 +573,7 @@
                     const facilitadores = ref([]);
                     const programas = ref([]);
                     const horarios = ref([]);
+                    const instructoresSeleccionados = ref([]);
 
                     
                     //Otras variables
@@ -724,7 +745,7 @@
                                     preloader("../../");
                                     let parametros = new URLSearchParams();
                                     parametros.append("accion", 1);
-                                    parametros.append("nombreFacilitador", nombreFacilitador.value.join(",").slice(1));
+                                    parametros.append("nombreFacilitador", this.instructoresSeleccionados.join(",") );
                                     parametros.append("horario", horario.value);
                                     parametros.append("tipoCompetencia", tipoCompetencia.value);
                                     parametros.append("nombreCurso", nombreCurso.value);
@@ -816,7 +837,7 @@
 
                         nombre, ape1, ape2, area, programa, puesto, carrera,
 
-                        programas, horarios, areas, facilitadores,
+                        programas, horarios, areas, facilitadores, instructoresSeleccionados,
 
                         idSolicitud,
                         
@@ -852,17 +873,36 @@
                     }
 
                     const keyword = this.buscar.toLowerCase();
-                    return this.dataSolicitudCapacitacion.filter(item => item.nombre_curso.toLowerCase().includes(keyword));
+                    return this.dataSolicitudCapacitacion.filter(item => item.nombre.toLowerCase().includes(keyword));
                     console.log(datosFiltrados())
                     }
                 },
                 methods: {
-                
                     
                     filtrarTabla() {
                         console.log("jijojio:", this.buscar);
-                    }
                     },
+                    // METODO PARA LLENAR UN ARRAY CON LOS INSTRUCTORES PROPUESTOS PARA LA CAPACITACIÓN
+                    agregarInstructor(instructor) {
+                        if (instructor) {
+                            this.instructoresSeleccionados.push(instructor);
+                        } else {
+                            const index = this.instructoresSeleccionados.indexOf(instructor);
+                            if (index !== -1) {
+                                this.instructoresSeleccionados.splice(index, 1);
+                            }
+                        }
+                        console.log(this.instructoresSeleccionados);
+                    },
+
+                    eliminarInstructor(index) {
+                        this.instructoresSeleccionados.splice(index, 1);
+                        this.nombreFacilitador.splice(index, 1);
+                        this.areaPertenece.splice(index, 1);
+                        this.programaEducativo.splice(index, 1);
+                    }
+
+                },
                    
             
         });
