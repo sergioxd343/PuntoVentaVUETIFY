@@ -93,13 +93,13 @@
                             <v-row class="align-center" style="padding: 0px 50px 0px 50px">
                                 <v-col md=7>
                                     <v-select 
-                                        v-model="areaCapacitacion"
+                                        v-model="cursoTomado"
                                         outlined
                                         label="Seleccione el curso del cual desea hacer su autoevaluación"
                                         v-validate="'required'"
                                         :items="arrayCursosTomados"
                                         item-value="cve_even_prog"
-                                        item-text="calificacion_curso"
+                                        item-text="nombre_evento"
                                         data-vv-name="areaCapacitacion"
                                         :error="errors.has('areaCapacitacion')"
                                         :error-messages="errors.first('areaCapacitacion')"
@@ -453,6 +453,7 @@
                 const evidencias = ref("");
                 const otro = ref("");
                 const promedio = ref("");
+                const cursoTomado = ref("");
                 
                 //ARREGLOS
                 const arrayCarreras = ref([]);
@@ -676,6 +677,7 @@
                     idEmpleado, area, carrera,
                     objetivo, alcance, periodo, fecha, areaCapacitacion, escala1, escala2, escala3, escala4, escala5,  otraAct, otraAct1,
                     option, option1, option2, option3, option4, otro, evidencias, promedio, currentUser, nombre, ape1, ape2, sexo, puesto,
+                    cursoTomado,
                     
 
                     arrayCarreras, arrayAreasCapacitacion, arrayEscala, arrayPeriodo, arrayCursos, arrayCursosTomados,
