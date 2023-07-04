@@ -489,9 +489,9 @@
                                         parametros.append("accion", 2);
 
                                         parametros.append("cve_area", cve_area.value);
+                                        console.log(cve_periodo.value);
                                         parametros.append("cve_periodo", cve_periodo.value);
                                         parametros.append("nombre_proyecto", nombre_proyecto.value);
-                                        parametros.append("cuatrimestre", cuatrimestre.value);
                                         parametros.append("objetivo_proyecto", objetivo_proyecto.value);
                                         parametros.append("descripcion_proyecto", descripcion_proyecto.value);
                                         parametros.append("recursos_necesarios", recursos_necesarios.value);
