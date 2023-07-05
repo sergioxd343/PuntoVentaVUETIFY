@@ -464,6 +464,7 @@
                 const arrayPeriodo = ref([]);
                 const arrayCursos = ref([]);
                 const arrayCursosTomados = ref([]);
+                const arrayCursoSeleccionado = ref([]);
 
                 
                 //Otras variables
@@ -627,8 +628,34 @@
                     }
                 }
 
-                function fnLimpiarCampos(cx){//cx = contexto
+                async function fnInfoCursos(){
+                    try{
+                        preloader("../");
+                        //arreglo
+                        let parametros = new URLSearchParams();
+                        //le mandamos un parametro llamado accion
+                        parametros.append("accion", 5);
+                        //axios envia la peticion
+                        preloader("../../");
+                        parametros.append("cursoSeleccionado", valor);
+                                    
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                arrayCursoSeleccionado.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                }
 
+                
+
+                function fnLimpiarCampos(cx){//cx = contexto
                     
                     objetivo.value = "";
                     alcance.value = "";
@@ -680,13 +707,13 @@
                     cursoTomado,
                     
 
-                    arrayCarreras, arrayAreasCapacitacion, arrayEscala, arrayPeriodo, arrayCursos, arrayCursosTomados,
+                    arrayCarreras, arrayAreasCapacitacion, arrayEscala, arrayPeriodo, arrayCursos, arrayCursosTomados, arrayCursoSeleccionado,
                     
                     
                     dataProveedores, headersProveedores, searchProveedores, arrayTiposProveedores, 
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor,
                     fnLimpiarCampos, itemEditar, searchBusqueda,
-                    fnConsultarTabla, fnGuardar, periodos,
+                    fnConsultarTabla, fnGuardar, fnInfoCursos, periodos,
                 }
             },
             methods: {
@@ -695,9 +722,18 @@
                     this.promedio = "Promedio: "+ sumaEscalas / 4;
                     console.log(this.promedio);
                 },
+                
             },
-            
+            // sirve para observar cambios en los datos y ejecutar funciones cuando se detecta un cambio
 
+            watch: {
+                cursoTomado(valorSeleccionado) {
+                    const valor = valorSeleccionado;
+                    console.log(valor); // Imprime el valor seleccionado en la consola
+                    fnInfoCursos();
+                    
+                }
+            },
             
         });
 

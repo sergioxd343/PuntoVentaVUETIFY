@@ -59,11 +59,14 @@
     int cve_proveedor = request.getParameter("cve_proveedor") != null && !request.getParameter("cve_proveedor").equals("") ? Integer.parseInt(request.getParameter("cve_proveedor")) : 0;
 
 
-    String nombreBuscar = request.getParameter("nombreBuscar") != null && !request.getParameter("nombreBuscar").equals("") ? request.getParameter("nombreBuscar") : "-";
+    
     String cve_empleado = request.getParameter("cve_empleado") != null && !request.getParameter("cve_empleado").equals("") ? request.getParameter("cve_empleado") : "-";
-    String cve_persona = request.getParameter("cve_persona") != null && !request.getParameter("cve_persona").equals("") ? request.getParameter("cve_persona") : "-";
-    String cve_permiso = request.getParameter("cve_permiso") != null && !request.getParameter("cve_permiso").equals("") ? request.getParameter("cve_permiso") : "-";
+    String cve_curso = request.getParameter("cve_curso") != null && !request.getParameter("cve_curso").equals("") ? request.getParameter("cve_curso") : "-";
+    String cve_calificacion = request.getParameter("cve_calificacion") != null && !request.getParameter("cve_calificacion").equals("") ? request.getParameter("cve_calificacion") : "-";
+    String nombreInstructor = request.getParameter("nombreInstructor") != null && !request.getParameter("nombreInstructor").equals("") ? request.getParameter("nombreInstructor") : "-";
+    String calificacion = request.getParameter("calificacion") != null && !request.getParameter("calificacion").equals("") ? request.getParameter("calificacion") : "-";
     String cve = request.getParameter("cve") != null && !request.getParameter("cve").equals("") ? request.getParameter("cve") : "-";
+    String idUsuario = request.getParameter("idUsuario") != null && !request.getParameter("idUsuario").equals("") ? request.getParameter("idUsuario") : "-";
 
     switch (accion) {
         case 1:
@@ -74,6 +77,17 @@
             //temp_obj.addProperty("cve", cve);
             parametros.add(cve);
             out.println(datos.Consultas(parametros, "tablaParticipantes"));
+            break;
+        case 3:
+            temp_obj = new JsonObject();
+            temp_obj.addProperty("cve_empleado", cve_empleado); 
+            temp_obj.addProperty("cve_curso", cve_curso); 
+            
+            temp_obj.addProperty("nombreInstructor", nombreInstructor); 
+            temp_obj.addProperty("calificacion", calificacion);
+            temp_obj.addProperty("idUsuario", idUsuario);
+            parametros.add(temp_obj);
+            out.println(datos.Registro(parametros, "guardarEvaluacion"));
             break;
         default:
             out.print("ENTRO A CONTROLADOR"+ accion);

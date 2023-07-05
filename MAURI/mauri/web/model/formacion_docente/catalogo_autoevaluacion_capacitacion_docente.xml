@@ -44,29 +44,34 @@ and open the template in the editor.
 	<cursoTomado>
 		<query>
 			SELECT TOP (200) 
-    evento_programado.cve_even_prog, 
-    evento_programado.cve_origen_evento, 
-    evento_programado.cve_espacio, 
-    evento_programado.cve_modalidad, 
-    evento_programado.nombre_evento, 
-    evento_programado.nombre_origen, 
-    evento_programado.sin_horario, 
-    evento_programado.horario_inicio, 
-    evento_programado.horario_fin, 
-    evento_programado.fecha_inicio, 
-    evento_programado.fecha_fin, 
-    evento_programado.estatus, 
-    evento_programado.activo, 
-    evento_programado.fecha_registro, 
-    evento_programado.usuario_registro, 
-    evento_programado_grupo.cve_empleado
-FROM evento_programado
-INNER JOIN evento_programado_grupo 
-    ON evento_programado.cve_even_prog = evento_programado_grupo.cve_even_prog
-WHERE evento_programado_grupo.cve_empleado = ?;
-
+				evento_programado.cve_even_prog, 
+				evento_programado.cve_origen_evento, 
+				evento_programado.cve_espacio, 
+				evento_programado.cve_modalidad, 
+				evento_programado.nombre_evento, 
+				evento_programado.nombre_origen, 
+				evento_programado.sin_horario, 
+				evento_programado.horario_inicio, 
+				evento_programado.horario_fin, 
+				evento_programado.fecha_inicio, 
+				evento_programado.fecha_fin, 
+				evento_programado.estatus, 
+				evento_programado.activo, 
+				evento_programado.fecha_registro, 
+				evento_programado.usuario_registro, 
+				evento_programado_grupo.cve_empleado
+			FROM evento_programado
+			INNER JOIN evento_programado_grupo 
+				ON evento_programado.cve_even_prog = evento_programado_grupo.cve_even_prog
+			WHERE evento_programado_grupo.cve_empleado = ?;
 		</query>
 	</cursoTomado>
+
+	<infoCurso>
+		<query>
+			select * from evento_programado WHERE cve_even_prog = ?
+		</query>
+	</infoCurso>
 	
 
 

@@ -76,6 +76,7 @@
     String otraAct = request.getParameter("otraAct") != null && !request.getParameter("otraAct").equals("") ? request.getParameter("otraAct") : "-";
     String otraAct1 = request.getParameter("otraAct1") != null && !request.getParameter("otraAct1").equals("") ? request.getParameter("otraAct1") : "-";
     String cve = request.getParameter("cve") != null && !request.getParameter("cve").equals("") ? request.getParameter("cve") : "-";
+    String cursoSeleccionado = request.getParameter("cursoSeleccionado") != null && !request.getParameter("cursoSeleccionado").equals("") ? request.getParameter("cursoSeleccionado") : "-";
     
     switch (accion) {
         case 1:
@@ -97,6 +98,10 @@
             break;
         case 4: 
             out.println(datos.Consultas(parametros, "periodo")); 
+            break;
+        case 5: 
+            parametros.add(cursoSeleccionado);
+            out.println(datos.Consultas(parametros, "infoCurso")); 
             break;
     }
 %>

@@ -31,50 +31,77 @@
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px"> 
                             
                                 <template>
-                                    <v-col md=5>
+                                    <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+                                      <v-col md="6">
                                         <v-data-table
-                                            :headers="headersGrupos"
-                                            :items="dataGrupos"
-                                            class="elevation-2"
-                                            no-data-text="No se encontro ningun registro"
-                                            :hide-default-header="dataGrupos.length < 1"
-                                            :hide-default-footer="dataGrupos.length < 1"
-                                            locale="es-ES"
-                                            :mobile-breakpoint="NaN"
-                                            items-per-page="10"
+                                          v-if="mostrarGrupos"
+                                          :headers="headersGrupos"
+                                          :items="dataGrupos"
+                                          class="elevation-2"
+                                          no-data-text="No se encontró ningún registro"
+                                          :hide-default-header="dataGrupos.length < 1"
+                                          :hide-default-footer="dataGrupos.length < 1"
+                                          locale="es-ES"
+                                          :mobile-breakpoint="NaN"
+                                          items-per-page="10"
                                         >
-                                            <template v-slot:item.ingresar="{ item }">
-                                                            
-                                                <v-icon color="green" @click="fnObtener(item); fnLlenar()">mdi-arrow-right</v-icon>
-                                            
-                                            </template>
+                                          <template v-slot:item.ingresar="{ item }">
+                                            <v-icon color="green" @click="mostrarParticipantes = true; mostrarGrupos = false; fnObtener(item); fnLlenar()">mdi-arrow-right</v-icon>
+                                          </template>
                                         </v-data-table>
+                                      </v-col>
+                                    </v-row>
+                                  
+                                    <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+                                        <v-row v-if="mostrarParticipantes">
+                                            <v-col md=12>
+                                                <table id="tabla" class="text-left">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th class="th">Número del curso</th>
+                                                            <td class="td" style="width: 670px;">  {{ this.nombreEvento }} </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="th">Nombre del instructor</th>
+                                                            <td class="td" style="width: 650px;"> {{ this.nombreInstructor }} </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </v-col>
+                                            </v-row>
+                                    </v-row>
 
-                                    </v-col>
-                                </template>
-
-                                <template>
-                                    <v-col md=5>
-                                        <v-data-table
+                                        <v-col md="12">
+                                            <v-data-table
+                                            v-if="mostrarParticipantes"
                                             :headers="headersParticipantes"
                                             :items="dataParticipantes"
                                             class="elevation-2"
-                                            no-data-text="No se encontro ningun registro"
+                                            no-data-text="No se encontró ningún registro"
                                             :hide-default-header="dataParticipantes.length < 1"
                                             :hide-default-footer="dataParticipantes.length < 1"
                                             locale="es-ES"
                                             :mobile-breakpoint="NaN"
                                             items-per-page="10"
-                                        >
-
+                                            >
                                             <template v-slot:item.calificacion="{ item }">
-                                                                
-                                                <v-text-field outlined persistent-hint></v-text-field>
-                                            
+                                                <v-text-field outlined persistent-hint v-model="item.calificacion"></v-text-field>
                                             </template>
-                                        </v-data-table>
-                                    </v-col>
-                                </template>
+                                            </v-data-table>
+                                        </v-col>
+                                      
+                                  
+                                        <v-row justify="center" v-if="mostrarParticipantes">
+                                          <v-btn color="blue darken-3" class="white--text" @click="mostrarParticipantes = false; mostrarGrupos = true"><v-icon>mdi-arrow-left</v-icon>Regresar</v-btn>
+                                          &nbsp;
+                                          <v-btn color="primary" @click="flagEditar ? fnEditar() : fnGuardar()"><v-icon>mdi-content-save</v-icon>{{flagEditar ? 'Editar' : 'Guardar'}}</v-btn>
+                                          &nbsp;
+                                          <v-btn color="error" @click="fnLimpiarCampos()"><v-icon>mdi-cancel</v-icon>Cancelar</v-btn>
+                                        </v-row>
+                                      
+                                    </v-row>
+                                  </template>
+                                    
 
                             </v-row>
                         </v-container>
@@ -164,11 +191,19 @@
                 const dataGrupos = ref([]);
 
                 const headersParticipantes = ref([
+                    {text: 'N°', align: 'left', sortable: true, value: 'cve_empleado'},
                     {text: 'Número de control', align: 'left', sortable: true, value: 'cve_empleado'},
                     {text: 'Nombre', align: 'left', sortable: true, value: 'nombre'},
                     {text: 'Calificación final', align: 'left', sortable: true, value: 'calificacion'},
                 ]);
                 const dataParticipantes = ref([]);
+
+                const currentUser = localStorage.getItem('currentUser');
+                const user = JSON.parse(currentUser);
+                const cve_persona = user[0].cve_persona;
+                const idEmpleado = user[0].cve_empleado;
+               
+
                 
                 
 
@@ -198,6 +233,10 @@
                                     if (status == 200) {
                                             dataParticipantes.value = data;
                                             console.log('valor participantes ', dataParticipantes)
+
+                                            this.nombreEvento = dataParticipantes.value[0].nombre_evento;
+                                            this.nombreInstructor = dataParticipantes.value[0].nombre_instructor;
+                                            
                                     }
                                 } catch (error) {
                                     mostrarSnackbar("error");
@@ -208,6 +247,44 @@
                             }
                         });
                     }
+                    
+                async function fnGuardar(){
+                    this.$validator.validate().then(async esValido => {
+                        if(esValido){
+                            try{
+                                preloader("../");
+                                let parametros = new URLSearchParams();
+                                
+                                parametros.append("accion", 3);
+                               // parametros.append("cve_empleado", cve_empleado);
+                                parametros.append("cve_curso", this.cve);
+                                parametros.append("nombreInstructor", this.nombreInstructor);
+                                //parametros.append("calificacion", calificacion);
+                                parametros.append("idUsuario", this.idEmpleado);
+
+                                this.dataParticipantes.forEach(participante => {
+                                    parametros.append("cve_empleado", participante.cve_empleado);
+                                    parametros.append("calificacion", participante.calificacion);
+                                });
+                                
+                                let {data,status} = await axios.post(ctr, parametros);
+                                    console.log(parametros);
+                                    if(status == 200){
+                                        if(data == "1"){
+                                            mostrarSnackbar("success", "Registro guardado correctamente.");
+                                            fnLimpiarCampos(this);   
+                                        }
+                                    }
+                                
+                            } catch(error){
+                                mostrarSnackbar('error');
+                                console.error(error);
+                            } finally{
+                                swal.close();
+                            }
+                        }
+                    })
+                }
 
                 
                 
@@ -247,7 +324,11 @@
                    
                     dataGrupos, headersGrupos, dataParticipantes, headersParticipantes, cve:'',
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor,
-                    fnConsultarTabla, fnObtener, fnLlenar, itemEditar
+                    fnConsultarTabla, fnObtener, fnLlenar, itemEditar,
+                    mostrarGrupos: true,
+                    mostrarParticipantes: false,
+
+                    fnGuardar
                 }
             },
         });
