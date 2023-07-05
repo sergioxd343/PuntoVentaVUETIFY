@@ -328,13 +328,14 @@
                 const dataProveedores = ref([]); 
                 const dataUsuarios = ref([]);
                 const headersProveedores = ref([
+                {text: 'Clave Módulo', align: 'left', sortable: true, value: 'cve_modulo'},
+                    {text: 'Clave Materia', align: 'left', sortable: true, value: 'cve_materia'},
                     {text: 'Nombre de la materia', align: 'left', sortable: true, value: 'nombre_materia'},
                     {text: 'Duracion', align: 'left', sortable: true, value: 'duracion'},
                     {text: 'Objetivo', align: 'left', sortable: true, value: 'objetivo'},
                     {text: 'Resultado del Aprendizaje', align: 'left', sortable: true, value: 'resultado_aprendizaje'},
                     {text: 'Estatus', align: 'left', sortable: true, value: 'activo'},
-                    {text: 'Clave Módulo', align: 'left', sortable: true, value: 'cve_modulo'},
-                    {text: 'Clave Materia', align: 'left', sortable: true, value: 'cve_materia'},
+                    
                 ]);
                 const searchProveedores = ref([]);
 

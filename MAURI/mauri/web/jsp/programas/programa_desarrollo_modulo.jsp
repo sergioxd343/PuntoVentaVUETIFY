@@ -316,11 +316,12 @@
                 const dataModulo = ref([]); 
                 const dataUsuarios = ref([]);
                 const headersProveedores = ref([
+                {text: 'Clave modulo', align: 'left', sortable: true, value: 'cve_modulo'},
                     {text: 'Nombre del módulo', align: 'left', sortable: true, value: 'nombre_modulo'},
                     {text: 'Número de materias', align: 'left', sortable: true, value: 'num_materias'},
                     {text: 'Color ', align: 'left', sortable: true, value: 'color'},
                     {text: 'Estatus', align: 'left', sortable: true, value: 'activo'},
-                    {text: 'Clave modulo', align: 'left', sortable: true, value: 'cve_modulo'},
+                    
                 ]);
                 const searchProveedores = ref([]);
 

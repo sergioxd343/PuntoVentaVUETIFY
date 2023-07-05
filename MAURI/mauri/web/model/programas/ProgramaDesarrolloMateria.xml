@@ -43,7 +43,7 @@ WHERE cve_prog_des = ? AND duracion = ?;
 
 	<SelectProgramaDesarrollo>
 		<query>
-			select * from programa_desarrollo;
+			select * from programa_desarrollo WHERE activo = 1;
 		</query>
 	</SelectProgramaDesarrollo>
 </CatalogoProveedores>
