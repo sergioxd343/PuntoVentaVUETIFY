@@ -122,7 +122,8 @@
                                 <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                     <!--NOMBRE DEL CURSO-->
                                     <v-col md="12">
-                                        <v-text-field v-model="nombreCurso" outlined label="Nombre del curso" v-validate="'required'"
+                                        <v-text-field v-model="nombreCurso" outlined label="Nombre del curso" 
+                                            v-validate="'required'" :disabled="deshabilitar"
                                             :error="errors.has('nombre del curso')" data-vv-name="nombre del curso"
                                             :error-messages="errors.first('nombre del curso')"
                                             ></v-text-field>
@@ -138,7 +139,8 @@
                                             :return-value.sync="fechaInicio" 
                                             transition="scale-transition" 
                                             offset-y
-                                            min-width="auto">
+                                            min-width="auto"
+                                            >
                                             <template v-slot:activator="{ on, attrs }">
                                                 <v-text-field 
                                                     v-validate="'required'" 
@@ -149,7 +151,7 @@
                                                     :error-messages="errors.first('fecha inicio')"
                                                     prepend-icon="mdi-calendar" 
                                                     readonly v-bind="attrs"
-                                                    v-on="on"></v-text-field>
+                                                    v-on="on" :disabled="deshabilitar"></v-text-field>
                                             </template>
                                             <v-date-picker v-model="fechaInicio" no-title scrollable>
                                                 <v-spacer></v-spacer>
@@ -173,7 +175,7 @@
                                                     :error="errors.has('fecha fin')" v-model="fechaFin"
                                                     label="Fecha Fin" :error-messages="errors.first('fecha fin')"
                                                     prepend-icon="mdi-calendar" readonly v-bind="attrs"
-                                                    v-on="on"></v-text-field>
+                                                    v-on="on" :disabled="deshabilitar"></v-text-field>
                                             </template>
                                             <v-date-picker v-model="fechaFin" no-title scrollable>
                                                 <v-spacer></v-spacer>
@@ -208,7 +210,7 @@
                                             item-text="descripcion" 
                                             :error="errors.has('horario')" data-vv-name="horario"
                                             :error-messages="errors.first('horario')"
-                                            prepend-icon="mdi-clock-outline"></v-select>
+                                            prepend-icon="mdi-clock-outline" :disabled="deshabilitar"></v-select>
                                     </v-col>
 
                                     
@@ -231,7 +233,7 @@
                                         <v-text-field v-model="lugar" outlined label="Lugar" persistent-hint
                                             v-validate="'required|max:500'" data-vv-name="lugar"
                                             :error="errors.has('lugar')"
-                                            :error-messages="errors.first('lugar')"></v-text-field>
+                                            :error-messages="errors.first('lugar')" :disabled="deshabilitar"></v-text-field>
                                     </v-col>
 
                                     
@@ -256,9 +258,9 @@
                                         <p>Curso</p>  
                                         <v-radio-group v-model="tipoCurso" v-validate="'required'"
                                             data-vv-name="curso" :error="errors.has('curso')"
-                                            :error-messages="errors.first('curso')" row>
+                                            :error-messages="errors.first('curso')" row :disabled="deshabilitar">
                                             <v-radio label="Abierto a comunidad UTL" value="abierto"></v-radio>
-                                            <v-radio label="Grupo cerrado " value="cerrado"></v-radio>
+                                            <v-radio label="Grupo cerrado " value="cerrado" ></v-radio>
                                         </v-radio-group>
                                     </v-col>
 
@@ -466,10 +468,15 @@
                                                         <template v-slot:item.ver="{ item }">                                                            
                                                                 <v-icon color="blue" @click="$vuetify.goTo(0); itemVer = item; deshabilitar = true; flagDescargar = true;
                                                                     idSolicitud = item.idSolicitud;
-                                                                    nombreCurso = item.cve_curso
+                                                                    nombreCurso = item.nombre
+                                                                    fechaInicio = item.fecha_inicio
+                                                                    fechaFin = item.fecha_fin
                                                                     dias = item.total_dias
+                                                                    horario = item.cve_horario
+                                                                    lugar = item.lugar
                                                                     horas = item.total_horas
                                                                     numeroParticipantes = item.numero_participantes
+                                                                    tipoCurso = tipo.curso
                                                                     objetivo = item.objetivo
                                                                     alcance = item.alcance
                                                                     metodologia = item.metodologia

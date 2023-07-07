@@ -69,31 +69,7 @@
                                 <v-col>&nbsp;&nbsp;&nbsp;&nbsp;</v-col>
 
                                 <v-col cols="12" sm="6" md="4" class="text-left">
-                                    <v-menu 
-                                            ref="menu0"  
-                                            :close-on-content-click="false"
-                                            :return-value.sync="fechaElavoracion" 
-                                            transition="scale-transition" 
-                                            offset-y min-width="auto">
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field 
-                                                v-model="fechaElavoracion" 
-                                                label="Fecha de elaboraci&oacute;n" 
-                                                prepend-icon="mdi-calendar"
-                                                readonly v-bind="attrs" 
-                                                v-on="on"
-                                            ></v-text-field>
-                                        </template>
-                                        <v-date-picker v-model="fechaElavoracion" no-title scrollable>
-                                            <v-spacer></v-spacer>
-                                            <v-btn text color="primary" @click="menu0 = false">
-                                                Cancel
-                                            </v-btn>
-                                            <v-btn text color="primary" @click="$refs.menu0.save(fechaElavoracion)">
-                                                OK
-                                            </v-btn>
-                                        </v-date-picker>
-                                    </v-menu>
+                                    <label>{{currentDateTime}}</label>
                                 </v-col>
                             </v-row>
 
@@ -193,16 +169,18 @@
                                 </v-col>
 
                                 <v-col md=6>
-                                    <v-text-field 
+                                    <v-select 
                                         v-model="nombreGestor"
                                         outlined
+                                        v-validate="'required'"
+                                        :items="arrayEmpleados"
+                                        item-value="cve_empleado"
+                                        item-text="nombre"
                                         label="Nombre del gestor responsable"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
                                         data-vv-name="nombre del gestor responsable"
                                         :error="errors.has('nombre del gestor responsable')"
                                         :error-messages="errors.first('nombre del gestor responsable')"
-                                    ></v-text-field>
+                                    ></v-select>
                                 </v-col>
                             </v-row>
 
@@ -235,14 +213,16 @@
                                 </v-col>
 
                                 <v-col md=4>
-                                    <v-text-field 
+                                    <v-textarea 
                                         v-model="objetivoEvento"
                                         outlined
                                         label="Objetivo del evento"
                                         persistent-hint
                                         v-validate="'required|max:200'"
+                                        auto-grow outlined
+                                        rows="1" row-height="15"
                                         
-                                    ></v-text-field>
+                                    ></v-textarea>
                                 </v-col>
                             </v-row>
 
@@ -253,6 +233,8 @@
                                         outlined
                                         v-validate="'required'"
                                         :items="arrayOrientacion"
+                                        item-value="cve_tipo_orientacion"
+                                        item-text="nombre_tipo_orientacion"
                                         label="Orientaci&oacute;n del evento"
                                         
                                     ></v-select>
@@ -288,13 +270,12 @@
                             <v-row class="align-center" style="padding: 0px 50px 0px 50px">
                                 <v-col md=6>
                                     <v-text-field 
-                                    v-if="tipoEvento === 'Otro'"
+                                    v-if="tipoEvento === 7 "
                                         v-model="otroEvento"
                                         outlined
                                         label="Especifique el tipo de evento"
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        
                                     ></v-text-field>
                                 </v-col>
                             </v-row>
@@ -344,6 +325,8 @@
                                             outlined
                                             v-validate="'required'"
                                             :items="arrayOrigen"
+                                            item-value="cve_tipo_origen"
+                                            item-text="nombre_tipo_origen"
                                             label="Origen del recurso para el evento"    
                                             persistent-hint
                                             data-vv-name="origen del recurso"
@@ -413,6 +396,7 @@
                                                 prepend-icon="mdi-calendar"
                                                 readonly v-bind="attrs" 
                                                 v-on="on"
+                                                @blur="validarFechas"
                                             ></v-text-field>
                                         </template>
                                         <v-date-picker v-model="fechaTermino" no-title scrollable>
@@ -552,6 +536,7 @@
                                         data-vv-name="total de mujeres"
                                         :error="errors.has('total de mujeres')"
                                         :error-messages="errors.first('total de mujeres')"
+                                        @blur="comprobarTotal"
                                         
                                     ></v-text-field>
                                 </v-col>
@@ -565,6 +550,7 @@
                                         data-vv-name="lugar"
                                         :error="errors.has('lugar')"
                                         :error-messages="errors.first('lugar')"
+                                        hint="(Si es fuera de la ciudad especificar)"
                                     ></v-text-field>
                                 </v-col>
                             </v-row>
@@ -734,14 +720,16 @@
 
                 const arrayUnidadesAcademicas = ref([]);
                 const arrayNivelEducativo = ref(["T.S.U","Ingenieria"]);
-                const arrayOrientacion = ref(["Pedagógicas","Investigación","Tutoreo","Digitales","Técnicas","Transversales","Desarrollo de habilidades"]);
-                const arrayJustificacion = ref(["Pedagógicas","Investigación","Tutoreo","Digitales","Técnicas","Transversales","Desarrollo de habilidades"]);
+                const arrayOrientacion = ref([]);
+                const arrayJustificacion = ref([]);
                 const arrayTipoEvento = ref([]);
                 const arrayTipoPrograma = ref(["Interna","Externa"]);
-                const arrayOrigen = ref(["PFCE","Formación docente","Dirección académica"]);
+                const arrayOrigen = ref([]);
                 const arrayMes =ref(['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'])
                 const arrayDireccSub =ref([]);
                 const arrayProgramas =ref([]);
+                const arrayEmpleados =ref([]);
+
 
                   //SNACKBAR
                 const loader = ref(false);
@@ -774,8 +762,29 @@
                     fnUnidadAcademica();
                     fnDirecciones();
                     fnProgramas();
-                    
+                    fnOrientacion();
+                    fnOrigen();
+                    fnEmpleados();
                 });
+
+                async function fnOrientacion(){
+                    try{
+                        preloader("../../");
+                        let parametros = new URLSearchParams();
+                        parametros.append("accion", 7);
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                arrayOrientacion.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                }
 
                 async function fnConsultarTabla(){
                     try{
@@ -799,8 +808,6 @@
                     }
                 }
 
-                
-
                 async function fnUnidadAcademica(){
                     try{
                         preloader("../../");
@@ -810,6 +817,25 @@
                         if(status == 200){
                             if(data.length > 0){
                                 arrayUnidadesAcademicas.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                }
+
+                async function fnOrigen(){
+                    try{
+                        preloader("../../");
+                        let parametros = new URLSearchParams();
+                        parametros.append("accion", 8);
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                arrayOrigen.value = data
                             }
                         }
                     } catch(error){
@@ -838,8 +864,7 @@
                         swal.close();
                     }
                 }
-
-                
+  
                 async function fnDirecciones(){
                     try{
                         preloader("../../");
@@ -859,7 +884,25 @@
                     }
                 }
 
-                
+                async function fnEmpleados(){
+                    try{
+                        preloader("../../");
+                        let parametros = new URLSearchParams();
+                        parametros.append("accion", 9);
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                arrayEmpleados.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                }
+            
                 async function fnTipoEvento(){
                     try{
                         preloader("../../");
@@ -924,11 +967,6 @@
                                             );
                                             fnConsultarTabla();
                                             fnLimpiarCampos(this);
-                                            // this.$validator.pause();
-                                            // Vue.nextTick(() => {
-                                            //     this.$validator.errors.clear();
-                                            //     this.$validator.resume();
-                                            // });
                                         }
                                     }
                                 } catch (error) {
@@ -940,9 +978,6 @@
                             }
                         });
                     }
-
-                
-                
 
                 async function fnEliminar(item){
                     confirmarE("¿Realmente quieres eliminar éste registro?").then(async (result) => {
@@ -1012,17 +1047,17 @@
                     annio: null, direccion, fechaElavoracion, unidadAcademica, nivelEducativo, direccionArea, programaEducativo,
                     nombreGestor, necesidadesDetectadas, nombreEventoCapacitacion, objetivoEvento, orientacionEvento,
                     justificacionEvento,tipoEvento, otroEvento, tipoPrograma, proveedorSugerido, costoCapacitacionSugerido, 
-                    origenRecursoEvento, mes, fechaInicio, fechaTermino, numDias, numHorasEfectivas, ptc:0, laboratoristas:0, administrativo:0,
-                    otros:0, total:0, totalH, totalM, lugar, transporte, casetas, alimentacion, hospedaje, taxis, otrosGastos, oficial,
+                    origenRecursoEvento, mes, fechaInicio, fechaTermino, numDias, numHorasEfectivas, ptc, laboratoristas, administrativo,
+                    otros, total, totalH, totalM, lugar, transporte, casetas, alimentacion, hospedaje, taxis, otrosGastos, oficial,
                     particular, otrosO, origen, idEvento, buscar: "", iconoBusqueda: 'mdi-magnify',
-
+                    currentDateTime: new Date().toLocaleString(),
 
                     arrayOrientacion, arrayJustificacion, arrayTipoEvento, arrayTipoPrograma, arrayOrigen, arrayMes, arrayUnidadesAcademicas,
-                    arrayNivelEducativo, arrayDireccSub, arrayProgramas,
+                    arrayNivelEducativo, arrayDireccSub, arrayProgramas, arrayEmpleados,
 
                     flagEditar, itemEditar,
                     dataEventos,headersEventos, searchEventos, color_snackbar, snackbar, mensaje_snackbar,loader
-                    ,fnLimpiarCampos,fnGuardar,fnEliminar, fnCambiarEstatus, 
+                    ,fnLimpiarCampos,fnGuardar,fnEliminar, fnCambiarEstatus, fnOrientacion, fnOrigen, fnEmpleados
                     
                     
                 }
@@ -1039,7 +1074,6 @@
                     },
                   
                    
-
             },
             watch: {
                 ptc: function(newVal, oldVal) {
@@ -1054,12 +1088,6 @@
                 otros: function(newVal, oldVal) {
                     this.calcularTotal();
                 },
-                totalM: function () {
-                    this.comprobarTotal();
-                },
-                totalH: function () {
-                    this.comprobarTotal();
-                }
             },
             methods: {
                 calcularTotal() {
@@ -1067,23 +1095,43 @@
                     + parseFloat(this.otros) ;
                 },
                 comprobarTotal(){
-                    if (this.totalM && this.totalH && this.total && (parseInt(this.totalM) + parseInt(this.totalH) !== parseInt(this.total))) {
-                        Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: 'La suma del total de mujeres y total hombres no coincide con el total',
+                    if (this.totalM !== null && this.totalH !== null && this.total !== null) {
+                        const sum = parseInt(this.totalM) + parseInt(this.totalH);
+                        if (sum !== parseInt(this.total)) {
+                            Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'La suma del total de mujeres y total hombres no coincide con el total',
                             }).then(() => {
-                                this.totalM = null;
-                                this.totalH = null;
+                            this.totalM = null;
+                            this.totalH = null;
                             });
                         }
+                    }
                 },
                 filtrarTabla() {
                         console.log("jijojio:", this.buscar);
+                },
+                validarFechas() {
+                    if (this.fechaInicio && this.fechaTermino) {
+                        if (this.fechaTermino < this.fechaInicio) {
+                        // La fecha de término es anterior a la fecha de inicio
+                        console.log("La fecha de término debe ser posterior a la fecha de inicio");
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'La fecha de término debe ser posterior a la fecha de inicio',
+                            }).then(() => {
+                            this.fechaInicio = null;
+                            this.fechaTermino = null;
+                            });
+                        } else {
+                        // Las fechas son válidas
+                        console.log("Las fechas son válidas");
+                        }
+                    }
                 }
-                    
-            },    
-
+            },   
         });
 
     </script>

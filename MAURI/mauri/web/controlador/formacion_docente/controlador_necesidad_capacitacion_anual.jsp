@@ -140,5 +140,14 @@
         case 6:
             out.println(datos.Consultas(parametros, "programaEducativo"));
             break;
+        case 7:
+            out.println(datos.Consultas(parametros, "tipoOrientacion"));
+            break;
+        case 8:
+            out.println(datos.Consultas(parametros, "tipoOrigen"));
+            break;
+        case 9:
+            out.println(datos.Consultas(parametros, "empleado"));
+            break;
     }
 %>

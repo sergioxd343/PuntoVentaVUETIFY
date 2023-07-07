@@ -23,7 +23,8 @@ and open the template in the editor.
 	
 	<guardarAutoevaluacion>
 		<query>
-			insert into autoevaluacion_capacitacion_docente (cve_empleado, evidencias, factores_identificacion, factores_aplicacion, promedio,  activo, fecha_registro, usuario_registro) 
+			insert into autoevaluacion_capacitacion_docente (cve_empleado, evidencias, factores_identificacion, 
+			factores_aplicacion, promedio,  activo, fecha_registro, usuario_registro) 
 			values( ?, ?, ?, ?, ?, 1, GETDATE(), 1);
 		</query>
 	</guardarAutoevaluacion>

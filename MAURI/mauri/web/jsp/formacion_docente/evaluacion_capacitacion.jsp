@@ -101,9 +101,35 @@
                                       
                                     </v-row>
                                   </template>
-                                    
-
                             </v-row>
+
+                            <v-row justify="center">
+                                <v-col md=12>
+                                    <v-data-table
+                                        :headers="headersEvaluaciones"
+                                        :items="dataEvaluaciones"
+                                        class="elevation-2"
+                                        no-data-text="No se encontro ningun registro"
+                                        :hide-default-header="dataEvaluaciones.length < 1"
+                                        :hide-default-footer="dataEvaluaciones.length < 1"
+                                        locale="es-ES"
+                                        :mobile-breakpoint="NaN"
+                                        items-per-page="10"
+                                    >   
+                                      
+                                    <template v-slot:item.editar="{item}">
+                                        <v-btn fab small color="warning" @click="flagEditar = true; itemEditar = item;
+                                            idTipoUsuario = item.id_tipo_usuario;
+                                            nombreUsuario = item.nombreUsuario;
+                                            fecha = item.fecha;
+                                            estatus = item.estatus;
+                                        "><v-icon>mdi-square-edit-outline</v-icon></v-btn>
+                                    </template>
+
+                                    </v-data-table>
+
+                            </v-col>
+                        </v-row>    
                         </v-container>
                     </v-card>
                 </v-container>
@@ -198,6 +224,15 @@
                 ]);
                 const dataParticipantes = ref([]);
 
+                const headersEvaluaciones = ref([
+                    
+                    {text: 'Nombre del curso', align: 'left', sortable: true, value: 'nombre_evento'},
+                    {text: 'Nombre del instructor', align: 'left', sortable: true, value: 'nombre_facilitador'},
+                    {text: 'Fecha de evaluación', align: 'left', sortable: true, value: 'fecha_registro'},
+                    {text: 'Editar', align: 'left', sortable: true, value: 'editar'},
+                ]);
+                const dataEvaluaciones = ref([]);
+
                 const currentUser = localStorage.getItem('currentUser');
                 const user = JSON.parse(currentUser);
                 const cve_persona = user[0].cve_persona;
@@ -209,7 +244,8 @@
 
                 onMounted(() => {
                     fnConsultarTabla();
-                    
+                    fnConsultarTablaEvaluaciones();
+                    console.log(idEmpleado);
                 });
 
                 function fnObtener(grupo) {
@@ -251,21 +287,17 @@
                 async function fnGuardar(){
                     this.$validator.validate().then(async esValido => {
                         if(esValido){
+                            this.dataParticipantes.forEach(async (participante) => {
                             try{
                                 preloader("../");
                                 let parametros = new URLSearchParams();
                                 
-                                parametros.append("accion", 3);
-                               // parametros.append("cve_empleado", cve_empleado);
-                                parametros.append("cve_curso", this.cve);
-                                parametros.append("nombreInstructor", this.nombreInstructor);
-                                //parametros.append("calificacion", calificacion);
-                                parametros.append("idUsuario", this.idEmpleado);
-
-                                this.dataParticipantes.forEach(participante => {
+                                    parametros.append("accion", 3);
                                     parametros.append("cve_empleado", participante.cve_empleado);
+                                    parametros.append("cve_curso", this.cve);
+                                    parametros.append("nombreInstructor", this.nombreInstructor);
                                     parametros.append("calificacion", participante.calificacion);
-                                });
+                                    parametros.append("idUsuario", idEmpleado);
                                 
                                 let {data,status} = await axios.post(ctr, parametros);
                                     console.log(parametros);
@@ -275,19 +307,17 @@
                                             fnLimpiarCampos(this);   
                                         }
                                     }
-                                
                             } catch(error){
                                 mostrarSnackbar('error');
                                 console.error(error);
                             } finally{
                                 swal.close();
                             }
+                        });
                         }
                     })
                 }
 
-                
-                
                 async function fnConsultarTabla(){
                     try{
                         preloader("../../");
@@ -296,7 +326,6 @@
                         let {data,status} = await axios.post(ctr, parametros)
                         if(status == 200){
                             if(data.length > 0){
-
                                 dataGrupos.value = data
                             }
                         }
@@ -308,6 +337,24 @@
                     }
                 }
 
+                async function fnConsultarTablaEvaluaciones(){
+                    try{
+                        preloader("../../");
+                        let parametros = new URLSearchParams();
+                        parametros.append("accion", 4);
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                dataEvaluaciones.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                }
             
                 function mostrarSnackbar(color, texto){
                     snackbar.value = true;
@@ -321,10 +368,10 @@
                 return{
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
 
-                   
-                    dataGrupos, headersGrupos, dataParticipantes, headersParticipantes, cve:'',
+                    headersGrupos, headersParticipantes, headersEvaluaciones,
+                    dataGrupos, dataParticipantes, dataEvaluaciones , cve:'',
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor,
-                    fnConsultarTabla, fnObtener, fnLlenar, itemEditar,
+                    fnConsultarTabla, fnObtener, fnLlenar, fnConsultarTablaEvaluaciones, itemEditar,
                     mostrarGrupos: true,
                     mostrarParticipantes: false,
 
