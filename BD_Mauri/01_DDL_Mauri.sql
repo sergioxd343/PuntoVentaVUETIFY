@@ -222,6 +222,7 @@ CREATE TABLE solicitud_proyecto(
 	cve_solicitud_proyecto 		INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	cve_area					INT NOT NULL,
 	cve_periodo					INT NOT NULL,
+	nombre_proyecto				VARCHAR(100),
 	objetivo_proyecto			TEXT,
 	descripcion_proyecto 		TEXT,
 	recursos_necesarios			TEXT,
@@ -295,7 +296,7 @@ CREATE TABLE evaluacion_resultado(
 	cve_t_servicio 				INT NOT NULL,
 	cve_asesoria_proyecto		INT,
 	cve_area					INT NOT NULL,
-	cve_solicitud_proyecto		INT NOT NULL,
+	cve_solicitud_proyecto		INT,
 	suma						INT,
 	porcentaje 					FLOAT,
 	cuatrimestre				VARCHAR(8),
@@ -485,9 +486,10 @@ CREATE TABLE programa_desarrollo(
 
 -- ------------- TABLA INSTRUCTOR_EXTERNO -------------- --
 CREATE TABLE instructor_externo(
-	cve_instructor 				INT NOT NULL,
+	cve_instructor_e 			INT NOT NULL,
 	nombre_instructor 			VARCHAR(50),
-	rfc 						VARCHAR(13),
+	apellido_paterno 			VARCHAR(50),
+	apellido_materno			VARCHAR(50),
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
 	usuario_registro 			INT

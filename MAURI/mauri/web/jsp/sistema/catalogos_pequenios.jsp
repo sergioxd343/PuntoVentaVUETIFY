@@ -58,59 +58,29 @@
         <div id="app">
             <v-app>
                 <v-card>
-                    <v-card-title class="text-center align-center"
-                        style="background-color: #00b293; color:#ffffff; padding: 0px;">
-                        <a href="">
-                            <img alt="Logo" src="../../images/Logo_utl.png" width="85px" height="85px" />
-                        </a>
-                        Sistema de Mejora de la Aplicación Única del Registro de la Informaci&oacute;n
-                        <v-spacer></v-spacer>
-                        <v-menu transition="slide-y-transition" bottom rounded="b-xl" v-model="showMenu" absolute>
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-chip v-bind="attrs" v-on="on" link class="ma-2" color="white" outlined pill>
-                                    {{ nombre }} {{ primerAp }} {{segundoAp}}
-                                    <v-icon right>
-                                        mdi-account-outline
-                                    </v-icon>
-                                </v-chip>
-                            </template>
-
-                            <v-list>
-                                <v-list-item link v-for="(item, index) in items" :key="index">
-                                    <v-list-item-title @click="fnCerrarSesion">{{ item.title }}</v-list-item-title>
-                                </v-list-item>
-                            </v-list>
-                        </v-menu>
-                    </v-card-title>
-                    <v-card>
+                    <v-card class="backgruond">
                         <v-row justify="center">
-                            <v-col fluid md="3" style="padding: 0; margin: 0; height: 100%; overflow-y: auto">
-                                <v-navigation-drawer permanent absolute>
-                                    <v-list shaped>
-                                        <v-list-group v-for="menuNv1 in itemMenuSeleccionado" :key="menuNv1.cve_menu"
-                                            :value="false">
-                                            <template v-slot:activator>
-                                                <v-list-item-title>{{menuNv1.nombre}}</v-list-item-title>
-                                            </template>
-                                            <v-list-item v-if="menuNv1.submenu" v-for="menuNv2 in menuNv1.submenu"
-                                                :key="menuNv2.cve_menu" link :href="menuNv2.ruta"
-                                                target="iframe_modelo">
-                                                <v-list-item-icon>
-                                                    <v-icon>mdi-chevron-right</v-icon>
-                                                </v-list-item-icon>
-                                                <v-list-item-title class="text-wrap"
-                                                    v-text="menuNv2.nombre"></v-list-item-title>
-                                            </v-list-item>
-                                        </v-list-group>
-                                    </v-list>
-                                </v-navigation-drawer>
-                            </v-col>
-                            <v-col>
-                                <iframe name="iframe_modelo" src="../../images/1.2.jpg"
-                                    style="border: medium none;margin-left: -92px;margin-top: -12px;margin-right: 0px;"
-                                    class="align-center" width="110%" height="550px">
-                                </iframe>
-                            </v-col>
+                            <template>
+                                <v-card color="basil">
+                                    <v-tabs v-model="tab" show-arrows>
+                                        <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
+                                            <v-tab v-for="item in itemMenuSeleccionado" :key="item">
+                                                {{ item.nombre }}
+                                            </v-tab>
+                                        </v-tabs>
+
+                                        <v-tabs-items v-model="tab">
+                                            <v-tab-item v-for="item in itemMenuSeleccionado" :key="item">
+                                                <v-card color="basil" flat>
+                                                    <iframe name="iframe_modelo" :src="item.ruta" style="border: none;"
+                                                        class="align-center" width="100%" height="600px">
+                                                    </iframe>
+                                                </v-card>
+                                            </v-tab-item>
+                                        </v-tabs-items>
+                                    </v-tabs>
+                                </v-card>
+                            </template>
                         </v-row>
                     </v-card>
                 </v-card>
@@ -142,7 +112,7 @@
                             //Composition components
 
                             const { ref, onMounted, watch } = VueCompositionAPI;
-                            const ctr = "../../controlador/sistema/Loggin.jsp";
+                            const ctr = "../../controlador/catalogos_pequenios/controlador_catalogos_pequenios.jsp";
                             const accion = ref(0);
                             const modalFechaInicioReporte = ref(false);
                             const modalFechaFinReporte = ref(false);
@@ -155,22 +125,12 @@
                             const show = ref(false);
                             const loading = ref(false);
                             const passwordShow = ref(false);
-                            const showMenu = false;
 
-                            let items = [
-                                { title: 'Cerrar Sesión' }
-                            ];
+                            let items = [];
+                            const tab = null;
                             const menuArray = ref([]);
                             let objeto = {};
                             const itemMenuSeleccionado = ref([]);
-
-                            const currentUser = localStorage.getItem('currentUser');
-                            const user = JSON.parse(currentUser);
-                            const nombre = user[0].nombre;
-                            const primerAp = user[0].apellido_peterno;
-                            const segundoAp = user[0].apellido_materno;
-                            const usuario = user[0].nombre_usuario;
-                            const contrasenia = user[0].contrasenia;
 
                             //SNACKBAR
                             const loader = ref(false);
@@ -196,12 +156,10 @@
                                 try {
                                     //Peticion ajax al controlador y envio de parametros
                                     let parametros = new URLSearchParams();
-                                    parametros.append("accion", 3);
-                                    parametros.append("usuario", usuario);
-                                    parametros.append("password", contrasenia)
+                                    parametros.append("accion", 1);
                                     let { data, status } = await axios.post(ctr, parametros);
                                     if (status == 200) {
-                                        fnCargarDatos(data);
+                                        itemMenuSeleccionado.value = data;
                                     }
                                 } catch (error) {
                                     console.log(error);
@@ -241,55 +199,6 @@
                                 const [month, day, year] = date.split('/')
                                 return `${year}/${month.padStart(2, '0')}/${day.padStart(2, '0')}`
                             }
-
-                            function fnCerrarSesion() {
-                                localStorage.removeItem('currentUser');
-                                window.location = "../../index.jsp";
-                            }
-
-                            async function fnCargarDatos(menus) {
-                                let menu_temp_1 = "";
-                                let MenuNv1 = [];
-                                for (const menu1 of menus) {
-                                    if (menu_temp_1 !== menu1.menu_nivel_1) {
-                                        menu_temp_1 = menu1.menu_nivel_1;
-                                        let menu_temp_2 = "";
-                                        let count_2 = 0;
-                                        let MenuNv2 = [];
-                                        for (const menu2 of menus) {
-                                            if (
-                                                menu_temp_1 === menu2.menu_nivel_1 &&
-                                                menu_temp_2 !== menu2.menu_nivel_2
-                                            ) {
-                                                menu_temp_2 = menu2.menu_nivel_2;
-                                                count_2++;
-                                                let count_3 = 0;
-                                                MenuNv2.push({
-                                                    nivel: 2,
-                                                    id_menu_padre: menu2.cve_padre_2,
-                                                    id_menu: menu2.cve_menu_2,
-                                                    nombre: menu2.menu_nivel_2,
-                                                    ruta: menu2.ruta_2,
-                                                    menu_abierto: "",
-                                                    submenu: [],
-                                                    num_submenus: count_3
-                                                });
-                                            }
-                                        }
-                                        MenuNv1.push({
-                                            nivel: 1,
-                                            id_menu_padre: 0,
-                                            id_menu: menu1.cve_menu,
-                                            nombre: menu1.menu_nivel_1,
-                                            submenu: MenuNv2,
-                                            num_submenus: count_2
-                                        });
-                                        MenuNv2 = [];
-                                    }
-                                }
-                                itemMenuSeleccionado.value = MenuNv1;
-                            }
-
 
                             async function fnExportar() {
                                 loader.value = true;
@@ -387,28 +296,20 @@
                                 mensaje_alerta,
                                 color_mensaje,
                                 tablaReporte,
+                                tab,
                                 cabeceraTablaReporte,
                                 modalFechaInicioReporte,
                                 dateFechaInicioReporte,
                                 modalFechaFinReporte,
                                 dateFechaFinReporte,
-                                fnCerrarSesion,
-                                fnCargarDatos, save, formatDate,
+                                save, formatDate,
                                 parseDate,
-                                showMenu,
                                 cabeceraTemp,
                                 items,
                                 fnExportar,
                                 objeto,
                                 itemMenuSeleccionado,
                                 fnMenu,
-                                currentUser,
-                                user,
-                                usuario,
-                                contrasenia,
-                                nombre,
-                                primerAp,
-                                segundoAp,
                                 busqueda,
                                 cuenta,
                                 password,
