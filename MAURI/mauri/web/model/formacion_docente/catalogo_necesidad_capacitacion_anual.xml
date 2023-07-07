@@ -24,13 +24,36 @@ and open the template in the editor.
 		</query>
 	</area>
 
-
 	<tipoEvento>
 		<query>
 			SELECT cve_tipo_evento, nombre_tipo_evento FROM tipo_evento
 		</query>
 	</tipoEvento>
 
+	<tipoOrientacion>
+		<query>
+			SELECT cve_tipo_orientacion, nombre_tipo_orientacion FROM tipo_orientacion
+		</query>
+	</tipoOrientacion>
+
+	<tipoOrigen>
+		<query>
+			SELECT cve_tipo_origen, nombre_tipo_origen FROM tipo_origen
+		</query>
+	</tipoOrigen>
+
+	<empleado>
+		<query>
+			SELECT TOP (200) empleado.cve_empleado, empleado.cve_persona, empleado.cve_puesto, empleado.cve_tipo_puesto, 
+				empleado.cve_departamento, empleado.cve_area, empleado.cve_ugac, empleado.cve_unidad_academica, 
+				empleado.fecha_ingreso, empleado.titulo_recibido, empleado.grado_estudio, empleado.activo, empleado.fecha_registro, 
+				empleado.usuario_registro, persona.nombre + ' ' + persona.apellido_peterno + ' ' + persona.apellido_materno AS nombre
+				FROM empleado INNER JOIN
+				persona ON empleado.cve_persona = persona.cve_persona WHERE cve_tipo_puesto = 2;
+		</query>
+	</empleado>
+
+	
     <tablaEventos>
 		<query>
 			SELECT unidad_academica.nombre_unidad_academica, necesidad_capacitacion_anual.nombre_evento, tipo_evento.nombre_tipo_evento, necesidad_capacitacion_anual.fecha_inicio,

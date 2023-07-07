@@ -89,6 +89,9 @@
             parametros.add(temp_obj);
             out.println(datos.Registro(parametros, "guardarEvaluacion"));
             break;
+        case 4:
+            out.println(datos.Consultas(parametros, "tablaEvaluacion"));
+            break;
         default:
             out.print("ENTRO A CONTROLADOR"+ accion);
             break;

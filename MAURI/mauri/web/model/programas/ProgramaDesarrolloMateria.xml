@@ -35,9 +35,7 @@ VALUES (
 
     <desactivarProgramaDesarrolloMateria>
 		<query>
-			UPDATE programa_desarrollo_materia
-SET activo = 0
-WHERE cve_prog_des = ? AND duracion = ?;
+			UPDATE programa_desarrollo_materia SET activo = ? WHERE cve_prog_des = ? AND duracion = ?
 		</query>
 	</desactivarProgramaDesarrolloMateria>
 

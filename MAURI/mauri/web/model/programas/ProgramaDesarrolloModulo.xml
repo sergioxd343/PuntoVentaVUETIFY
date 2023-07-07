@@ -25,9 +25,7 @@ VALUES (@cve_prog_des, (SELECT numero_modulos FROM programa_desarrollo WHERE cve
 	</selectProgramaDesarollo>
 	<desactivarProgramaDesarrolloModulos>
 		<query>
-			UPDATE programa_desarrollo_modulo
-			SET activo = 0
-			WHERE cve_prog_des = ? AND nombre_modulo = ?;
+			UPDATE programa_desarrollo_modulo SET activo = ? WHERE cve_prog_des = ? AND cve_modulo = ?
 
 		</query>
 	</desactivarProgramaDesarrolloModulos>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<CatalogoProveedores>
+    <tablaProgramaDesarrollo>
+		<query>
+			select * from evento_programado;
+		</query>
+	</tablaProgramaDesarrollo>
+    <guardarEventoProgramado>
+		<query>
+			INSERT INTO evento_programado (cve_origen_evento, cve_espacio, cve_modalidad, nombre_evento, nombre_origen, sin_horario, horario_inicio, horario_fin, fecha_inicio, fecha_fin, estatus, usuario_registro)
+VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1);
+
+		</query>
+	</guardarEventoProgramado>
+    <desactivarProgramaDesarrollo>
+		<query>
+			UPDATE programa_desarrollo
+SET activo = 0
+WHERE cve_prog_des = ?;
+		</query>
+	</desactivarProgramaDesarrollo>
+	<selectEspacios>
+		<query>
+			SELECT * FROM espacio WHERE activo = 1;
+		</query>
+	</selectEspacios>
+	<selectModalidad>
+		<query>
+			SELECT * FROM modalidad_evento WHERE activo = 1;
+		</query>
+	</selectModalidad>
+</CatalogoProveedores>

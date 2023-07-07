@@ -36,7 +36,8 @@
     
     int cve_prog_des = request.getParameter("cve_prog_des") != null && !request.getParameter("cve_prog_des").equals("") ? Integer.parseInt(request.getParameter("cve_prog_des")) : 0;
     int numero_modulos = request.getParameter("numero_modulos") != null && !request.getParameter("numero_modulos").equals("") ? Integer.parseInt(request.getParameter("numero_modulos")) : 0;
-
+    int activo = request.getParameter("activo")!=null && !request.getParameter("activo").equals("")?Integer.parseInt(request.getParameter("activo")):0;
+	
     String duracion = request.getParameter("duracion") != null && !request.getParameter("duracion").equals("") ? request.getParameter("duracion") : "-";
     String nombre_materia = request.getParameter("nombre_materia") != null && !request.getParameter("nombre_materia").equals("") ? request.getParameter("nombre_materia") : "-";
     String objetivo = request.getParameter("objetivo") != null && !request.getParameter("objetivo").equals("") ? request.getParameter("objetivo") : "-";
@@ -62,6 +63,7 @@
             break;
         case 4:
             temp_obj = new JsonObject();
+            temp_obj.addProperty("activo", activo);
             temp_obj.addProperty("cve_prog_des",cve_prog_des);
             temp_obj.addProperty("duracion", duracion);
             parametros.add(temp_obj);

@@ -4,7 +4,7 @@
 -- Description:	Son los Scripts DDL para la base 
 --				del datos del proyecto Mauri
 -- =============================================
-
+x
 USE master;
 GO
 

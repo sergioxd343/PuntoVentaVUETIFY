@@ -132,17 +132,15 @@
                                     items-per-page="10"
                                   >
                                   
-                                  <template v-slot:item.activo="{ item }">
-                                    <td>
-                                      <v-btn
-                                      outlined
-                                        :color="item.activo ? 'success' : 'error'"
-                                        @click="item.activo ? fnEliminar(item) : fnActivar(item)"
-                                      >
-                                        {{ item.activo ? 'Activo' : 'Inactivo' }}
-                                      </v-btn>
-                                    </td>
-                                  </template>
+                                  <template v-slot:item.estatus="{item}">
+                                    <v-chip class="ma-2"
+                                        style="width: 80px; display: flex; justify-content: center; align-items: center;"
+                                        link @click="fnCambiarEstatus(item)"
+                                        :color="item.activo ? 'success' : 'grey'" outlined>
+                                        {{ item.activo ?
+                                        "Activo" : "Inactivo" }}
+                                    </v-chip>
+                                </template>
 
                                         <template v-slot:item.status="{item}">
                                             <%-- <v-tooltip bottom> --%>
@@ -311,7 +309,7 @@
                     {text: 'Nombre del programa', align: 'left', sortable: true, value: 'nombre_prog_des', customFilter: (value, search) => this.customFilter(value, search) },
                     {text: 'Descripción', align: 'left', sortable: true, value: 'descripcion'},
                     {text: 'Fecha', align: 'left', sortable: true, value: 'fecha_registro'},
-                    {text: 'Estatus', align: 'left', sortable: true, value: 'activo', valueFormat: (value) => value ? 'true' : 'false', color: (value) => value ? 'green' : 'red' },
+                    {text: 'Estatus', align: 'left', sortable: true, value: 'estatus', valueFormat: (value) => value ? 'true' : 'false', color: (value) => value ? 'green' : 'red' },
                 ]);
                 
                 const searchProgramaDesarrollo = ref([]);
@@ -377,6 +375,38 @@
                         }
                     })
                 }
+
+
+                async function fnCambiarEstatus(item) {
+                        try {
+                            preloader("../");
+                            let parametros = new URLSearchParams();
+                            parametros.append("accion", 3);
+                            parametros.append("cve_prog_des", item.cve_prog_des);
+                            parametros.append("activo", (item.activo == true ? 0 : 1));
+                            console.log("🚀 ~ file: perfil_usuario.jsp:283 ~ fnCambiarEstatus ~ parametros:", parametros)
+                            let { data, status } = await axios.post(ctr, parametros);
+                            if (status == 200) {
+                                if (data == "1") {
+                                    mostrarSnackbar(
+                                        "success",
+                                        "Registro actualizado correctamente."
+                                    );
+                                    fnConsultarTabla();
+                                    // this.$validator.pause();
+                                    // Vue.nextTick(() => {
+                                    //     this.$validator.errors.clear();
+                                    //     this.$validator.resume();
+                                    // });
+                                }
+                            }
+                        } catch (error) {
+                            mostrarSnackbar("error");
+                            console.error(error);
+                        } finally {
+                            swal.close();
+                        }
+                    }
 
                 
 
@@ -462,7 +492,7 @@
                      descripcion_programa, numero_modulos,
                     dataProgramaDesarrollo, headersProgramaDesarrollo, searchProgramaDesarrollo, arrayTiposUsuario, 
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor, search,
-                    fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEliminar, fnActivar,itemEditar
+                    fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEliminar, fnActivar, fnCambiarEstatus ,itemEditar
                 }
             },
             
