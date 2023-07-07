@@ -148,17 +148,15 @@
                                         </template>
                                         
 
-                                        <template v-slot:item.activo="{ item }">
-                                            <td>
-                                              <v-btn
-                                              outlined
-                                                :color="item.activo ? 'success' : 'error'"
-                                                @click="item.activo ? fnEliminar(item) : fnActivar(item)"
-                                              >
-                                                {{ item.activo ? 'Activo' : 'Inactivo' }}
-                                              </v-btn>
-                                            </td>
-                                          </template>
+                                        <template v-slot:item.estatus="{item}">
+                                            <v-chip class="ma-2"
+                                                style="width: 80px; display: flex; justify-content: center; align-items: center;"
+                                                link @click="fnCambiarEstatus(item)"
+                                                :color="item.activo ? 'success' : 'grey'" outlined>
+                                                {{ item.activo ?
+                                                "Activo" : "Inactivo" }}
+                                            </v-chip>
+                                        </template>
                                           
                                         <template v-slot:item.editar="{item}">
                                             <v-btn fab small color="warning" @click="flagEditar = true; itemEditar = item;
@@ -334,7 +332,7 @@
                     {text: 'Duracion', align: 'left', sortable: true, value: 'duracion'},
                     {text: 'Objetivo', align: 'left', sortable: true, value: 'objetivo'},
                     {text: 'Resultado del Aprendizaje', align: 'left', sortable: true, value: 'resultado_aprendizaje'},
-                    {text: 'Estatus', align: 'left', sortable: true, value: 'activo'},
+                    {text: 'Estatus', align: 'left', sortable: true, value: 'estatus'},
                     
                 ]);
                 const searchProveedores = ref([]);
@@ -455,6 +453,38 @@
                     })
                 }
 
+                async function fnCambiarEstatus(item) {
+                        try {
+                            preloader("../");
+                            let parametros = new URLSearchParams();
+                            parametros.append("accion", 4);
+                            parametros.append("cve_prog_des", item.cve_prog_des);
+                            parametros.append("activo", (item.activo == true ? 0 : 1));
+                            parametros.append("duracion", item.duracion);
+                            console.log("🚀 ~ file: perfil_usuario.jsp:283 ~ fnCambiarEstatus ~ parametros:", parametros)
+                            let { data, status } = await axios.post(ctr, parametros);
+                            if (status == 200) {
+                                if (data == "1") {
+                                    mostrarSnackbar(
+                                        "success",
+                                        "Registro actualizado correctamente."
+                                    );
+                                    fnConsultarTabla();
+                                    // this.$validator.pause();
+                                    // Vue.nextTick(() => {
+                                    //     this.$validator.errors.clear();
+                                    //     this.$validator.resume();
+                                    // });
+                                }
+                            }
+                        } catch (error) {
+                            mostrarSnackbar("error");
+                            console.error(error);
+                        } finally {
+                            swal.close();
+                        }
+                    }
+
                 async function fnEliminar(item){
                     confirmarE("¿Realmente quieres eliminar éste registro?").then(async (result) => {
                         if(result.isConfirmed){
@@ -512,7 +542,7 @@
                     cve_prog_des,cve_modulo, cve_materia, duracion, objetivo, resultado_aprendizaje,
                     dataProveedores, headersProveedores, searchProveedores, ArrayProgramaDesarrollo,  nombre_materia,
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor,searchBusqueda, ArrayModulo, ArrayMateria,
-                    fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, itemEditar
+                    fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, fnCambiarEstatus, itemEditar
                 }
             },
             

@@ -19,9 +19,7 @@ VALUES (?, ?, ?, 1);
 	</guardarProgramaDesarrollo>
     <desactivarProgramaDesarrollo>
 		<query>
-			UPDATE programa_desarrollo
-SET activo = 0
-WHERE cve_prog_des = ?;
+			UPDATE programa_desarrollo SET activo = ? WHERE cve_prog_des = ?
 		</query>
 	</desactivarProgramaDesarrollo>
 	<activarProgramaDesarrollo>

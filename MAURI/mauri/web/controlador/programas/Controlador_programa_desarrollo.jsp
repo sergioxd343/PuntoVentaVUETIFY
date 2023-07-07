@@ -36,12 +36,12 @@
     
     int cve_prog_des = request.getParameter("cve_prog_des") != null && !request.getParameter("cve_prog_des").equals("") ? Integer.parseInt(request.getParameter("cve_prog_des")) : 0;
     int numero_modulos = request.getParameter("numero_modulos") != null && !request.getParameter("numero_modulos").equals("") ? Integer.parseInt(request.getParameter("numero_modulos")) : 0;
-
+    int activo = request.getParameter("activo")!=null && !request.getParameter("activo").equals("")?Integer.parseInt(request.getParameter("activo")):0;
+	
     String nombre_programa = request.getParameter("nombre_programa") != null && !request.getParameter("nombre_programa").equals("") ? request.getParameter("nombre_programa") : "-";
     String fecha = request.getParameter("fecha") != null && !request.getParameter("fecha").equals("") ? request.getParameter("fecha") : "-";
     String descripcion_programa = request.getParameter("descripcion_programa") != null && !request.getParameter("descripcion_programa").equals("") ? request.getParameter("descripcion_programa") : "-";
 
-    boolean activo = request.getParameter("activo") != null && !request.getParameter("activo").equals("") ? Boolean.parseBoolean(request.getParameter("activo")) : false;
     
     switch (accion) {
         case 1:
@@ -58,6 +58,7 @@
             break;
         case 3:
             temp_obj = new JsonObject();
+            temp_obj.addProperty("activo", activo);
             temp_obj.addProperty("cve_prog_des",cve_prog_des);
             parametros.add(temp_obj);
             out.println(datos.Registro(parametros, "desactivarProgramaDesarrollo"));

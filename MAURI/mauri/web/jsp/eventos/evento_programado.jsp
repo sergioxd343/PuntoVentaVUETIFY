@@ -30,62 +30,45 @@
                                 <!--Columna-->
                                 
 
+                                <v-col md="6">
+                                    <v-select
+                                      v-model="cve_espacio"
+                                      :items="arrayEspacio"
+                                      item-text="nombre_espacio" // Especifica la propiedad del objeto a mostrar como texto en el select
+                                      item-value="cve_espacio" // Especifica la propiedad del objeto a usar como valor en el select
+                                      outlined
+                                      label="Espacio donde se aplicara"
+                                      persistent-hint
+                                      v-validate="'required|max:200'"
+                                      data-vv-name="espacio"
+                                      :error="errors.has('espacio')"
+                                      :error-messages="errors.first('espacio')"
+                                      
+                                    ></v-select>
+                                  </v-col>
+
                                 
-                                <v-col md=6>
-                                    <v-text-field 
-                                        v-model="nombreUsuario"
-                                        outlined
-                                        label="id Evento Programado"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
-                                    ></v-text-field>
-                                </v-col>
+                                  <v-col md="6">
+                                    <v-select
+                                      v-model="cve_modalidad"
+                                      :items="arrayModalidad"
+                                      item-text="nombre_modalidad" // Especifica la propiedad del objeto a mostrar como texto en el select
+                                      item-value="cve_modalidad" // Especifica la propiedad del objeto a usar como valor en el select
+                                      outlined
+                                      label="Modalidad"
+                                      persistent-hint
+                                      v-validate="'required|max:200'"
+                                      data-vv-name="programa de desarrollo"
+                                      :error="errors.has('programa de desarrollo')"
+                                      :error-messages="errors.first('programa de desarrollo')"
+                                      
+                                    ></v-select>
+                                  </v-col>
 
+                                                            
                                 <v-col md=6>
                                     <v-text-field 
-                                        v-model="nombreUsuario"
-                                        outlined
-                                        label="id Evento Origen"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
-                                    ></v-text-field>
-                                </v-col>
-
-                                <v-col md=6>
-                                    <v-text-field 
-                                        v-model="nombreUsuario"
-                                        outlined
-                                        label="id Espacio"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
-                                    ></v-text-field>
-                                </v-col>
-
-                                <v-col md=6>
-                                    <v-text-field 
-                                        v-model="nombreUsuario"
-                                        outlined
-                                        label="id Modalidad"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
-                                    ></v-text-field>
-                                </v-col>
-
-                                <v-col md=6>
-                                    <v-text-field 
-                                        v-model="nombreUsuario"
+                                        v-model="nombre_evento"
                                         outlined
                                         label="Nombre del Evento"
                                         persistent-hint
@@ -98,7 +81,7 @@
 
                                 <v-col md=6>
                                     <v-text-field 
-                                        v-model="nombreUsuario"
+                                        v-model="nombre_origen"
                                         outlined
                                         label="Nombre del Origen"
                                         persistent-hint
@@ -109,31 +92,29 @@
                                     ></v-text-field>
                                 </v-col>
 
-                                <v-col md=6>
-                                    <v-text-field 
-                                        v-model="nombreUsuario"
-                                        outlined
-                                        label="Horario Inicio"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
-                                    ></v-text-field>
-                                </v-col>
+                                <template>
+                                    <v-col md="6">
+                                      <v-switch v-model="sin_horario" label="¿Cuenta con un horario?"></v-switch>
+                                    </v-col>
+                                  </template>
 
-                                <v-col md=6>
-                                    <v-text-field 
-                                        v-model="nombreUsuario"
-                                        outlined
-                                        label="Horario Fin"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
-                                    ></v-text-field>
-                                </v-col>
+                                  <v-col md="6" v-if="sin_horario">
+                                    <v-card outlined>
+                                      <v-card-title class="subheading">Horario Inicio</v-card-title>
+                                      <v-card-text>
+                                        <v-time-picker v-model="horario_inicio"></v-time-picker>
+                                      </v-card-text>
+                                    </v-card>
+                                  </v-col>
+                                
+                                  <v-col md="6" v-if="sin_horario">
+                                    <v-card outlined>
+                                      <v-card-title class="subheading">Horario Fin</v-card-title>
+                                      <v-card-text>
+                                        <v-time-picker v-model="horario_fin"></v-time-picker>
+                                      </v-card-text>
+                                    </v-card>
+                                  </v-col>
 
                                 
 
@@ -141,19 +122,19 @@
                                     <v-menu 
                                             ref="menu1"  
                                             :close-on-content-click="false"
-                                            :return-value.sync="fecha" 
+                                            :return-value.sync="fecha_inicio" 
                                             transition="scale-transition" 
                                             offset-y min-width="auto">
                                         <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field v-model="fecha" label="Fecha Inicio" prepend-icon="mdi-calendar"
+                                            <v-text-field v-model="fecha_inicio" label="Fecha Inicio" prepend-icon="mdi-calendar"
                                                 readonly v-bind="attrs" v-on="on"></v-text-field>
                                         </template>
-                                        <v-date-picker v-model="fecha" no-title scrollable>
+                                        <v-date-picker v-model="fecha_inicio" no-title scrollable>
                                             <v-spacer></v-spacer>
                                             <v-btn text color="primary" @click="menu1 = false">
                                                 Cancel
                                             </v-btn>
-                                            <v-btn text color="primary" @click="$refs.menu1.save(fecha)">
+                                            <v-btn text color="primary" @click="$refs.menu1.save(fecha_inicio)">
                                                 OK
                                             </v-btn>
                                         </v-date-picker>
@@ -162,21 +143,21 @@
 
                                 <v-col cols="12" sm="6" md="4">
                                     <v-menu 
-                                            ref="menu1"  
+                                            ref="menu2"  
                                             :close-on-content-click="false"
-                                            :return-value.sync="fecha" 
+                                            :return-value.sync="fecha_fin" 
                                             transition="scale-transition" 
                                             offset-y min-width="auto">
                                         <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field v-model="fecha" label="Fecha Termino" prepend-icon="mdi-calendar"
+                                            <v-text-field v-model="fecha_fin" label="Fecha Termino" prepend-icon="mdi-calendar"
                                                 readonly v-bind="attrs" v-on="on"></v-text-field>
                                         </template>
-                                        <v-date-picker v-model="fecha" no-title scrollable>
+                                        <v-date-picker v-model="fecha_fin" no-title scrollable>
                                             <v-spacer></v-spacer>
-                                            <v-btn text color="primary" @click="menu1 = false">
+                                            <v-btn text color="primary" @click="menu2 = false">
                                                 Cancel
                                             </v-btn>
-                                            <v-btn text color="primary" @click="$refs.menu1.save(fecha)">
+                                            <v-btn text color="primary" @click="$refs.menu2.save(fecha_fin)">
                                                 OK
                                             </v-btn>
                                         </v-date-picker>
@@ -341,21 +322,26 @@
                     onMounted,
                     watch
                 } = VueCompositionAPI;
-                const ctr = "../../controlador/ejemplo_usuario/Controlador_catalogo_usuario.jsp";
+                const ctr = "../../controlador/eventos/Controlador_evento_programado.jsp";
                 //Variables POST
-                const tipo = ref("");
+                const sin_horario =ref("");
                 const nombreUsuario = ref("");
-                const fecha = ref("");
-                const rfc = ref("");
-                const padron = ref("");
-                const nombrePerfil = ref("");
-                const correoContacto = ref("");
-                const telefonoContacto = ref("");
-                const estatus = ref("");
+                const cve_even_prog = ref("");
+                const cve_origen_evento = ref("");
+                const cve_espacio = ref("");
+                const cve_modalidad = ref("");
+                const nombre_evento = ref("");
+                const nombre_origen = ref("");
+                const horario_inicio = ref("");
+                const horario_fin = ref("");
+                const fecha_inicio = ref("");
+                const fecha_fin = ref("");
                 //Otras variables
                 const flagEditar = ref(false);
                 const itemEditar = ref({});
                 //Setup del calendario
+                const arrayEspacio =ref([]);
+                const arrayModalidad = ref([]);
                 const arrayTiposUsuario = ref([]);
                 //Setup de inputs
 
@@ -377,41 +363,23 @@
                 const dataProveedores = ref([]); 
                 const dataUsuarios = ref([]);
                 const headersProveedores = ref([
-                    {text: 'No', align: 'left', sortable: true, value: 'id_usuario'},
-                    {text: 'Nombre', align: 'left', sortable: true, value: 'nombre'},
-                    {text: 'Tipo de Usuario ', align: 'left', sortable: true, value: 'Expr1'},
-                    {text: 'Fecha', align: 'left', sortable: true, value: 'fecha'},
-                    {text: 'Editar', align: 'left', sortable: true, value: 'editar'},
+                    {text: 'No', align: 'left', sortable: true, value: 'cve_even_prog'},
+                    {text: 'Nombre del Evento', align: 'left', sortable: true, value: 'nombre_evento'},
+                    {text: 'Nombre del Origen', align: 'left', sortable: true, value: 'nombre_origen'},
+                    {text: 'Horario inicio', align: 'left', sortable: true, value: 'horario_inicio'},
+                    {text: 'fecha inicio', align: 'left', sortable: true, value: 'fecha_inicio'},
                     {text: 'Estatus', align: 'left', sortable: true, value: 'activo'},
-                    {text: 'Eliminar', align: 'left', sortable: true, value: 'eliminar'},
                 ]);
                 const searchProveedores = ref([]);
 
                 //Accion automatizada para mostrar la tabla
                 onMounted(() => {
                     fnConsultarTabla();
-                    fnTiposUsuario();
+                    fnEspacios();
+                    fnModalidad();
                     //fnTiposProveedor();
                 });
 
-                async function fnTiposUsuario(){
-                    try{
-                        preloader("../../");
-                        let parametros = new URLSearchParams();
-                        parametros.append("accion", 3);
-                        let {data,status} = await axios.post(ctr, parametros)
-                        if(status == 200){
-                            if(data.length > 0){
-                                arrayTiposUsuario.value = data
-                            }
-                        }
-                    } catch(error){
-                        mostrarSnackbar('error');
-                        console.error(error);
-                    } finally{
-                        swal.close();
-                    }
-                }
                 
                 async function fnConsultarTabla(){
                     try{
@@ -442,10 +410,16 @@
                             try{
                                 preloader("../../");
                                 let parametros = new URLSearchParams();
-                                parametros.append("accion", 2);
-                                parametros.append("tipo", tipo.value);
-                                parametros.append("nombreUsuario", nombreUsuario.value);
-                                parametros.append("fecha", fecha.value);
+                                parametros.append("accion", 4);
+                                parametros.append("cve_espacio", cve_espacio.value);
+                                parametros.append("cve_modalidad", cve_modalidad.value);
+                                parametros.append("nombre_evento", nombre_evento.value);
+                                parametros.append("nombre_origen", nombre_origen.value);
+                                parametros.append("sin_horario", sin_horario.value);
+                                parametros.append("horario_inicio", horario_inicio.value);
+                                parametros.append("horario_fin", horario_fin.value);
+                                parametros.append("fecha_inicio", nombreUsuario.value);
+                                parametros.append("fecha_fin", fecha_fin.value);
                                 let {data,status} = await axios.post(ctr, parametros)
                                 if(status == 200){
                                     if(data == "1"){
@@ -469,7 +443,26 @@
                     })
                 }
 
-                async function fnTiposProveedor(){
+                async function fnEspacios(){
+                    try{
+                        preloader("../../");
+                        let parametros = new URLSearchParams();
+                        parametros.append("accion", 2);
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                arrayEspacio.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                }
+
+                async function fnModalidad(){
                     try{
                         preloader("../../");
                         let parametros = new URLSearchParams();
@@ -477,7 +470,7 @@
                         let {data,status} = await axios.post(ctr, parametros)
                         if(status == 200){
                             if(data.length > 0){
-                                arrayTiposUsuario.value = data
+                                arrayModalidad.value = data
                             }
                         }
                     } catch(error){
@@ -576,9 +569,10 @@
 
                 return{
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
-                    tipo, nombreUsuario, fecha, rfc, padron, nombrePerfil, correoContacto, telefonoContacto,estatus,
-                    dataProveedores, headersProveedores, searchProveedores, arrayTiposUsuario, 
-                    dialogBuscador, dialogDetallesCotizacion, dialogProveedor,
+                    nombre_evento, nombre_origen, horario_inicio, horario_fin, fecha_inicio, fecha_fin,
+                    dataProveedores, headersProveedores, searchProveedores, arrayTiposUsuario, sin_horario,
+                    arrayEspacio, arrayModalidad,
+                    dialogBuscador, dialogDetallesCotizacion, dialogProveedor,cve_even_prog,cve_origen_evento,cve_espacio,cve_modalidad,
                     fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, itemEditar
                 }
             },

@@ -33,6 +33,7 @@
     Gson gson = new Gson();
     
     int accion = request.getParameter("accion") != null && !request.getParameter("accion").equals("") ? Integer.parseInt(request.getParameter("accion")) : 0;
+    int cve_modulo = request.getParameter("cve_modulo") != null && !request.getParameter("cve_modulo").equals("") ? Integer.parseInt(request.getParameter("cve_modulo")) : 0;
     
     int cve_prog_des = request.getParameter("cve_prog_des") != null && !request.getParameter("cve_prog_des").equals("") ? Integer.parseInt(request.getParameter("cve_prog_des")) : 0;
     int num_materias = request.getParameter("num_materias") != null && !request.getParameter("num_materias").equals("") ? Integer.parseInt(request.getParameter("num_materias")) : 0;
@@ -41,8 +42,8 @@
     String nombre_modulo = request.getParameter("nombre_modulo") != null && !request.getParameter("nombre_modulo").equals("") ? request.getParameter("nombre_modulo") : "-";
     String color = request.getParameter("color") != null && !request.getParameter("color").equals("") ? request.getParameter("color") : "-";
     
-    boolean activo = request.getParameter("activo") != null && !request.getParameter("activo").equals("") ? Boolean.parseBoolean(request.getParameter("activo")) : false;
-    
+    int activo = request.getParameter("activo")!=null && !request.getParameter("activo").equals("")?Integer.parseInt(request.getParameter("activo")):0;
+	
     switch (accion) {
         case 1:
             out.println(datos.Consultas(parametros, "tablaProgramaDesarrollo"));
@@ -62,8 +63,9 @@
             break;
         case 4: 
             temp_obj = new JsonObject();
+            temp_obj.addProperty("activo", activo);
             temp_obj.addProperty("cve_prog_des", cve_prog_des);
-            temp_obj.addProperty("nombre_modulo", nombre_modulo);
+            temp_obj.addProperty("cve_modulo", cve_modulo);
             parametros.add(temp_obj);
             out.println(datos.Registro(parametros, "desactivarProgramaDesarrolloModulos"));
             break;

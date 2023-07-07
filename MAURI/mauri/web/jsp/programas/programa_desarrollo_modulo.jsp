@@ -23,7 +23,7 @@
                 <v-container fluid>
                     <v-card>
                         <v-card-title  style="background-color: #00b293; color:#ffffff; headline" >		
-                            Programa de desarrollo de modúlos
+                            Programa de desarrollo de módulos
                         </v-card-title>
                         <v-container fluid>
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
@@ -64,7 +64,7 @@
                                     ></v-text-field>
                                 </v-col>
 
-                                <v-col md=6>
+                                <v-col md=7>
                                     <v-text-field 
                                         v-model="num_materias"
                                         outlined
@@ -79,8 +79,12 @@
                                     ></v-text-field>
                                 </v-col>
 
-                                <v-col md="6">
-                                    <v-select
+                                <v-col md="5">
+                                    <v-row>
+                                        <v-col class=""><b>Color</b></v-col>
+                                    </v-row>
+                                    <v-divider> </v-divider>
+                                    <v-color-picker
                                       v-model="color"
                                       :items="coloresBasicos"
                                       item-text="text"
@@ -92,7 +96,7 @@
                                       data-vv-name="color"
                                       :error="errors.has('color')"
                                       :error-messages="errors.first('color')"
-                                    ></v-select>
+                                    ></v-color-picker>
                                   </v-col>
 
                                 
@@ -136,17 +140,15 @@
                                         <v-icon :style="{ color: item.color }">mdi-circle</v-icon>
                                     </template>
                                     
-                                    <template v-slot:item.activo="{ item }">
-                                        <td>
-                                          <v-btn
-                                          outlined
-                                            :color="item.activo ? 'success' : 'error'"
-                                            @click="item.activo ? fnEliminar(item) : fnActivar(item)"
-                                          >
-                                            {{ item.activo ? 'Activo' : 'Inactivo' }}
-                                          </v-btn>
-                                        </td>
-                                      </template>
+                                    <template v-slot:item.estatus="{item}">
+                                        <v-chip class="ma-2"
+                                            style="width: 80px; display: flex; justify-content: center; align-items: center;"
+                                            link @click="fnCambiarEstatus(item)"
+                                            :color="item.activo ? 'success' : 'grey'" outlined>
+                                            {{ item.activo ?
+                                            "Activo" : "Inactivo" }}
+                                        </v-chip>
+                                    </template>
 
                                     <template v-slot:item.status="{ item }">
                                         <v-switch v-model="item.status" @change="fnCambiarEstatus(item)"></v-switch>
@@ -320,7 +322,7 @@
                     {text: 'Nombre del módulo', align: 'left', sortable: true, value: 'nombre_modulo'},
                     {text: 'Número de materias', align: 'left', sortable: true, value: 'num_materias'},
                     {text: 'Color ', align: 'left', sortable: true, value: 'color'},
-                    {text: 'Estatus', align: 'left', sortable: true, value: 'activo'},
+                    {text: 'Estatus', align: 'left', sortable: true, value: 'estatus'},
                     
                 ]);
                 const searchProveedores = ref([]);
@@ -381,6 +383,8 @@
                         swal.close();
                     }
                 }
+
+                
 
                 async function fnGuardar(){
                     this.$validator.validate().then(async esValido => {
@@ -468,6 +472,39 @@
                     })
                 }
 
+
+                async function fnCambiarEstatus(item) {
+                        try {
+                            preloader("../");
+                            let parametros = new URLSearchParams();
+                            parametros.append("accion", 4);
+                            parametros.append("cve_prog_des", item.cve_prog_des);
+                            parametros.append("cve_modulo", item.cve_modulo);
+                            parametros.append("activo", (item.activo == true ? 0 : 1));
+                            console.log("🚀 ~ file: perfil_usuario.jsp:283 ~ fnCambiarEstatus ~ parametros:", parametros)
+                            let { data, status } = await axios.post(ctr, parametros);
+                            if (status == 200) {
+                                if (data == "1") {
+                                    mostrarSnackbar(
+                                        "success",
+                                        "Registro actualizado correctamente."
+                                    );
+                                    fnConsultarTabla();
+                                    // this.$validator.pause();
+                                    // Vue.nextTick(() => {
+                                    //     this.$validator.errors.clear();
+                                    //     this.$validator.resume();
+                                    // });
+                                }
+                            }
+                        } catch (error) {
+                            mostrarSnackbar("error");
+                            console.error(error);
+                        } finally {
+                            swal.close();
+                        }
+                    }
+
                 async function fnEliminar(item){
                     confirmarE("¿Realmente quieres eliminar éste registro?").then(async (result) => {
                         if(result.isConfirmed){
@@ -524,7 +561,7 @@
                     nombreUsuario, cve_prog_des, cve_modulo,nombre_modulo, num_materias,color,
                     dataProveedores, headersProveedores, dataModulo, searchProveedores, ArrayProgramaDesarrollo, ArrayModulo, search,
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor, coloresBasicos,
-                    fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar,fnConsultarModulo, itemEditar
+                    fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar,fnConsultarModulo, fnCambiarEstatus, itemEditar
                 }
             },
             
