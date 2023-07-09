@@ -10,8 +10,7 @@
                 fecha_registro, 
                 usuario_registro
             FROM           
-                submenu
-            WHERE (ruta LIKE '%/catalogos_pequenios/%')
+                submenu_2
             ORDER BY nombre
         </query>
     </submenu>

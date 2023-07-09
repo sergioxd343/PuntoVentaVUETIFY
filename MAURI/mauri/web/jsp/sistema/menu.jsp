@@ -108,7 +108,7 @@
                             <v-col>
                                 <iframe name="iframe_modelo" src="../../images/1.2.jpg"
                                     style="border: medium none;margin-left: -92px;margin-top: -12px;margin-right: 0px;"
-                                    class="align-center" width="110%" height="550px">
+                                    class="align-center" width="110%" height="525px">
                                 </iframe>
                             </v-col>
                         </v-row>
@@ -167,7 +167,7 @@
                             const currentUser = localStorage.getItem('currentUser');
                             const user = JSON.parse(currentUser);
                             const nombre = user[0].nombre;
-                            const primerAp = user[0].apellido_peterno;
+                            const primerAp = user[0].apellido_paterno;
                             const segundoAp = user[0].apellido_materno;
                             const usuario = user[0].nombre_usuario;
                             const contrasenia = user[0].contrasenia;

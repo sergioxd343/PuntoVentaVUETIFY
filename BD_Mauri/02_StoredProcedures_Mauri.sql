@@ -55,7 +55,9 @@ CREATE PROCEDURE InsertarSolicitudConInstructores
     @perfil_participante TEXT,
     @estatus INT,
     @usuario_registro INT,
-    @instructores VARCHAR(MAX) -- Aqui mando array
+    @instructores VARCHAR(MAX), 
+    @areas VARCHAR(MAX), 
+    @ugacs VARCHAR(MAX) 
 )
 AS
 BEGIN
@@ -73,37 +75,86 @@ BEGIN
         @perfil_participante, @estatus, @usuario_registro
     );
 
-   
     DECLARE @cve_sol_cap_int INT;
-    SET @cve_sol_cap_int = SCOPE_IDENTITY(); -- ultimo cve insertado
+    SET @cve_sol_cap_int = SCOPE_IDENTITY(); -- ï¿½ltimo cve insertado
 
+    -- Tabla temporal para almacenar los datos de instructores, ï¿½reas y ugacs
+    DECLARE @instructorData TABLE (
+        InstructorId INT,
+        AreaId INT,
+        UgacId INT,
+        RowNumber INT
+    );
     
-    DECLARE @instructorId INT;
-	-- tabla para guardar los id de instructor
-    DECLARE @instructorList TABLE (Id INT);
-    
-   
-    DECLARE @pos INT; -- posicion 
-    DECLARE @piece VARCHAR(MAX); -- cve
-    SET @instructores = @instructores + ',';
-    SET @pos = CHARINDEX(',', @instructores, 1); -- charindex encuentra la primera coma en los instructores 
-    
-    WHILE @pos > 0
-    BEGIN
-        SET @piece = SUBSTRING(@instructores, 1, @pos - 1); -- id de instructores que está antes de la primera coma
-        
-        IF @piece <> '' -- si el cve no esta vacio
-        BEGIN
-            INSERT INTO @instructorList (Id) VALUES (CONVERT(INT, @piece)); -- guarda el cve convertido a int 
-        END;
-        
-        SET @instructores = STUFF(@instructores, 1, @pos, ''); -- limpia instructores y posicion
-        SET @pos = CHARINDEX(',', @instructores, 1); -- la posicion de la siguiente coma
-    END;
+    -- Obtener instructores, Areas y ugacs en filas separadas
+    WITH InstructorsCTE AS (
+        SELECT value, ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS RowNumber
+        FROM STRING_SPLIT(@instructores, ',')
+    ),
+    AreasCTE AS (
+        SELECT value, ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS RowNumber
+        FROM STRING_SPLIT(@areas, ',')
+    ),
+    UgacsCTE AS (
+        SELECT value, ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS RowNumber
+        FROM STRING_SPLIT(@ugacs, ',')
+    )
+    INSERT INTO @instructorData (InstructorId, AreaId, UgacId, RowNumber)
+    SELECT
+        CONVERT(INT, i.value) AS InstructorId,
+        CONVERT(INT, a.value) AS AreaId,
+        CONVERT(INT, u.value) AS UgacId,
+        ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS RowNumber
+    FROM InstructorsCTE i
+    INNER JOIN AreasCTE a ON i.RowNumber = a.RowNumber
+    INNER JOIN UgacsCTE u ON i.RowNumber = u.RowNumber;
 
-    -- Insertar cada Id instructor en solicitud_instructor de la lista de intructores generada
-    INSERT INTO solicitud_instructor (cve_sol_cap_int, cve_instructor)
-    SELECT @cve_sol_cap_int, Id
-    FROM @instructorList;
-END;
+    -- Insertar registros en la tabla solicitud_instructor
+    INSERT INTO solicitud_instructor (cve_sol_cap_int, cve_instructor, cve_area, cve_ugac)
+    SELECT
+        @cve_sol_cap_int,
+        InstructorId,
+        AreaId,
+        UgacId
+    FROM @instructorData;
+    
+END
 GO
+
+IF OBJECT_ID('InsertarEmpleado', 'P') IS NOT NULL
+    DROP PROCEDURE InsertarEmpleado
+GO
+CREATE PROCEDURE InsertarEmpleado(
+    -- Datos de Persona
+    @nombre						VARCHAR(50),
+	@apellido_paterno			VARCHAR(50),
+	@apellido_materno			VARCHAR(50),
+	@email               		VARCHAR(129),
+	@movil            			VARCHAR(20),
+	@curp 						VARCHAR(18),
+	@rfc 						VARCHAR(13),
+	@sexo              			VARCHAR(20),
+	@fecha_nacimiento 			DATE,
+    -- Datos de Empleado
+	@cve_puesto					INT,
+	@cve_tipo_puesto			INT,
+	@cve_departamento			INT,
+	@cve_area					INT,
+	@cve_ugac					INT,
+	@cve_unidad_academica 		INT,
+	@fecha_ingreso				DATE,
+	@titulo_recibido			VARCHAR(50),
+	@grado_estudio				VARCHAR(25)
+)
+AS
+BEGIN
+
+    INSERT INTO persona (nombre, apellido_paterno, apellido_materno, email, movil, curp, rfc, sexo, fecha_nacimiento) 
+    VALUES (@nombre, @apellido_paterno, @apellido_materno, @email, @movil, @curp, @rfc, @sexo, @fecha_nacimiento);
+
+    DECLARE @var_cve_persona INT;
+    SET @var_cve_persona = SCOPE_IDENTITY();
+
+    INSERT INTO empleado (cve_persona, cve_puesto, cve_tipo_puesto, cve_departamento, cve_area, cve_ugac, cve_unidad_academica, fecha_ingreso, titulo_recibido, grado_estudio) 
+    VALUES (@var_cve_persona, @cve_puesto, @cve_tipo_puesto, @cve_departamento, @cve_area, @cve_ugac, @cve_unidad_academica, @fecha_ingreso, @titulo_recibido, @grado_estudio);
+END;

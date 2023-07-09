@@ -28,9 +28,9 @@ and open the template in the editor.
     area.cve_area AS Expr2,
     area.nombre_area,
     persona.nombre,
-    persona.apellido_peterno,
+    persona.apellido_paterno,
     persona.apellido_materno,
-    CONCAT(persona.nombre, ' ', persona.apellido_peterno, ' ', persona.apellido_materno) AS nombre_completo
+    CONCAT(persona.nombre, ' ', persona.apellido_paterno, ' ', persona.apellido_materno) AS nombre_completo
 FROM
     solicitud_proyecto
 INNER JOIN

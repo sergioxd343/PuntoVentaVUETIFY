@@ -4,7 +4,7 @@
 -- Description:	Son los Scripts DDL para la base 
 --				del datos del proyecto Mauri
 -- =============================================
-x
+
 USE master;
 GO
 
@@ -32,7 +32,19 @@ CREATE TABLE menu(
 
 -- ------------- TABLA SUBMENU -------------- --
 CREATE TABLE submenu(
-    cve_menu 					INT NOT NULL,
+    cve_menu 					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+    cve_padre 					INT NOT NULL,
+    nombre 						VARCHAR(70),
+    ruta 						VARCHAR(120),
+    orden 						INT,
+    activo 						BIT DEFAULT 1,
+	fecha_registro 				DATETIME DEFAULT GETDATE(),
+	usuario_registro 			INT
+);
+
+-- ------------- TABLA SUBMENU -------------- --
+CREATE TABLE submenu_2(
+    cve_menu 					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
     cve_padre 					INT NOT NULL,
     nombre 						VARCHAR(70),
     ruta 						VARCHAR(120),
@@ -85,7 +97,7 @@ CREATE TABLE usuario(
 CREATE TABLE persona(
 	cve_persona					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	nombre						VARCHAR(50),
-	apellido_peterno			VARCHAR(50) NOT NULL,
+	apellido_paterno			VARCHAR(50) NOT NULL,
 	apellido_materno			VARCHAR(50),
 	email               		VARCHAR(129) NOT NULL DEFAULT '',
 	movil            			VARCHAR(20) NOT NULL DEFAULT '',
@@ -486,7 +498,7 @@ CREATE TABLE programa_desarrollo(
 
 -- ------------- TABLA INSTRUCTOR_EXTERNO -------------- --
 CREATE TABLE instructor_externo(
-	cve_instructor_e 			INT NOT NULL,
+	cve_instructor_e 			INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	nombre_instructor 			VARCHAR(50),
 	apellido_paterno 			VARCHAR(50),
 	apellido_materno			VARCHAR(50),
@@ -621,10 +633,10 @@ CREATE TABLE tipo_espacio(
 );
 
 -- ------------- TABLA EVALUCIÓN DE CAPACITACIÓN -------------- --
-CREATE TABLE evalucion_capacitacion(
+CREATE TABLE evaluacion_capacitacion(
+	cve_eval_capa				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	cve_empleado_docente 		INT NOT NULL,
 	cve_curso 					INT NOT NULL,
-	cve_calificacion 			INT NOT NULL,
 	nombre_facilitador 			VARCHAR(50),
 	calificacion_final 			INT,
 	activo 						BIT DEFAULT 1,
@@ -807,8 +819,12 @@ CREATE TABLE instructor(
 CREATE TABLE solicitud_instructor(
 	cve_sol_cap_int 			INT NOT NULL,
 	cve_instructor 				INT NOT NULL,
+	cve_area 					INT NOT NULL,
+	cve_ugac					INT NOT NULL,
 	FOREIGN KEY (cve_sol_cap_int) REFERENCES solicitud_capacitacion_interna(cve_sol_cap_int),
-	FOREIGN KEY (cve_instructor) REFERENCES instructor(cve_instructor)
+	FOREIGN KEY (cve_instructor) REFERENCES instructor(cve_instructor),
+	FOREIGN KEY (cve_area) REFERENCES area(cve_area),
+	FOREIGN KEY (cve_ugac) REFERENCES ugac(cve_ugac)
 );
 
 -- ------------- TABLA GRUPO EVENTOS -------------- --

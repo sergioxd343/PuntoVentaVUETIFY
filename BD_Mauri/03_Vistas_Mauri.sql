@@ -1,30 +1,32 @@
 USE mauri;
 GO
 
+IF OBJECT_ID('v_menu', 'V') IS NOT NULL
+    DROP VIEW v_menu;
+GO
 CREATE VIEW v_menu AS
-SELECT        
-                menu.cve_menu, 
-                menu.cve_padre, 
-                menu.nombre AS menu_nivel_1, 
-                menu.ruta, 
-                menu.orden, 
-                menu.activo, 
-                submenu.cve_menu AS cve_menu_2, 
-                submenu.cve_padre AS cve_padre_2, 
-                submenu.activo AS activo_2, 
-                submenu.orden AS orden_2, 
-                submenu.ruta AS ruta_2, 
-                submenu.nombre AS menu_nivel_2, 
-                grupo_seguridad.nombre AS rol, 
-                usuario.nombre_usuario,
-                usuario.contrasenia
-            FROM            
-                submenu RIGHT OUTER JOIN
-                menu INNER JOIN
-                grupo_seguridad INNER JOIN
-                menu_permisos ON grupo_seguridad.cve_grupo_seguridad = menu_permisos.cve_grupo_seguridad INNER JOIN
-                usuario_grupo_seguridad ON grupo_seguridad.cve_grupo_seguridad = usuario_grupo_seguridad.cve_grupo_seguridad INNER JOIN
-                usuario ON usuario_grupo_seguridad.cve_persona = usuario.cve_persona ON menu.cve_menu = menu_permisos.cve_menu ON submenu.cve_menu = menu.cve_menu 
+SELECT			menu.cve_menu, 
+				menu.cve_padre, 
+				menu.nombre AS menu_nivel_1, 
+				menu.ruta, 
+				menu.orden, 
+				menu.activo, 
+				submenu.cve_menu AS cve_menu_2, 
+				submenu.cve_padre AS cve_padre_2, 
+				submenu.activo AS activo_2, 
+				submenu.orden AS orden_2, 
+				submenu.ruta AS ruta_2, 
+				submenu.nombre AS menu_nivel_2, 
+				grupo_seguridad.nombre AS rol, 
+				usuario.nombre_usuario, 
+				usuario.contrasenia
+FROM            
+				menu INNER JOIN
+				submenu ON menu.cve_menu = submenu.cve_padre INNER JOIN
+				menu_permisos ON submenu.cve_padre = menu_permisos.cve_menu INNER JOIN
+				grupo_seguridad ON menu_permisos.cve_grupo_seguridad = grupo_seguridad.cve_grupo_seguridad INNER JOIN
+				usuario_grupo_seguridad ON grupo_seguridad.cve_grupo_seguridad = usuario_grupo_seguridad.cve_grupo_seguridad INNER JOIN
+				usuario ON usuario_grupo_seguridad.cve_persona = usuario.cve_persona
 GO
 
 IF OBJECT_ID('v_usuario_persona', 'V') IS NOT NULL
@@ -39,7 +41,7 @@ SELECT
 				usuario.contrasenia, 
 				usuario.activo, 
 				persona.nombre, 
-				persona.apellido_peterno, 
+				persona.apellido_paterno, 
 				persona.apellido_materno, 
 				persona.email, 
 				persona.movil, 
@@ -58,7 +60,7 @@ GO
 CREATE VIEW v_empleado AS
 SELECT			persona.cve_persona, 
 				persona.nombre, 
-				persona.apellido_peterno, 
+				persona.apellido_paterno, 
 				persona.apellido_materno, 
 				persona.email, 
 				persona.movil, 
@@ -70,6 +72,7 @@ SELECT			persona.cve_persona,
 				empleado.grado_estudio, 
 				empleado.titulo_recibido, 
 				empleado.fecha_ingreso, 
+				empleado.cve_departamento,
 				puesto.cve_puesto, 
 				puesto.nombre_puesto, 
 				puesto.nivel_tabulador_puesto, 
@@ -130,7 +133,7 @@ IF OBJECT_ID('v_empleado_evento', 'V') IS NOT NULL
     DROP VIEW v_empleado_evento;
 GO
 CREATE VIEW v_empleado_evento AS
-SELECT        evento_programado.cve_even_prog, empleado.cve_empleado, persona.nombre, persona.apellido_peterno, persona.apellido_materno, persona.sexo, tipo_puesto.nombre_tipo_puesto, puesto.nombre_puesto, 
+SELECT        evento_programado.cve_even_prog, empleado.cve_empleado, persona.nombre, persona.apellido_paterno, persona.apellido_materno, persona.sexo, tipo_puesto.nombre_tipo_puesto, puesto.nombre_puesto, 
                          area.nombre_area, ugac.nombre_ugac, espacio.nombre_espacio, modalidad_evento.nombre_modalidad, evento_programado.nombre_evento, evento_programado.nombre_origen, evento_programado.sin_horario, 
                          evento_programado.horario_inicio, evento_programado.horario_fin, evento_programado.fecha_inicio, evento_programado.fecha_fin, evento_programado.activo, evento_programado.fecha_registro, 
                          evento_programado.usuario_registro, evento_programado_grupo.cve_empleado AS Expr1
