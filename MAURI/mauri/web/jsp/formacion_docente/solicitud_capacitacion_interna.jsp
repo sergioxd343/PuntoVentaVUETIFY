@@ -197,10 +197,11 @@
                                     <!-- TOTAL DE DÍAS-->
                                     <v-col md="6">
                                         <v-text-field v-model="dias" outlined label="Total de Días" inputmode="numeric"
-                                            pattern="[0-9]*" type="number" persistent-hint
+                                             persistent-hint
                                             v-validate="'required|max:500'" data-vv-name="total de días"
                                             :error="errors.has('total de días')"
-                                            :error-messages="errors.first('total de días')" :disabled="deshabilitar"></v-text-field>
+                                            :error-messages="errors.first('total de días')" :disabled="deshabilitar"
+                                            :rules="[validacion]"></v-text-field>
                                     </v-col> 
 
                                     <!--HORARIO-->
@@ -222,11 +223,11 @@
                                     <!-- TOTAL DE HORAS -->
                                     <v-col md="6">
                                         <v-text-field v-model="horas" outlined label="Total de Horas" persistent-hint
-                                            inputmode="numeric" pattern="[0-9]*" type="number"
+                                            
                                             :disabled="deshabilitar"
                                             v-validate="'required|max:500'" data-vv-name="total de horas"
                                             :error="errors.has('total de horas')"
-                                            :error-messages="errors.first('total de horas')"></v-text-field>
+                                            :error-messages="errors.first('total de horas')" :rules="[validacion]"></v-text-field>
                                     </v-col>
 
                                     <!--LUGAR -->
@@ -247,11 +248,11 @@
                                     <v-col md="6|">
                                         <v-text-field v-model="numeroParticipantes" outlined
                                             label="Número de participantes" persistent-hint inputmode="numeric"
-                                            pattern="[0-9]*" type="number" v-validate="'required|max:500'"
+                                           v-validate="'required|max:500'"
                                             data-vv-name="número de participantes"
                                             :disabled="deshabilitar"
                                             :error="errors.has('número de participantes')"
-                                            :error-messages="errors.first('número de participantes')"></v-text-field>
+                                            :error-messages="errors.first('número de participantes')" :rules="[validacion]"></v-text-field>
                                     </v-col>
 
                                     <!-- TIPO CURSO -->
@@ -884,7 +885,18 @@
                     const keyword = this.buscar.toLowerCase();
                     return this.dataSolicitudCapacitacion.filter(item => item.nombre.toLowerCase().includes(keyword));
                     console.log(datosFiltrados())
-                    }
+                    },
+                    validacion() {
+                    return (value) => {
+                        if (!value || /^\d+$/.test(value)) {
+                        // Si el campo está vacío o solo contiene números, es válido
+                        return true;
+                        }
+                        // De lo contrario, muestra un mensaje de error
+                        return 'Ingrese solo números en este campo.';
+                    };
+                    },
+
                 },
                 methods: {
                     

@@ -345,9 +345,9 @@
                                         label="Costo Capacitaci&oacute;n (Sugerido)"    
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        inputmode="decimal"
-                                        pattern="[0-9]+(\.[0-9][0-9]?)?"
-                                        type="number"
+                                        
+                                        :rules="[validacion]"
+                                        
                                     ></v-text-field>
                                 </v-col>
 
@@ -505,6 +505,7 @@
                                         data-vv-name="PTC"
                                         :error="errors.has('PTC')"
                                         :error-messages="errors.first('PTC')"
+                                        :rules="[validacion]"
                                     ></v-text-field>
                                 </v-col>
 
@@ -517,7 +518,7 @@
                                         data-vv-name="laboratoristas"
                                         :error="errors.has('laboratoristas')"
                                         :error-messages="errors.first('laboratoristas')"
-                                        
+                                        :rules="[validacion]"
                                     ></v-text-field>
                                 </v-col>
 
@@ -530,6 +531,7 @@
                                         data-vv-name="administrativo"
                                         :error="errors.has('administrativo')"
                                         :error-messages="errors.first('administrativo')"
+                                        :rules="[validacion]"
                                         
                                     ></v-text-field>
                                 </v-col>
@@ -542,6 +544,7 @@
                                         data-vv-name="otros"
                                         :error="errors.has('otros')"
                                         :error-messages="errors.first('otros')"
+                                        :rules="[validacion]"
                                     ></v-text-field>
                                 </v-col>
 
@@ -568,6 +571,7 @@
                                         data-vv-name="total de hombres"
                                         :error="errors.has('total de hombres')"
                                         :error-messages="errors.first('total de hombres')"
+                                        :rules="[validacion]"
                                     ></v-text-field>
                                 </v-col>
 
@@ -581,6 +585,7 @@
                                         :error="errors.has('total de mujeres')"
                                         :error-messages="errors.first('total de mujeres')"
                                         @blur="comprobarTotal"
+                                        :rules="[validacion]"
                                         
                                     ></v-text-field>
                                 </v-col>
@@ -1098,6 +1103,16 @@
                     const keyword = this.buscar.toLowerCase();
                     return this.dataEventos.filter(item => item.nombre_evento.toLowerCase().includes(keyword));
                     console.log(datosFiltrados())
+                    },
+                    validacion() {
+                    return (value) => {
+                        if (!value || /^\d+$/.test(value)) {
+                        // Si el campo está vacío o solo contiene números, es válido
+                        return true;
+                        }
+                        // De lo contrario, muestra un mensaje de error
+                        return 'Ingrese solo números en este campo.';
+                    };
                     },
                     
             },
