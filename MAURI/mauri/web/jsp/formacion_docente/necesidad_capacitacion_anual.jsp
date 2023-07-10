@@ -54,22 +54,36 @@
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                 
                                 <!--AÑO -->
-                                <v-col md=3 class="text-right">
-                                    <v-text-field 
-                                        id = "annioo"
+                                <v-col md="3" class="text-right">
+                                    <v-text-field
                                         v-model="annio"
                                         outlined
-                                        label="Año a ejercer"    
+                                        label="Año a ejercer"
                                         persistent-hint
                                         v-validate="'required|max:200'"
                                         data-vv-name="año a ejercer"
-                                        
+                                        readonly
                                     ></v-text-field>
-                                </v-col> 
+                                </v-col>
                                 <v-col>&nbsp;&nbsp;&nbsp;&nbsp;</v-col>
 
                                 <v-col cols="12" sm="6" md="4" class="text-left">
-                                    <label>{{currentDateTime}}</label>
+                                    <v-menu ref="menu1" :close-on-content-click="false" :return-value.sync="fechaElavoracion"
+                                        transition="scale-transition" offset-y min-width="auto">
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-text-field v-model="fechaElavoracion" label="Fecha"
+                                                prepend-icon="mdi-calendar" readonly></v-text-field>
+                                        </template>
+                                        <v-date-picker v-model="fechaElavoracion" no-title scrollable :readonly="true">
+                                            <v-spacer></v-spacer>
+                                            <v-btn text color="primary" @click="menu1 = false">
+                                                Cancel
+                                            </v-btn>
+                                            <v-btn text color="primary" @click="$refs.menu1.save(fechaElavoracion)">
+                                                OK
+                                            </v-btn>
+                                        </v-date-picker>
+                                    </v-menu>
                                 </v-col>
                             </v-row>
 
@@ -111,8 +125,10 @@
                                         :items="arrayUnidadesAcademicas"
                                         item-value="cve_unidad_academica"
                                         item-text="nombre_unidad_academica"
-                                        data-vv-name="unidad acad&eacute;mica"
+                                        data-vv-name="unidad académica"
                                         :menu-props="{ maxHeight: '200' }" 
+                                        :error="errors.has('unidad academica')"
+                                        :error-messages="errors.first('unidad académica')"
                                         
                                     ></v-select>
                                 </v-col>
@@ -142,9 +158,9 @@
                                         :items="arrayDireccSub"
                                         item-value="cve_area"
                                         item-text="nombre_area"
-                                        data-vv-name="direcci&oacute;n de &aacute;rea"
-                                        :error="errors.has('direcci&oacute;n de &aacute;rea')"
-                                        :error-messages="errors.first('direcci&oacute;n &aacute;rea')"
+                                        data-vv-name="dirección de área"
+                                        :error="errors.has('dirección de área')"
+                                        :error-messages="errors.first('dirección de área')"
                                         required
                                     ></v-select>
                                 </v-col>
@@ -197,6 +213,9 @@
                                         label="Necesidades detectadas mediante ..."
                                         persistent-hint
                                         v-validate="'required|max:200'"
+                                        data-vv-name="necesidades detectadas mediante"
+                                        :error="errors.has('necesidades detectadas mediante')"
+                                        :error-messages="errors.first('necesidades detectadas mediante')"
                                         
                                     ></v-text-field>
                                 </v-col>
@@ -208,7 +227,9 @@
                                         label="Nombre del evento"
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        
+                                        data-vv-name="nombre del evento"
+                                        :error="errors.has('nombre del evento')"
+                                        :error-messages="errors.first('nombre del evento')"
                                     ></v-text-field>
                                 </v-col>
 
@@ -221,6 +242,9 @@
                                         v-validate="'required|max:200'"
                                         auto-grow outlined
                                         rows="1" row-height="15"
+                                        data-vv-name="objetivo del evento"
+                                        :error="errors.has('objetivo del evento')"
+                                        :error-messages="errors.first('objetivo del evento')"
                                         
                                     ></v-textarea>
                                 </v-col>
@@ -236,7 +260,9 @@
                                         item-value="cve_tipo_orientacion"
                                         item-text="nombre_tipo_orientacion"
                                         label="Orientaci&oacute;n del evento"
-                                        
+                                        data-vv-name="orientación del evento"
+                                        :error="errors.has('orientación del evento')"
+                                        :error-messages="errors.first('orientación del evento')"
                                     ></v-select>
                                 </v-col>
 
@@ -245,10 +271,14 @@
                                         v-model="justificacionEvento"
                                         outlined
                                         v-validate="'required'"
-                                        :items="arrayJustificacion"
+                                        :items="arrayOrientacion"
+                                        item-value="cve_tipo_orientacion"
+                                        item-text="nombre_tipo_orientacion"
                                         label="Justificaci&oacute;n del evento"
                                         persistent-hint
-                                       
+                                        data-vv-name="justificación del evento"
+                                        :error="errors.has('justificación del evento')"
+                                        :error-messages="errors.first('justificación del evento')"
                                     ></v-select>
                                 </v-col>
 
@@ -262,7 +292,9 @@
                                         item-text="nombre_tipo_evento"
                                         label="Tipo de evento"
                                         persistent-hint
-                                        
+                                        data-vv-name="tipo del evento"
+                                        :error="errors.has('tipo del evento')"
+                                        :error-messages="errors.first('tipo del evento')"
                                     ></v-select>
                                 </v-col>
                             </v-row>
@@ -350,6 +382,9 @@
                                         :items="arrayMes"
                                         label="Seleccionar mes"    
                                         persistent-hint
+                                        data-vv-name="mes"
+                                        :error="errors.has('mes')"
+                                        :error-messages="errors.first('mes')"
                                        
                                     ></v-select>
                                 </v-col>
@@ -368,6 +403,9 @@
                                                 prepend-icon="mdi-calendar"
                                                 readonly v-bind="attrs" 
                                                 v-on="on"
+                                                data-vv-name="fecha de inicio"
+                                                :error="errors.has('fecha de inicio')"
+                                                :error-messages="errors.first('fecha de inicio')" 
                                             ></v-text-field>
                                         </template>
                                         <v-date-picker v-model="fechaInicio" no-title scrollable>
@@ -396,7 +434,9 @@
                                                 prepend-icon="mdi-calendar"
                                                 readonly v-bind="attrs" 
                                                 v-on="on"
-                                                @blur="validarFechas"
+                                                data-vv-name="fecha de termino"
+                                                :error="errors.has('fecha de termino')"
+                                                :error-messages="errors.first('fecha de termino')"
                                             ></v-text-field>
                                         </template>
                                         <v-date-picker v-model="fechaTermino" no-title scrollable>
@@ -404,7 +444,7 @@
                                             <v-btn text color="primary" @click="menu = false">
                                                 Cancel
                                             </v-btn>
-                                            <v-btn text color="primary" @click="$refs.menu.save(fechaTermino)">
+                                            <v-btn text color="primary" @click="$refs.menu.save(fechaTermino); validarFechas();">
                                                 OK
                                             </v-btn>
                                         </v-date-picker>
@@ -424,7 +464,9 @@
                                         inputmode="numeric"
                                         pattern="[0-9]*"
                                         type="number"
-                                       
+                                        data-vv-name="número de días"
+                                        :error="errors.has('número de días')"
+                                        :error-messages="errors.first('número de días')"
                                     ></v-text-field>
                                 </v-col>
 
@@ -438,6 +480,9 @@
                                         inputmode="numeric"
                                         pattern="[0-9]*"
                                         type="number"
+                                        data-vv-name="número de horas efectivas"
+                                        :error="errors.has('número de horas efectivas')"
+                                        :error-messages="errors.first('número de horas efectivas')"
                                         
                                     ></v-text-field>
                                 </v-col>
@@ -460,7 +505,6 @@
                                         data-vv-name="PTC"
                                         :error="errors.has('PTC')"
                                         :error-messages="errors.first('PTC')"
-                                        
                                     ></v-text-field>
                                 </v-col>
 
@@ -602,10 +646,7 @@
                                         </template>
                                           
 
-                                        <template v-slot:item.eliminar="{item}">
-                                            <v-btn fab small color="error" @click="fnEliminar(item);"><v-icon>mdi-trash-can</v-icon></v-btn>
-                                        </template>
-
+                                        
                                             <template v-slot:item.password="{item}">
                                                 <v-tooltip bottom>
                                                     <template v-slot:activator="{on, attrs}">
@@ -765,7 +806,22 @@
                     fnOrientacion();
                     fnOrigen();
                     fnEmpleados();
+                    fnFecha();
+                    getCurrentYear();
                 });
+
+                function fnFecha() {
+                    const calculo_fecha = new Date();
+                    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                    fechaElavoracion.value = new Date().toISOString().substr(0, 10);
+                    
+                }
+
+                function getCurrentYear() {
+                    const currentYear = new Date().getFullYear();
+                    annio.value = currentYear;
+                    console.log(currentYear);
+                }
 
                 async function fnOrientacion(){
                     try{
@@ -922,8 +978,6 @@
                     }
                 }
 
-                async function fnCambiarEstatus(item){}
-
                 async function fnGuardar() {
                         this.$validator.validate().then(async (esValido) => {
                             if (esValido) {
@@ -979,33 +1033,6 @@
                         });
                     }
 
-                async function fnEliminar(item){
-                    confirmarE("¿Realmente quieres eliminar éste registro?").then(async (result) => {
-                        if(result.isConfirmed){
-                            try{
-                                preloader("../../");
-                                let parametros = new URLSearchParams();
-                                parametros.append("accion", 4);
-                                parametros.append("idPeriodo", item.Expr8);
-                                parametros.append("idEvento", item.Expr2);
-                                let {data,status} = await axios.post(ctr, parametros)
-                                if(status == 200){
-                                    if(data=="1"){
-                                        fnConsultarTabla();                                    
-                                    }
-                                }
-
-                            } catch(error){
-                                mostrarSnackbar('error');
-                                console.error(error);
-                            } finally{
-                                swal.close();
-                            }
-
-                        }
-                    })
-                }
-
                 function fnLimpiarCampos(cx){//cx = contexto
                     idAcademia.value = "";
                     nombreEventoCapacitacion.value = "";
@@ -1044,7 +1071,7 @@
                 }
 
                 return{
-                    annio: null, direccion, fechaElavoracion, unidadAcademica, nivelEducativo, direccionArea, programaEducativo,
+                    annio, direccion, fechaElavoracion, unidadAcademica, nivelEducativo, direccionArea, programaEducativo,
                     nombreGestor, necesidadesDetectadas, nombreEventoCapacitacion, objetivoEvento, orientacionEvento,
                     justificacionEvento,tipoEvento, otroEvento, tipoPrograma, proveedorSugerido, costoCapacitacionSugerido, 
                     origenRecursoEvento, mes, fechaInicio, fechaTermino, numDias, numHorasEfectivas, ptc, laboratoristas, administrativo,
@@ -1057,7 +1084,7 @@
 
                     flagEditar, itemEditar,
                     dataEventos,headersEventos, searchEventos, color_snackbar, snackbar, mensaje_snackbar,loader
-                    ,fnLimpiarCampos,fnGuardar,fnEliminar, fnCambiarEstatus, fnOrientacion, fnOrigen, fnEmpleados
+                    ,fnLimpiarCampos,fnGuardar, fnOrientacion, fnOrigen, fnEmpleados, fnFecha, getCurrentYear
                     
                     
                 }
@@ -1072,8 +1099,7 @@
                     return this.dataEventos.filter(item => item.nombre_evento.toLowerCase().includes(keyword));
                     console.log(datosFiltrados())
                     },
-                  
-                   
+                    
             },
             watch: {
                 ptc: function(newVal, oldVal) {
@@ -1115,7 +1141,7 @@
                 validarFechas() {
                     if (this.fechaInicio && this.fechaTermino) {
                         if (this.fechaTermino < this.fechaInicio) {
-                        // La fecha de término es anterior a la fecha de inicio
+                        
                         console.log("La fecha de término debe ser posterior a la fecha de inicio");
                         Swal.fire({
                             icon: 'error',

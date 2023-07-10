@@ -32,10 +32,7 @@ and open the template in the editor.
 
 	<tablaEvaluacion>
 		<query>
-			SELECT TOP 1 evalucion_capacitacion.cve_curso, evalucion_capacitacion.nombre_facilitador, evento_programado.nombre_evento, evalucion_capacitacion.fecha_registro
-			FROM evalucion_capacitacion
-			INNER JOIN evento_programado ON evalucion_capacitacion.cve_calificacion = evento_programado.cve_even_prog
-			WHERE evalucion_capacitacion.cve_curso = evento_programado.cve_even_prog;
+			SELECT * FROM evalucion_capacitacion
 		</query>
 	</tablaEvaluacion>
 

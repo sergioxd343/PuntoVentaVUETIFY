@@ -175,14 +175,15 @@
                                                     :error="errors.has('fecha fin')" v-model="fechaFin"
                                                     label="Fecha Fin" :error-messages="errors.first('fecha fin')"
                                                     prepend-icon="mdi-calendar" readonly v-bind="attrs"
-                                                    v-on="on" :disabled="deshabilitar"></v-text-field>
+                                                    v-on="on" :disabled="deshabilitar"
+                                                    ></v-text-field>
                                             </template>
                                             <v-date-picker v-model="fechaFin" no-title scrollable>
                                                 <v-spacer></v-spacer>
                                                 <v-btn text color="primary" @click="menu2 = false">
                                                     Cancel
                                                 </v-btn>
-                                                <v-btn text color="primary" @click="$refs.menu2.save(fechaFin)">
+                                                <v-btn text color="primary" @click="$refs.menu2.save(fechaFin); validarFechas();">
                                                     OK
                                                 </v-btn>
                                             </v-date-picker>
@@ -307,8 +308,8 @@
                                         <!-- PROGRAMA DEL CURSO -->
                                         <v-col md="4">
                                             <v-textarea v-model="programaCurso"
-                                            hint="(Escribir el tema y aun lado entre parentesis las horas por tema)"
-                                                data-vv-name="programa del curso"
+                                                hint="(Escribir el tema y aun lado entre parentesis las horas por tema)"
+                                                data-vv-name="programa del curso y horas por tema"
                                                 :disabled="deshabilitar"
                                                 :error="errors.has('programa del curso y horas por tema')"
                                                 :error-messages="errors.first('programa del curso y horas por tema')"
@@ -351,7 +352,7 @@
 
                                     <v-divider></v-divider>
                                     <v-row v-for="(item, index) in numberOfInputs" :key="index" justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-                                        <v-col md="4">
+                                        <v-col md="3">
                                             <v-select 
                                             v-model="nombreFacilitador[index]" 
                                             @change="agregarInstructor(nombreFacilitador[index])"
@@ -369,6 +370,7 @@
                                         
                                         <v-col md="4">
                                             <v-autocomplete v-model="areaPertenece[index]" outlined
+                                            @change="agregarArea(areaPertenece[index])"
                                                 label="Área académica a la que pertenece" 
                                                 :items="areas"
                                                 item-value="cve_area" 
@@ -382,6 +384,7 @@
                                        
                                         <v-col md="4">
                                             <v-autocomplete v-model="programaEducativo[index]" outlined
+                                            @change="agregarPrograma(programaEducativo[index])"
                                                 label="Programa Educativo" persistent-hint
                                                 :items="programas"
                                                 item-value="cve_ugac" 
@@ -391,10 +394,8 @@
                                                 :error-messages="errors.first('programa educativo')">
                                             </v-autocomplete>
                                         </v-col>
-                                    </v-row>
-                                    
-                                </div>
 
+                                        <v-col md="1">
                                         <v-tooltip top>
                                             <template v-slot:activator="{ on, attrs }">
                                                 <v-btn color="primary" v-bind="attrs" v-on="on"
@@ -402,28 +403,25 @@
                                             </template>
                                             <span>Agregar un nuevo instructor</span>
                                         </v-tooltip>
-
-                                     
                                         <v-tooltip top>
                                             <template v-slot:activator="{ on, attrs }">
-                                                <v-btn color="error" v-bind="attrs" v-on="on" @click="numberOfInputs--">
+                                                <v-btn color="error" v-bind="attrs" v-on="on" @click="numberOfInputs--; eliminarInstructor(index)">
                                                     <v-icon>mdi-close</v-icon>
                                                 </v-btn>
                                             </template>
                                             <span>Quitar instructor</span>
                                         </v-tooltip>
-                                        
-                                        
+                                    </v-col>
+                                    </v-row>
+                                    
+                                </div>
 
                                         
-                                       
 
-
+                                     
+                                      
                                         
-                                          
-
-                                        
-                                    <!--BOTONES CRUD-->
+                                  <!--BOTONES CRUD-->
                                         <v-row justify="center">
                                             <v-btn color="primary" @click="flagDescargar ? fnDescargar() : fnGuardar()">
                                               <v-icon>{{ flagDescargar ? 'mdi-download' : 'mdi-content-save' }}</v-icon>
@@ -581,6 +579,8 @@
                     const programas = ref([]);
                     const horarios = ref([]);
                     const instructoresSeleccionados = ref([]);
+                    const areasSeleccionados = ref([]);
+                    const programasSeleccionados = ref([]);
 
                     
                     //Otras variables
@@ -616,7 +616,7 @@
                     const user = JSON.parse(currentUser);
                     const nombre = user[0].nombre;
                     const idPersona = user[0].cve_persona;
-                    const ape1 = user[0].apellido_peterno;
+                    const ape1 = user[0].apellido_paterno;
                     const ape2 = user[0].apellido_materno;
                     const area = user[0].nombre_area;
                     const puesto = user[0].nombre_puesto;                    
@@ -753,6 +753,8 @@
                                     let parametros = new URLSearchParams();
                                     parametros.append("accion", 1);
                                     parametros.append("nombreFacilitador", this.instructoresSeleccionados.join(",") );
+                                    parametros.append("areaPertenece", this.areasSeleccionados.join(",") );
+                                    parametros.append("programaEducativo", this.programasSeleccionados.join(",") );
                                     parametros.append("horario", horario.value);
                                     parametros.append("tipoCompetencia", tipoCompetencia.value);
                                     parametros.append("nombreCurso", nombreCurso.value);
@@ -797,7 +799,7 @@
                     }
 
 
-                    function fnLimpiarCampos(cx) {
+                function fnLimpiarCampos(cx) {
                         //cx = contexto
                         tipoCompetencia.value = ""; 
                         nombreCurso.value = "";
@@ -828,7 +830,7 @@
                         else this.$validator.reset();
                     }
 
-                    function mostrarSnackbar(color, texto) {
+                function mostrarSnackbar(color, texto) {
                         snackbar.value = true;
                         color_snackbar.value = color;
                         if (color == "error")
@@ -844,7 +846,7 @@
 
                         nombre, ape1, ape2, area, programa, puesto, carrera,
 
-                        programas, horarios, areas, facilitadores, instructoresSeleccionados,
+                        programas, horarios, areas, facilitadores, instructoresSeleccionados, areasSeleccionados, programasSeleccionados,
 
                         idSolicitud,
                         
@@ -892,23 +894,64 @@
                     // METODO PARA LLENAR UN ARRAY CON LOS INSTRUCTORES PROPUESTOS PARA LA CAPACITACIÓN
                     agregarInstructor(instructor) {
                         if (instructor) {
-                            this.instructoresSeleccionados.push(instructor);
+                        const index = this.instructoresSeleccionados.indexOf(instructor);
+                        if (index === -1) {
+                        this.instructoresSeleccionados.push(instructor);
+                        }
+                    }
+                    console.log(this.instructoresSeleccionados);
+                    },
+                    agregarArea(area) {
+                        if (area) {
+                            this.areasSeleccionados.push(area);
                         } else {
-                            const index = this.instructoresSeleccionados.indexOf(instructor);
+                            const index = this.areasSeleccionados.indexOf(area);
                             if (index !== -1) {
-                                this.instructoresSeleccionados.splice(index, 1);
+                                this.areasSeleccionados.splice(index, 1);
                             }
                         }
-                        console.log(this.instructoresSeleccionados);
+                        console.log(this.areasSeleccionados);
+                    },
+                    agregarPrograma(programa) {
+                        if (programa) {
+                            this.programasSeleccionados.push(programa);
+                        } else {
+                            const index = this.programasSeleccionados.indexOf(programa);
+                            if (index !== -1) {
+                                this.programasSeleccionados.splice(index, 1);
+                            }
+                        }
+                        console.log(this.programasSeleccionados);
                     },
 
                     eliminarInstructor(index) {
                         this.instructoresSeleccionados.splice(index, 1);
-                        this.nombreFacilitador.splice(index, 1);
-                        this.areaPertenece.splice(index, 1);
-                        this.programaEducativo.splice(index, 1);
-                    }
+                        this.areasSeleccionados.splice(index, 1);
+                        this.programasSeleccionados.splice(index, 1);
+                        console.log(this.instructoresSeleccionados);
+                        
+                        this.nombreFacilitador[index] = '';
+                        this.areaPertenece[index] = '';
+                        this.programaEducativo[index] = '';
 
+                    }, validarFechas() {
+                    if (this.fechaInicio && this.fechaFin) {
+                        if (this.fechaFin < this.fechaInicio) {
+                        console.log("La fecha de término debe ser posterior a la fecha de inicio");
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'La fecha de término debe ser posterior a la fecha de inicio',
+                            }).then(() => {
+                            this.fechaInicio = null;
+                            this.fechaFin = null;
+                            });
+                        } else {
+                        // Las fechas son válidas
+                        console.log("Las fechas son válidas");
+                        }
+                    }
+                }
                 },
                    
             
