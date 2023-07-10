@@ -41,6 +41,9 @@
                                         :error="errors.has('nombre tipo instructor')"
                                         :error-messages="errors.first('nombre tipo instructor')"></v-text-field>
                                 </v-col>
+                            </v-row>
+
+                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
 
                                 <v-row justify="center">
                                     <v-btn color="primary" @click="flagEditar ? fnEditar() : fnGuardarTipoInstructor()"><v-icon>mdi-content-save</v-icon>{{flagEditar ? 'Editar' : 'Guardar'}}</v-btn>

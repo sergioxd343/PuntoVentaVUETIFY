@@ -31,7 +31,7 @@
                 <v-container fluid>
                     <v-card>
                         <v-card-title  style="background-color: #00b293; color:#ffffff; headline" >		
-                            Orientación
+                            Instructor externo
                         </v-card-title>
                         <v-container fluid>
                             
@@ -40,67 +40,49 @@
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                 
                                 <v-col md=3>
-                                    <v-select 
-                                        v-model="tipoInstructor"
-                                        outlined
-                                        label="Tipo de instructor:"
-                                        v-validate="'required'"
-                                        :items="arrayTipoInstructor"
-                                        item-value="cve_tipo_instructor"
-                                        item-text="nombre_tipo_instructor"
-                                        data-vv-name="tipoInstructor"
-                                        :error="errors.has('tipoInstructor')"
-                                        :error-messages="errors.first('tipoInstructor')"
-                                    ></v-select>
-                                </v-col>
-                                
-                                <v-col md=4 >
                                     <v-text-field 
                                         v-model="nombreInstructor" 
-                                        label="Nombre del instructor:" 
+                                        outlined label="Nombre del instructor:" 
                                         persistent-hint
-                                        hint="Ingresa el nombre del instructor"
+                                        hint="Ingresa solo el nombre(s)"
                                         v-validate="'required|max:200'" 
                                         data-vv-name="nombre instructor"
                                         :error="errors.has('nombre instructor')"
                                         :error-messages="errors.first('nombre instructor')"
-                                        :disabled="tipoInstructor === 1"></v-text-field>
+                                        ></v-text-field>
+                                </v-col>
+
+
+                                <v-col md=3>
+                                    <v-text-field 
+                                        v-model="apellidoPaterno" 
+                                        outlined label="Apellido paterno:" 
+                                        persistent-hint
+                                        hint="Ingresa solo el apellido paterno"
+                                        v-validate="'required|max:200'" 
+                                        data-vv-name="apellidoPaterno"
+                                        :error="errors.has('apellidoPaterno')"
+                                        :error-messages="errors.first('apellidoPaterno')"
+                                        ></v-text-field>
                                 </v-col>
 
                                 <v-col md=3>
-                                    <v-select 
-                                        v-model="areaAcademica"
-                                        outlined
-                                        label="Area academica:"
-                                        v-validate="'required'"
-                                        :items="arrayAreaAcademica"
-                                        item-value="nombre_area"
-                                        item-text="nombre_area"
-                                        data-vv-name="areaAcademica"
-                                        :error="errors.has('areaAcademica')"
-                                        :error-messages="errors.first('areaAcademica')"
-                                    ></v-select>
-                                </v-col>
-                                <v-row justify="center" class="align-center">
-                                <v-col md=6 v-if="tipoInstructor === 1">
-                                    <span style="color: red">Da click en el registro que desean elegir</span>
-                                    <v-data-table
-                                        :headers="headersEmpleados"
-                                        :items="dataEmpleados"
+                                    <v-text-field 
+                                        v-model="apellidoMaterno" 
+                                        outlined label="Apellido materno:" 
                                         persistent-hint
-                                        hint="Ingresa el nombre del instructor"
-                                        class="elevation-1"
-                                        no-data-text="No se encontro ningun registro"
-                                        :hide-default-header="dataEmpleados.length < 1"
-                                        :hide-default-footer="dataEmpleados.length < 1"
-                                        locale="es-ES"
-                                        :mobile-breakpoint="NaN"
-                                        items-per-page="10"
-                                        @click:row="selectRow"
-                                    >
-                                    </v-data-table>
+                                        hint="Ingresa solo el apellido materno"
+                                        v-validate="'required|max:200'" 
+                                        data-vv-name="apellidoMaterno"
+                                        :error="errors.has('apellidoMaterno')"
+                                        :error-messages="errors.first('apellidoMaterno')"
+                                        ></v-text-field>
                                 </v-col>
+                                
+                            </v-row>
+                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px"></v-row>
 
+                                <v-row justify="center" class="align-center">
                                 
                                     <v-btn color="primary" @click="flagEditar ? fnEditar() : fnGuardarInstructor()"><v-icon>mdi-content-save</v-icon>{{flagEditar ? 'Editar' : 'Guardar'}}</v-btn>
                                     &nbsp;
@@ -189,13 +171,12 @@
                     onMounted,
                     watch
                 } = VueCompositionAPI;
-                const ctr = "../../controlador/catalogos_pequenios/Controlador_instructor.jsp";
+                const ctr = "../../controlador/catalogos_pequenios/Controlador_instructor_externo.jsp";
                 //Variables POST
             
                 const nombreInstructor = ref("");
-                const tipoInstructor = ref("");
-                const areaAcademica = ref("");
-                const instructorInterno = ref("");
+                const apellidoPaterno = ref("");
+                const apellidoMaterno = ref("");
                 
 
                 const currentUser = localStorage.getItem("currentUser");
@@ -221,43 +202,25 @@
                 //DataTable
                 
                 const dataInstructor = ref([]);
-                const dataEmpleados = ref([]);
-                const arrayAreaAcademica = ref([]);
-                const arrayTipoInstructor = ref([]);
-                const arrayInstructorInterno = ref([]);
                 
                 const headersInstructor = ref([
                     {text: 'No', align: 'left', sortable: true, value: 'cve_instructor'},
                     {text: 'Nombre del instructor', align: 'left', sortable: true, value: 'nombre_instructor'},
-                    {text: 'Area academica', align: 'left', sortable: true, value: 'area_academica'},
-                    {text: 'Programa educativo', align: 'left', sortable: true, value: 'programa_educativo'},
+                    {text: 'Apellido paterno', align: 'left', sortable: true, value: 'apellido_paterno'},
+                    {text: 'Apellido materno', align: 'left', sortable: true, value: 'apellido_materno'},
                     {text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro'},
                     {text: 'Estatus', align: 'left', sortable: true, value: 'estatus'},
-                ]);
-
-                const headersEmpleados = ref([
-                    {text: 'No', align: 'left', sortable: true, value: 'cve_empleado'},
-                    {text: 'Nombre', align: 'left', sortable: true, value: 'nombre'},
-                    {text: 'Apellio Paterno', align: 'left', sortable: true, value: 'apellido_peterno'},
-                    {text: 'Apellido materno', align: 'left', sortable: true, value: 'apellido_materno'},
-                    {text: 'Puesto', align: 'left', sortable: true, value: 'nombre_puesto'},
                 ]);
                 
                 const searchProveedores = ref([]);
                 const searchTipos = ref([]);
                 
                 onMounted(() => {
-                    fnConsultarInstructor();
-                    fnTipoInstructor();
-                    fnAreaAcademia();
-                    fnConsultarEmpleado();
+                    fnConsultarInstructor();    
                     
                 });
-                async function selectRow(item) {
-                 this.nombreInstructor = item.nombre;
-                 this.nombreInstructor = item.nombre;
-                 console.log(dataEmpleados)
-                    }
+                
+
                 async function fnConsultarInstructor(){
                     try{
                         preloader("../../");
@@ -277,44 +240,7 @@
                         swal.close();
                     }
                }
-               async function fnConsultarEmpleado(){
-                    try{
-                        preloader("../../");
-                        let parametros = new URLSearchParams();
-                        parametros.append("accion", 6);
-                        let {data,status} = await axios.post(ctr, parametros)
-                        if(status == 200){
-                            if(data.length > 0){
 
-                                dataEmpleados.value = data
-                            }
-                        }
-                    } catch(error){
-                        mostrarSnackbar('error');
-                        console.error(error);
-                    } finally{
-                        swal.close();
-                    }
-               }
-               async function fnNombreEmpelado(){
-                    try{
-                        preloader("../../");
-                        let parametros = new URLSearchParams();
-                        parametros.append("accion", 7);
-                        let {data,status} = await axios.post(ctr, parametros)
-                        if(status == 200){
-                            if(data.length > 0){
-
-                                nombreInstructor.value = data
-                            }
-                        }
-                    } catch(error){
-                        mostrarSnackbar('error');
-                        console.error(error);
-                    } finally{
-                        swal.close();
-                    }
-               }
                
                async function fnGuardarInstructor(){
                     this.$validator.validate().then(async esValido => {
@@ -323,9 +249,9 @@
                                 preloader("../../");
                                 let parametros = new URLSearchParams();
                                 parametros.append("accion", 2);
-                                parametros.append("cve_tipo_instructor", tipoInstructor.value);
                                 parametros.append("nombre_instructor", nombreInstructor.value);
-                                parametros.append("area_academica", areaAcademica.value);
+                                parametros.append("apellido_paterno", apellidoPaterno.value);
+                                parametros.append("apellido_materno", apellidoMaterno.value);
                                 parametros.append("cve_persona",this.usuario_registro); // Agrega el valor de cve_persona
                                 let {data,status} = await axios.post(ctr, parametros)
                                 if(status == 200){
@@ -355,7 +281,7 @@
                             preloader("../");
                             let parametros = new URLSearchParams();
                             parametros.append("accion", 3);
-                            parametros.append("cve_instructor", item.cve_instructor);
+                            parametros.append("cve_instructor_e", item.cve_instructor_e);
                             parametros.append("activo", (item.activo == true ? 0 : 1));
                             console.log("🚀 ~ file: instructor.jsp:283 ~ fnCambiarEstatus ~ parametros:", parametros)
                             let { data, status } = await axios.post(ctr, parametros);
@@ -381,48 +307,11 @@
                         }
                     }  
                     
-                    async function fnTipoInstructor() {
-                            try {
-                                preloader("../");
-                                let parametros = new URLSearchParams();
-                                parametros.append("accion", 4); // arreglo que se manda 
-                                let { data, status } = await axios.post(ctr, parametros) // axios hace peticion y manda a la ruta los parametros por POST
-                                if (status == 200) { // si es 200 encontro informacion 
-                                    if (data.length > 0) {
-                                        arrayTipoInstructor.value = data // llena los datos del dataTable
-                                    }
-                                }
-                            } catch (error) {
-                                mostrarSnackbar('error');
-                                console.error(error);
-                            } finally {
-                                swal.close();
-                            }
-                        }
-
-                        async function fnAreaAcademia() {
-                            try {
-                                preloader("../");
-                                let parametros = new URLSearchParams();
-                                parametros.append("accion", 5); // arreglo que se manda 
-                                let { data, status } = await axios.post(ctr, parametros) // axios hace peticion y manda a la ruta los parametros por POST
-                                if (status == 200) { // si es 200 encontro informacion 
-                                    if (data.length > 0) {
-                                        arrayAreaAcademica.value = data // llena los datos del dataTable
-                                    }
-                                }
-                            } catch (error) {
-                                mostrarSnackbar('error');
-                                console.error(error);
-                            } finally {
-                                swal.close();
-                            }
-                        }
 
                 function fnLimpiarCampos(cx){//cx = contexto
-                    tipoInstructor.value = "";                    
-                    areaAcademica.value = "";                    
-                    nombreInstructor.value = "";                    
+                    nombreInstructor.value = "";
+                    apellidoMaterno.value = "";  
+                    apellidoPaterno.value = "";  
                     flagEditar.value = false;
                     itemEditar.value = {};
 
@@ -443,11 +332,10 @@
 
                 return{
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
-                    nombreInstructor, tipoInstructor, currentUser, currentUserObj, usuario_registro,
-                    headersInstructor, fnConsultarInstructor, dataInstructor, areaAcademica,
-                    searchTipos, fnLimpiarCampos, fnGuardarInstructor, fnCambiarEstatus, arrayTipoInstructor,
-                    arrayAreaAcademica, fnAreaAcademia, fnTipoInstructor, instructorInterno, arrayInstructorInterno, selectRow,
-                    dialogBuscador, dialogDetallesCotizacion, dialogProveedor, headersEmpleados, dataEmpleados,
+                    nombreInstructor, currentUser, currentUserObj, usuario_registro,
+                    headersInstructor, fnConsultarInstructor, dataInstructor, apellidoMaterno, apellidoPaterno,
+                    searchTipos, fnLimpiarCampos, fnGuardarInstructor, fnCambiarEstatus,
+                    dialogBuscador, dialogDetallesCotizacion, dialogProveedor,
                     
                     //fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, itemEditar
                 }
