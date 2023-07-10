@@ -9,7 +9,7 @@
 		<link href="javascript/VueJs/vuetify/vuetify.min.css" rel="stylesheet">
 		<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Sistema de Mejora de la Aplicación Única del Registro de la Información</title>
+		<title>Sistema de Mejora de la Aplicación Única del Registro de la Informaci&oacute;n</title>
 		<style>
 			html {
 				overflow-y: hidden !important;
@@ -200,7 +200,7 @@
 							}
 
 							//! Este es un metodo temporal para que los alumnos de estadias puedan entrar al sistema
-							
+
 							async function fnLoginTemp() {
 								try {
 									if (cuenta.value != "" && password.value != "") {
@@ -212,8 +212,7 @@
 										parametros.append("password", password.value);
 										let { data, status } = await axios.post(ctr, parametros);
 										if (status == 200) {
-
-											if (data != null) {
+											if (data.length > 0) {
 												localStorage.setItem('currentUser', JSON.stringify(data));
 												window.location.href = "jsp/sistema/menu.jsp";
 											} else {

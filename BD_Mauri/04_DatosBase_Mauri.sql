@@ -2,7 +2,7 @@ USE mauri;
 GO
 
 -- ------------- INSERTS DE PERSONA -------------- --
-INSERT INTO persona (nombre, apellido_peterno, apellido_materno, email, movil, curp, rfc, sexo, fecha_nacimiento, usuario_registro) 
+INSERT INTO persona (nombre, apellido_paterno, apellido_materno, email, movil, curp, rfc, sexo, fecha_nacimiento, usuario_registro) 
             VALUES	('Simón Jonathan', 'Zendejas', 'Gutiérrez', '21000165@alumnos.utleon.edu.mx', '477 907 4784', 'ZEGS021226HGTNTMA0', 'ZEGS1234DFXXX', 'Masculino', '2002-12-26', 1),
 					('Carlos Rene','Andrade','De Pro','20002741@alumnos.utleon.edu.mx','477 860 9622','ANDC021226HGTNTMA0','ANDC1234DFXXX','Masculino','2001-09-12',1),
 					('Maria Guadalupe','Gutiérrez','Alcantar','21000035@alumnos.utleon.edu.mx','477 847 9181','GUAM021226HGTNTMA0','GUAM1234DFXXX','Femenino','2003-11-12',1),
@@ -49,42 +49,45 @@ INSERT INTO menu (cve_padre, nombre, ruta, orden, usuario_registro)
             VALUES  (0, 'Formación Docente', '-', 1, 1),
                     (0, 'Innovación Educativa', '-', 9, 1),
                     (0, 'Eventos', '-', 15, 1),
-                    (0, 'Catalogos Pequeños', '-', 19, 1),
                     (0, 'Programas', '-', 31, 1),
-					(0, 'Sistema', '-', 34, 1);
+                    (0, 'Sistema', '-', 34, 1);
 
 -- ------------- INSERTS DE  SUBMENU -------------- --
-INSERT INTO submenu (cve_menu, cve_padre, nombre, ruta, orden, usuario_registro) 
-            VALUES  (1, 1, 'Autoevaluación de Eficacia de Capacitación Docente', '../formacion_docente/autoevaluacion_capacitacion_docente.jsp', 2, 1),
-                    (1, 1, 'Evaluación de Capacitación', '../formacion_docente/evaluacion_capacitacion.jsp', 3, 1),
-                    (1, 1, 'Cuestionario de Evaluación de Cursos', '../formacion_docente/cuestionario_evaluacion_cursos.jsp', 4, 1),
-                    (1, 1, 'Necesidad Capacitacion Anual(DANC)', '../formacion_docente/necesidad_capacitacion_anual.jsp', 5, 1),
-                    (1, 1, 'Lista de Asistencia de Capacitación', '../formacion_docente/lista_asistencia_capacitacion.jsp', 6, 1),
-                    (1, 1, 'Solicitud de Apoyo para la formación docente', '../formacion_docente/solicitud_formacion_docente.jsp', 7, 1),
-                    (1, 1, 'Solicitud de Registro de Capacitación Interna', '../formacion_docente/solicitud_capacitacion_interna.jsp', 8, 1),
-                    (2, 2, 'Encuesta de Satisfacción y Evaluación de Resultado', '../innovacion_educativa/evaluacion_resultado.jsp', 10, 1),
-                    (2, 2, 'Detacción de necesidad para Asesoramiento', '../innovacion_educativa/asesoria.jsp', 11, 1),
-                    (2, 2, 'Rúbrica de Observación de Clase', '../innovacion_educativa/rubrica_observacion_clase.jsp', 12, 1),
-                    (2, 2, 'Analisis Situacional Docente', '../innovacion_educativa/analisis_situacional_docente.jsp', 13, 1),
-                    (2, 2, 'Solicitu de Proyecto', '../innovacion_educativa/solicitud_proyecto.jsp', 14, 1),
-                    (3, 3, 'Evento Programado', '../eventos/evento_programado.jsp', 16, 1),
-                    (3, 3, 'Evento Programado Grupo', '../eventos/evento_programado_grupo.jsp', 17, 1),
-                    (3, 3, 'Cumple programa de Desarrollo', '../eventos/cumple_programa_desarrollo.jsp', 18, 1),
-                    (4, 4, 'Tipo Capacitación', '../catalogos_pequenios/tipo_capacitacion.jsp', 20, 1),
-                    (4, 4, 'Tipo Espacio', '../catalogos_pequenios/tipo_espacio.jsp', 21, 1),
-                    (4, 4, 'Tipo Evento', '../catalogos_pequenios/tipo_evento.jsp', 22, 1),
-                    (4, 4, 'Tipo Instructor', '../catalogos_pequenios/tipo_instructor.jsp', 23, 1),
-                    (4, 4, 'Tipo Modalidad', '../catalogos_pequenios/tipo_modalidad.jsp', 24, 1),
-                    (4, 4, 'Tipo Orientación', '../catalogos_pequenios/tipo_orientacion.jsp',25, 1),
-                    (4, 4, 'Tipo Origen', '../catalogos_pequenios/tipo_origen.jsp', 26, 1),
-                    (4, 4, 'Tipo Servicio', '../catalogos_pequenios/tipo_servicio.jsp', 27, 1),
-                    (4, 4, 'Periodo', '../catalogos_pequenios/periodo.jsp', 28, 1),
-                    (4, 4, 'Horario', '../catalogos_pequenios/horario.jsp', 29, 1),
-                    (4, 4, 'Instructor', '../catalogos_pequenios/instructor.jsp', 30, 1),
-                    (5, 5, 'Programa de Desarrollo', '../programas/programa_desarrollo.jsp', 32, 1),
-                    (5, 5, 'Programa de Desarrollo de Módulos', '../programas/programa_desarrollo_modulo.jsp', 33, 1),
-                    (5, 5, 'Programa de Desarrollo de Materia', '../programas/programa_desarrollo_materia.jsp', 34, 1),
-					(6, 6, 'Perfil de usuario', 'perfil_usuario.jsp', 36, 1);
+INSERT INTO submenu (cve_padre, nombre, ruta, orden, usuario_registro) 
+            VALUES  (1, 'Autoevaluación de Eficacia de Capacitación Docente', '../formacion_docente/autoevaluacion_capacitacion_docente.jsp', 2, 1),
+                    (1, 'Evaluación de Capacitación', '../formacion_docente/evaluacion_capacitacion.jsp', 3, 1),
+                    (1, 'Cuestionario de Evaluación de Cursos', '../formacion_docente/cuestionario_evaluacion_cursos.jsp', 4, 1),
+                    (1, 'Necesidad Capacitacion Anual(DANC)', '../formacion_docente/necesidad_capacitacion_anual.jsp', 5, 1),
+                    (1, 'Lista de Asistencia de Capacitación', '../formacion_docente/lista_asistencia_capacitacion.jsp', 6, 1),
+                    (1, 'Solicitud de Apoyo para la formación docente', '../formacion_docente/solicitud_formacion_docente.jsp', 7, 1),
+                    (1, 'Solicitud de Registro de Capacitación Interna', '../formacion_docente/solicitud_capacitacion_interna.jsp', 8, 1),
+                    (2, 'Encuesta de Satisfacción y Evaluación de Resultado', '../innovacion_educativa/evaluacion_resultado.jsp', 10, 1),
+                    (2, 'Detacción de necesidad para Asesoramiento', '../innovacion_educativa/asesoria.jsp', 11, 1),
+                    (2, 'Rúbrica de Observación de Clase', '../innovacion_educativa/rubrica_observacion_clase.jsp', 12, 1),
+                    (2, 'Analisis Situacional Docente', '../innovacion_educativa/analisis_situacional_docente.jsp', 13, 1),
+                    (2, 'Solicitud de Proyecto', '../innovacion_educativa/solicitud_proyecto.jsp', 14, 1),
+                    (3, 'Evento Programado', '../eventos/evento_programado.jsp', 16, 1),
+                    (3, 'Evento Programado Grupo', '../eventos/evento_programado_grupo.jsp', 17, 1),
+                    (3, 'Cumple programa de Desarrollo', '../eventos/cumple_programa_desarrollo.jsp', 18, 1),
+                    (4, 'Programa de Desarrollo', '../programas/programa_desarrollo.jsp', 32, 1),
+                    (4, 'Programa de Desarrollo de Módulos', '../programas/programa_desarrollo_modulo.jsp', 33, 1),
+                    (4, 'Programa de Desarrollo de Materia', '../programas/programa_desarrollo_materia.jsp', 34, 1),
+                    (5, 'Perfil de usuario', 'perfil_usuario.jsp', 36, 1),
+                    (5, 'Catálogo de Categorías', 'catalogos_pequenios.jsp', 36, 1);
+
+-- ------------- INSERTS DE SUBMENU_2 -------------- --
+INSERT INTO submenu_2 (cve_padre, nombre, ruta, orden, usuario_registro)
+             VALUES (5, 'Capacitación', '../catalogos_pequenios/tipo_capacitacion.jsp', 20, 1),
+                    (5, 'Espacio', '../catalogos_pequenios/tipo_espacio.jsp', 21, 1),
+                    (5, 'Evento', '../catalogos_pequenios/tipo_evento.jsp', 22, 1),
+                    (5, 'Instructor', '../catalogos_pequenios/tipo_instructor.jsp', 23, 1),
+                    (5, 'Instructor Externo', '../catalogos_pequenios/instructor.jsp', 23, 1),
+                    (5, 'Modalidad', '../catalogos_pequenios/tipo_modalidad.jsp', 24, 1),
+                    (5, 'Orientación', '../catalogos_pequenios/tipo_orientacion.jsp',25, 1),
+                    (5, 'Origen', '../catalogos_pequenios/tipo_origen.jsp', 26, 1),
+                    (5, 'Servicio', '../catalogos_pequenios/tipo_servicio.jsp', 27, 1),
+                    (5, 'Periodo', '../catalogos_pequenios/periodo.jsp', 28, 1),
+                    (5, 'Horario', '../catalogos_pequenios/horario.jsp', 29, 1);
 
 -- ------------- INSERTS DE MENU_PERMISOS -------------- --
 INSERT INTO menu_permisos (cve_grupo_seguridad, cve_menu, usuario_registro) 
@@ -92,8 +95,7 @@ INSERT INTO menu_permisos (cve_grupo_seguridad, cve_menu, usuario_registro)
                     (1, 2, 1),
                     (1, 3, 1),
                     (1, 4, 1),
-                    (1, 5, 1),
-					(1, 6, 1),
+					(1, 5, 1),
 					(2, 1, 1),
 					(2, 2, 1),
 					(2, 3, 1),
@@ -134,7 +136,8 @@ INSERT INTO tipo_evento (nombre_tipo_evento, usuario_registro)
                     ('Certificación (3920)', 1),
                     ('Convocatoria', 1),
                     ('Estancia de investigación', 1),
-                    ('Ponencia en congreso (3830)', 1);
+                    ('Ponencia en congreso (3830)', 1),
+					('Otro', 1);
 
 -- ------------- INSERTS DE TIPO_MODALIDAD -------------- --
 INSERT INTO tipo_modalidad (nombre_tipo_modalidad, usuario_registro)
@@ -168,6 +171,8 @@ INSERT INTO tipo_espacio (nombre_tipo_espacio, usuario_registro)
                         ('Sala', 1),
                         ('Centros de computo', 1);
 
+INSERT INTO instructor_evento_programado VALUES (1,1,1,1,GETDATE(),1),
+                                                (2,1,2,1,GETDATE(),1);
 
 -- ------------- INSERTS DE AREA -------------- --
 INSERT INTO area (nombre_area, usuario_registro)
@@ -192,6 +197,64 @@ INSERT INTO area (nombre_area, usuario_registro)
                     ('Órgano Interno de Control', 1),
                     ('Dirección Académica de Tecnologías Emergentes Industriales e Informática', 1);
 
+
+
+INSERT INTO programa_desarrollo (nombre_prog_des,descripcion,numero_modulos,usuario_registro) 
+VALUES ('Inducción','Enseñanza',2,1),
+		('Diplomado Innovación educativa','Tecnicas de enseñanza',15,1),
+		('CURSOS COMPLEMENTARIOS','Competencias profesionales',7,1);
+
+INSERT INTO programa_desarrollo_modulo(cve_prog_des,cve_modulo,nombre_modulo,num_materias,color,usuario_registro)
+VALUES	(1,1,'Inducción',1,'gray',1),
+		(1,2,'Inducción',1,'gray',1),
+		(2,1,'Módulo 1 Modelos educativos Innovadores',1,'green',1),
+		(2,2,'Módulo 1 Modelos educativos Innovadores',1,'green',1),
+		(2,3,'Módulo 1 Modelos educativos Innovadores',1,'green',1),
+		(2,4,'LA ORIENTACIÓN Y CONSEJERÍA EN LA NUEVA EDUCACIÓN',1,'yelow',1),
+		(2,5,'LA ORIENTACIÓN Y CONSEJERÍA EN LA NUEVA EDUCACIÓN',1,'yelow',1),
+		(2,6,'LA ORIENTACIÓN Y CONSEJERÍA EN LA NUEVA EDUCACIÓN',1,'yelow',1),
+		(2,7,'DISEÑO DE UN CURSO CENTRADO EN EL APRENDIZAJE',1,'green',1),
+		(2,8,'DISEÑO DE UN CURSO CENTRADO EN EL APRENDIZAJE',1,'geeen',1),
+		(2,9,'DISEÑO DE UN CURSO CENTRADO EN EL APRENDIZAJE',1,'geeen',1),
+		(2,10,'DISEÑO DE UN CURSO CENTRADO EN EL APRENDIZAJE',1,'geeen',1),
+		(2,11,'EL ALUMNO Y SU APRENDIZAJE',1,'yelow',1),
+		(2,12,'EL ALUMNO Y SU APRENDIZAJE',1,'yelow',1),
+		(2,13,'EL ALUMNO Y SU APRENDIZAJE',1,'yelow',1),
+		(2,14,'VALORES EN LA NUEVA EDUCACIÓN',1,'red',1),
+		(2,15,'VALORES EN LA NUEVA EDUCACIÓN',1,'red',1),
+		(3,1,'Módulo INVESTIGACIÓN',1,'blue',1),
+		(3,2,'Módulo INVESTIGACIÓN',1,'blue',1),
+		(3,3,'Módulo INVESTIGACIÓN',1,'blue',1),
+		(3,4,'Módulo COMPETENCIAS',1,'red',1),
+		(3,5,'Módulo COMPETENCIAS',1,'red',1),
+		(3,6,'Módulo COMPETENCIAS',1,'red',1),
+		(3,7,'Módulo ESCUELA INCLUYENTE',1,'pink',1);
+
+INSERT INTO programa_desarrollo_materia (cve_prog_des,cve_modulo,cve_materia,nombre_materia,duracion,objetivo,resultado_aprendizaje,usuario_registro)
+VALUES	(1,1,1,'INDUCCIÓN A LA UTL', '10', 'Proveer al nuevo profesor de información básica para el desarrollo de sus actividades académicas y administrativas, el aprovechamiento de los beneficios y la observación de las responsabilidades que obtiene como profesor de la Universidad.','El participante obtiene resultado aprobatorio en la evaluación final del curso comprobando que conoce los aspectos necesarios para el desarrollo de sus actividades y ejercicio de sus beneficios y responsabilidades como profesor UTL',1),
+		(1,2,1,'MICROENSEÑANZA','20','Ofrecer a los maestros competencias docentes en la educación que junto a su experiencia y práctica en el uso y manejo de herramientas educativas propias, incremente su efectividad en el proceso enseñanza aprendizaje en el salón de clases','Contar con guía de retroinformación para mejoramiento de la impartición de clase',1),
+		(2,1,1,'NUEVAS TENDENCIAS EN EDUCACIÓN SUPERIOR','12','·  Proveer a los profesores de una visión panorámica acerca de las tendencias y retos que enfrenta la educación superior. ·  Generar un ambiente de aprendizaje experiencial que permita a los profesores una reflexión sobre la práctica docente orientada hacia el futuro. ·  Identificar el comportamiento del docente dentro de cada unos de los paradigmas para direccionar su labor docente.','Mediante un trabajo escrito el participante relaciona su actividad docente con cada uno de los paradigmas educativos, para el logro del aprendizaje. Además hace una reflexión de la educación en un mundo globalizado.',1),
+		(2,2,1,'UN MODELO EDUCATIVO CENTRADO EN EL APRENDIZAJE','12','Diseñar  recursos didácticos basados en el modelo centrado en el aprendizaje de las UTL','Generar una carpeta de evidencias de estrategias y recursos centrados en el aprendizaje aplicables a la planeación de cursos',1),
+		(2,3,1,'EL PROFESIONAL EN LA ECONOMÍA DEL CONOCIMIENTO','16', '·  Conocer los elementos básicos de la Economía Basada en el Conocimiento (EBC). ·  Analizar cuáles son las habilidades, actitudes, aptitudes y valores que requiere el profesionista para insertarse exitosamente en la EBC. ·  Reflexionar sobre el papel del docente en la formación del egresado que exige el siglo XXI.','Mediante diferentes ejercicios el participante identifica las características del docente en la economía basada en el conocimiento y las exigencias de la educación siglo XXI.',1),
+		(2,4,1,'INTERVENCIÓN TUTORIAL  EN LA EDUCACIÓN DE VANGUARDIA','16','·      Conocer aspectos generales de los programas de tutorías. ·      Identificar el rol de los participantes en el programa de tutoreo de la UTL. ·      Identificar herramientas básicas para el ejercicio tutorial.','Identificar el rol del tutor dentro del programa institucional,  las herramientas de intervención tutorial y su ejecución  en casos prácticos reales.',1),
+		(2,5,1,'MANEJO TEÓRICO Y TÉCNICO DE LA ENTREVISTA','8', '·      Conocer los elementos básicos del proceso de la entrevista focalizada al trabajo tutorial de los estudiantes.', 'El participante aplica las técnicas de la entrevista para el seguimiento tutorial con sus estudiantes.',1),
+		(2,6,1,'DETECCIÓN DE CONDUCTAS DE RIESGO EN JÓVENES UNIVERSITARIOS','16','·      Conocer los factores y conductas de riesgo que pueden manifestarse en los estudiantes, para lograr identificarlos y que se dé el seguimiento que corresponda. ','Mediante un estudio de casos, el participante integra a su rol  de profesor acciones de intervención ante la observación de conductas de riesgo.',1),
+		(2,7,1,'APRENDIZAJE COLABORATIVO','20','·      Lograr que los integrantes conozcan las herramientas básicas del Aprendizaje Colaborativo, para el diseño de actividades de aprendizaje.','Competencia: Incorporar herramientas que proporciona el Aprendizaje Colaborativo en la planeación de la materia que el docente imparte.',1),
+		(2,8,1,'APRENDIZAJE BASADO EN PROBLEMAS','20','·      Proporcionar a los participantes del curso herramientas básicas del Aprendizaje basado en Problemas, para el diseño de actividades de aprendizaje.','Incorporar herramientas que proporciona el Aprendizaje Basado en Problemas en la planeación de la materia que el docente imparte.',1),
+		(2,9,1,'MÉTODO DE CASOS','20','·      Ofrecer a los participantes del curso las herramientas básicas de la Técnica Didáctica Método de Casos, para el diseño de actividades de aprendizaje.','Incorporar herramientas que proporciona el Método de Casos en la planeación de la materia que el docente imparte.',1),
+		(2,10,1,'APRENDIZAJE ORIENTADO A PROYECTOS','20','·      Proveer a los integrantes del curso de herramientas básicas del Aprendizaje Orientado a Proyectos, para el diseño de actividades de aprendizaje.','Incorporar herramientas que proporciona el Aprendizaje Orientado a Proyectos en la planeación de la materia que el docente imparte.',1),
+		(2,11,1,'PERFIL PSICOSOCIAL DEL ALUMNO UTL','8','·      Identificar las características del alumno de la Universidad Tecnológica de León tomando en cuenta las esferas psicológicas, familiares, escolares y sociales en que se desenvuelven.','Elaboración de un perfil del estudiante de la UTL  contemplando características del estudiante en las diferentes esferas en las que éste se desenvuelve',1),
+		(2,12,1,'ESTILOS DE APRENDIZAJE Y SU BASE NEUROBIOLÓGICA','16','·      Identificar los diferentes estilos que existen para el  aprendizaje y la base neurobiológica  de ellos para la selección de técnicas adecuadas de acuerdo al estilo de los estudiantes.','El participante identifica mediante actividades el propio estilo de aprendizaje y lo relaciona con su rol docente.',1),
+		(2,13,1,'TÉCNICAS DE APRENDIZAJE','16','·      Ofrecer diferentes alternativas sobre técnicas de estudio que puede utilizar el estudiante.','El participante seleccionará técnicas útiles que le apoyen en la impartición de su materia y con base en las características de sus alumnos.',1),
+		(2,14,1,'ÉTICA FUNDAMENTAL Y ÉTICA DE LAS PROFESIONES','20', '·      Dotar a los maestros de un marco teórico holístico que relacione la ética con la educación para llevar a cabo el proceso de formación del alumno y de sí mismo.','Incluir elementos que teoriza la ética en la práctica docente que permitan mejorar y hacer significativa la labor docente.',1),
+		(2,15,1,'RESPONSABILIDAD SOCIAL UNIVERSITARIA','20','·      Entablar una reflexión participativa sobre la responsabilidad social de la universidad, para que los diversos actores de la comunidad académica puedan comprender, convencerse, comprometerse con la RSU y contestar a la pregunta: ¿qué universidad queremos ser?','Incorporar medidas en la práctica docente que permitan mejorar y hacer significativas las contribuciones para una sociedad más justa y sostenible.',1),
+		(3,1,1,'INTRODUCCIÓN A LA INVESTIGACIÓN','8','·       Conocer el método científico y los requerimientos a reunir para la realización de un proyecto de investigación.','Incorporar herramientas de investigación al trabajo de desarrollo docente y académico.',1),
+		(3,2,1,'METODOLOGÍA DE LA INVESTIGACIÓN CUALITATIVA','16','·       Trabajar los conceptos nociones e instrumentos relacionados con la investigación cualitativa, revisar algunos de los instrumentos y técnicas en investigaciones sociales  y reconocer problemas de investigación considerando los aspectos más humanos, propios de la cotidianidad, en un ambiente de reflexión y colaboración grupal.','Generar un anteproyecto de investigación que lleve a incorporar herramientas de investigación al trabajo de desarrollo docente y académico.',1),
+		(3,3,1,'METODOLOGÍA DE LA INVESTIGACIÓN CUANTITATIVA','16','·       Trabajar los conceptos nociones e instrumentos relacionados con la investigación cuantitativa, revisar los instrumentos y técnicas que se utilizan y sus ventajas e inconvenientes.','Generar un anteproyecto de investigación que lleve a incorporar herramientas de investigación al trabajo de desarrollo docente y académico.',1),
+		(3,4,1,'INTRODUCCIÓN A LAS COMPETENCIAS','16','Vincular las competencias profesionales con los elementos de la hoja de asignatura para la creación de escenarios de aprendizaje que incluyan conocimientos específicos o técnicos, destrezas o procedimientos y actitudes congruentes con la propuesta de desarrollo del SER UTL','El participante revisa su metodología para el logro de los objetivos de aprendizaje de sus estudiantes y propone nuevos esquemas de trabajo y evaluación mediante el desarrollo de un escenario de aprendizaje y al menos un instrumento de evaluación del desempeño del estudiante conforme a la competencia establecida',1),
+		(3,5,1,'COMPETENCIAS DEL SER','12','• Identificar un concepto compartido de las competencias genéricas institucionales. • Identificar las dimensiones que intervienen en el trabajo de competencias en el salón de clases. • Conocer la macro-rúbrica institucional de competencias genéricas institucionales. • Integrar las competencias del ser en la construcción de escenarios de aprendizaje, de forma que, el desempeño del alumno refleje de manera integrada los conocimientos, destrezas y actitudes propios de un profesionista de acuerdo con la currícula, el plan de la materia y la propuesta de  desarrollo de las competencias genéricas que caracterizan el SER UTL ', 'El participante revisa su propia metodología para alcanzar los objetivos de aprendizaje de sus estudiantes y propone nuevos esquemas de trabajo y evaluación para alcanzarlos mediante el desarrollo de un escenario de aprendizaje y un instrumento de evaluación que incluya conocimientos específicos o técnicos, destrezas y actitudes congruente con la propuesta de desarrollo del SER UTL',1),
+		(3,6,1,'EVALUACIÓN POR COMPETENCIAS','12',' El profesor identifica y construye los instrumentos de evaluación de acuerdo a los aprendizajes que desea generar en el alumno','• Técnica de Octágonos para la Evaluación • Desarrollo de instrumentos  de evaluación de acuerdo a las evidencias.',1),
+		(3,7,1,'SENSIBILIZACIÓN ANTE LA DISCAPACIDAD AUDITIVA EN EL AULA. ','12','Sensibilizar al participante sobre la importancia de ejercer una educación incluyente cuando se presenta un alumno con discapacidad auditiva. ','El profesor ajusta las estrategias de enseñanza aprendizaje para un caso de discapacidad auditiva.',1);
 
 -- ------------- INSERTS DE PUESTO -------------- --
 INSERT INTO puesto (nombre_puesto, nivel_tabulador_puesto, usuario_registro)

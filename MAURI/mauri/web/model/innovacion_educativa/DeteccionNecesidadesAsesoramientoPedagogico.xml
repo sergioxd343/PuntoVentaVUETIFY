@@ -9,11 +9,11 @@ and open the template in the editor.
 		<query>
 		SELECT   TOP (200) asesoria.cve_asesoria, asesoria.cve_empleado, asesoria.cve_academia, asesoria.materia, asesoria.fecha, asesoria.motivo_solicitud, asesoria.sugerencias, asesoria.entrevista, 
                          asesoria.activo, asesoria.fecha_registro, asesoria.usuario_registro, asesoria_d.cve_asesoria AS Expr1, asesoria_d.compromiso, asesoria_d.fecha_seguimiento, 
-                         asesoria_d.cve_responsable,persona.cve_persona, persona.nombre, persona.apellido_peterno, persona.apellido_materno,
-                         persona.nombre + ' ' + persona.apellido_peterno + ' ' + persona.apellido_materno AS nombre_completo, academia.cve_academia AS Expr2, 
+                         asesoria_d.cve_responsable,persona.cve_persona, persona.nombre, persona.apellido_paterno, persona.apellido_materno,
+                         persona.nombre + ' ' + persona.apellido_paterno + ' ' + persona.apellido_materno AS nombre_completo, academia.cve_academia AS Expr2, 
                          academia.nombre_academia, academia.cve_unidad_academica, empleado.cve_empleado AS Expr3, empleado.cve_persona AS Expr4,
-						 persona_1.nombre AS Expr5, persona_1.cve_persona AS Expr6, persona_1.apellido_peterno AS Expr7, persona_1.apellido_materno AS Expr8,
-                         persona_1.nombre + ' ' + persona_1.apellido_peterno + ' ' + persona_1.apellido_materno AS nombre_completo_solicitante
+						 persona_1.nombre AS Expr5, persona_1.cve_persona AS Expr6, persona_1.apellido_paterno AS Expr7, persona_1.apellido_materno AS Expr8,
+                         persona_1.nombre + ' ' + persona_1.apellido_paterno + ' ' + persona_1.apellido_materno AS nombre_completo_solicitante
 FROM         asesoria 
 							INNER JOIN persona ON asesoria.usuario_registro = persona.cve_persona INNER JOIN
                          academia ON asesoria.cve_academia = academia.cve_academia INNER JOIN
@@ -45,7 +45,7 @@ FROM         asesoria
     empleado.cve_empleado, 
     empleado.cve_persona, 
     persona.cve_persona AS Expr1,
-	CONCAT(persona.nombre, ' ', persona.apellido_peterno, ' ', persona.apellido_materno) AS nombre_completo
+	CONCAT(persona.nombre, ' ', persona.apellido_paterno, ' ', persona.apellido_materno) AS nombre_completo
 FROM empleado
 INNER JOIN persona ON empleado.cve_persona = persona.cve_persona
 

@@ -16,7 +16,7 @@ and open the template in the editor.
 		<query>
 			SELECT TOP (200) 
 				evento_programado_grupo.cve_empleado,
-				persona.nombre + ' ' + persona.apellido_peterno + ' ' + persona.apellido_materno AS nombre,
+				persona.nombre + ' ' + persona.apellido_paterno + ' ' + persona.apellido_materno AS nombre,
 				evento_programado.nombre_evento,
 				instructor_evento_programado.cve_instructor,
 				instructor.nombre_instructor

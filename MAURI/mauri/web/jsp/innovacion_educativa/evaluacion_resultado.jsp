@@ -683,7 +683,7 @@
 
 
                         function fnReasignacionDatos() {
-                            nombreCompleto.value = currentUserObj[0].nombre + ' ' + currentUserObj[0].apellido_peterno + ' ' + currentUserObj[0].apellido_materno;
+                            nombreCompleto.value = currentUserObj[0].nombre + ' ' + currentUserObj[0].apellido_paterno + ' ' + currentUserObj[0].apellido_materno;
 
                             const calculo_fecha = new Date();
                             const options = { year: 'numeric', month: '2-digit', day: '2-digit' };

@@ -9,8 +9,8 @@ and open the template in the editor.
 		<query>
 			SELECT TOP (200) rubrica.cve_rubrica, rubrica.cve_empleado, rubrica.nombre_rubica, rubrica.filas, rubrica.columnas, rubrica.nombre_seccion, rubrica.secciona_fila_inicio, rubrica.seccion_fila_fin, rubrica.nombre_columna, 
        rubrica.criterios_por_celda, rubrica.activo, rubrica.fecha_registro, rubrica.usuario_registro, empleado.cve_empleado AS Expr1, empleado.cve_persona, persona.cve_persona AS Expr2, persona.nombre, 
-       persona.apellido_peterno, persona.apellido_materno,
-       CONCAT(persona.nombre, ' ', persona.apellido_peterno, ' ', persona.apellido_materno) AS nombre_completo
+       persona.apellido_paterno, persona.apellido_materno,
+       CONCAT(persona.nombre, ' ', persona.apellido_paterno, ' ', persona.apellido_materno) AS nombre_completo
 FROM rubrica
 INNER JOIN empleado ON rubrica.cve_empleado = empleado.cve_empleado
 INNER JOIN persona ON empleado.cve_persona = persona.cve_persona;
@@ -49,7 +49,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
     empleado.cve_empleado, 
     empleado.cve_persona, 
     persona.cve_persona AS Expr1,
-	CONCAT(persona.nombre, ' ', persona.apellido_peterno, ' ', persona.apellido_materno) AS nombre_completo
+	CONCAT(persona.nombre, ' ', persona.apellido_paterno, ' ', persona.apellido_materno) AS nombre_completo
 	FROM empleado
 	INNER JOIN persona ON empleado.cve_persona = persona.cve_persona
 

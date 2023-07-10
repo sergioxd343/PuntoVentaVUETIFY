@@ -47,7 +47,7 @@ and open the template in the editor.
 			SELECT TOP (200) empleado.cve_empleado, empleado.cve_persona, empleado.cve_puesto, empleado.cve_tipo_puesto, 
 				empleado.cve_departamento, empleado.cve_area, empleado.cve_ugac, empleado.cve_unidad_academica, 
 				empleado.fecha_ingreso, empleado.titulo_recibido, empleado.grado_estudio, empleado.activo, empleado.fecha_registro, 
-				empleado.usuario_registro, persona.nombre + ' ' + persona.apellido_peterno + ' ' + persona.apellido_materno AS nombre
+				empleado.usuario_registro, persona.nombre + ' ' + persona.apellido_paterno + ' ' + persona.apellido_materno AS nombre
 				FROM empleado INNER JOIN
 				persona ON empleado.cve_persona = persona.cve_persona WHERE cve_tipo_puesto = 2;
 		</query>

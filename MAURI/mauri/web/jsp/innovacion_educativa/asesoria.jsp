@@ -543,7 +543,7 @@
                         }
 
                         function fnReasignacionDatos() {
-                            nombreCompleto.value = currentUserObj[0].nombre + ' ' + currentUserObj[0].apellido_peterno + ' ' + currentUserObj[0].apellido_materno;
+                            nombreCompleto.value = currentUserObj[0].nombre + ' ' + currentUserObj[0].apellido_paterno + ' ' + currentUserObj[0].apellido_materno;
                             fechaActual.value = new Date().toISOString().substr(0, 10);
                         }
 
