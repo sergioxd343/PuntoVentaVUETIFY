@@ -144,7 +144,10 @@ CREATE PROCEDURE InsertarEmpleado(
 	@cve_unidad_academica 		INT,
 	@fecha_ingreso				DATE,
 	@titulo_recibido			VARCHAR(50),
-	@grado_estudio				VARCHAR(25)
+	@grado_estudio				VARCHAR(25),
+	-- Datos de usuario
+	@nombre_usuario 				VARCHAR(50),
+	@contrasenia 				VARCHAR(50)
 )
 AS
 BEGIN
@@ -157,4 +160,6 @@ BEGIN
 
     INSERT INTO empleado (cve_persona, cve_puesto, cve_tipo_puesto, cve_departamento, cve_area, cve_ugac, cve_unidad_academica, fecha_ingreso, titulo_recibido, grado_estudio) 
     VALUES (@var_cve_persona, @cve_puesto, @cve_tipo_puesto, @cve_departamento, @cve_area, @cve_ugac, @cve_unidad_academica, @fecha_ingreso, @titulo_recibido, @grado_estudio);
+
+	INSERT INTO usuario (cve_persona, nombre_usuario, contrasenia) VALUES (@var_cve_persona, @nombre_usuario, @contrasenia);
 END;

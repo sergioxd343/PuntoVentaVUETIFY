@@ -71,7 +71,7 @@
                                 <!--OBJETIVO-->
                                 <v-col md="12">
                                     <template>
-                                        <v-file-input id="archivoInput" v-model="files" counter label="Importar"
+                                        <v-file-input id="archivoInput" accept=".json" v-model="files" counter label="Importar"
                                             multiple placeholder="Seleccione los archivos" prepend-icon="mdi-paperclip"
                                             persistent-hint outlined :show-size="1000" v-validate="'required'"
                                             data-vv-name="Importar" :error="errors.has('Importar')"
@@ -88,18 +88,34 @@
                                             </template>
                                         </v-file-input>
                                     </template>
+                                </v-col>     
+                            </v-row>  
+                            <!--BOTONES CRUD-->
+                            <v-row justify="center">
+                                <v-btn color="primary" @click="flagEditar ? fnEditar() : fnGuardar()">
+                                    <v-icon>{{ flagEditar ? 'mdi-download' : 'mdi-content-save' }}</v-icon>
+                                    {{ flagEditar ? 'Editar' : 'Guardar' }}
+                                </v-btn>
+                                &nbsp;
+                                <v-btn color="error" @click="fnLimpiarCampos()">
+                                    <v-icon>mdi-cancel</v-icon>Cancelar
+                                </v-btn>
+                            </v-row>
+                            <v-row justify="center">
+                                <v-col>
+                                    <v-data-table :headers="headerEmpleado" :items="dataEmpleado" class="elevation-2"
+                                        no-data-text="No se encontro ningun registro" :hide-default-header="dataEmpleado.length < 1"
+                                        :hide-default-footer="dataEmpleado.length < 1" locale="es-ES" :mobile-breakpoint="NaN" items-per-page="10">
+                                        <template v-slot:item.estatus="{item}">
+                                            <v-chip class="ma-2" style="width: 80px; display: flex; justify-content: center; align-items: center;"
+                                                link @click="fnCambiarEstatus(item)" :color="item.activo ? 'success' : 'grey'" outlined>
+                                                {{ item.activo ?
+                                                "Activo" : "Inactivo" }}
+                                            </v-chip>
+                                        </template>
+                                    </v-data-table>
                                 </v-col>
-                                <!--BOTONES CRUD-->
-                                <v-row justify="center">
-                                    <v-btn color="primary" @click="flagEditar ? fnEditar() : fnGuardar()">
-                                        <v-icon>{{ flagEditar ? 'mdi-download' : 'mdi-content-save' }}</v-icon>
-                                        {{ flagEditar ? 'Editar' : 'Guardar' }}
-                                    </v-btn>
-                                    &nbsp;
-                                    <v-btn color="error" @click="fnLimpiarCampos()">
-                                        <v-icon>mdi-cancel</v-icon>Cancelar
-                                    </v-btn>
-                                </v-row>
+                            </v-row>
                         </v-container>
                     </v-card>
                 </v-container>
@@ -153,11 +169,22 @@
                     const ctr =
                         "../../controlador/sistema/Controlador_empleados.jsp";
                     //Variables POST
-                    const empleados = ref("");
+                    const empleados = ref([]);
+                    const dataEmpleado = ref([]);
 
                     //Otras variables
                     const flagEditar = ref(false);
                     const itemEditar = ref({});
+
+                    const headerEmpleado = ref([
+                        { text: "No.", align: "left", sortable: true, value: "numero_fila" },
+                        { text: "Nombre", align: "left", sortable: true, value: "nombre" },
+                        { text: "Primer Apellido", align: "left", sortable: true, value: "apellido_paterno" },
+                        { text: "Segundo Apellido", align: "left", sortable: true, value: "apellido_materno" },
+                        { text: "Nombre Usuario", align: "left", sortable: true, value: "nombre_usuario" },
+                        { text: "RFC", align: "left", sortable: true, value: "rfc" },
+                        { text: "Estatus", align: "center", sortable: false, value: "estatus" }
+                    ]);
                     //Files
                     const files = ref([]);
 
@@ -173,19 +200,39 @@
 
 
                     onMounted(() => {
-
+                        fnConsultarTabla();
                     });
 
-                    async function fnGuardar() {
+                    async function fnConsultarTabla() {
                         try {
                             preloader("../../");
+                            let parametros = new URLSearchParams();
+                            parametros.append("accion", 2);
+                            let { data, status } = await axios.post(ctr, parametros);
+                            if (status == 200) {
+                                if (data.length > 0) {
+                                    dataEmpleado.value = data;
+                                }
+                            }
+                        } catch (error) {
+                            mostrarSnackbar("error");
+                            console.error(error);
+                        } finally {
+                            swal.close();
+                        }
+                    }
 
+                    async function fnGuardar() {
+                        this.$validator.validate().then(async (esValido) => {
+                        try {
                             // Llamar a la función fnLeerArchivo para obtener los datos
-                            let datos = await fnLeerArchivo();
+                            const datos = await fnLeerArchivo();
+                            console.log("🚀 ~ file: empleados.jsp:184 ~ this.$validator.validate ~ datos:", datos)
 
                             // Recorrer los datos y realizar las operaciones necesarias
-                            datos.forEach(async (element) => {
-                                console.log("🚀 ~ file: empleados.jsp:182 ~ element:", element.nombre);
+                            for (const element of datos) {
+                                console.log("🚀 ~ file: empleados.jsp:187 ~ empleados.value.forEach ~ element:", element)
+                                preloader("../../");
 
                                 // Crear los parámetros para la solicitud POST
                                 let parametros = new URLSearchParams();
@@ -198,20 +245,21 @@
                                 parametros.append("curp", element.curp);
                                 parametros.append("rfc", element.rfc);
                                 parametros.append("sexo", element.sexo);
-                                parametros.append("fecha_nacimiento", element.fecha_nacimiento);
+                                parametros.append("fecha_nacimiento", element.fecha_nacimiento.split("-").reverse().join("-"));
                                 parametros.append("cve_puesto", element.cve_puesto); 
                                 parametros.append("cve_tipo_puesto", element.cve_tipo_puesto);
                                 parametros.append("cve_departamento", element.cve_departamento);
                                 parametros.append("cve_area", element.cve_area);
                                 parametros.append("cve_ugac", element.cve_ugac);
                                 parametros.append("cve_unidad_academica", element.cve_unidad_academica);
-                                parametros.append("fecha_ingreso", element.fecha_ingreso);
+                                parametros.append("fecha_ingreso", element.fecha_ingreso.split("-").reverse().join("-"));
                                 parametros.append("titulo_recibido", element.titulo_recibido);
                                 parametros.append("grado_estudio", element.grado_estudio);
-
+                                parametros.append("nombre_usuario", element.nombre_usuario);
+                                parametros.append("contrasenia", element.contrasenia);
+                                console.log("🚀 ~ file: empleados.jsp:212 ~ datos.forEach ~ parametros:", parametros)
                                 // Realizar la solicitud POST utilizando axios
                                 let { data, status } = await axios.post(ctr, parametros);
-                                console.log("🚀 ~ file: empleados.jsp:214 ~ datos.forEach ~ data:", data)
 
                                 if (status == 200) {
                                     if (data == "1") {
@@ -219,7 +267,7 @@
                                             "success",
                                             "Registro actualizado correctamente."
                                         );
-                                        fnConsultarTabla();
+                                        //fnConsultarTabla();
                                         // this.$validator.pause();
                                         // Vue.nextTick(() => {
                                         //     this.$validator.errors.clear();
@@ -227,13 +275,14 @@
                                         // });
                                     }
                                 }
-                            });
+                            }
                         } catch (error) {
                             mostrarSnackbar("error");
                             console.error(error);
                         } finally {
                             swal.close();
                         }
+                        });
                     }
 
                     function fnLeerArchivo() {
@@ -251,59 +300,15 @@
                                 // Definir la función que se ejecutará cuando se complete la lectura del archivo
                                 lector.onload = function (evento) {
                                     var contenidoArchivo = evento.target.result;
-
-                                    var lineas = contenidoArchivo.split("\n"); // Dividir las líneas del archivo
-
-                                    var datos = [];
-
-                                    // Recorrer cada línea y separar los campos por tabulaciones
-                                    for (var i = 0; i < lineas.length; i++) {
-                                        var campos = lineas[i].split("\t");
-
-                                        // Crear un objeto con los campos separados
-                                        var objeto = {
-                                            cve_persona: campos[0],
-                                            nombre: campos[1],
-                                            apellido_paterno: campos[2],
-                                            apellido_materno: campos[3],
-                                            email: campos[4],
-                                            movil: campos[5],
-                                            curp: campos[6],
-                                            rfc: campos[7],
-                                            sexo: campos[8],
-                                            fecha_nacimiento: campos[9],
-                                            cve_empleado: campos[10],
-                                            grado_estudio: campos[11],
-                                            titulo_recibido: campos[12],
-                                            fecha_ingreso: campos[13],
-                                            cve_departamento: campos[14],
-                                            cve_puesto: campos[15],
-                                            nombre_puesto: campos[16],
-                                            nivel_tabulador: campos[17],
-                                            nombre_tipo_puesto: campos[18],
-                                            cve_tipo_puesto: campos[19],
-                                            cve_area: campos[20],
-                                            nombre_area: campos[21],
-                                            cve_ugac: campos[22],
-                                            nombre_ugac: campos[23],
-                                            cve_unidad_academica: campos[24],
-                                            nombre_usuario: campos[25],
-                                            contrasenia: campos[26]
-                                        };
-
-                                        // Agregar el objeto a la lista de datos
-                                        datos.push(objeto);
-                                        console.log("🚀 ~ file: empleados.jsp:294 ~ objeto:", objeto)
-                                    }
-
-                                    // Resolver la promesa con los datos
-                                    resolve(datos);
+                                    empleados.value = JSON.parse(contenidoArchivo);
+                                    resolve(empleados.value);
+                                    console.log("🚀 ~ file: empleados.jsp:255 ~ fnLeerArchivo ~ empleados:", empleados)
                                 };
-
                                 // Leer el archivo como texto
                                 lector.readAsText(archivo);
                             }
                         });
+                    
                     }
 
 
@@ -332,10 +337,13 @@
                         mensaje_snackbar,
                         loader,
                         empleados,
+                        dataEmpleado,
+                        headerEmpleado,
                         files,
                         mostrarSnackbar,
                         fnGuardar,
                         fnLeerArchivo,
+                        fnConsultarTabla,
                         fnLimpiarCampos,
                         flagEditar,
                         itemEditar,

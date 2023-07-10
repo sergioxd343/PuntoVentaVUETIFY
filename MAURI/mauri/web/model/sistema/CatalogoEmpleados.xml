@@ -19,7 +19,14 @@
 	        @cve_unidad_academica = ?,		
 	        @fecha_ingreso = ?,				
 	        @titulo_recibido = ?,		
-	        @grado_estudio = ?				
+	        @grado_estudio = ?,
+			@nombre_usuario = ?,
+			@contrasenia = ?			
         </query>
     </ImportarEmpleados>
+	<consultarTabla>
+		<query>
+			SELECT * FROM v_empleado
+		</query>
+	</consultarTabla>
 </CatalogoEmpleados>

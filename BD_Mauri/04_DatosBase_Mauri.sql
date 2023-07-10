@@ -19,21 +19,157 @@ INSERT INTO persona (nombre, apellido_paterno, apellido_materno, email, movil, c
                     ('María', 'García', 'López', 'maria@gmail.com', '0987654321', 'CURPMARIA456', 'RFCMARIA456', 'Femenino', '1995-05-15', 1),
                     ('Pedro', 'Rodríguez', 'Hernández', 'pedro@gmail.com', '5555555555', 'CURPPEDRO789', 'RFCPEDRO789', 'Masculino', '1988-10-10',  1);
 
+-- ------------- INSERTS DE TIPO_PUESTO -------------- --
+INSERT INTO tipo_puesto (nombre_tipo_puesto, usuario_registro)
+                VALUES  ('Director', 1),
+                        ('Jefe de Departamento', 1),
+                        ('Coordinador', 1),
+                        ('Analista Administrativo', 1),
+                        ('Profesor de Asignatura', 1),
+                        ('Profesor de Tiempo Completo', 1),
+                        ('Técnico en Contabilidad', 1),
+                        ('Técnico Bibliotecario', 1),
+                        ('Subdirector', 1),
+                        ('Ingeniero en Sistemas', 1),
+                        ('Secretaria de Subdirector', 1),
+                        ('Técnico Especializado en Elect', 1),
+                        ('Asistente Académico', 1),
+                        ('Diseñador Web', 1),
+                        ('Auxiliar de Laboratorio', 1),
+                        ('Asistente de Centros de Computo', 1),
+                        ('Asistente de Computo', 1),
+                        ('Desarrollador de Sistemas', 1),
+                        ('Diseñador Grafico', 1),
+                        ('Técnico Docente A', 1),
+                        ('Técnico Docente B', 1),
+                        ('Técnico Docente C', 1),
+                        ('Auxiliar de Laboratorio de Mantenimiento', 1),
+                        ('Coordinador de Licenciaturas', 1),
+                        ('Promotor de Carreras', 1),
+                        ('Profesor de Música', 1),
+                        ('Profesor de Escolta', 1),
+                        ('Profesor de Atletismo', 1),
+                        ('Técnico en Mantenimiento', 1),
+                        ('Asistente de Contabilidad', 1),
+                        ('Asistente Académico B', 1),
+                        ('Profesor Hawaiano', 1),
+                        ('Técnico Bibliotecario Honorarios', 1),
+                        ('Profesor de Beisbol', 1),
+                        ('Cultura y Deporte', 1),
+                        ('Auxiliar de CIEM y Servicios Tecnológicos', 1),
+                        ('Asistente de centro de atención', 1),
+                        ('Coordinador Web', 1),
+                        ('Auxiliar de Mantenimiento', 1),
+                        ('Asistente de Control Escolar', 1),
+                        ('Jefe de Oficina de Diseño', 1),
+                        ('Auxiliar Laboratorio', 1),
+                        ('Profesor de Baile', 1),
+                        ('Profesor de Canto', 1),
+                        ('Profesor de Artes Platicas', 1),
+                        ('Profesor de Basquetbol', 1),
+                        ('Profesor de Tiempo Completo', 1),
+                        ('Psicologo', 1),
+                        ('Desarrollador Web', 1),
+                        ('Programador Web', 1),
+                        ('Profesor de Tiempo Completo (Titular c)', 1),
+                        ('Profesor de Teatro', 1),
+                        ('Desarrallador de Software', 1),
+                        ('Ejecutivo de Promoción', 1),
+                        ('Técnico Laboratorista', 1),
+                        ('Encargado de Laboratorio', 1),
+                        ('Asistente de DAyD', 1),
+                        ('Profesor de Activación Física', 1),
+                        ('Profesor de Ajedrez', 1),
+                        ('Profesor de Futbol', 1),
+                        ('Boleibol', 1),
+                        ('Profesor de Asignatura (Proyecto Especial)', 1),
+                        ('Profesor de Natación', 1),
+                        ('Profesor de Asignatura (autorizador a viaticar)', 1),
+                        ('Profesor de Futbool Americano', 1),
+                        ('Técnico Especializado en Mantenimiento', 1),
+                        ('Técnico Docente A', 1),
+                        ('Técnico Docente B', 1),
+                        ('Técnico Docente C', 1),
+                        ('Laboratorista', 1),
+                        ('Profesor de Asignatura Viaticar', 1),
+                        ('Técnico laboratorista C', 1),
+                        ('Técnico laboratorista B', 1),
+                        ('Ingeniero Data Center', 1),
+                        ('Técnico Facilitador', 1),
+                        ('Técnico Académico A', 1);
+
+-- ------------- INSERTS DE PUESTO -------------- --
+INSERT INTO puesto (nombre_puesto, nivel_tabulador_puesto, usuario_registro)
+                VALUES  ('PTC', 'D', 1),
+                        ('PA', 'HP', 1),
+                        ('Técnico académico', 'PTC', 1),
+                        ('Administrativo de área académica', 'HV3', 1),
+                        ('Administrativo', 'HA', 1);
+
+-- ------------- INSERTS DE AREA -------------- --
+INSERT INTO area (nombre_area, usuario_registro)
+            VALUES  ('Dirección de Servicios Informáticos', 1),
+                    ('Secretaría de Vinculación', 1),
+                    ('Dirección de Administración y Finanzas', 1),
+                    ('Dirección de Desarrollo Académico y Docente', 1),
+                    ('Dirección de servicios de Atención al Estudiante', 1),
+                    ('Dirección de Sustentabilidad para el Desarrollo', 1),
+                    ('Dirección de Tecnologías de la Información y Comunicación', 1),
+                    ('Dirección de Electromecánica Industrial', 1),
+                    ('Dirección de Económico Administrativo', 1),
+                    ('Dirección de Asuntos Jurídicos', 1),
+                    ('Rectoría', 1),
+                    ('Secretaria Académica', 1),
+                    ('Contraloría Interna', 1),
+                    ('Dirección de Planeación, Evaluación y Servicios Escolares', 1),
+                    ('Unidad Académica de Acámbaro', 1),
+                    ('Subdirección de Servicios Administrativos', 1),
+                    ('Unidad Académica de Guanajuato', 1),
+                    ('Licenciaturas UTL', 1),
+                    ('Órgano Interno de Control', 1),
+                    ('Dirección Académica de Tecnologías Emergentes Industriales e Informática', 1);
+
+-- ------------- INSERTS DE DEPARTAMENTO -------------- --
+INSERT INTO departamento (nombre_departamento, usuario_registro)
+				VALUES	('Departamento de Matemáticas', 1),
+						('Departamento de Informática', 1),
+						('Departamento de Física', 1),
+						('Departamento de Literatura', 1),
+						('Departamento de Historia', 1);
+
+INSERT INTO ugac (nombre_ugac, usuario_registro) 
+				VALUES
+						('Desarrollo de software', 1),
+						('Academia de Programación',  1),
+                        ('Academia de Ingles',  1),
+                        ('Academia de Frances',  1),
+                        ('Academia de Matemáticas',  1),
+                        ('Academia de Expresión Oral y Escrita', 1);
+
+
+INSERT INTO unidad_academica (nombre_unidad_academica, usuario_registro) 
+				VALUES
+						('León',1),
+						('Unidad Académica de Acambaro',1);
+
 
 -- ------------- INSERTS DE EMPLEADOS -------------- --
 INSERT INTO empleado (cve_persona, cve_puesto, cve_tipo_puesto, cve_departamento, cve_area, cve_ugac, cve_unidad_academica, fecha_ingreso, titulo_recibido, grado_estudio, usuario_registro)
-			VALUES (1, 3, 53, 1, 7, 1, 1, '2002', 'Técnico Superior', 'Educación Superior', 1),
-                   (2, 1, 3, 1, 7, 1, 2, '2000', 'Ingeniería en Sistemas', 'Ingeniería',  1),
-                   (3, 1, 3, 3, 3, 4, 1, '2001', 'Maestría en Administración', 'Maestría',  1),
-                   (4, 1, 5, 3, 3, 3, 1, '2000', 'Licenciatura en contaduria', 'Licenciatura',  1),
+			VALUES (1, 3, 53, 2, 7, 1, 1, '2002', 'Técnico Superior', 'Educación Superior', 1),
+                   (2, 1, 3, 2, 7, 1, 2, '2000', 'Ingeniería en Sistemas', 'Ingeniería',  1),
+                   (3, 1, 3, 1, 3, 4, 1, '2001', 'Maestría en Administración', 'Maestría',  1),
+                   (4, 1, 5, 1, 3, 3, 1, '2000', 'Licenciatura en contaduria', 'Licenciatura',  1),
                    (5, 2, 5, 4, 8, 4, 2, '1999', 'Doctorado en desechos', 'Doctorado',  1),
-                   (6, 5, 5, 4, 8, 4, 2, '1998', 'Licenciatura en quimica', 'Licenciatura',  1),
+                   (6, 5, 5, 3, 8, 4, 2, '1998', 'Licenciatura en quimica', 'Licenciatura',  1),
                    (7, 4, 5, 5, 11, 5, 1, '2000', 'Licenciatura arte culinario', 'Licenciatura',  1),
                    (8, 3, 5, 5, 11, 6, 1, '2000', 'Técnico en bebidas', 'Técnico',  1),
                    (9, 5, 5, 1, 7, 1, 2, '2000', 'Ingenieria en Informática', 'Ingenieria',  1),
                    (10, 4, 5, 2, 18, 2, 1, '2000', 'Técnico en turismo', 'Técnico',  1),
-                   (11, 3, 5, 3, 3, 3, 2, '2000', 'Licenciatura en economía', 'Licenciatura',  1),
-                   (12, 2, 2, 1, 1, 1, 1, '2000', 'Licenciatura en Informática', 'Licenciatura', 1);
+                   (11, 3, 5, 1, 3, 3, 2, '2000', 'Licenciatura en economía', 'Licenciatura',  1),
+                   (12, 2, 2, 1, 1, 1, 1, '2000', 'Licenciatura en Informática', 'Licenciatura', 1),
+                   (13, 2, 2, 1, 1, 1, 1, '2000', 'Licenciatura en Informática', 'Licenciatura', 1),
+                   (14, 2, 2, 1, 1, 1, 1, '2000', 'Licenciatura en Informática', 'Licenciatura', 1),
+                   (15, 2, 2, 1, 1, 1, 1, '2000', 'Licenciatura en Informática', 'Licenciatura', 1);
 
 -- ------------- INSERTS DE USUARIOS -------------- --
 INSERT INTO usuario (cve_persona, nombre_usuario, contrasenia, usuario_registro) 
@@ -41,7 +177,17 @@ INSERT INTO usuario (cve_persona, nombre_usuario, contrasenia, usuario_registro)
 					(2, 'crene', '1234', 1),
 					(3, 'gmaria', '4321', 1),
 					(4, 'sergio', '7890', 1),
-					(5, 'ebrenda', '7890', 1);
+					(5, 'ebrenda', '7890', 1),
+                    (6, 'luisal', '1234', 1),
+                    (7, 'carlosh', '1234', 1),
+                    (8, 'anam', '1234', 1),
+                    (9, 'jorger', '1234', 1),
+                    (10, 'laurag', '1234', 1),
+                    (11, 'miguels', '1234', 1),
+                    (12, 'isabelf', '1234', 1),
+                    (13, 'juanp', '1234', 1),
+                    (14, 'mariag', '1234', 1),
+                    (15, 'pedror', '1234', 1);
 
 
 -- ------------- INSERTS DE MENU -------------- --
@@ -174,30 +320,52 @@ INSERT INTO tipo_espacio (nombre_tipo_espacio, usuario_registro)
 INSERT INTO instructor_evento_programado VALUES (1,1,1,1,GETDATE(),1),
                                                 (2,1,2,1,GETDATE(),1);
 
--- ------------- INSERTS DE AREA -------------- --
-INSERT INTO area (nombre_area, usuario_registro)
-            VALUES  ('Dirección de Servicios Informáticos', 1),
-                    ('Secretaría de Vinculación', 1),
-                    ('Dirección de Administración y Finanzas', 1),
-                    ('Dirección de Desarrollo Académico y Docente', 1),
-                    ('Dirección de servicios de Atención al Estudiante', 1),
-                    ('Dirección de Sustentabilidad para el Desarrollo', 1),
-                    ('Dirección de Tecnologías de la Información y Comunicación', 1),
-                    ('Dirección de Electromecánica Industrial', 1),
-                    ('Dirección de Económico Administrativo', 1),
-                    ('Dirección de Asuntos Jurídicos', 1),
-                    ('Rectoría', 1),
-                    ('Secretaria Académica', 1),
-                    ('Contraloría Interna', 1),
-                    ('Dirección de Planeación, Evaluación y Servicios Escolares', 1),
-                    ('Unidad Académica de Acámbaro', 1),
-                    ('Subdirección de Servicios Administrativos', 1),
-                    ('Unidad Académica de Guanajuato', 1),
-                    ('Licenciaturas UTL', 1),
-                    ('Órgano Interno de Control', 1),
-                    ('Dirección Académica de Tecnologías Emergentes Industriales e Informática', 1);
+INSERT INTO periodo (fecha_inicio, fecha_fin, numero_periodo, descripcion, usuario_registro) 
+VALUES                          ('2023-01-09', '2023-04-29', 1, 'Enero - Abril 2023', 1),
+                                ('2023-05-02', '2023-08-26', 2, 'Mayo - Agosto 2023', 1),
+                                ('2023-09-05', '2023-12-17', 3, 'Septiembre - Diciembre 2023', 1),
+                                ('2024-01-09', '2024-04-29', 1, 'Enero - Abril 2024', 1),
+                                ('2024-05-02', '2024-08-26', 2, 'Mayo - Agosto 2024', 1),
+                                ('2024-09-05', '2024-12-17', 3, 'Septiembre - Diciembre 2024', 1);
 
+INSERT INTO academia (cve_unidad_academica, nombre_academia, usuario_registro)
+VALUES  (1, 'Academia de Cálculo', 1),
+        (1, 'Academia de Estadística', 1),
+        (2, 'Academia de Sociología', 2),
+        (2, 'Academia de Antropología', 2),
+        (1, 'Academia de Ingeniería Eléctrica', 1);
 
+INSERT INTO solicitud_proyecto (cve_area, cve_periodo, nombre_proyecto, objetivo_proyecto, descripcion_proyecto, recursos_necesarios, acuerdos_establecidos, usuario_registro)
+VALUES 
+    (1, 3, 'MAURI', 'Objetivo del Proyecto A', 'Descripción del Proyecto A', 'Recursos necesarios para el Proyecto A', 'Acuerdos establecidos para el Proyecto A', 1),
+    (2, 2, 'Óptica QU', 'Objetivo del Proyecto B', 'Descripción del Proyecto B', 'Recursos necesarios para el Proyecto B', 'Acuerdos establecidos para el Proyecto B', 2),
+    (3, 1, 'Mejora de Asesoramiento', 'Objetivo del Proyecto C', 'Descripción del Proyecto C', 'Recursos necesarios para el Proyecto C', 'Acuerdos establecidos para el Proyecto C', 3),
+    (4, 2, 'Mejora del Sistema Operativo', 'Objetivo del Proyecto D', 'Descripción del Proyecto D', 'Recursos necesarios para el Proyecto D', 'Acuerdos establecidos para el Proyecto D', 2),
+    (5, 3, 'Proyecto Manejo de Residuos', 'Objetivo del Proyecto E', 'Descripción del Proyecto E', 'Recursos necesarios para el Proyecto E', 'Acuerdos establecidos para el Proyecto E', 1);
+
+INSERT INTO asesoria (cve_empleado, cve_academia, materia, fecha, motivo_solicitud, sugerencias, entrevista, usuario_registro)
+VALUES
+    (1, 3, 'Aplicaciones Web I', '2023-07-08', 'Motivo de la solicitud A', 'Sugerencias para la asesoría A', 'Entrevista realizada A', 3),
+    (2, 2, 'Bases de Datos I', '2023-07-07', 'Motivo de la solicitud B', 'Sugerencias para la asesoría B', 'Entrevista realizada B', 2),
+    (3, 1, 'Tutoreo I', '2023-07-06', 'Motivo de la solicitud C', 'Sugerencias para la asesoría C', 'Entrevista realizada C', 1),
+    (2, 2, 'Expreción Oral y Escrita I', '2023-07-05', 'Motivo de la solicitud D', 'Sugerencias para la asesoría D', 'Entrevista realizada D', 2),
+    (1, 3, 'Ingles I', '2023-07-04', 'Motivo de la solicitud E', 'Sugerencias para la asesoría E', 'Entrevista realizada E', 3);
+	
+INSERT INTO evaluacion_resultado (cve_t_servicio, cve_asesoria_proyecto, cve_area, cve_solicitud_proyecto, cve_periodo, suma, porcentaje, comentarios, usuario_registro)
+VALUES
+	(1, 1, 1, 0, 3, 50, 100.0, 'Comentario 1', 1),
+	(2, 0, 2, 3, 2, 50, 100.0, 'Comentario 2', 2),
+	(1, 3, 3, 0, 1, 47, 95.5, 'Comentario 3', 2),
+	(2, 0, 2, 1, 2, 45, 92.0, 'Comentario 4', 4),
+	(1, 2, 1, 0, 3, 40, 90.0, 'Comentario 5', 4);
+
+INSERT INTO analisis_docente (cve_unidad_academica, cve_academia, programa_educativo, numero_ptc, anio_aplicacion, media_evaluacion_docente, media_evaluacion_tutoreo, promedio_evaluacion_tutoreo, promedio_evaluacion_docente, porcentaje_docentes_acreditados, fortalezas, debilidades, necesidades, prioridad_capacitacion, estrategias_intervencion, estatus, usuario_registro)
+VALUES
+	(1, 3, 'Programa 1', 10, 2023, 8.5, 8.2, 7.4, 7.3, 80.0, 'Fortaleza 1', 'Debilidad 1', 'Necesidad 1', 'Prioridad 1', 'Estrategia 1', 1, 1),
+	(2, 4, 'Programa 2', 20, 2023, 8.9, 9.1, 8.0, 8.0, 75.0, 'Fortaleza 2', 'Debilidad 2', 'Necesidad 2', 'Prioridad 2', 'Estrategia 2', 1, 2),
+	(2, 1, 'Programa 3', 30, 2023, 7.2, 8.4, 9.3, 9.2, 85.0, 'Fortaleza 3', 'Debilidad 3', 'Necesidad 3', 'Prioridad 3', 'Estrategia 3', 1, 3),
+	(2, 2, 'Programa 4', 40, 2023, 7.7, 9.8, 8.6, 8.7, 70.0, 'Fortaleza 4', 'Debilidad 4', 'Necesidad 4', 'Prioridad 4', 'Estrategia 4', 1, 4),
+	(1, 3, 'Programa 5', 50, 2023, 7.0, 8.2, 7.1, 7.0, 75.0, 'Fortaleza 5', 'Debilidad 5', 'Necesidad 5', 'Prioridad 5', 'Estrategia 5', 1, 5);
 
 INSERT INTO programa_desarrollo (nombre_prog_des,descripcion,numero_modulos,usuario_registro) 
 VALUES ('Inducción','Enseñanza',2,1),
@@ -256,15 +424,6 @@ VALUES	(1,1,1,'INDUCCIÓN A LA UTL', '10', 'Proveer al nuevo profesor de informa
 		(3,6,1,'EVALUACIÓN POR COMPETENCIAS','12',' El profesor identifica y construye los instrumentos de evaluación de acuerdo a los aprendizajes que desea generar en el alumno','• Técnica de Octágonos para la Evaluación • Desarrollo de instrumentos  de evaluación de acuerdo a las evidencias.',1),
 		(3,7,1,'SENSIBILIZACIÓN ANTE LA DISCAPACIDAD AUDITIVA EN EL AULA. ','12','Sensibilizar al participante sobre la importancia de ejercer una educación incluyente cuando se presenta un alumno con discapacidad auditiva. ','El profesor ajusta las estrategias de enseñanza aprendizaje para un caso de discapacidad auditiva.',1);
 
--- ------------- INSERTS DE PUESTO -------------- --
-INSERT INTO puesto (nombre_puesto, nivel_tabulador_puesto, usuario_registro)
-                VALUES  ('PTC', 'D', 1),
-                        ('PA', 'HP', 1),
-                        ('Técnico académico', 'PTC', 1),
-                        ('Administrativo de área académica', 'HV3', 1),
-                        ('Administrativo', 'HA', 1);
-
-
 -- ------------- INSERTS DE CURSO -------------- --
 INSERT INTO curso (cve_periodo, nombre_curso, tema, objetivo, alcance, fecha_autoevaluacion, usuario_registro)
 VALUES
@@ -303,22 +462,6 @@ INSERT INTO evento_programado (cve_origen_evento, cve_espacio, cve_modalidad, no
 						(1,2,2,'Estrategias pedagógicas','Pedagógia', '', '9:30', '11:00', '2023-05-10', '2023-05-18', 1),
 						(1,1,2,'Comunicación','Comunicación', '', '2:00', '3:00', '2023-07-01', '2023-07-11', 1);
 
-
-
-INSERT INTO unidad_academica (nombre_unidad_academica, usuario_registro) 
-				VALUES
-						('León',1),
-						('Unidad Académica de Acambaro',1);
-
-
-INSERT INTO academia (cve_unidad_academica, nombre_academia, usuario_registro)
-VALUES  (1, 'Academia de Cálculo', 1),
-        (1, 'Academia de Estadística', 1),
-        (2, 'Academia de Sociología', 2),
-        (2, 'Academia de Antropología', 2),
-        (1, 'Academia de Ingeniería Eléctrica', 1);
-
-
 INSERT INTO categoria_evento (nombre_categoria, usuario_registro) 
 				VALUES
 						('Estrategias pedagógicas', 1),
@@ -328,13 +471,7 @@ INSERT INTO categoria_evento (nombre_categoria, usuario_registro)
 						('Investigación', 1);
 
 
-INSERT INTO periodo (fecha_inicio, fecha_fin, numero_periodo, descripcion, usuario_registro) 
-VALUES                          ('2023-01-09', '2023-04-29', 1, 'Enero - Abril 2023', 1),
-                                ('2023-05-02', '2023-08-26', 2, 'Mayo - Agosto 2023', 1),
-                                ('2023-09-05', '2023-12-17', 3, 'Septiembre - Diciembre 2023', 1),
-                                ('2024-01-09', '2024-04-29', 1, 'Enero - Abril 2024', 1),
-                                ('2024-05-02', '2024-08-26', 2, 'Mayo - Agosto 2024', 1),
-                                ('2024-09-05', '2024-12-17', 3, 'Septiembre - Diciembre 2024', 1);
+
 
 INSERT INTO horario (hora_inicio, hora_fin, descripcion, usuario_registro) 
 VALUES                          ('07:00', '07:55', '07:00 - 07:55', 1),
@@ -384,17 +521,6 @@ INSERT INTO necesidad_capacitacion_anual   (cve_area_registro,
 						(1, 1, 2, 1, 1, 1, 1, 1, 1, 'T.S.U', 'Dirección de Sustentabilidad para el desarrollo', 'TSU en TI Área Entornos Virtuales y Negocios Digitales', --11
 						'2022', 'Falta de eficiencia', 'Evento de comunicación', 'Mejorar', 'Quejas de alumnos', '', 'UTL', 234, 'Junio', '2023-06-07', '2023-06-13', 12, 2, 0, 8, 22, 10, 12, 1, 1)
 
-
-INSERT INTO ugac (nombre_ugac, usuario_registro) 
-				VALUES
-						('Desarrollo de software', 1),
-						('Academia de Programación',  1),
-                        ('Academia de Ingles',  1),
-                        ('Academia de Frances',  1),
-                        ('Academia de Matemáticas',  1),
-                        ('Academia de Expresión Oral y Escrita', 1);
-
-
 INSERT INTO evento_programado_grupo VALUES
 (1,1,10,1,0,'2023-06-10',10, '', 10,10,'Grande',1,'2023-06-11',10,'Entrevistas a estudiantes','2023-06-13', 1, '2023-06-13',1),
 (1, 1, 8.5, 1, 0, '2023-06-25', 9,'Buena observación',9,8, 'Impacto positivo',1,'2023-06-25',9, 'Encuestas a estudiantes', '2023-06-25', 1, GETDATE(),1),
@@ -402,83 +528,5 @@ INSERT INTO evento_programado_grupo VALUES
 (1, 3, 9, 1, 0, '2023-06-25', 9,'Buena observación',9,8, 'Impacto positivo',1,'2023-06-25',9, 'Encuestas a estudiantes', '2023-06-25', 1, GETDATE(),1),
 (2, 4, 10, 1, 0, '2023-06-25', 9,'Buena observación',9,8, 'Impacto positivo',1,'2023-06-25',9, 'Encuestas a estudiantes', '2023-06-25', 1, GETDATE(),1)
 
--- ------------- INSERTS DE TIPO_PUESTO -------------- --
-INSERT INTO tipo_puesto (nombre_tipo_puesto, usuario_registro)
-                VALUES  ('Director', 1),
-                        ('Jefe de Departamento', 1),
-                        ('Coordinador', 1),
-                        ('Analista Administrativo', 1),
-                        ('Profesor de Asignatura', 1),
-                        ('Profesor de Tiempo Completo', 1),
-                        ('Técnico en Contabilidad', 1),
-                        ('Técnico Bibliotecario', 1),
-                        ('Subdirector', 1),
-                        ('Ingeniero en Sistemas', 1),
-                        ('Secretaria de Subdirector', 1),
-                        ('Técnico Especializado en Elect', 1),
-                        ('Asistente Académico', 1),
-                        ('Diseñador Web', 1),
-                        ('Auxiliar de Laboratorio', 1),
-                        ('Asistente de Centros de Computo', 1),
-                        ('Asistente de Computo', 1),
-                        ('Desarrollador de Sistemas', 1),
-                        ('Diseñador Grafico', 1),
-                        ('Técnico Docente A', 1),
-                        ('Técnico Docente B', 1),
-                        ('Técnico Docente C', 1),
-                        ('Auxiliar de Laboratorio de Mantenimiento', 1),
-                        ('Coordinador de Licenciaturas', 1),
-                        ('Promotor de Carreras', 1),
-                        ('Profesor de Música', 1),
-                        ('Profesor de Escolta', 1),
-                        ('Profesor de Atletismo', 1),
-                        ('Técnico en Mantenimiento', 1),
-                        ('Asistente de Contabilidad', 1),
-                        ('Asistente Académico B', 1),
-                        ('Profesor Hawaiano', 1),
-                        ('Técnico Bibliotecario Honorarios', 1),
-                        ('Profesor de Beisbol', 1),
-                        ('Cultura y Deporte', 1),
-                        ('Auxiliar de CIEM y Servicios Tecnológicos', 1),
-                        ('Asistente de centro de atención', 1),
-                        ('Coordinador Web', 1),
-                        ('Auxiliar de Mantenimiento', 1),
-                        ('Asistente de Control Escolar', 1),
-                        ('Jefe de Oficina de Diseño', 1),
-                        ('Auxiliar Laboratorio', 1),
-                        ('Profesor de Baile', 1),
-                        ('Profesor de Canto', 1),
-                        ('Profesor de Artes Platicas', 1),
-                        ('Profesor de Basquetbol', 1),
-                        ('Profesor de Tiempo Completo', 1),
-                        ('Psicologo', 1),
-                        ('Desarrollador Web', 1),
-                        ('Programador Web', 1),
-                        ('Profesor de Tiempo Completo (Titular c)', 1),
-                        ('Profesor de Teatro', 1),
-                        ('Desarrallador de Software', 1),
-                        ('Ejecutivo de Promoción', 1),
-                        ('Técnico Laboratorista', 1),
-                        ('Encargado de Laboratorio', 1),
-                        ('Asistente de DAyD', 1),
-                        ('Profesor de Activación Física', 1),
-                        ('Profesor de Ajedrez', 1),
-                        ('Profesor de Futbol', 1),
-                        ('Boleibol', 1),
-                        ('Profesor de Asignatura (Proyecto Especial)', 1),
-                        ('Profesor de Natación', 1),
-                        ('Profesor de Asignatura (autorizador a viaticar)', 1),
-                        ('Profesor de Futbool Americano', 1),
-                        ('Técnico Especializado en Mantenimiento', 1),
-                        ('Técnico Docente A', 1),
-                        ('Técnico Docente B', 1),
-                        ('Técnico Docente C', 1),
-                        ('Laboratorista', 1),
-                        ('Profesor de Asignatura Viaticar', 1),
-                        ('Técnico laboratorista C', 1),
-                        ('Técnico laboratorista B', 1),
-                        ('Ingeniero Data Center', 1),
-                        ('Técnico Facilitador', 1),
-                        ('Técnico Académico A', 1);
 
 
