@@ -33,9 +33,13 @@
 
     <insertarSolicitud>
         <query>
-			DECLARE @instructores VARCHAR(MAX);
-			SET @instructores = ?; 
+				DECLARE @instructores VARCHAR(MAX);
+				DECLARE @areas VARCHAR(MAX);
+				DECLARE @ugacs VARCHAR(MAX);
 
+				SET @instructores = ?;
+				SET @areas = ?;
+				SET @ugacs = ?;
 
 			EXEC InsertarSolicitudConInstructores
 				@cve_horario = ?,
@@ -56,7 +60,10 @@
 				@perfil_participante = ?,
 				@estatus = 1,
 				@usuario_registro = ?,
-				@instructores = @instructores;
+				@instructores = @instructores,
+				@areas = @areas,
+				@ugacs = @ugacs;
+
         </query>
     </insertarSolicitud>
     

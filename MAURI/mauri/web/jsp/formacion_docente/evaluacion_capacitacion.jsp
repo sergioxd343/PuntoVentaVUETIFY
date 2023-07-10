@@ -119,10 +119,7 @@
                                       
                                     <template v-slot:item.editar="{item}">
                                         <v-btn fab small color="warning" @click="flagEditar = true; itemEditar = item;
-                                            idTipoUsuario = item.id_tipo_usuario;
-                                            nombreUsuario = item.nombreUsuario;
-                                            fecha = item.fecha;
-                                            estatus = item.estatus;
+                                            
                                         "><v-icon>mdi-square-edit-outline</v-icon></v-btn>
                                     </template>
 
@@ -304,7 +301,7 @@
                                     if(status == 200){
                                         if(data == "1"){
                                             mostrarSnackbar("success", "Registro guardado correctamente.");
-                                            fnLimpiarCampos(this);   
+                                            fnConsultarTablaEvaluaciones();
                                         }
                                     }
                             } catch(error){
@@ -356,6 +353,7 @@
                     }
                 }
             
+                
                 function mostrarSnackbar(color, texto){
                     snackbar.value = true;
                     color_snackbar.value = color;
