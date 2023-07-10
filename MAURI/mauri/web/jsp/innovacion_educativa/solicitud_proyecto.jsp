@@ -63,7 +63,7 @@
                                     <v-menu ref="menu1" :close-on-content-click="false" :return-value.sync="fecha"
                                         transition="scale-transition" offset-y min-width="auto">
                                         <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field v-model="fechaActual" label="Fecha"
+                                            <v-text-field v-model="fechaActual" label="Fecha de registro"
                                                 prepend-icon="mdi-calendar" readonly></v-text-field>
                                         </template>
                                         <v-date-picker v-model="fecha" no-title scrollable :readonly="true">
@@ -79,32 +79,54 @@
                                 </v-col>
 
                                 <v-col md="10">
-                                    <p class="font-weight-thin">
-                                        La finalidad de la creación del proyecto, ¿qué? ¿A quién se aplica? ¿Para
-                                        qué?¿cuándo?
-                                    </p>
                                     <!--Objetivo del proyecto-->
                                     <v-textarea v-model="objetivo_proyecto" class="mx-2" label="Objetivo del proyecto"
                                         rows="1" prepend-icon="mdi-comment" :readonly="modoEdicion"></v-textarea>
                                 </v-col>
+                                <v-col md="2">
+                                    <v-tooltip bottom open-on-hover>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <span class="tooltip-trigger" v-bind="attrs" v-on="on">
+                                                <v-icon class="display-1">
+                                                    mdi-information
+                                                </v-icon>
+                                            </span>
+                                        </template>
+                                        <span>
+                                            La finalidad de la creación del proyecto, ¿qué? ¿A quién se aplica? ¿Para
+                                            qué?¿cuándo?
+                                        </span>
+                                    </v-tooltip>
+                                </v-col>
 
                                 <v-col md="10">
-                                    <p class="font-weight-thin">
-                                        Describa brevemente el proyecto
-                                    </p>
                                     <!--Descripción del proyecto-->
                                     <v-textarea v-model="descripcion_proyecto" class="mx-2"
                                         label="Descripción del proyecto" rows="1" prepend-icon="mdi-comment"
                                         :readonly="modoEdicion"></v-textarea>
                                 </v-col>
+                                <v-col md="2">
+                                    <v-tooltip bottom open-on-hover>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <span class="tooltip-trigger" v-bind="attrs" v-on="on">
+                                                <v-icon class="display-1">
+                                                    mdi-information
+                                                </v-icon>
+                                            </span>
+                                        </template>
+                                        <span>
+                                            Describa brevemente el proyecto
+                                        </span>
+                                    </v-tooltip>
+                                </v-col>
 
-                                <v-col md="10">
+                                <v-col md="12">
                                     <!--Recursos necesarios-->
                                     <v-textarea v-model="recursos_necesarios" class="mx-2" label="Recursos necesarios"
                                         rows="1" prepend-icon="mdi-comment" :readonly="modoEdicion"></v-textarea>
                                 </v-col>
 
-                                <v-col md="10">
+                                <v-col md="12">
                                     <p class="font-weight-thin">
                                         (por Innovación Educativa)
                                     </p>
@@ -113,6 +135,7 @@
                                         label="Acuerdos establecidos" rows="1" prepend-icon="mdi-comment"
                                         :readonly="modoEdicion"></v-textarea>
                                 </v-col>
+                                
 
                                 <v-col md="4">
                                     <!--Estatus-->

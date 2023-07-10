@@ -18,6 +18,10 @@
         body {
             font-family: 'Roboto';
         }
+
+        .tooltip-trigger {
+            cursor: pointer;
+        }
     </style>
 
     <body>
@@ -64,12 +68,12 @@
                                         type="number" :error="errors.has('ptc')"
                                         :error-messages="errors.first('ptc')"></v-text-field>
 
-                                    <!--Fecha-->
+                                    <!--Fecha de registro-->
                                     <v-menu style="margin-top: 10px;" ref="menu1" :close-on-content-click="false"
                                         :return-value.sync="fechaActual" transition="scale-transition" offset-y
                                         min-width="auto">
                                         <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field v-model="fechaActual" label="Fecha"
+                                            <v-text-field v-model="fechaActual" label="Fecha de registro"
                                                 prepend-icon="mdi-calendar" readonly></v-text-field>
                                         </template>
                                         <v-date-picker v-model="fechaActual" no-title scrollable :readonly="true">
@@ -108,18 +112,38 @@
 
 
                                 </v-col>
+                                <template>
+                                    <div>
+                                        <p class="font-weight-light">
+                                            Con el fin de identificar el contexto educativo del personal docente y que
+                                            permita construir el plan de capacitación anual se le solicita realizar un
+                                            análisis situacional al PTC.
+                                            <v-tooltip bottom open-on-hover>
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <span class="tooltip-trigger" v-bind="attrs" v-on="on">
+                                                        <v-icon>
+                                                            mdi-information
+                                                        </v-icon>
+                                                    </span>
+                                                </template>
+                                                <span>Tome en cuenta los resultados de las evaluaciones docentes,
+                                                    desempeño de
+                                                    tutoreo observaciones, necesidades y mejoras sobre la capacitación
+                                                    al
+                                                    interior del Programa Educativo (PE).
+                                                    Su aportación será valiosa para establecer mejoras en la
+                                                    capacitación que se
+                                                    proporciona al profesorado y alcanzar el desarrollo de las
+                                                    competencias
+                                                    docentes y la actualización en el área de especialidad.</span>
+                                            </v-tooltip>
+                                        </p>
+                                    </div>
+                                </template>
+
                                 <p class="font-weight-light">
-                                    Con el fin de identificar el contexto educativo del personal docente y que permita
-                                    construir el plan de capacitación anual se le solicita realizar un análisis
-                                    situacional
-                                    al PTC. Tome en cuenta los resultados de las evaluaciones docentes, desempeño de
-                                    tutoreo
-                                    observaciones, necesidades y mejoras sobre la capacitación al interior del Programa
-                                    Educativo (PE) Su aportación será valiosa para establecer mejoras en la capacitación
-                                    que
-                                    se proporciona al profesorado y alcanzar el desarrollo de las competencias docentes
-                                    y la
-                                    actualización en el área de especialidad.
+                                    En el siguiente apartado inserte los resultados de evaluación docente, evaluación de
+                                    tutoreo e indicadores de capacitación:
                                 </p>
 
 
@@ -156,7 +180,7 @@
 
                                             <!-- Filas de la tabla -->
                                             <v-row>
-                                                <v-col cols="4">
+                                                <v-col cols="4" class="my-5">
                                                     <v-list-item-content>
                                                         <v-list-item-title class="text-wrap text-center">
                                                             Media Institucional
@@ -167,7 +191,8 @@
                                                     <v-list-item-content>
                                                         <v-list-item-title class="text-wrap text-center">
                                                             <v-text-field v-model="media_evaluacion_docente" outlined
-                                                                label="Media de evaluación docente" persistent-hint
+                                                                class="my-2" label="Media de evaluación docente"
+                                                                persistent-hint
                                                                 v-validate="{required: true, min_value: 7, max_value: 10}"
                                                                 data-vv-name="evaluació docente" inputmode="numeric"
                                                                 pattern="[0-9]*"
@@ -180,7 +205,8 @@
                                                     <v-list-item-content>
                                                         <v-list-item-title>
                                                             <v-text-field v-model="media_evaluacion_tutoreo" outlined
-                                                                label="Media de evaluación tutoreo" persistent-hint
+                                                                class="my-2" label="Media de evaluación tutoreo"
+                                                                persistent-hint
                                                                 v-validate="{required: true, min_value: 7, max_value: 10}"
                                                                 data-vv-name="evaluación tutoreo" inputmode="numeric"
                                                                 pattern="[0-9]*"
@@ -222,12 +248,12 @@
                                                             Evaluación Tutoreo
                                                         </v-list-item-title>
                                                     </v-list-item-content>
-                                                </v-col>
                                             </v-row>
+
 
                                             <!-- Filas de la tabla -->
                                             <v-row>
-                                                <v-col cols="4">
+                                                <v-col cols="4" class="my-5">
                                                     <v-list-item-content>
                                                         <v-list-item-title class="text-wrap text-center">
                                                             Promedio anual de Evaluación de academia
@@ -238,7 +264,8 @@
                                                     <v-list-item-content>
                                                         <v-list-item-title class="text-wrap text-center">
                                                             <v-text-field v-model="promedio_evaluacion_docente" outlined
-                                                                label="Promedio de evaluación docente" persistent-hint
+                                                                class="my-2" label="Promedio de evaluación docente"
+                                                                persistent-hint
                                                                 v-validate="{required: true, min_value: 7, max_value: 10}"
                                                                 data-vv-name="promedio evaluació docente"
                                                                 inputmode="numeric" pattern="[0-9]*"
@@ -251,7 +278,8 @@
                                                     <v-list-item-content>
                                                         <v-list-item-title>
                                                             <v-text-field v-model="promedio_evaluacion_tutoreo" outlined
-                                                                label="Promedio de evaluación tutoreo" persistent-hint
+                                                                class="my-2" label="Promedio de evaluación tutoreo"
+                                                                persistent-hint
                                                                 v-validate="{required: true, min_value: 7, max_value: 10}"
                                                                 data-vv-name="promedio evaluación tutoreo"
                                                                 inputmode="numeric" pattern="[0-9]*"
@@ -260,10 +288,17 @@
                                                         </v-list-item-title>
                                                     </v-list-item-content>
                                                 </v-col>
+                                                <v-col class="mx-4">
+                                                    <span class="font-weight-light">
+                                                        *Del cuatrimestre Inmediato anterior.<br>
+                                                        *Del año inmediato anterior.
+                                                    </span>
+                                                </v-col>
                                             </v-row>
                                         </v-list>
                                     </v-card>
                                 </v-col>
+
 
                                 <v-col md="12">
                                     <v-card>
@@ -291,7 +326,7 @@
 
                                             <!-- Filas de la tabla -->
                                             <v-row>
-                                                <v-col cols="6">
+                                                <v-col cols="6" class="my-5">
                                                     <v-list-item-content>
                                                         <v-list-item-title class="text-wrap text-center">
                                                             Porcentaje de docentes con curso acreditado en academia
@@ -303,7 +338,7 @@
                                                         <v-list-item-title class="text-wrap text-center">
                                                             <v-text-field v-model="porcentaje_docentes_acreditados"
                                                                 outlined label="Porcentaje de docentes acreditados"
-                                                                persistent-hint
+                                                                class="my-2" persistent-hint
                                                                 v-validate="{required: true, min_value: 0, max_value: 100}"
                                                                 data-vv-name="porcentaje docentes acreditados"
                                                                 inputmode="numeric" pattern="[0-9]*"
@@ -317,48 +352,124 @@
                                     </v-card>
                                 </v-col>
 
+                                <p class="font-weight-light my-12">
+                                    Instrucciones: En los siguientes apartados, argumente los elementos que se solicitan
+                                    basados en la participación y acreditación de cursos, evaluaciones
+                                    institucionales y trabajo colaborativo dentro de la academia:
+
+                                </p>
+
                                 <v-col md="9">
                                     <!--Fortalezas-->
-                                    <div class="hint-text">(Elementos positivos e internos que permitan el logro de los
-                                        objetivos) </div>
                                     <v-textarea v-model="fortalezas" outlined label="Fortalezas:" persistent-hint
                                         v-validate="'max:255'" class="mx-2" rows="1"
                                         prepend-icon="mdi-comment"></v-textarea>
                                 </v-col>
+                                <v-col md="2">
+                                    <v-tooltip bottom open-on-hover>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <span class="tooltip-trigger" v-bind="attrs" v-on="on">
+                                                <v-icon class="display-1">
+                                                    mdi-information
+                                                </v-icon>
+                                            </span>
+                                        </template>
+                                        <span>
+                                            Elementos positivos e internos que permitan el logro de los
+                                            objetivos
+                                        </span>
+                                    </v-tooltip>
+                                </v-col>
+
                                 <v-col md="9">
                                     <!--Debilidades-->
-                                    <div class="hint-text">(Elementos negativos internos que afectan el logro de los
-                                        objetivos)</div>
                                     <v-textarea v-model="debilidades" outlined label="Debilidades:" persistent-hint
                                         v-validate="'max:255'" class="mx-2" rows="1"
                                         prepend-icon="mdi-comment"></v-textarea>
                                 </v-col>
+                                <v-col md="2">
+                                    <v-tooltip bottom open-on-hover>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <span class="tooltip-trigger" v-bind="attrs" v-on="on">
+                                                <v-icon class="display-1">
+                                                    mdi-information
+                                                </v-icon>
+                                            </span>
+                                        </template>
+                                        <span>
+                                            Elementos negativos internos que afectan el logro de los
+                                            objetivos
+                                        </span>
+                                    </v-tooltip>
+                                </v-col>
+
                                 <v-col md="9">
                                     <!--Necesidades-->
-                                    <div class="hint-text"> (Basados en los resultados de encuestas, entregables,
-                                        resultados de evaluación y seguimientos al docente, acreditaciones,
-                                        actualizaciones de PE, proyectando un proceso formativo de 1 año)</div>
                                     <v-textarea v-model="necesidades" outlined label="Necesidades detectadas:"
                                         persistent-hint v-validate="'max:255'" class="mx-2" rows="1"
                                         prepend-icon="mdi-comment"></v-textarea>
                                 </v-col>
+                                <v-col md="2">
+                                    <v-tooltip bottom open-on-hover>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <span class="tooltip-trigger" v-bind="attrs" v-on="on">
+                                                <v-icon class="display-1">
+                                                    mdi-information
+                                                </v-icon>
+                                            </span>
+                                        </template>
+                                        <span>
+                                            Basados en los resultados de encuestas, entregables,
+                                            resultados de evaluación y seguimientos al docente, acreditaciones,
+                                            actualizaciones de PE, proyectando un proceso formativo de 1 año
+                                        </span>
+                                    </v-tooltip>
+                                </v-col>
+
                                 <v-col md="9">
                                     <!--Tipos de necesidades-->
-                                    <div class="hint-text">(Detallar el tipo de capacitación que se requiere; curso,
-                                        taller, diplomado, certificación, etc.) </div>
                                     <v-textarea v-model="estrategias_intervencion" outlined
                                         label="Tipos de necesidades:" persistent-hint v-validate="'max:255'"
                                         class="mx-2" rows="1" prepend-icon="mdi-comment"></v-textarea>
                                 </v-col>
+                                <v-col md="2">
+                                    <v-tooltip bottom open-on-hover>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <span class="tooltip-trigger" v-bind="attrs" v-on="on">
+                                                <v-icon class="display-1">
+                                                    mdi-information
+                                                </v-icon>
+                                            </span>
+                                        </template>
+                                        <span>
+                                            Detallar el tipo de capacitación que se requiere; curso,
+                                            taller, diplomado, certificación, etc
+                                        </span>
+                                    </v-tooltip>
+                                </v-col>
+
                                 <v-col md="9">
                                     <!--Prioridad de capacitación-->
-                                    <div class="hint-text">(Indicar si se requiere de cursos, talleres, diplomados o
-                                        certificaciones para atender una necesidad prioritaria, basado en:
-                                        Acreditaciones de PE, certificaciones, actualización de PE, etc (A ejecutar en 1
-                                        año) )</div>
                                     <v-textarea v-model="prioridad_capacitacion" outlined
                                         label="Prioridad de capacitación:" persistent-hint v-validate="'max:255'"
                                         class="mx-2" rows="1" prepend-icon="mdi-comment"></v-textarea>
+                                </v-col>
+                                <v-col md="2">
+                                    <v-tooltip bottom open-on-hover>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <span class="tooltip-trigger" v-bind="attrs" v-on="on">
+                                                <v-icon class="display-1">
+                                                    mdi-information
+                                                </v-icon>
+                                            </span>
+                                        </template>
+                                        <span>
+                                            Indicar si se requiere de cursos, talleres, diplomados o
+                                        certificaciones para atender una necesidad prioritaria, basado en:
+                                        Acreditaciones de PE, certificaciones, actualización de PE, etc (A ejecutar en 1
+                                        año) 
+                                        </span>
+                                    </v-tooltip>
                                 </v-col>
                                 <v-col md="4">
                                     <!--Estatus-->
