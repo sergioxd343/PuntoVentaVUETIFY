@@ -95,6 +95,7 @@
                                         class="mx-2"
                                         outlined label="Descripción:"
                                         rows="1"
+                                        disabled
                                     ></v-v-text-field>
                                 </v-col>
 
@@ -106,18 +107,22 @@
                                         data-vv-name="numeroPeriodo"
                                         :error="errors.has('numeroPeriodo')"
                                         :error-messages="errors.first('numeroPeriodo')"
+                                        @change="setDescripcion()"
                                     >
                                         <v-radio
                                             label="1. Enero-Abril"
-                                            value=1
+                                            :value="1"
+                                            @change="setDescripcion()"
                                         ></v-radio>
                                         <v-radio
                                             label="2. Mayo-Agosto"
-                                            value=2
+                                            :value="2"
+                                            
                                         ></v-radio>
                                         <v-radio
                                             label="3. Septiembre-Diciembre"
-                                            value=3
+                                            :value="3"
+                                            
                                         ></v-radio>
                                     </v-radio-group>
                                 </v-col>
@@ -300,6 +305,25 @@
                     fnConsultarTablaPeriodo();
                     
                 });
+
+                function setDescripcion() {
+                    const radioButton = numeroPeriodo.value;
+
+                switch (radioButton) {
+                    case 1:
+                    this.descripcion = 'Enero - Abril';
+                    break;
+                    case 2:
+                    this.descripcion = 'Mayo - Agosto';
+                    break;
+                    case 3:
+                    this.descripcion = 'Septiembre - Diciembre';
+                    break;
+                    default:
+                    this.descripcion = '';
+                    break;
+                }
+                }
                 
                 async function fnConsultarTablaPeriodo(){
                     try{
@@ -415,7 +439,7 @@
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
                     fechaInicio, fechaFin, numeroPeriodo, descripcion, currentUser, currentUserObj,
                     headersPeriodo, fnConsultarTablaPeriodo, dataPeriodo, usuario_registro,
-                    searchTipos, fnLimpiarCampos, fnGuardarPeriodo, fnCambiarEstatus ,
+                    searchTipos, fnLimpiarCampos, fnGuardarPeriodo, fnCambiarEstatus , setDescripcion,
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor, 
                     
                     //fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, itemEditar

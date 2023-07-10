@@ -3,8 +3,8 @@
      * <p>Title        : 
      * <p>Description  : 
      * @author         : Maria Guadalupe Gutiérrez Alcantar
-     * @version        : 2
-     * @date           :  17 - 06 -23
+     * @version        : 3
+     * @date           :  7 - 07 -23
      */
 
 --%>
@@ -70,6 +70,8 @@
         case 1:
             temp_obj = new JsonObject();
             temp_obj.addProperty("nombreFacilitador", nombreFacilitador);
+            temp_obj.addProperty("areaPertenece", areaPertenece);
+            temp_obj.addProperty("programaEducativo", programaEducativo);
             temp_obj.addProperty("horario", horario);
             temp_obj.addProperty("tipoCompetencia", tipoCompetencia);
             temp_obj.addProperty("nombreCurso", nombreCurso);

@@ -77,7 +77,7 @@
                                     <v-menu ref="menu1" :close-on-content-click="false" :return-value.sync="fecha"
                                         transition="scale-transition" offset-y min-width="auto">
                                         <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field v-model="fechaActual" label="Fecha"
+                                            <v-text-field v-model="fechaActual" label="Fecha de registro"
                                                 prepend-icon="mdi-calendar" readonly></v-text-field>
                                         </template>
                                         <v-date-picker v-model="fecha" no-title scrollable :readonly="true">
@@ -200,7 +200,7 @@
                                         <v-row justify="center">
                                             <v-col md=8>
                                                 <v-text-field outlined
-                                                    label="Solicitante | Usuario de registro | Academia"
+                                                    label="Solicitante | Usuario de registro | Academia | Fecha de Registro"
                                                     v-model="nombreBuscar" append-icon="mdi-magnify"
                                                     @input="fnBusqueda()"></v-text-field>
                                             </v-col>
@@ -510,8 +510,9 @@
                                     const nombreAcademiaMatch = item.nombre_academia.toLowerCase().includes(this.nombreBuscar.toLowerCase());
                                     const usuarioRegistroMatch = item.nombre_completo.toLowerCase().includes(this.nombreBuscar.toLowerCase());
                                     const solicitanteMatch = item.nombre_completo_solicitante.toString().includes(this.nombreBuscar);
+                                    const anioRegistroMatch = item.fecha_registro.toLowerCase().includes(this.nombreBuscar.toLowerCase());
 
-                                    return nombreAcademiaMatch || usuarioRegistroMatch || solicitanteMatch;
+                                    return nombreAcademiaMatch || usuarioRegistroMatch || solicitanteMatch || anioRegistroMatch;
                                 });
                             }
                         }

@@ -28,8 +28,8 @@
                         </v-card-title>
                         <v-container fluid>
                             
-                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-                                <v-col md=6>
+                            <v-row justify="center" class="align-center ">
+                                <v-col md=4>
                                     
                                     <v-text-field 
                                         v-model="nombreTipoCapacitacion" 
@@ -42,7 +42,10 @@
                                         :error-messages="errors.first('nombre tipo capacitacion')"
                                         variant="underlined"></v-text-field>
                                 </v-col>
-                 
+                            </v-row>
+
+                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+
                                 <v-row justify="center">
                                     <v-btn color="primary" @click="flagEditar ? fnEditar() : fnGuardarTipoCapacitacion()"><v-icon>mdi-content-save</v-icon>{{flagEditar ? 'Editar' : 'Guardar'}}</v-btn>
                                     &nbsp;
@@ -50,6 +53,8 @@
                                 </v-row>
 
                             </v-row>
+
+                            
                             
                             <!-- Tabla tipo capacitacion -->
                             <v-row justify="center">
