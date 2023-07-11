@@ -158,14 +158,9 @@
                                                 <v-text-field v-validate="'required'" data-vv-name="fecha fin"
                                                     :error="errors.has('fecha fin')" v-model="fechaFin"
                                                     label="Fecha Fin" :error-messages="errors.first('fecha fin')"
-<<<<<<< HEAD
                                                     prepend-icon="mdi-calendar" readonly v-bind="attrs"
                                                     v-on="on" :disabled="deshabilitar"
                                                     ></v-text-field>
-=======
-                                                    prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"
-                                                    :disabled="deshabilitar"></v-text-field>
->>>>>>> c8a0f5b0b94d0a2480f5f663dc648212ab653677
                                             </template>
                                             <v-date-picker v-model="fechaFin" no-title scrollable>
                                                 <v-spacer></v-spacer>
@@ -189,15 +184,9 @@
                                              persistent-hint
                                             v-validate="'required|max:500'" data-vv-name="total de días"
                                             :error="errors.has('total de días')"
-<<<<<<< HEAD
                                             :error-messages="errors.first('total de días')" :disabled="deshabilitar"
                                             :rules="[validacion]"></v-text-field>
                                     </v-col> 
-=======
-                                            :error-messages="errors.first('total de días')"
-                                            :disabled="deshabilitar"></v-text-field>
-                                    </v-col>
->>>>>>> c8a0f5b0b94d0a2480f5f663dc648212ab653677
 
                                     <!--HORARIO-->
                                     <v-col md="6">
@@ -216,12 +205,7 @@
                                     <!-- TOTAL DE HORAS -->
                                     <v-col md="6">
                                         <v-text-field v-model="horas" outlined label="Total de Horas" persistent-hint
-<<<<<<< HEAD
-                                            
-                                            :disabled="deshabilitar"
-=======
                                             inputmode="numeric" pattern="[0-9]*" type="number" :disabled="deshabilitar"
->>>>>>> c8a0f5b0b94d0a2480f5f663dc648212ab653677
                                             v-validate="'required|max:500'" data-vv-name="total de horas"
                                             :error="errors.has('total de horas')"
                                             :error-messages="errors.first('total de horas')" :rules="[validacion]"></v-text-field>
@@ -245,14 +229,8 @@
                                     <v-col md="6|">
                                         <v-text-field v-model="numeroParticipantes" outlined
                                             label="Número de participantes" persistent-hint inputmode="numeric"
-<<<<<<< HEAD
-                                           v-validate="'required|max:500'"
-                                            data-vv-name="número de participantes"
-                                            :disabled="deshabilitar"
-=======
                                             pattern="[0-9]*" type="number" v-validate="'required|max:500'"
                                             data-vv-name="número de participantes" :disabled="deshabilitar"
->>>>>>> c8a0f5b0b94d0a2480f5f663dc648212ab653677
                                             :error="errors.has('número de participantes')"
                                             :error-messages="errors.first('número de participantes')" :rules="[validacion]"></v-text-field>
                                     </v-col>
@@ -310,12 +288,7 @@
                                         <v-col md="4">
                                             <v-textarea v-model="programaCurso"
                                                 hint="(Escribir el tema y aun lado entre parentesis las horas por tema)"
-<<<<<<< HEAD
-                                                data-vv-name="programa del curso y horas por tema"
-                                                :disabled="deshabilitar"
-=======
                                                 data-vv-name="programa del curso" :disabled="deshabilitar"
->>>>>>> c8a0f5b0b94d0a2480f5f663dc648212ab653677
                                                 :error="errors.has('programa del curso y horas por tema')"
                                                 :error-messages="errors.first('programa del curso y horas por tema')"
                                                 label="Programa del curso" persistent-hint
@@ -355,22 +328,6 @@
                                     </v-row>
 
                                     <v-divider></v-divider>
-<<<<<<< HEAD
-                                    <v-row v-for="(item, index) in numberOfInputs" :key="index" justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-                                        <v-col md="3">
-                                            <v-select 
-                                            v-model="nombreFacilitador[index]" 
-                                            @change="agregarInstructor(nombreFacilitador[index])"
-                                            outlined label="Nombre"
-                                            persistent-hint 
-                                            :items="facilitadores"
-                                            item-value="cve_instructor" 
-                                            item-text="nombre_instructor"
-                                            v-validate="'required|max:500'"
-                                            data-vv-name="nombre" 
-                                            :error="errors.has('nombre')"
-                                            :error-messages="errors.first('nombre')">
-=======
                                     <v-row v-for="(item, index) in numberOfInputs" :key="index" justify="center"
                                         class="align-center" style="padding: 0px 50px 0px 50px">
                                         <v-col md="4">
@@ -380,22 +337,16 @@
                                                 item-value="cve_instructor" item-text="nombre_instructor"
                                                 v-validate="'required|max:500'" data-vv-name="nombre"
                                                 :error="errors.has('nombre')" :error-messages="errors.first('nombre')">
->>>>>>> c8a0f5b0b94d0a2480f5f663dc648212ab653677
                                             </v-select>
                                         </v-col>
 
                                         <v-col md="4">
                                             <v-autocomplete v-model="areaPertenece[index]" outlined
-<<<<<<< HEAD
                                             @change="agregarArea(areaPertenece[index])"
                                                 label="Área académica a la que pertenece" 
                                                 :items="areas"
                                                 item-value="cve_area" 
                                                 item-text="nombre_area"
-=======
-                                                label="Área académica a la que pertenece" :items="areas"
-                                                item-value="cve_area" item-text="nombre_area"
->>>>>>> c8a0f5b0b94d0a2480f5f663dc648212ab653677
                                                 v-validate="'required|max:500'" persistent-hint
                                                 data-vv-name="área académica a la que pertenece"
                                                 :error="errors.has('área académica a la que pertenece')"
@@ -405,62 +356,16 @@
 
                                         <v-col md="4">
                                             <v-autocomplete v-model="programaEducativo[index]" outlined
-<<<<<<< HEAD
                                             @change="agregarPrograma(programaEducativo[index])"
                                                 label="Programa Educativo" persistent-hint
                                                 :items="programas"
                                                 item-value="cve_ugac" 
                                                 item-text="nombre_ugac" 
-=======
-                                                label="Programa Educativo" persistent-hint :items="programas"
-                                                item-value="cve_ugac" item-text="nombre_ugac"
->>>>>>> c8a0f5b0b94d0a2480f5f663dc648212ab653677
                                                 v-validate="'required|max:500'" data-vv-name="programa educativo"
                                                 :error="errors.has('programa educativo')"
                                                 :error-messages="errors.first('programa educativo')">
                                             </v-autocomplete>
                                         </v-col>
-<<<<<<< HEAD
-
-                                        <v-col md="1">
-                                        <v-tooltip top>
-                                            <template v-slot:activator="{ on, attrs }">
-                                                <v-btn color="primary" v-bind="attrs" v-on="on"
-                                                    @click="numberOfInputs++"><v-icon>mdi-account-multiple-plus</v-icon></v-btn>
-                                            </template>
-                                            <span>Agregar un nuevo instructor</span>
-                                        </v-tooltip>
-                                        <v-tooltip top>
-                                            <template v-slot:activator="{ on, attrs }">
-                                                <v-btn color="error" v-bind="attrs" v-on="on" @click="numberOfInputs--; eliminarInstructor(index)">
-                                                    <v-icon>mdi-close</v-icon>
-                                                </v-btn>
-                                            </template>
-                                            <span>Quitar instructor</span>
-                                        </v-tooltip>
-                                    </v-col>
-                                    </v-row>
-                                    
-                                </div>
-
-                                        
-
-                                     
-                                      
-                                        
-                                  <!--BOTONES CRUD-->
-                                        <v-row justify="center">
-                                            <v-btn color="primary" @click="flagDescargar ? fnDescargar() : fnGuardar()">
-                                              <v-icon>{{ flagDescargar ? 'mdi-download' : 'mdi-content-save' }}</v-icon>
-                                              {{ flagDescargar ? 'Descargar' : 'Guardar' }}
-                                            </v-btn>
-                                            &nbsp;
-                                            <v-btn color="error" @click="fnLimpiarCampos()">
-                                              <v-icon>mdi-cancel</v-icon>Cancelar
-                                            </v-btn>
-                                        </v-row>
-                                          
-=======
                                     </v-row>
 
                             </div>
@@ -483,7 +388,6 @@
                                 <span>Quitar instructor</span>
                             </v-tooltip>
 
->>>>>>> c8a0f5b0b94d0a2480f5f663dc648212ab653677
 
 
 
@@ -825,13 +729,7 @@
                                     preloader("../../");
                                     let parametros = new URLSearchParams();
                                     parametros.append("accion", 1);
-<<<<<<< HEAD
-                                    parametros.append("nombreFacilitador", this.instructoresSeleccionados.join(",") );
-                                    parametros.append("areaPertenece", this.areasSeleccionados.join(",") );
-                                    parametros.append("programaEducativo", this.programasSeleccionados.join(",") );
-=======
                                     parametros.append("nombreFacilitador", this.instructoresSeleccionados.join(","));
->>>>>>> c8a0f5b0b94d0a2480f5f663dc648212ab653677
                                     parametros.append("horario", horario.value);
                                     parametros.append("tipoCompetencia", tipoCompetencia.value);
                                     parametros.append("nombreCurso", nombreCurso.value);
@@ -958,7 +856,6 @@
                             return this.dataSolicitudCapacitacion;
                         }
 
-<<<<<<< HEAD
                     const keyword = this.buscar.toLowerCase();
                     return this.dataSolicitudCapacitacion.filter(item => item.nombre.toLowerCase().includes(keyword));
                     console.log(datosFiltrados())
@@ -974,12 +871,6 @@
                     };
                     },
 
-=======
-                        const keyword = this.buscar.toLowerCase();
-                        return this.dataSolicitudCapacitacion.filter(item => item.nombre.toLowerCase().includes(keyword));
-                        console.log(datosFiltrados())
-                    }
->>>>>>> c8a0f5b0b94d0a2480f5f663dc648212ab653677
                 },
                 methods: {
 
