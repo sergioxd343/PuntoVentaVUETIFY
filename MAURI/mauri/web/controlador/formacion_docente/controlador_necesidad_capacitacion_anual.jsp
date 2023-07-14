@@ -90,7 +90,7 @@
     String fechaTermino = request.getParameter("fechaTermino") != null && !request.getParameter("fechaTermino").equals("") ? request.getParameter("fechaTermino") : "-";
     String numDias = request.getParameter("numDias") != null && !request.getParameter("numDias").equals("") ? request.getParameter("numDias") : "-";
     String numHorasEfectivas = request.getParameter("numHorasEfectivas") != null && !request.getParameter("numHorasEfectivas").equals("") ? request.getParameter("numHorasEfectivas") : "-";
-
+    String id = request.getParameter("id") != null && !request.getParameter("id").equals("") ? request.getParameter("id") : "-";
     
 
     switch (accion) {
@@ -105,11 +105,14 @@
             break;
         case 4:
             temp_obj = new JsonObject();
-            temp_obj.addProperty("unidadAcademica", unidadAcademica);
-            temp_obj.addProperty("direccionArea", direccionArea);
-            temp_obj.addProperty("tipoEvento", tipoEvento);
-            temp_obj.addProperty("nivelEducativo", nivelEducativo);
             temp_obj.addProperty("direccion", direccion);
+            temp_obj.addProperty("unidadAcademica", unidadAcademica);
+            temp_obj.addProperty("nombreGestor", nombreGestor);
+            temp_obj.addProperty("orientacionEvento", orientacionEvento);
+            temp_obj.addProperty("tipoEvento", tipoEvento);
+            temp_obj.addProperty("tipoPrograma", tipoPrograma);
+
+            temp_obj.addProperty("nivelEducativo", nivelEducativo);
             temp_obj.addProperty("programaEducativo", programaEducativo);
             temp_obj.addProperty("annio", annio);
             temp_obj.addProperty("necesidadesDetectadas", necesidadesDetectadas);
@@ -131,6 +134,81 @@
             temp_obj.addProperty("total", total);
             temp_obj.addProperty("totalH", totalH);
             temp_obj.addProperty("totalM", totalM);
+            temp_obj.addProperty("id", id
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            );
             parametros.add(temp_obj);
             out.println(datos.Registro(parametros, "guardarEvento"));
             break;
@@ -148,6 +226,9 @@
             break;
         case 9:
             out.println(datos.Consultas(parametros, "empleado"));
+            break;
+        case 10:
+            out.println(datos.Consultas(parametros, "tipoPrograma"));
             break;
     }
 %>

@@ -32,17 +32,42 @@ and open the template in the editor.
 
 	<tablaEvaluacion>
 		<query>
-			SELECT * FROM evalucion_capacitacion
+			SELECT *
+FROM (
+    SELECT evaluacion_capacitacion.cve_curso, 
+           evaluacion_capacitacion.cve_empleado_docente, 
+           evaluacion_capacitacion.nombre_facilitador, 
+           evaluacion_capacitacion.calificacion_final, 
+           evaluacion_capacitacion.activo, 
+           evaluacion_capacitacion.fecha_registro, 
+           evaluacion_capacitacion.usuario_registro, 
+           evento_programado.cve_even_prog, 
+           evento_programado.nombre_evento,
+           ROW_NUMBER() OVER (PARTITION BY evaluacion_capacitacion.cve_curso ORDER BY evaluacion_capacitacion.cve_curso) AS row_num
+    FROM evaluacion_capacitacion 
+    INNER JOIN evento_programado 
+    ON evaluacion_capacitacion.cve_curso = evento_programado.cve_even_prog
+) AS sub
+WHERE row_num = 1;
+
+
 		</query>
 	</tablaEvaluacion>
 
     <guardarEvaluacion>
 		<query>
-			INSERT INTO evalucion_capacitacion (cve_empleado_docente, cve_curso, cve_calificacion, nombre_facilitador,
-			calificacion_final,activo,fecha_registro, usuario_registro) VALUES (?,?,1,?,?,1,GETDATE(),?)
+			INSERT INTO evaluacion_capacitacion (cve_empleado_docente, cve_curso, nombre_facilitador,
+			calificacion_final,activo,fecha_registro, usuario_registro) VALUES (?,?,?,?,1,GETDATE(),?)
 		</query>
 	</guardarEvaluacion>
+
+	<editarEvaluacion>
+		<query>
+			SELECT * FROM evaluacion_capacitacion WHERE cve_curso = ?;
+		</query>
+	</editarEvaluacion>
     
+
 
     
 	
