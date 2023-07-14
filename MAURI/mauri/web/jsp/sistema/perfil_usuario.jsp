@@ -227,7 +227,7 @@
                     const headerCapacitacion = ref([
                         { text: "No.", align: "left", sortable: true, value: "numero_fila" },
                         { text: "Nombre", align: "left", sortable: true, value: "nombre" },
-                        { text: "Primer Apellido", align: "left", sortable: true, value: "apellido_peterno" },
+                        { text: "Primer Apellido", align: "left", sortable: true, value: "apellido_paterno" },
                         { text: "Segundo Apellido", align: "left", sortable: true, value: "apellido_materno" },
                         { text: "Nombre Usuario", align: "left", sortable: true, value: "nombre_usuario" },
                         { text: "RFC", align: "left", sortable: true, value: "rfc" },

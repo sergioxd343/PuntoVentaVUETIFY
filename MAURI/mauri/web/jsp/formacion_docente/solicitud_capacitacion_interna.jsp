@@ -180,12 +180,15 @@
 
                                     <!--HORARIO INICIO -->
                                     <v-col md="6">
+
                                         <v-select v-model="horario_inicio" label="Horario inicio" v-validate="'required'"
                                             :items="horarios" item-value="cve_horario" item-text="hora_inicio"
                                             :error="errors.has('horario inicio')" data-vv-name="horario inicio"
                                             :error-messages="errors.first('horario inicio')" prepend-icon="mdi-clock-outline"
                                             :disabled="deshabilitar"></v-select>
                                     </v-col>
+
+                                       
 
                                     <!--HORARIO FIN -->
                                     <v-col md="6">
@@ -356,11 +359,9 @@
                                                 :items="areas"
                                                 item-value="cve_area" 
                                                 item-text="nombre_area"
+
                                                 :disabled="deshabilitar"
-                                                v-validate="'required|max:500'" persistent-hint
-                                                data-vv-name="área académica a la que pertenece"
-                                                :error="errors.has('área académica a la que pertenece')"
-                                                :error-messages="errors.first('área académica a la que pertenece')">
+
                                             </v-autocomplete>
                                         </v-col>
 
@@ -371,10 +372,9 @@
                                                 :items="programas"
                                                 item-value="cve_ugac" 
                                                 item-text="nombre_ugac" 
+
                                                 :disabled="deshabilitar"
-                                                v-validate="'required|max:500'" data-vv-name="programa educativo"
-                                                :error="errors.has('programa educativo')"
-                                                :error-messages="errors.first('programa educativo')">
+
                                             </v-autocomplete>
                                         </v-col>
                                     </v-row>
@@ -761,6 +761,7 @@
                                     parametros.append("programaEducativo", this.programasSeleccionados.join(","));
                                     parametros.append("horario_inicio", horario_inicio.value);
                                     parametros.append("horario_fin", horario_fin.value);
+
                                     parametros.append("tipoCompetencia", tipoCompetencia.value);
                                     parametros.append("nombreCurso", nombreCurso.value);
                                     parametros.append("dias", dias.value);

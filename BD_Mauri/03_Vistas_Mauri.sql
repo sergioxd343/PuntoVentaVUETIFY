@@ -58,43 +58,49 @@ IF OBJECT_ID('v_empleado', 'V') IS NOT NULL
     DROP VIEW v_empleado;
 GO
 CREATE VIEW v_empleado AS
-SELECT			persona.cve_persona, 
+SELECT			
+				ROW_NUMBER() OVER (ORDER BY persona.cve_persona) AS numero_fila,
+				persona.cve_persona, 
 				persona.nombre, 
 				persona.apellido_paterno, 
-				persona.apellido_materno, 
+				persona.apellido_materno,
 				persona.email, 
 				persona.movil, 
 				persona.curp, 
 				persona.rfc, 
 				persona.sexo, 
 				persona.fecha_nacimiento, 
-				empleado.cve_empleado, 
-				empleado.grado_estudio, 
-				empleado.titulo_recibido, 
+				persona.activo,
+                empleado.cve_empleado, 
 				empleado.fecha_ingreso, 
-				empleado.cve_departamento,
+				empleado.titulo_recibido, 
+				empleado.grado_estudio, 
 				puesto.cve_puesto, 
 				puesto.nombre_puesto, 
 				puesto.nivel_tabulador_puesto, 
-				tipo_puesto.nombre_tipo_puesto, 
 				tipo_puesto.cve_tipo_puesto, 
-				area.cve_area, 
+                tipo_puesto.nombre_tipo_puesto, 
+				departamento.cve_departamento, 
+				departamento.nombre_departamento, 
+				area.cve_area,
 				area.nombre_area, 
 				ugac.cve_ugac, 
 				ugac.nombre_ugac, 
-				unidad_academica.cve_unidad_academica, 
+				unidad_academica.cve_unidad_academica,
 				unidad_academica.nombre_unidad_academica, 
+				usuario.cve_usuario, 
 				usuario.nombre_usuario, 
 				usuario.contrasenia
 FROM            
 				persona INNER JOIN
-				empleado ON persona.cve_persona = empleado.cve_persona INNER JOIN
-				puesto ON empleado.cve_puesto = puesto.cve_puesto INNER JOIN
-				tipo_puesto ON empleado.cve_tipo_puesto = tipo_puesto.cve_tipo_puesto INNER JOIN
-				area ON empleado.cve_area = area.cve_area INNER JOIN
-				ugac ON empleado.cve_ugac = ugac.cve_ugac INNER JOIN
-				unidad_academica ON empleado.cve_unidad_academica = unidad_academica.cve_unidad_academica INNER JOIN
-				usuario ON persona.cve_persona = usuario.cve_persona
+                empleado ON persona.cve_persona = empleado.cve_persona INNER JOIN
+                puesto ON empleado.cve_puesto = puesto.cve_puesto INNER JOIN
+                tipo_puesto ON empleado.cve_tipo_puesto = tipo_puesto.cve_tipo_puesto INNER JOIN
+                departamento ON empleado.cve_departamento = departamento.cve_departamento INNER JOIN
+                area ON empleado.cve_area = area.cve_area INNER JOIN
+                ugac ON empleado.cve_ugac = ugac.cve_ugac INNER JOIN
+                unidad_academica ON empleado.cve_unidad_academica = unidad_academica.cve_unidad_academica INNER JOIN
+                usuario ON persona.cve_persona = usuario.cve_persona
 GO
 
 IF OBJECT_ID('solicitud_cursos', 'V') IS NOT NULL

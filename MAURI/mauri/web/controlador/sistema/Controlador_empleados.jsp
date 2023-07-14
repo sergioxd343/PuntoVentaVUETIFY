@@ -51,7 +51,7 @@
 	String titulo_recibido = request.getParameter("titulo_recibido")!=null && !request.getParameter("titulo_recibido").equals("")?request.getParameter("titulo_recibido"): "";
 	String fecha_ingreso = request.getParameter("fecha_ingreso")!=null && !request.getParameter("fecha_ingreso").equals("")?request.getParameter("fecha_ingreso"): "";
 	int cve_puesto = request.getParameter("cve_puesto")!=null && !request.getParameter("cve_puesto").equals("")?Integer.parseInt(request.getParameter("cve_puesto")):0;
-	int cve_departemento = request.getParameter("cve_departemento")!=null && !request.getParameter("cve_departemento").equals("")?Integer.parseInt(request.getParameter("cve_departemento")):0;
+	int cve_departamento = request.getParameter("cve_departamento")!=null && !request.getParameter("cve_departamento").equals("")?Integer.parseInt(request.getParameter("cve_departamento")):0;
 	String nombre_puesto = request.getParameter("nombre_puesto")!=null && !request.getParameter("nombre_puesto").equals("")?request.getParameter("nombre_puesto"): "";
 	String nivel_tabulador = request.getParameter("nivel_tabulador")!=null && !request.getParameter("nivel_tabulador").equals("")?request.getParameter("nivel_tabulador"): "";
 	String nombre_tipo_puesto = request.getParameter("nombre_tipo_puesto")!=null && !request.getParameter("nombre_tipo_puesto").equals("")?request.getParameter("nombre_tipo_puesto"): "";
@@ -80,15 +80,20 @@
             temp_obj.addProperty("fecha_nacimiento", fecha_nacimiento);
             temp_obj.addProperty("cve_puesto", cve_puesto);
             temp_obj.addProperty("cve_tipo_puesto", cve_tipo_puesto);
-            temp_obj.addProperty("cve_departemento", cve_departemento);
+            temp_obj.addProperty("cve_departamento", cve_departamento);
             temp_obj.addProperty("cve_area", cve_area);
             temp_obj.addProperty("cve_ugac", cve_ugac);
             temp_obj.addProperty("cve_unidad_academica", cve_unidad_academica);
             temp_obj.addProperty("fecha_ingreso", fecha_ingreso);
             temp_obj.addProperty("titulo_recibido", titulo_recibido);
             temp_obj.addProperty("grado_estudio", grado_estudio);
+            temp_obj.addProperty("nombre_usuario", nombre_usuario);
+            temp_obj.addProperty("contrasenia", contrasenia);
             parametros.add(temp_obj);
             out.println(datos.Registro(parametros, "ImportarEmpleados"));
+		break;
+		case 2:
+			out.println(datos.Consultas(parametros, "consultarTabla"));
 		break;
 	}
 %>
