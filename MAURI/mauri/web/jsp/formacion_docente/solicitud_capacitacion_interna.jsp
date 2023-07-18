@@ -730,6 +730,8 @@
                                     let parametros = new URLSearchParams();
                                     parametros.append("accion", 1);
                                     parametros.append("nombreFacilitador", this.instructoresSeleccionados.join(","));
+                                    parametros.append("areaPertenece", this.areasSeleccionados.join(","));
+                                    parametros.append("programaEducativo", this.programasSeleccionados.join(","));
                                     parametros.append("horario", horario.value);
                                     parametros.append("tipoCompetencia", tipoCompetencia.value);
                                     parametros.append("nombreCurso", nombreCurso.value);

@@ -235,20 +235,6 @@ INSERT INTO submenu_2 (cve_padre, nombre, ruta, orden, usuario_registro)
                     (5, 'Periodo', '../catalogos_pequenios/periodo.jsp', 28, 1),
                     (5, 'Horario', '../catalogos_pequenios/horario.jsp', 29, 1);
 
--- ------------- INSERTS DE MENU_PERMISOS -------------- --
-INSERT INTO menu_permisos (cve_grupo_seguridad, cve_menu, usuario_registro) 
-            VALUES  (1, 1, 1),
-                    (1, 2, 1),
-                    (1, 3, 1),
-                    (1, 4, 1),
-					(1, 5, 1),
-					(2, 1, 1),
-					(2, 2, 1),
-					(2, 3, 1),
-					(3, 1, 1),
-					(3, 2, 1),
-					(3, 3, 1);
-
 -- ------------- INSERTS DE GRUPO_SEGURIDAD -------------- --
 INSERT INTO grupo_seguridad (nombre, tiempo_sesion, usuario_registro) 
 			VALUES  ('Administrador', 5000, 1),
@@ -263,7 +249,51 @@ INSERT INTO grupo_seguridad (nombre, tiempo_sesion, usuario_registro)
                     ('Gestorias', 5000, 1);
 
 -- ------------- INSERTS DE USUARIO_GRUPO_SEGURIDAD -------------- --
-INSERT INTO usuario_grupo_seguridad (cve_grupo_seguridad, cve_persona, usuario_registro) VALUES (1, 1, 1);
+INSERT INTO usuario_grupo_seguridad (cve_grupo_seguridad, cve_usuario, usuario_registro) VALUES (1, 1, 1);
+
+-- ------------- INSERTS DE MENU_PERMISOS -------------- --
+INSERT INTO menu_permisos (cve_grupo_seguridad, cve_menu, usuario_registro) 
+            VALUES  (1, 1, 1),
+                    (1, 2, 1),
+                    (1, 3, 1),
+                    (1, 4, 1),
+					(1, 5, 1),
+					(1, 6, 1),
+                    (1, 7, 1),
+                    (1, 8, 1),
+                    (1, 9, 1),
+					(1, 10, 1),
+					(1, 11, 1),
+                    (1, 12, 1),
+                    (1, 13, 1),
+                    (1, 14, 1),
+					(1, 15, 1),
+					(1, 16, 1),
+                    (1, 17, 1),
+                    (1, 18, 1),
+                    (1, 19, 1),
+					(1, 20, 1),
+                    (2, 2, 1),
+                    (2, 3, 1),
+                    (2, 4, 1),
+                    (2, 5, 1),
+                    (2, 7, 1),
+                    (2, 8, 1),
+                    (2, 9, 1),
+                    (2, 10, 1),
+                    (3, 2, 1),
+                    (3, 3, 1),
+                    (3, 4, 1),
+                    (3, 5, 1),
+                    (3, 6, 1),
+                    (3, 7, 1),
+                    (4, 1, 1),
+                    (4, 3, 1),
+                    (4, 6, 1),
+                    (4, 8, 1),
+                    (4, 9, 1),
+                    (4, 10, 1),
+                    (4, 12, 1);
 
 -- ------------- INSERTS DE TIPO_ORIENTACION -------------- --
 INSERT INTO tipo_orientacion (nombre_tipo_orientacion, usuario_registro) 
@@ -327,6 +357,12 @@ VALUES                          ('2023-01-09', '2023-04-29', 1, 'Enero - Abril 2
                                 ('2024-01-09', '2024-04-29', 1, 'Enero - Abril 2024', 1),
                                 ('2024-05-02', '2024-08-26', 2, 'Mayo - Agosto 2024', 1),
                                 ('2024-09-05', '2024-12-17', 3, 'Septiembre - Diciembre 2024', 1);
+
+INSERT INTO jornada (nombre_jornada, usuario_registro)
+            VALUES  ('Matutino 8:00 a 12:00 horas', 1),
+                    ('Diurno 12:00 a 16:00 horas', 1),
+                    ('Vespertino 15:00 a 20:00 horas', 1),
+                    ('Vespertino-Nocturno 16:00 a 21:00 horas', 1);
 
 INSERT INTO academia (cve_unidad_academica, nombre_academia, usuario_registro)
 VALUES  (1, 'Academia de Cálculo', 1),
@@ -487,7 +523,6 @@ VALUES                          ('07:00', '07:55', '07:00 - 07:55', 1),
 
 INSERT INTO necesidad_capacitacion_anual   (cve_area_registro,
 											cve_unidad_academica,
-											cve_area,
 											cve_departamento,
 											cve_empleado_responsable,
 											cve_orientacion_evento,
@@ -511,14 +546,14 @@ INSERT INTO necesidad_capacitacion_anual   (cve_area_registro,
 											num_dias,
 											num_horas_efectivas,
 											participantes_ptc,
-											participantes_laboratoristas,
+											participantes_tec_academico,
 											participantes_administrativo,
 											otros_participantes,
 											total_participantes,
 											total_hombres,
 											total_mujeres)
 				VALUES
-						(1, 1, 2, 1, 1, 1, 1, 1, 1, 'T.S.U', 'Dirección de Sustentabilidad para el desarrollo', 'TSU en TI Área Entornos Virtuales y Negocios Digitales', --11
+						(1, 1, 1, 1, 1, 1, 1, 1, 'T.S.U', 'Dirección de Sustentabilidad para el desarrollo', 'TSU en TI Área Entornos Virtuales y Negocios Digitales', --11
 						'2022', 'Falta de eficiencia', 'Evento de comunicación', 'Mejorar', 'Quejas de alumnos', '', 'UTL', 234, 'Junio', '2023-06-07', '2023-06-13', 12, 2, 0, 8, 22, 10, 12, 1, 1)
 
 INSERT INTO evento_programado_grupo VALUES

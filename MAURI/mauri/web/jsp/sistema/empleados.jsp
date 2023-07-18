@@ -68,14 +68,13 @@
                         </v-card-title>
                         <v-container fluid>
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-                                <!--OBJETIVO-->
                                 <v-col md="12">
                                     <template>
-                                        <v-file-input id="archivoInput" accept=".json" v-model="files" counter label="Importar"
-                                            multiple placeholder="Seleccione los archivos" prepend-icon="mdi-paperclip"
-                                            persistent-hint outlined :show-size="1000" v-validate="'required'"
-                                            data-vv-name="Importar" :error="errors.has('Importar')"
-                                            :error-messages="errors.first('Importar')">
+                                        <v-file-input id="archivoInput" accept=".json" v-model="files" counter
+                                            label="Importar" multiple placeholder="Seleccione los archivos"
+                                            prepend-icon="mdi-paperclip" persistent-hint outlined :show-size="1000"
+                                            v-validate="'required'" data-vv-name="Importar"
+                                            :error="errors.has('Importar')" :error-messages="errors.first('Importar')">
                                             <template v-slot:selection="{ index, text }">
                                                 <v-chip v-if="index < 2" color="deep-purple accent-4" dark label small>
                                                     {{ text }}
@@ -88,8 +87,8 @@
                                             </template>
                                         </v-file-input>
                                     </template>
-                                </v-col>     
-                            </v-row>  
+                                </v-col>
+                            </v-row>
                             <!--BOTONES CRUD-->
                             <v-row justify="center">
                                 <v-btn color="primary" @click="flagEditar ? fnEditar() : fnGuardar()">
@@ -104,11 +103,15 @@
                             <v-row justify="center">
                                 <v-col>
                                     <v-data-table :headers="headerEmpleado" :items="dataEmpleado" class="elevation-2"
-                                        no-data-text="No se encontro ningun registro" :hide-default-header="dataEmpleado.length < 1"
-                                        :hide-default-footer="dataEmpleado.length < 1" locale="es-ES" :mobile-breakpoint="NaN" items-per-page="10">
+                                        no-data-text="No se encontro ningun registro"
+                                        :hide-default-header="dataEmpleado.length < 1"
+                                        :hide-default-footer="dataEmpleado.length < 1" locale="es-ES"
+                                        :mobile-breakpoint="NaN" items-per-page="10">
                                         <template v-slot:item.estatus="{item}">
-                                            <v-chip class="ma-2" style="width: 80px; display: flex; justify-content: center; align-items: center;"
-                                                link @click="fnCambiarEstatus(item)" :color="item.activo ? 'success' : 'grey'" outlined>
+                                            <v-chip class="ma-2"
+                                                style="width: 80px; display: flex; justify-content: center; align-items: center;"
+                                                link @click="fnCambiarEstatus(item)"
+                                                :color="item.activo ? 'success' : 'grey'" outlined>
                                                 {{ item.activo ?
                                                 "Activo" : "Inactivo" }}
                                             </v-chip>
@@ -224,64 +227,61 @@
 
                     async function fnGuardar() {
                         this.$validator.validate().then(async (esValido) => {
-                        try {
-                            // Llamar a la función fnLeerArchivo para obtener los datos
-                            const datos = await fnLeerArchivo();
-                            console.log("🚀 ~ file: empleados.jsp:184 ~ this.$validator.validate ~ datos:", datos)
+                            try {
+                                // Llamar a la función fnLeerArchivo para obtener los datos
+                                const datos = await fnLeerArchivo();
 
-                            // Recorrer los datos y realizar las operaciones necesarias
-                            for (const element of datos) {
-                                console.log("🚀 ~ file: empleados.jsp:187 ~ empleados.value.forEach ~ element:", element)
-                                preloader("../../");
+                                // Recorrer los datos y realizar las operaciones necesarias
+                                for (const element of datos) {
+                                    preloader("../../");
 
-                                // Crear los parámetros para la solicitud POST
-                                let parametros = new URLSearchParams();
-                                parametros.append("accion", 1);
-                                parametros.append("nombre", element.nombre);
-                                parametros.append("apellido_paterno", element.apellido_paterno);
-                                parametros.append("apellido_materno", element.apellido_materno);
-                                parametros.append("email", element.email);
-                                parametros.append("movil", element.movil);
-                                parametros.append("curp", element.curp);
-                                parametros.append("rfc", element.rfc);
-                                parametros.append("sexo", element.sexo);
-                                parametros.append("fecha_nacimiento", element.fecha_nacimiento.split("-").reverse().join("-"));
-                                parametros.append("cve_puesto", element.cve_puesto); 
-                                parametros.append("cve_tipo_puesto", element.cve_tipo_puesto);
-                                parametros.append("cve_departamento", element.cve_departamento);
-                                parametros.append("cve_area", element.cve_area);
-                                parametros.append("cve_ugac", element.cve_ugac);
-                                parametros.append("cve_unidad_academica", element.cve_unidad_academica);
-                                parametros.append("fecha_ingreso", element.fecha_ingreso.split("-").reverse().join("-"));
-                                parametros.append("titulo_recibido", element.titulo_recibido);
-                                parametros.append("grado_estudio", element.grado_estudio);
-                                parametros.append("nombre_usuario", element.nombre_usuario);
-                                parametros.append("contrasenia", element.contrasenia);
-                                console.log("🚀 ~ file: empleados.jsp:212 ~ datos.forEach ~ parametros:", parametros)
-                                // Realizar la solicitud POST utilizando axios
-                                let { data, status } = await axios.post(ctr, parametros);
+                                    // Crear los parámetros para la solicitud POST
+                                    let parametros = new URLSearchParams();
+                                    parametros.append("accion", 1);
+                                    parametros.append("nombre", element.nombre);
+                                    parametros.append("apellido_paterno", element.apellido_paterno);
+                                    parametros.append("apellido_materno", element.apellido_materno);
+                                    parametros.append("email", element.email);
+                                    parametros.append("movil", element.movil);
+                                    parametros.append("curp", element.curp);
+                                    parametros.append("rfc", element.rfc);
+                                    parametros.append("sexo", element.sexo);
+                                    parametros.append("fecha_nacimiento", element.fecha_nacimiento.split("-").reverse().join("-"));
+                                    parametros.append("cve_puesto", element.cve_puesto);
+                                    parametros.append("cve_tipo_puesto", element.cve_tipo_puesto);
+                                    parametros.append("cve_departamento", element.cve_departamento);
+                                    parametros.append("cve_area", element.cve_area);
+                                    parametros.append("cve_ugac", element.cve_ugac);
+                                    parametros.append("cve_unidad_academica", element.cve_unidad_academica);
+                                    parametros.append("fecha_ingreso", element.fecha_ingreso.split("-").reverse().join("-"));
+                                    parametros.append("titulo_recibido", element.titulo_recibido);
+                                    parametros.append("grado_estudio", element.grado_estudio);
+                                    parametros.append("nombre_usuario", element.nombre_usuario);
+                                    parametros.append("contrasenia", element.contrasenia);
+                                    // Realizar la solicitud POST utilizando axios
+                                    let { data, status } = await axios.post(ctr, parametros);
 
-                                if (status == 200) {
-                                    if (data == "1") {
-                                        mostrarSnackbar(
-                                            "success",
-                                            "Registro actualizado correctamente."
-                                        );
-                                        //fnConsultarTabla();
-                                        // this.$validator.pause();
-                                        // Vue.nextTick(() => {
-                                        //     this.$validator.errors.clear();
-                                        //     this.$validator.resume();
-                                        // });
+                                    if (status == 200) {
+                                        if (data == "1") {
+                                            mostrarSnackbar(
+                                                "success",
+                                                "Registro actualizado correctamente."
+                                            );
+                                            //fnConsultarTabla();
+                                            // this.$validator.pause();
+                                            // Vue.nextTick(() => {
+                                            //     this.$validator.errors.clear();
+                                            //     this.$validator.resume();
+                                            // });
+                                        }
                                     }
                                 }
+                            } catch (error) {
+                                mostrarSnackbar("error");
+                                console.error(error);
+                            } finally {
+                                swal.close();
                             }
-                        } catch (error) {
-                            mostrarSnackbar("error");
-                            console.error(error);
-                        } finally {
-                            swal.close();
-                        }
                         });
                     }
 
@@ -302,13 +302,12 @@
                                     var contenidoArchivo = evento.target.result;
                                     empleados.value = JSON.parse(contenidoArchivo);
                                     resolve(empleados.value);
-                                    console.log("🚀 ~ file: empleados.jsp:255 ~ fnLeerArchivo ~ empleados:", empleados)
                                 };
                                 // Leer el archivo como texto
                                 lector.readAsText(archivo);
                             }
                         });
-                    
+
                     }
 
 

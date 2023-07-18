@@ -1,0 +1,34 @@
+<CatalogoCuestionarioEvaluacionCurso>
+    <insertarCuestionario>
+        <query>
+            INSERT INTO cuestionario_evalucion_curso	(cve_jornada, 
+                                                        nombre_instructor, 
+                                                        fecha, 
+                                                        cali_duracion, 
+                                                        cali_cumplimiento_o, 
+                                                        cali_apli_contenido, 
+											            cali_contenido, 
+                                                        cali_aprendizaje, 
+                                                        cali_habil_acti_facilitador, 
+                                                        cali_con_dom_facilitador, 
+											            cali_retroalimentacion_f, 
+                                                        cali_motivacion_f, 
+                                                        cali_oferta_curso,
+                                                        cali_proceso_inscripcion, 
+											            cali_comite_organizador, 
+                                                        cali_actitud_atencion_comite, 
+                                                        cali_herramientas_curso, 
+                                                        cali_actividades_desa, 
+											            cali_objetivo_curso, 
+                                                        principal_aprendizaje, 
+                                                        comentarios, 
+                                                        usuario_registro)
+			VALUES                                      (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        </query>
+    </insertarCuestionario>
+    <consultarCuestionarios>
+        <query>
+            SELECT * FROM v_cuestionario_jornada
+        </query>
+    </consultarCuestionarios>
+</CatalogoCuestionarioEvaluacionCurso>
