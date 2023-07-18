@@ -83,6 +83,10 @@ FROM            tipo_evento
 FROM            ugac
 		</query>
 	</consultarUGAC>
+  <consultarCarrera>
+		<query>
+		</query>
+	</consultarCarrera>
     <editarEstatus>
 		<query>
 			UPDATE analisis_docente

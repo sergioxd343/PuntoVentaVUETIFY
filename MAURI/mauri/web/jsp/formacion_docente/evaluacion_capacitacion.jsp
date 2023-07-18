@@ -87,6 +87,7 @@
                                             <template v-slot:item.calificacion="{ item }">
                                                 <v-text-field outlined persistent-hint v-model="item.calificacion"></v-text-field>
                                             </template>
+                                              
                                             </v-data-table>
                                         </v-col>
                                       
@@ -97,6 +98,7 @@
                                           <v-btn color="primary" @click="flagEditar ? fnEditar() : fnGuardar()"><v-icon>mdi-content-save</v-icon>{{flagEditar ? 'Editar' : 'Guardar'}}</v-btn>
                                           &nbsp;
                                           <v-btn color="error" @click="fnLimpiarCampos()"><v-icon>mdi-cancel</v-icon>Cancelar</v-btn>
+                                         
                                         </v-row>
                                       
                                     </v-row>
@@ -117,16 +119,15 @@
                                         items-per-page="10"
                                     >   
                                       
-                                    <template v-slot:item.editar="{item}">
-                                        <v-btn fab small color="warning" @click="flagEditar = true; itemEditar = item;
-                                            
-                                        "><v-icon>mdi-square-edit-outline</v-icon></v-btn>
-                                    </template>
-
+                                        <template v-slot:item.editar="{item}">
+                                            <v-btn fab small color="warning" @click="fnEditar(); flagEditar = true; itemEditar = item; 
+                                              item.calificacion = item.calificacion_final;">
+                                            <v-icon>mdi-square-edit-outline</v-icon>
+                                            </v-btn>
+                                        </template>
                                     </v-data-table>
-
-                            </v-col>
-                        </v-row>    
+                                </v-col>
+                            </v-row>    
                         </v-container>
                     </v-card>
                 </v-container>
@@ -180,7 +181,7 @@
                 } = VueCompositionAPI;
                 const ctr = "../../controlador/formacion_docente/controlador_evaluacion_capacitacion.jsp";
                 //Variables POST
-                
+                const calificacion = ref("");
                        
 
                 //Otras variables
@@ -353,7 +354,32 @@
                     }
                 }
             
-                
+                async function fnEditar(){
+                    this.$validator.validate().then(async esValido => {
+                        if(esValido){
+                            try{
+                                preloader("../");
+                                let parametros = new URLSearchParams();
+                                parametros.append("accion", 5);
+                                parametros.append("cve_curso", this.cve);
+                                let {data,status} = await axios.post(ctr, parametros)
+                                if(status == 200){
+                                    if(data == "1"){
+                                        mostrarSnackbar("success", "Registro actualizado correctamente.");
+                                        fnConsultarTabla();
+                                        console.log("hoal")
+                                    }
+                                }
+                            } catch(error){
+                                mostrarSnackbar('error');
+                                console.error(error);
+                            } finally{
+                                swal.close();
+                            }
+                        }
+                    })
+                }
+
                 function mostrarSnackbar(color, texto){
                     snackbar.value = true;
                     color_snackbar.value = color;
@@ -364,6 +390,7 @@
                 }
 
                 return{
+                    calificacion,
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
 
                     headersGrupos, headersParticipantes, headersEvaluaciones,
@@ -373,9 +400,10 @@
                     mostrarGrupos: true,
                     mostrarParticipantes: false,
 
-                    fnGuardar
+                    fnGuardar, fnEditar
                 }
-            },
+            }
+            
         });
 
         Vue.config.devtools = true;

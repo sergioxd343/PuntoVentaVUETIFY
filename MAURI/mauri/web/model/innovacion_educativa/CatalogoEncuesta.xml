@@ -41,16 +41,11 @@ FROM            tipo_servicio
 	</consultarTipoServicio>
 	<constultarAsesoriaProyecto>
 		<query>
-			SELECT TOP (200)
-  asesoria.cve_asesoria,
-  asesoria.cve_academia,
-  asesoria.materia,
-  asesoria.fecha,
-  academia.nombre_academia,
-  academia.cve_academia AS Expr1,
-  CONCAT(asesoria.materia, '- ', academia.nombre_academia) AS asesoria_proyecto
+			SELECT materia, MAX(CONVERT(VARCHAR(MAX), fecha)) AS fecha, MAX(CONVERT(VARCHAR(MAX), motivo_solicitud)) AS motivo_solicitud
 FROM asesoria
-INNER JOIN academia ON asesoria.cve_academia = academia.cve_academia
+WHERE activo = 1
+GROUP BY materia;
+
 		</query>
 	</constultarAsesoriaProyecto>
 	<consultarArea>

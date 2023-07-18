@@ -55,16 +55,27 @@
                                 
                                 <!--AÑO -->
                                 <v-col md="3" class="text-right">
-                                    <v-text-field
-                                        v-model="annio"
-                                        outlined
-                                        label="Año a ejercer"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="año a ejercer"
-                                        readonly
-                                    ></v-text-field>
+                                    
+                                <v-menu ref="menu5" :close-on-content-click="false"
+                                :return-value.sync="annio" transition="scale-transition" offset-y
+                                min-width="auto">
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-text-field v-model="annio" label="Año a ejercer"
+                                        prepend-icon="mdi-calendar" readonly v-bind="attrs"
+                                        v-on="on"></v-text-field>
+                                </template>
+                                <v-date-picker v-model="annio" no-title scrollable type="year">
+                                    <v-spacer></v-spacer>
+                                    <v-btn text color="primary" @click="menu5 = false"> 
+                                        Cancel
+                                    </v-btn>
+                                    <v-btn text color="primary" @click="$refs.menu5.save(annio)">
+                                        OK
+                                    </v-btn>
+                                </v-date-picker>
+                                </v-menu>
                                 </v-col>
+
                                 <v-col>&nbsp;&nbsp;&nbsp;&nbsp;</v-col>
 
                                 <v-col cols="12" sm="6" md="4" class="text-left">
@@ -101,9 +112,10 @@
                                         :error="errors.has('dirección o subdirección')"
                                         :error-messages="errors.first('dirección o subdirección')"
                                         required
-                                    ></v-select>
+                                ></v-select>
                                 </v-col>
 
+                                
                                 
                             </v-row>
 
@@ -116,7 +128,7 @@
 
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                 
-                                <v-col md=4>
+                                <v-col md=6>
                                     <v-select
                                         v-model="unidadAcademica"
                                         outlined
@@ -133,7 +145,7 @@
                                     ></v-select>
                                 </v-col>
 
-                                <v-col md=2>
+                                <v-col md=6>
                                     <v-select
                                         v-model="nivelEducativo"
                                         outlined
@@ -149,22 +161,7 @@
                                     ></v-select>
                                 </v-col>
 
-                                <v-col md=6>
-                                    <v-select
-                                        v-model="direccionArea"
-                                        outlined
-                                        label="Direcci&oacute;n del &aacute;rea"
-                                        v-validate="'required'"
-                                        :items="arrayDireccSub"
-                                        item-value="cve_area"
-                                        item-text="nombre_area"
-                                        data-vv-name="dirección de área"
-                                        :error="errors.has('dirección de área')"
-                                        :error-messages="errors.first('dirección de área')"
-                                        required
-                                    ></v-select>
-                                </v-col>
-                            
+                               
                             </v-row>
 
                             <v-row  class="align-center" style="padding: 0px 50px 0px 50px">
@@ -226,7 +223,7 @@
                                         outlined
                                         label="Nombre del evento"
                                         persistent-hint
-                                        v-validate="'required|max:200'"
+                                        v-validate="'required|max:50'"
                                         data-vv-name="nombre del evento"
                                         :error="errors.has('nombre del evento')"
                                         :error-messages="errors.first('nombre del evento')"
@@ -245,7 +242,6 @@
                                         data-vv-name="objetivo del evento"
                                         :error="errors.has('objetivo del evento')"
                                         :error-messages="errors.first('objetivo del evento')"
-                                        
                                     ></v-textarea>
                                 </v-col>
                             </v-row>
@@ -267,19 +263,18 @@
                                 </v-col>
 
                                 <v-col md=4>
-                                    <v-select 
+                                    <v-textarea 
                                         v-model="justificacionEvento"
                                         outlined
-                                        v-validate="'required'"
-                                        :items="arrayOrientacion"
-                                        item-value="cve_tipo_orientacion"
-                                        item-text="nombre_tipo_orientacion"
+                                        v-validate="'required|max:200'"
                                         label="Justificaci&oacute;n del evento"
                                         persistent-hint
+                                        auto-grow outlined
+                                        rows="1" row-height="15"
                                         data-vv-name="justificación del evento"
                                         :error="errors.has('justificación del evento')"
                                         :error-messages="errors.first('justificación del evento')"
-                                    ></v-select>
+                                    ></v-textarea>
                                 </v-col>
 
                                 <v-col md=4>
@@ -319,6 +314,8 @@
                                         outlined
                                         v-validate="'required'"
                                         :items="arrayTipoPrograma"
+                                        item-value="cve_tipo_capacitacion"
+                                        item-text="nombre_tipo_capacitacion"
                                         label="Tipo de Programa"    
                                         persistent-hint
                                         data-vv-name="tipo programa"
@@ -500,7 +497,7 @@
                                     <v-text-field 
                                         v-model="ptc"
                                         outlined
-                                        label="PTC"    
+                                        label="Cantidad de PTC"    
                                         persistent-hint
                                         data-vv-name="PTC"
                                         :error="errors.has('PTC')"
@@ -513,11 +510,11 @@
                                     <v-text-field 
                                         v-model="laboratoristas"
                                         outlined
-                                        label="Laboratoristas"    
+                                        label="Cantidad de técnicos académicos"    
                                         persistent-hint
-                                        data-vv-name="laboratoristas"
-                                        :error="errors.has('laboratoristas')"
-                                        :error-messages="errors.first('laboratoristas')"
+                                        data-vv-name="técnicos académicos"
+                                        :error="errors.has('técnicos académicos')"
+                                        :error-messages="errors.first('técnicos académicos')"
                                         :rules="[validacion]"
                                     ></v-text-field>
                                 </v-col>
@@ -526,7 +523,7 @@
                                     <v-text-field 
                                         v-model="administrativo"
                                         outlined
-                                        label="Administrativo del &aacute;rea acad&eacute;mica"    
+                                        label="Cantidad de administrativo del &aacute;rea acad&eacute;mica"    
                                         persistent-hint
                                         data-vv-name="administrativo"
                                         :error="errors.has('administrativo')"
@@ -539,7 +536,7 @@
                                     <v-text-field 
                                         v-model="otros"
                                         outlined
-                                        label="Otros participantes"    
+                                        label="Cantidad de otros participantes"    
                                         persistent-hint
                                         data-vv-name="otros"
                                         :error="errors.has('otros')"
@@ -723,7 +720,7 @@
                 const fechaElavoracion=ref("");
                 const unidadAcademica = ref("");
                 const nivelEducativo = ref("");
-                const direccionArea = ref("");
+                
                 const programaEducativo = ref("");
                 const nombreGestor = ref("");
                 const necesidadesDetectadas = ref("");
@@ -769,7 +766,7 @@
                 const arrayOrientacion = ref([]);
                 const arrayJustificacion = ref([]);
                 const arrayTipoEvento = ref([]);
-                const arrayTipoPrograma = ref(["Interna","Externa"]);
+                const arrayTipoPrograma = ref([]);
                 const arrayOrigen = ref([]);
                 const arrayMes =ref(['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'])
                 const arrayDireccSub =ref([]);
@@ -801,6 +798,12 @@
                     { text: "Estatus", align: "left", sortable: false, value: "actions" }
                 ]);
 
+                const currentUser = localStorage.getItem('currentUser');
+                const user = JSON.parse(currentUser);
+                const nombre = user[0].nombre;
+                const idPersona = user[0].cve_persona;
+
+
                 //Accion automatizada para mostrar la tabla
                 onMounted(() => {
                     fnTipoEvento();
@@ -812,7 +815,8 @@
                     fnOrigen();
                     fnEmpleados();
                     fnFecha();
-                    getCurrentYear();
+                    fnTipoPrograma();
+                    
                 });
 
                 function fnFecha() {
@@ -822,10 +826,24 @@
                     
                 }
 
-                function getCurrentYear() {
-                    const currentYear = new Date().getFullYear();
-                    annio.value = currentYear;
-                    console.log(currentYear);
+                
+                async function fnTipoPrograma(){
+                    try{
+                        preloader("../../");
+                        let parametros = new URLSearchParams();
+                        parametros.append("accion", 10);
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                arrayTipoPrograma.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
                 }
 
                 async function fnOrientacion(){
@@ -990,13 +1008,15 @@
                                     preloader("../../");
                                     let parametros = new URLSearchParams();
                                     parametros.append("accion", 4);
-                                    parametros.append("unidadAcademica", unidadAcademica.value);
-                                    parametros.append("direccionArea", direccionArea.value);
-                                    parametros.append("tipoEvento", tipoEvento.value);
-                                    parametros.append("nivelEducativo", nivelEducativo.value);
                                     parametros.append("direccion", direccion.value);
+                                    parametros.append("unidadAcademica", unidadAcademica.value);
+                                    parametros.append("nombreGestor", nombreGestor.value);
+                                    parametros.append("orientacionEvento", orientacionEvento.value);
+                                    parametros.append("tipoEvento", tipoEvento.value);
+                                    parametros.append("tipoPrograma", tipoPrograma.value);
+                                    parametros.append("nivelEducativo", nivelEducativo.value);
                                     parametros.append("programaEducativo", programaEducativo.value);
-                                    parametros.append("annio", annio.value);
+                                    parametros.append("annio", parseInt(annio.value.slice(0, 4), 10));
                                     parametros.append("necesidadesDetectadas", necesidadesDetectadas.value);
                                     parametros.append("nombreEventoCapacitacion", nombreEventoCapacitacion.value);
                                     parametros.append("objetivoEvento", objetivoEvento.value);
@@ -1016,7 +1036,7 @@
                                     parametros.append("total", total.value);
                                     parametros.append("totalH", totalH.value);
                                     parametros.append("totalM", totalM.value);
-                                    
+                                    parametros.append("id", idPersona);
                                     let { data, status } = await axios.post(ctr, parametros);
                                     if (status == 200) {
                                         if (data == "1") {
@@ -1039,23 +1059,34 @@
                     }
 
                 function fnLimpiarCampos(cx){//cx = contexto
-                    idAcademia.value = "";
-                    nombreEventoCapacitacion.value = "";
-                    objetivoEvento.value = "";
-                    orientacionEvento.value = "";
-                    justificacionEvento.value = "";
-                    tipoEvento.value = "";
-                    otroTipoEvento.value = "";
-                    tipoPrograma.value = "";
-                    proveedorSugerido.value = "";
-                    costoCapacitacionSugerido.value = "";
-                    origenRecursoEvento.value = "";
-                    
-                    mes.value = "";
-                    fechaInicio.value = "";
-                    fechaElavoracion.value = "";
-                    numDias.value = "";
-                    numHorasEfectivas.value = "";
+                    direccion.value = ' ';
+                    unidadAcademica.value = ' ';
+                    nombreGestor.value = ' ' ;
+                    orientacionEvento.value = ' ' ;
+                    tipoEvento.value = ' ' ;
+                    tipoPrograma.value = ' ' ;
+                    nivelEducativo.value = ' ' ;
+                    programaEducativo.value = ' ' ;
+                    annio.value = ' ' ;
+                    necesidadesDetectadas.value = ' ' ;
+                    nombreEventoCapacitacion.value = ' ' ;
+                    objetivoEvento.value = ' ' ;
+                    justificacionEvento.value = ' ' ;
+                    otroEvento.value = ' ' ;
+                    proveedorSugerido.value = ' ' ;
+                    costoCapacitacionSugerido.value = ' ' ;
+                    mes.value = ' ' ;                                    
+                    fechaInicio.value = ' ' ;
+                    fechaTermino.value = ' ' ;
+                    numDias.value = ' ' ;
+                    numHorasEfectivas.value = ' ' ;
+                    ptc.value = ' ' ;
+                    laboratoristas.value = ' ' ;
+                    administrativo.value = ' ' ;
+                    otros.value = ' ' ;
+                    total.value = ' ' ;
+                    totalH.value = ' ' ;
+                    totalM.value = ' ' ;
 
                     flagEditar.value = false;
                     itemEditar.value = {};
@@ -1076,20 +1107,19 @@
                 }
 
                 return{
-                    annio, direccion, fechaElavoracion, unidadAcademica, nivelEducativo, direccionArea, programaEducativo,
+                    annio, direccion, fechaElavoracion, unidadAcademica, nivelEducativo, programaEducativo,
                     nombreGestor, necesidadesDetectadas, nombreEventoCapacitacion, objetivoEvento, orientacionEvento,
                     justificacionEvento,tipoEvento, otroEvento, tipoPrograma, proveedorSugerido, costoCapacitacionSugerido, 
                     origenRecursoEvento, mes, fechaInicio, fechaTermino, numDias, numHorasEfectivas, ptc, laboratoristas, administrativo,
                     otros, total, totalH, totalM, lugar, transporte, casetas, alimentacion, hospedaje, taxis, otrosGastos, oficial,
                     particular, otrosO, origen, idEvento, buscar: "", iconoBusqueda: 'mdi-magnify',
-                    currentDateTime: new Date().toLocaleString(),
-
+                    
                     arrayOrientacion, arrayJustificacion, arrayTipoEvento, arrayTipoPrograma, arrayOrigen, arrayMes, arrayUnidadesAcademicas,
                     arrayNivelEducativo, arrayDireccSub, arrayProgramas, arrayEmpleados,
 
                     flagEditar, itemEditar,
                     dataEventos,headersEventos, searchEventos, color_snackbar, snackbar, mensaje_snackbar,loader
-                    ,fnLimpiarCampos,fnGuardar, fnOrientacion, fnOrigen, fnEmpleados, fnFecha, getCurrentYear
+                    ,fnLimpiarCampos,fnGuardar, fnOrientacion, fnOrigen, fnEmpleados, fnFecha, fnTipoPrograma
                     
                     
                 }

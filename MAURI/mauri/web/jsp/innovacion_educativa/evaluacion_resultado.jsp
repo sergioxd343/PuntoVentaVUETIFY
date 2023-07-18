@@ -102,7 +102,7 @@
                                         <v-autocomplete v-if="cve_t_servicio === 1" v-model="cve_asesoria_proyecto"
                                             outlined label="Asesoria de Proyecto" persistent-hint
                                             data-vv-name="asesoria de proyecto" :items="arrayAsesoriaProyecto"
-                                            item-value="cve_asesoria" item-text="asesoria_proyecto"
+                                            item-value="cve_asesoria" item-text="materia"
                                             :error="errors.has('asesoria de Proyecto')"
                                             :error-messages="errors.first('asesoria de proyecto')"></v-autocomplete>
 

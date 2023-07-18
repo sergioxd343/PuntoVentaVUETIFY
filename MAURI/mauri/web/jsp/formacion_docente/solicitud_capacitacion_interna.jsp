@@ -178,6 +178,32 @@
 
                                 <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
 
+                                    <!--HORARIO INICIO -->
+                                    <v-col md="6">
+
+                                        <v-select v-model="horario_inicio" label="Horario inicio" v-validate="'required'"
+                                            :items="horarios" item-value="cve_horario" item-text="hora_inicio"
+                                            :error="errors.has('horario inicio')" data-vv-name="horario inicio"
+                                            :error-messages="errors.first('horario inicio')" prepend-icon="mdi-clock-outline"
+                                            :disabled="deshabilitar"></v-select>
+                                    </v-col>
+
+                                       
+
+                                    <!--HORARIO FIN -->
+                                    <v-col md="6">
+                                        <v-select v-model="horario_fin" label="Horario fin" v-validate="'required'"
+                                            :items="horarios1" item-value="cve_horario" item-text="hora_fin"
+                                            :error="errors.has('horario fin')" data-vv-name="horario fin"
+                                            :error-messages="errors.first('horario fin')" prepend-icon="mdi-clock-outline"
+                                            :disabled="deshabilitar"></v-select>
+                                    </v-col>
+
+
+                                </v-row>
+
+                                <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+
                                     <!-- TOTAL DE DÍAS-->
                                     <v-col md="6">
                                         <v-text-field v-model="dias" outlined label="Total de Días" inputmode="numeric"
@@ -188,20 +214,6 @@
                                             :rules="[validacion]"></v-text-field>
                                     </v-col> 
 
-                                    <!--HORARIO-->
-                                    <v-col md="6">
-                                        <v-select v-model="horario" label="Horario" v-validate="'required'"
-                                            :items="horarios" item-value="cve_horario" item-text="descripcion"
-                                            :error="errors.has('horario')" data-vv-name="horario"
-                                            :error-messages="errors.first('horario')" prepend-icon="mdi-clock-outline"
-                                            :disabled="deshabilitar"></v-select>
-                                    </v-col>
-
-
-                                </v-row>
-
-                                <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-
                                     <!-- TOTAL DE HORAS -->
                                     <v-col md="6">
                                         <v-text-field v-model="horas" outlined label="Total de Horas" persistent-hint
@@ -211,6 +223,11 @@
                                             :error-messages="errors.first('total de horas')" :rules="[validacion]"></v-text-field>
                                     </v-col>
 
+                                    
+                                </v-row>
+
+                                <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+
                                     <!--LUGAR -->
                                     <v-col md="6">
                                         <v-text-field v-model="lugar" outlined label="Lugar" persistent-hint
@@ -218,13 +235,6 @@
                                             :error="errors.has('lugar')" :error-messages="errors.first('lugar')"
                                             :disabled="deshabilitar"></v-text-field>
                                     </v-col>
-
-
-
-
-                                </v-row>
-
-                                <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
 
                                     <v-col md="6|">
                                         <v-text-field v-model="numeroParticipantes" outlined
@@ -234,18 +244,19 @@
                                             :error="errors.has('número de participantes')"
                                             :error-messages="errors.first('número de participantes')" :rules="[validacion]"></v-text-field>
                                     </v-col>
+                                </v-row>
 
-                                    <!-- TIPO CURSO -->
-                                    <v-col md="6">
-                                        <p>Curso</p>
-                                        <v-radio-group v-model="tipoCurso" v-validate="'required'" data-vv-name="curso"
-                                            :error="errors.has('curso')" :error-messages="errors.first('curso')" row
-                                            :disabled="deshabilitar">
-                                            <v-radio label="Abierto a comunidad UTL" value="abierto"></v-radio>
-                                            <v-radio label="Grupo cerrado " value="cerrado"></v-radio>
-                                        </v-radio-group>
-                                    </v-col>
-
+                                <v-row class="align-center" style="padding: 0px 50px 0px 50px">
+                                        <!-- TIPO CURSO -->
+                                        <v-col md="6">
+                                            <p>Curso</p>
+                                            <v-radio-group v-model="tipoCurso" v-validate="'required'" data-vv-name="curso"
+                                                :error="errors.has('curso')" :error-messages="errors.first('curso')" row
+                                                :disabled="deshabilitar">
+                                                <v-radio label="Abierto a comunidad UTL" value="abierto"></v-radio>
+                                                <v-radio label="Grupo cerrado " value="cerrado"></v-radio>
+                                            </v-radio-group>
+                                        </v-col>
                                 </v-row>
 
 
@@ -335,6 +346,7 @@
                                                 @change="agregarInstructor(nombreFacilitador[index])" outlined
                                                 label="Nombre" persistent-hint :items="facilitadores"
                                                 item-value="cve_instructor" item-text="nombre_instructor"
+                                                :disabled="deshabilitar"
                                                 v-validate="'required|max:500'" data-vv-name="nombre"
                                                 :error="errors.has('nombre')" :error-messages="errors.first('nombre')">
                                             </v-select>
@@ -347,10 +359,9 @@
                                                 :items="areas"
                                                 item-value="cve_area" 
                                                 item-text="nombre_area"
-                                                v-validate="'required|max:500'" persistent-hint
-                                                data-vv-name="área académica a la que pertenece"
-                                                :error="errors.has('área académica a la que pertenece')"
-                                                :error-messages="errors.first('área académica a la que pertenece')">
+
+                                                :disabled="deshabilitar"
+
                                             </v-autocomplete>
                                         </v-col>
 
@@ -361,9 +372,9 @@
                                                 :items="programas"
                                                 item-value="cve_ugac" 
                                                 item-text="nombre_ugac" 
-                                                v-validate="'required|max:500'" data-vv-name="programa educativo"
-                                                :error="errors.has('programa educativo')"
-                                                :error-messages="errors.first('programa educativo')">
+
+                                                :disabled="deshabilitar"
+
                                             </v-autocomplete>
                                         </v-col>
                                     </v-row>
@@ -390,14 +401,6 @@
 
 
 
-
-
-
-
-
-
-
-
                             <!--BOTONES CRUD-->
                             <v-row justify="center">
                                 <v-btn color="primary" @click="flagDescargar ? fnDescargar() : fnGuardar()">
@@ -405,7 +408,7 @@
                                     {{ flagDescargar ? 'Descargar' : 'Guardar' }}
                                 </v-btn>
                                 &nbsp;
-                                <v-btn color="error" @click="fnLimpiarCampos()">
+                                <v-btn color="error" @click="fnLimpiarCampos();">
                                     <v-icon>mdi-cancel</v-icon>Cancelar
                                 </v-btn>
                             </v-row>
@@ -441,17 +444,19 @@
 
                                         <!--VISUALIZARs-->
                                         <template v-slot:item.ver="{ item }">
-                                            <v-icon color="blue" @click="$vuetify.goTo(0); itemVer = item; deshabilitar = true; flagDescargar = true;
+                                            <v-icon color="blue" @click="$vuetify.goTo(0); itemVer = item;  flagDescargar = true;
                                                                     idSolicitud = item.idSolicitud;
+                                                                    tipoCompetencia = item.tipo_competencia
                                                                     nombreCurso = item.nombre
                                                                     fechaInicio = item.fecha_inicio
                                                                     fechaFin = item.fecha_fin
                                                                     dias = item.total_dias
-                                                                    horario = item.cve_horario
+                                                                    horario_inicio = item.hora_inicio
+                                                                    horario_fin = item.hora_fin
                                                                     lugar = item.lugar
                                                                     horas = item.total_horas
                                                                     numeroParticipantes = item.numero_participantes
-                                                                    tipoCurso = tipo.curso
+                                                                    tipoCurso = item.curso
                                                                     objetivo = item.objetivo
                                                                     alcance = item.alcance
                                                                     metodologia = item.metodologia
@@ -530,7 +535,8 @@
                     const fechaInicio = ref("");
                     const fechaFin = ref("");
                     const nombreCurso = ref("");
-                    const horario = ref("");
+                    const horario_inicio = ref("");
+                    const horario_fin = ref("");
                     const lugar = ref("");
                     const dias = ref("");
                     const horas = ref("");
@@ -555,6 +561,7 @@
                     const facilitadores = ref([]);
                     const programas = ref([]);
                     const horarios = ref([]);
+                    const horarios1 = ref([]);
                     const instructoresSeleccionados = ref([]);
                     const areasSeleccionados = ref([]);
                     const programasSeleccionados = ref([]);
@@ -606,6 +613,7 @@
                         fnFacilitadores();
                         fnProgramaEducativo();
                         fnHorario();
+                        fnHorarioFin();
                         console.log({ idPersona })
                     });
 
@@ -702,6 +710,25 @@
                         }
                     }
 
+                    async function fnHorarioFin() {
+                        try {
+                            preloader("../../");
+                            let parametros = new URLSearchParams();
+                            parametros.append("accion", 7);
+                            let { data, status } = await axios.post(ctr, parametros);
+                            if (status == 200) {
+                                if (data.length > 0) {
+                                    horarios1.value = data;
+                                }
+                            }
+                        } catch (error) {
+                            mostrarSnackbar("error");
+                            console.error(error);
+                        } finally {
+                            swal.close();
+                        }
+                    }
+
 
                     async function fnConsultarTabla() {
                         try {
@@ -732,7 +759,13 @@
                                     parametros.append("nombreFacilitador", this.instructoresSeleccionados.join(","));
                                     parametros.append("areaPertenece", this.areasSeleccionados.join(","));
                                     parametros.append("programaEducativo", this.programasSeleccionados.join(","));
+<<<<<<< HEAD
                                     parametros.append("horario", horario.value);
+=======
+                                    parametros.append("horario_inicio", horario_inicio.value);
+                                    parametros.append("horario_fin", horario_fin.value);
+
+>>>>>>> 88692c73afbb625d1b1e93064b2e67c4d58f7d5b
                                     parametros.append("tipoCompetencia", tipoCompetencia.value);
                                     parametros.append("nombreCurso", nombreCurso.value);
                                     parametros.append("dias", dias.value);
@@ -782,7 +815,8 @@
                         nombreCurso.value = "";
                         fechaInicio.value = "";
                         fechaFin.value = "";
-                        horario.value = "";
+                        horario_inicio.value = "";
+                        horario_fin.value = "";
                         lugar.value = "";
                         tipoCurso.value = "";
                         dias.value = "";
@@ -823,7 +857,7 @@
 
                         nombre, ape1, ape2, area, programa, puesto, carrera,
 
-                        programas, horarios, areas, facilitadores, instructoresSeleccionados, areasSeleccionados, programasSeleccionados,
+                        programas, horarios, horarios1, areas, facilitadores, instructoresSeleccionados, areasSeleccionados, programasSeleccionados,
 
                         idSolicitud,
 
@@ -835,14 +869,15 @@
                         flagDescargar,
 
 
-                        tipoCompetencia, fechaInicio, fechaFin, nombreCurso, horario, lugar, dias, horas,
+                        tipoCompetencia, fechaInicio, fechaFin, nombreCurso, horario_inicio, 
+                        horario_fin, lugar, dias, horas,
                         numeroParticipantes, tipoCurso, objetivo, alcance, metodologia, programaCurso,
                         resultadoAprendizaje, perfil,
                         nombreFacilitador, areaPertenece, programaEducativo, numberOfInputs,
 
                         dataSolicitudCapacitacion, headerCapacitacion,
 
-                        fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnDescargar, fnFacilitadores,
+                        fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnDescargar, fnFacilitadores, fnHorario, fnHorarioFin,
 
                         itemEditar,
                         itemVer,

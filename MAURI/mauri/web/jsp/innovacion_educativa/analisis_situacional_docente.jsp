@@ -63,7 +63,7 @@
 
                                 <v-col md="6">
                                     <!--Numero PTC-->
-                                    <v-text-field v-model="numero_ptc" outlined label="N° de PTC:" persistent-hint
+                                    <v-text-field v-model="numero_ptc" outlined label="Cantidad de PTC:" persistent-hint
                                         v-validate="'required|max:255'" data-vv-name="ptc" pattern="[0-9]*"
                                         type="number" :error="errors.has('ptc')"
                                         :error-messages="errors.first('ptc')"></v-text-field>
@@ -193,11 +193,12 @@
                                                             <v-text-field v-model="media_evaluacion_docente" outlined
                                                                 class="my-2" label="Media de evaluación docente"
                                                                 persistent-hint
-                                                                v-validate="{required: true, min_value: 7, max_value: 10}"
+                                                                v-validate="{ required: true, min_value: 0, max_value: 100 }"
                                                                 data-vv-name="evaluació docente" inputmode="numeric"
                                                                 pattern="[0-9]*"
                                                                 :error="errors.has('evaluació docente')"
-                                                                :error-messages="errors.first('evaluació docente')"></v-text-field>
+                                                                :error-messages="errors.first('evaluació docente')"
+                                                                append-icon="%"></v-text-field>
                                                         </v-list-item-title>
                                                     </v-list-item-content>
                                                 </v-col>
@@ -207,11 +208,12 @@
                                                             <v-text-field v-model="media_evaluacion_tutoreo" outlined
                                                                 class="my-2" label="Media de evaluación tutoreo"
                                                                 persistent-hint
-                                                                v-validate="{required: true, min_value: 7, max_value: 10}"
+                                                                v-validate="{required: true, min_value: 0, max_value: 100}"
                                                                 data-vv-name="evaluación tutoreo" inputmode="numeric"
                                                                 pattern="[0-9]*"
                                                                 :error="errors.has('evaluación tutoreo')"
-                                                                :error-messages="errors.first('evaluación tutoreo')"></v-text-field>
+                                                                :error-messages="errors.first('evaluación tutoreo')"
+                                                                append-icon="%"></v-text-field>
                                                         </v-list-item-title>
                                                     </v-list-item-content>
                                                 </v-col>
@@ -266,11 +268,12 @@
                                                             <v-text-field v-model="promedio_evaluacion_docente" outlined
                                                                 class="my-2" label="Promedio de evaluación docente"
                                                                 persistent-hint
-                                                                v-validate="{required: true, min_value: 7, max_value: 10}"
+                                                                v-validate="{required: true, min_value: 0, max_value: 100}"
                                                                 data-vv-name="promedio evaluació docente"
                                                                 inputmode="numeric" pattern="[0-9]*"
                                                                 :error="errors.has('promedio evaluació docente')"
-                                                                :error-messages="errors.first('promedio evaluació docente')"></v-text-field>
+                                                                :error-messages="errors.first('promedio evaluació docente')"
+                                                                append-icon="%"></v-text-field>
                                                         </v-list-item-title>
                                                     </v-list-item-content>
                                                 </v-col>
@@ -280,11 +283,12 @@
                                                             <v-text-field v-model="promedio_evaluacion_tutoreo" outlined
                                                                 class="my-2" label="Promedio de evaluación tutoreo"
                                                                 persistent-hint
-                                                                v-validate="{required: true, min_value: 7, max_value: 10}"
+                                                                v-validate="{required: true, min_value: 0, max_value: 100}"
                                                                 data-vv-name="promedio evaluación tutoreo"
                                                                 inputmode="numeric" pattern="[0-9]*"
                                                                 :error="errors.has('promedio evaluación tutoreo')"
-                                                                :error-messages="errors.first('promedio evaluación tutoreo')"></v-text-field>
+                                                                :error-messages="errors.first('promedio evaluación tutoreo')"
+                                                                append-icon="%"></v-text-field>
                                                         </v-list-item-title>
                                                     </v-list-item-content>
                                                 </v-col>
@@ -343,7 +347,8 @@
                                                                 data-vv-name="porcentaje docentes acreditados"
                                                                 inputmode="numeric" pattern="[0-9]*"
                                                                 :error="errors.has('porcentaje docentes acreditados')"
-                                                                :error-messages="errors.first('porcentaje docentes acreditados')"></v-text-field>
+                                                                :error-messages="errors.first('porcentaje docentes acreditados')"
+                                                                append-icon="%"></v-text-field>
                                                         </v-list-item-title>
                                                     </v-list-item-content>
                                                 </v-col>
@@ -465,9 +470,10 @@
                                         </template>
                                         <span>
                                             Indicar si se requiere de cursos, talleres, diplomados o
-                                        certificaciones para atender una necesidad prioritaria, basado en:
-                                        Acreditaciones de PE, certificaciones, actualización de PE, etc (A ejecutar en 1
-                                        año) 
+                                            certificaciones para atender una necesidad prioritaria, basado en:
+                                            Acreditaciones de PE, certificaciones, actualización de PE, etc (A ejecutar
+                                            en 1
+                                            año)
                                         </span>
                                     </v-tooltip>
                                 </v-col>

@@ -92,6 +92,10 @@
         case 4:
             out.println(datos.Consultas(parametros, "tablaEvaluacion"));
             break;
+        case 5:
+            parametros.add(cve_curso);
+            out.println(datos.Consultas(parametros, "editarEvaluacion"));
+            break;
         default:
             out.print("ENTRO A CONTROLADOR"+ accion);
             break;
