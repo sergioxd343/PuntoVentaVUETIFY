@@ -202,6 +202,7 @@
                     ]);
 
                     onMounted(() => {
+                        fnCargarTabla();
                     });
 
                     async function fnGuardar() {

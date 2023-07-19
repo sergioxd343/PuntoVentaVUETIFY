@@ -158,16 +158,16 @@
                                                 <v-text-field v-validate="'required'" data-vv-name="fecha fin"
                                                     :error="errors.has('fecha fin')" v-model="fechaFin"
                                                     label="Fecha Fin" :error-messages="errors.first('fecha fin')"
-                                                    prepend-icon="mdi-calendar" readonly v-bind="attrs"
-                                                    v-on="on" :disabled="deshabilitar"
-                                                    ></v-text-field>
+                                                    prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"
+                                                    :disabled="deshabilitar"></v-text-field>
                                             </template>
                                             <v-date-picker v-model="fechaFin" no-title scrollable>
                                                 <v-spacer></v-spacer>
                                                 <v-btn text color="primary" @click="menu2 = false">
                                                     Cancel
                                                 </v-btn>
-                                                <v-btn text color="primary" @click="$refs.menu2.save(fechaFin); validarFechas();">
+                                                <v-btn text color="primary"
+                                                    @click="$refs.menu2.save(fechaFin); validarFechas();">
                                                     OK
                                                 </v-btn>
                                             </v-date-picker>
@@ -181,22 +181,23 @@
                                     <!--HORARIO INICIO -->
                                     <v-col md="6">
 
-                                        <v-select v-model="horario_inicio" label="Horario inicio" v-validate="'required'"
-                                            :items="horarios" item-value="cve_horario" item-text="hora_inicio"
-                                            :error="errors.has('horario inicio')" data-vv-name="horario inicio"
-                                            :error-messages="errors.first('horario inicio')" prepend-icon="mdi-clock-outline"
-                                            :disabled="deshabilitar"></v-select>
+                                        <v-select v-model="horario_inicio" label="Horario inicio"
+                                            v-validate="'required'" :items="horarios" item-value="cve_horario"
+                                            item-text="hora_inicio" :error="errors.has('horario inicio')"
+                                            data-vv-name="horario inicio"
+                                            :error-messages="errors.first('horario inicio')"
+                                            prepend-icon="mdi-clock-outline" :disabled="deshabilitar"></v-select>
                                     </v-col>
 
-                                       
+
 
                                     <!--HORARIO FIN -->
                                     <v-col md="6">
                                         <v-select v-model="horario_fin" label="Horario fin" v-validate="'required'"
                                             :items="horarios1" item-value="cve_horario" item-text="hora_fin"
                                             :error="errors.has('horario fin')" data-vv-name="horario fin"
-                                            :error-messages="errors.first('horario fin')" prepend-icon="mdi-clock-outline"
-                                            :disabled="deshabilitar"></v-select>
+                                            :error-messages="errors.first('horario fin')"
+                                            prepend-icon="mdi-clock-outline" :disabled="deshabilitar"></v-select>
                                     </v-col>
 
 
@@ -207,12 +208,11 @@
                                     <!-- TOTAL DE DÍAS-->
                                     <v-col md="6">
                                         <v-text-field v-model="dias" outlined label="Total de Días" inputmode="numeric"
-                                             persistent-hint
-                                            v-validate="'required|max:500'" data-vv-name="total de días"
+                                            persistent-hint v-validate="'required|max:500'" data-vv-name="total de días"
                                             :error="errors.has('total de días')"
                                             :error-messages="errors.first('total de días')" :disabled="deshabilitar"
                                             :rules="[validacion]"></v-text-field>
-                                    </v-col> 
+                                    </v-col>
 
                                     <!-- TOTAL DE HORAS -->
                                     <v-col md="6">
@@ -220,10 +220,11 @@
                                             inputmode="numeric" pattern="[0-9]*" type="number" :disabled="deshabilitar"
                                             v-validate="'required|max:500'" data-vv-name="total de horas"
                                             :error="errors.has('total de horas')"
-                                            :error-messages="errors.first('total de horas')" :rules="[validacion]"></v-text-field>
+                                            :error-messages="errors.first('total de horas')"
+                                            :rules="[validacion]"></v-text-field>
                                     </v-col>
 
-                                    
+
                                 </v-row>
 
                                 <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
@@ -242,21 +243,22 @@
                                             pattern="[0-9]*" type="number" v-validate="'required|max:500'"
                                             data-vv-name="número de participantes" :disabled="deshabilitar"
                                             :error="errors.has('número de participantes')"
-                                            :error-messages="errors.first('número de participantes')" :rules="[validacion]"></v-text-field>
+                                            :error-messages="errors.first('número de participantes')"
+                                            :rules="[validacion]"></v-text-field>
                                     </v-col>
                                 </v-row>
 
                                 <v-row class="align-center" style="padding: 0px 50px 0px 50px">
-                                        <!-- TIPO CURSO -->
-                                        <v-col md="6">
-                                            <p>Curso</p>
-                                            <v-radio-group v-model="tipoCurso" v-validate="'required'" data-vv-name="curso"
-                                                :error="errors.has('curso')" :error-messages="errors.first('curso')" row
-                                                :disabled="deshabilitar">
-                                                <v-radio label="Abierto a comunidad UTL" value="abierto"></v-radio>
-                                                <v-radio label="Grupo cerrado " value="cerrado"></v-radio>
-                                            </v-radio-group>
-                                        </v-col>
+                                    <!-- TIPO CURSO -->
+                                    <v-col md="6">
+                                        <p>Curso</p>
+                                        <v-radio-group v-model="tipoCurso" v-validate="'required'" data-vv-name="curso"
+                                            :error="errors.has('curso')" :error-messages="errors.first('curso')" row
+                                            :disabled="deshabilitar">
+                                            <v-radio label="Abierto a comunidad UTL" value="abierto"></v-radio>
+                                            <v-radio label="Grupo cerrado " value="cerrado"></v-radio>
+                                        </v-radio-group>
+                                    </v-col>
                                 </v-row>
 
 
@@ -346,36 +348,26 @@
                                                 @change="agregarInstructor(nombreFacilitador[index])" outlined
                                                 label="Nombre" persistent-hint :items="facilitadores"
                                                 item-value="cve_instructor" item-text="nombre_instructor"
-                                                :disabled="deshabilitar"
-                                                v-validate="'required|max:500'" data-vv-name="nombre"
-                                                :error="errors.has('nombre')" :error-messages="errors.first('nombre')">
+                                                :disabled="deshabilitar" v-validate="'required|max:500'"
+                                                data-vv-name="nombre" :error="errors.has('nombre')"
+                                                :error-messages="errors.first('nombre')">
                                             </v-select>
                                         </v-col>
 
                                         <v-col md="4">
                                             <v-autocomplete v-model="areaPertenece[index]" outlined
-                                            @change="agregarArea(areaPertenece[index])"
-                                                label="Área académica a la que pertenece" 
-                                                :items="areas"
-                                                item-value="cve_area" 
-                                                item-text="nombre_area"
-
-                                                :disabled="deshabilitar"
-
-                                            </v-autocomplete>
+                                                @change="agregarArea(areaPertenece[index])"
+                                                label="Área académica a la que pertenece" :items="areas"
+                                                item-value="cve_area" item-text="nombre_area" :disabled="deshabilitar"
+                                                </v-autocomplete>
                                         </v-col>
 
                                         <v-col md="4">
                                             <v-autocomplete v-model="programaEducativo[index]" outlined
-                                            @change="agregarPrograma(programaEducativo[index])"
-                                                label="Programa Educativo" persistent-hint
-                                                :items="programas"
-                                                item-value="cve_ugac" 
-                                                item-text="nombre_ugac" 
-
-                                                :disabled="deshabilitar"
-
-                                            </v-autocomplete>
+                                                @change="agregarPrograma(programaEducativo[index])"
+                                                label="Programa Educativo" persistent-hint :items="programas"
+                                                item-value="cve_ugac" item-text="nombre_ugac" :disabled="deshabilitar"
+                                                </v-autocomplete>
                                         </v-col>
                                     </v-row>
 
@@ -759,13 +751,9 @@
                                     parametros.append("nombreFacilitador", this.instructoresSeleccionados.join(","));
                                     parametros.append("areaPertenece", this.areasSeleccionados.join(","));
                                     parametros.append("programaEducativo", this.programasSeleccionados.join(","));
-<<<<<<< HEAD
-                                    parametros.append("horario", horario.value);
-=======
                                     parametros.append("horario_inicio", horario_inicio.value);
                                     parametros.append("horario_fin", horario_fin.value);
 
->>>>>>> 88692c73afbb625d1b1e93064b2e67c4d58f7d5b
                                     parametros.append("tipoCompetencia", tipoCompetencia.value);
                                     parametros.append("nombreCurso", nombreCurso.value);
                                     parametros.append("dias", dias.value);
@@ -809,7 +797,7 @@
                     }
 
 
-                function fnLimpiarCampos(cx) {
+                    function fnLimpiarCampos(cx) {
                         //cx = contexto
                         tipoCompetencia.value = "";
                         nombreCurso.value = "";
@@ -841,7 +829,7 @@
                         else this.$validator.reset();
                     }
 
-                function mostrarSnackbar(color, texto) {
+                    function mostrarSnackbar(color, texto) {
                         snackbar.value = true;
                         color_snackbar.value = color;
                         if (color == "error")
@@ -869,7 +857,7 @@
                         flagDescargar,
 
 
-                        tipoCompetencia, fechaInicio, fechaFin, nombreCurso, horario_inicio, 
+                        tipoCompetencia, fechaInicio, fechaFin, nombreCurso, horario_inicio,
                         horario_fin, lugar, dias, horas,
                         numeroParticipantes, tipoCurso, objetivo, alcance, metodologia, programaCurso,
                         resultadoAprendizaje, perfil,
@@ -893,19 +881,19 @@
                             return this.dataSolicitudCapacitacion;
                         }
 
-                    const keyword = this.buscar.toLowerCase();
-                    return this.dataSolicitudCapacitacion.filter(item => item.nombre.toLowerCase().includes(keyword));
-                    console.log(datosFiltrados())
+                        const keyword = this.buscar.toLowerCase();
+                        return this.dataSolicitudCapacitacion.filter(item => item.nombre.toLowerCase().includes(keyword));
+                        console.log(datosFiltrados())
                     },
                     validacion() {
-                    return (value) => {
-                        if (!value || /^\d+$/.test(value)) {
-                        // Si el campo está vacío o solo contiene números, es válido
-                        return true;
-                        }
-                        // De lo contrario, muestra un mensaje de error
-                        return 'Ingrese solo números en este campo.';
-                    };
+                        return (value) => {
+                            if (!value || /^\d+$/.test(value)) {
+                                // Si el campo está vacío o solo contiene números, es válido
+                                return true;
+                            }
+                            // De lo contrario, muestra un mensaje de error
+                            return 'Ingrese solo números en este campo.';
+                        };
                     },
 
                 },
@@ -917,12 +905,12 @@
                     // METODO PARA LLENAR UN ARRAY CON LOS INSTRUCTORES PROPUESTOS PARA LA CAPACITACIÓN
                     agregarInstructor(instructor) {
                         if (instructor) {
-                        const index = this.instructoresSeleccionados.indexOf(instructor);
-                        if (index === -1) {
-                        this.instructoresSeleccionados.push(instructor);
+                            const index = this.instructoresSeleccionados.indexOf(instructor);
+                            if (index === -1) {
+                                this.instructoresSeleccionados.push(instructor);
+                            }
                         }
-                    }
-                    console.log(this.instructoresSeleccionados);
+                        console.log(this.instructoresSeleccionados);
                     },
                     agregarArea(area) {
                         if (area) {
@@ -952,29 +940,29 @@
                         this.areasSeleccionados.splice(index, 1);
                         this.programasSeleccionados.splice(index, 1);
                         console.log(this.instructoresSeleccionados);
-                        
+
                         this.nombreFacilitador[index] = '';
                         this.areaPertenece[index] = '';
                         this.programaEducativo[index] = '';
 
                     }, validarFechas() {
-                    if (this.fechaInicio && this.fechaFin) {
-                        if (this.fechaFin < this.fechaInicio) {
-                        console.log("La fecha de término debe ser posterior a la fecha de inicio");
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'La fecha de término debe ser posterior a la fecha de inicio',
-                            }).then(() => {
-                            this.fechaInicio = null;
-                            this.fechaFin = null;
-                            });
-                        } else {
-                        // Las fechas son válidas
-                        console.log("Las fechas son válidas");
+                        if (this.fechaInicio && this.fechaFin) {
+                            if (this.fechaFin < this.fechaInicio) {
+                                console.log("La fecha de término debe ser posterior a la fecha de inicio");
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'La fecha de término debe ser posterior a la fecha de inicio',
+                                }).then(() => {
+                                    this.fechaInicio = null;
+                                    this.fechaFin = null;
+                                });
+                            } else {
+                                // Las fechas son válidas
+                                console.log("Las fechas son válidas");
+                            }
                         }
                     }
-                }
                 },
 
 
