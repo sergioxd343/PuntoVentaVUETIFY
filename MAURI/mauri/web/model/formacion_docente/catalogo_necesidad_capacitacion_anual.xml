@@ -63,8 +63,10 @@ and open the template in the editor.
     <tablaEventos>
 		<query>
 			SELECT unidad_academica.nombre_unidad_academica, necesidad_capacitacion_anual.nombre_evento, tipo_evento.nombre_tipo_evento, necesidad_capacitacion_anual.fecha_inicio,
-			necesidad_capacitacion_anual.fecha_temino, necesidad_capacitacion_anual.num_dias
+			necesidad_capacitacion_anual.fecha_temino, necesidad_capacitacion_anual.num_dias,  necesidad_capacitacion_anual.fecha_registro,
+			necesidad_capacitacion_anual.cve_area_registro, area.nombre_area
 			FROM necesidad_capacitacion_anual INNER JOIN
+			area ON area.cve_area = necesidad_capacitacion_anual.cve_area_registro INNER JOIN
 			unidad_academica ON unidad_academica.cve_unidad_academica = necesidad_capacitacion_anual.cve_unidad_academica INNER JOIN
             tipo_evento ON tipo_evento.cve_tipo_evento = necesidad_capacitacion_anual.cve_tipo_evento
 		</query>
