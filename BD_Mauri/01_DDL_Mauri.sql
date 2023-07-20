@@ -637,6 +637,8 @@ CREATE TABLE evento_programado(
 	cve_origen_evento 			INT NOT NULL,
 	cve_espacio 				INT NOT NULL,
 	cve_modalidad 				INT NOT NULL,
+	cve_tipo_instructor 		INT NOT NULL,
+	cve_instructor 				INT NOT NULL,
 	nombre_evento 				VARCHAR(50),
 	nombre_origen 				VARCHAR(50),
 	sin_horario 				BIT,

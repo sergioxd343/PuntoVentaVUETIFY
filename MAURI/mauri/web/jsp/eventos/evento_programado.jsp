@@ -79,7 +79,7 @@
                                                 <v-btn  small color="warning" @click="
                                                     nombre_evento = item.nombre_materia;
                                                     cve_origen_evento = item.cve_materia;
-                                                ">Elegir</v-btn>
+                                                ">Programar</v-btn>
                                             </template>
                                             </v-data-table>
                                         </v-col>
@@ -294,6 +294,7 @@
                                                 <%-- <span>d</span> --%>
                                             <%-- </v-tooltip> --%>
                                         </template>
+
                                         <template v-slot:item.editar="{item}">
                                             <v-btn fab small color="warning" @click="flagEditar = true; itemEditar = item;
                                                 tipo = item.tipo;
@@ -722,6 +723,19 @@
                     fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, fnConsultarTablaSolicitud, itemEditar
                 }
             },
+            methods: {
+    onEditarClick(item) {
+      // Lógica para hacer el focus en el componente deseado
+      this.$refs.componenteDestino.$el.querySelector('input').focus();
+      
+      // Aquí puedes realizar otras acciones según sea necesario al hacer clic en el botón.
+      // Por ejemplo, puedes actualizar datos, mostrar algún mensaje, etc.
+      
+      // También puedes asignar valores a la variable del componente de destino aquí, si lo necesitas.
+      this.cve_origen_evento = item.cve_materia;
+      this.nombre_evento = item.nombre_materia;
+    }
+  }
             
         });
 
