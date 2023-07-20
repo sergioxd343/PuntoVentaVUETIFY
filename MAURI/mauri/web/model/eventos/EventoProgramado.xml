@@ -13,7 +13,7 @@ and open the template in the editor.
     <guardarEventoProgramado>
 		<query>
 			INSERT INTO evento_programado (cve_origen_evento, cve_espacio, cve_modalidad, nombre_evento, nombre_origen, sin_horario, horario_inicio, horario_fin, fecha_inicio, fecha_fin, estatus, usuario_registro)
-VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1);
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1);
 
 		</query>
 	</guardarEventoProgramado>
@@ -34,4 +34,9 @@ WHERE cve_prog_des = ?;
 			SELECT * FROM modalidad_evento WHERE activo = 1;
 		</query>
 	</selectModalidad>
+	<tablaSolicitudProyecto>
+	<query>
+		select * from programa_desarrollo_materia WHERE activo = 1;
+		</query>
+	</tablaSolicitudProyecto>
 </CatalogoProveedores>

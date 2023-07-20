@@ -34,6 +34,7 @@
     
     int accion = request.getParameter("accion") != null && !request.getParameter("accion").equals("") ? Integer.parseInt(request.getParameter("accion")) : 0;
     
+    int cve_origen_evento = request.getParameter("cve_origen_evento") != null && !request.getParameter("cve_origen_evento").equals("") ? Integer.parseInt(request.getParameter("cve_origen_evento")) : 0;
     int cve_espacio = request.getParameter("cve_espacio") != null && !request.getParameter("cve_espacio").equals("") ? Integer.parseInt(request.getParameter("cve_espacio")) : 0;
     int cve_modalidad = request.getParameter("cve_modalidad") != null && !request.getParameter("cve_modalidad").equals("") ? Integer.parseInt(request.getParameter("cve_modalidad")) : 0;
     boolean sin_horario = request.getParameter("sin_horario") != null && !request.getParameter("sin_horario").equals("");
@@ -58,6 +59,7 @@
             break;
         case 4:
             temp_obj = new JsonObject();
+            temp_obj.addProperty("cve_origen_evento", cve_origen_evento);
             temp_obj.addProperty("cve_espacio", cve_espacio);
             temp_obj.addProperty("cve_modalidad", cve_modalidad);
             temp_obj.addProperty("nombre_evento", nombre_evento);
@@ -69,6 +71,9 @@
             temp_obj.addProperty("fecha_fin", horario_inicio);
             parametros.add(temp_obj);
             out.println(datos.Registro(parametros, "guardarEventoProgramado"));
+            break;
+        case 5:
+            out.println(datos.Consultas(parametros, "tablaSolicitudProyecto"));
             break;
         default:
             out.print("ENTRO A CONTROLADOR"+ accion);

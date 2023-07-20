@@ -28,7 +28,108 @@
                         <v-container fluid>
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                 <!--Columna-->
+
+                                <v-col cols="12">
+                                    <v-card>
+                                      <v-toolbar color="primary" dark>
+                                        <v-toolbar-title>¿Qué es lo que desea programar?</v-toolbar-title>
+                                      </v-toolbar>
+                                      
+                                      <v-card-text>
+                                        <v-row>
+                                          <v-col cols="12" md="6" class="my-col">
+                                            <v-btn color="primary" @click="fnLimpiarCampos()" class="custom-btn">
+                                             SOLICITUD DE PROYECTO
+                                            </v-btn>
+                                          </v-col>
+                                          
+                                          <v-col cols="12" md="6" class="my-col">
+                                            <v-btn color="primary" @click="fnLimpiarCampos()" class="custom-btn">
+                                                ASESORAMIENTO PEDAGÓGICO
+                                            </v-btn>
+                                          </v-col>
+                                          
+                                          <v-col cols="12" md="6" class="my-col">
+                                            <v-btn color="primary" @click="fnLimpiarCampos()" class="custom-btn">
+                                              DANC
+                                            </v-btn>
+                                          </v-col>
+                                          
+                                          <v-col cols="12" md="6" class="my-col">
+                                            <v-btn color="primary" @click="fnConsultarTablaSolicitud()" class="custom-btn">
+                                              PROGRAMA DE DESARROLLO
+                                            </v-btn>
+                                          </v-col>
+                                        </v-row>
+
+                                        <v-col md=12>
+                                            <v-data-table
+                                                :headers="headersSolicitudProyecto"
+                                                :items="dataSolicitudProyecto"
+                                                :search="searchProveedores"
+                                                class="elevation-2"
+                                                no-data-text="No se encontro ningun registro"
+                                                :hide-default-header="dataProveedores.length < 1"
+                                                :hide-default-footer="dataProveedores.length < 1"
+                                                locale="es-ES"
+                                                :mobile-breakpoint="NaN"
+                                                items-per-page="10"
+                                            >  
+                                            <template v-slot:item.editar="{item}">
+                                                <v-btn  small color="warning" @click="
+                                                    nombre_evento = item.nombre_materia;
+                                                    cve_origen_evento = item.cve_materia;
+                                                ">Programar</v-btn>
+                                            </template>
+                                            </v-data-table>
+                                        </v-col>
+
+                                      </v-card-text>
+                                    </v-card>
+                                  </v-col>
+
                                 
+                                <v-col md=6>
+                                    <v-text-field 
+                                        v-model="nombre_origen"
+                                        outlined
+                                        label="Nombre del Origen"
+                                        persistent-hint
+                                        v-validate="'required|max:200'"
+                                        :readonly="true"
+                                        data-vv-name="nombre corto"
+                                        :error="errors.has('nombre corto')"
+                                        :error-messages="errors.first('nombre corto')"
+                                    ></v-text-field>
+                                </v-col>
+
+                                <v-col md=6>
+                                    <v-text-field 
+                                        v-model="cve_origen_evento"
+                                        outlined
+                                        label="Clave de evento de origen"
+                                        persistent-hint
+                                        v-validate="'required|max:200'"
+                                        :readonly="true"
+                                        data-vv-name="nombre corto"
+                                        :error="errors.has('nombre corto')"
+                                        :error-messages="errors.first('nombre corto')"
+                                    ></v-text-field>
+                                </v-col>
+
+                                <v-col md=6>
+                                    <v-text-field 
+                                        v-model="nombre_evento"
+                                        outlined
+                                        label="Nombre del Evento"
+                                        persistent-hint
+                                        v-validate="'required|max:200'"
+                                        :readonly="true"
+                                        data-vv-name="nombre corto"
+                                        :error="errors.has('nombre corto')"
+                                        :error-messages="errors.first('nombre corto')"
+                                    ></v-text-field>
+                                </v-col>
 
                                 <v-col md="6">
                                     <v-select
@@ -66,31 +167,9 @@
                                   </v-col>
 
                                                             
-                                <v-col md=6>
-                                    <v-text-field 
-                                        v-model="nombre_evento"
-                                        outlined
-                                        label="Nombre del Evento"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
-                                    ></v-text-field>
-                                </v-col>
+                                
 
-                                <v-col md=6>
-                                    <v-text-field 
-                                        v-model="nombre_origen"
-                                        outlined
-                                        label="Nombre del Origen"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="nombre corto"
-                                        :error="errors.has('nombre corto')"
-                                        :error-messages="errors.first('nombre corto')"
-                                    ></v-text-field>
-                                </v-col>
+                                
 
                                 <template>
                                     <v-col md="6">
@@ -195,6 +274,17 @@
                                         :mobile-breakpoint="NaN"
                                         items-per-page="10"
                                     >   
+
+                                    <template v-slot:item.estatus="{item}">
+                                        <v-chip class="ma-2"
+                                            style="width: 80px; display: flex; justify-content: center; align-items: center;"
+                                            link @click="fnCambiarEstatus(item)"
+                                            :color="item.activo ? 'success' : 'grey'" outlined>
+                                            {{ item.activo ?
+                                            "Activo" : "Inactivo" }}
+                                        </v-chip>
+                                    </template>
+
                                         <template v-slot:item.status="{item}">
                                             <%-- <v-tooltip bottom> --%>
                                                 <%-- <template v-slot:activator="{on, attrs}"> --%>
@@ -204,6 +294,7 @@
                                                 <%-- <span>d</span> --%>
                                             <%-- </v-tooltip> --%>
                                         </template>
+
                                         <template v-slot:item.editar="{item}">
                                             <v-btn fab small color="warning" @click="flagEditar = true; itemEditar = item;
                                                 tipo = item.tipo;
@@ -259,6 +350,15 @@
                                         items-per-page="10"
                                         @click:row="seleccionarUsuario"
                                     >
+                                    <template v-slot:item.estatus="{item}">
+                                        <v-chip class="ma-2"
+                                            style="width: 80px; display: flex; justify-content: center; align-items: center;"
+                                            link @click="fnCambiarEstatus(item)"
+                                            :color="item.activo ? 'success' : 'grey'" outlined>
+                                            {{ item.activo ?
+                                            "Activo" : "Inactivo" }}
+                                        </v-chip>
+                                    </template>
                                     </v-data-table>
                                 </v-col>
                             </v-row>
@@ -295,6 +395,15 @@
         </div>
     </body>
 
+    <style>
+        .my-col {
+          margin-bottom: 10px; /* Ajusta el margen inferior según tus necesidades */
+        }
+        .custom-btn {
+  width: 350px; /* Establece el ancho deseado para los botones */
+}
+        </style>
+
     <%--apis--%>
     <script src="../../javascript/axios/axios.js"></script>
 
@@ -326,7 +435,6 @@
                 //Variables POST
                 const sin_horario =ref("");
                 const nombreUsuario = ref("");
-                const cve_even_prog = ref("");
                 const cve_origen_evento = ref("");
                 const cve_espacio = ref("");
                 const cve_modalidad = ref("");
@@ -360,15 +468,26 @@
 
                 //DataTable
                 //dataUsuarios
+                const dataSolicitudProyecto = ref([]);
                 const dataProveedores = ref([]); 
                 const dataUsuarios = ref([]);
+
+                const headersSolicitudProyecto = ref([
+                    {text: 'No', align: 'left', sortable: true, value: 'cve_prog_des'},
+                    {text: 'Nombre de la materia', align: 'left', sortable: true, value: 'nombre_materia'},
+                    {text: 'Duracion', align: 'left', sortable: true, value: 'duracion'},
+                    {text: 'Objetivo', align: 'left', sortable: true, value: 'objetivo'},
+                    {text: 'Rezultado', align: 'left', sortable: true, value: 'resultado_aprendizaje'},
+                    {text: 'ELEGIR', align: 'left', sortable: true, value: 'editar'},
+                ]);
+
                 const headersProveedores = ref([
                     {text: 'No', align: 'left', sortable: true, value: 'cve_even_prog'},
                     {text: 'Nombre del Evento', align: 'left', sortable: true, value: 'nombre_evento'},
                     {text: 'Nombre del Origen', align: 'left', sortable: true, value: 'nombre_origen'},
                     {text: 'Horario inicio', align: 'left', sortable: true, value: 'horario_inicio'},
                     {text: 'fecha inicio', align: 'left', sortable: true, value: 'fecha_inicio'},
-                    {text: 'Estatus', align: 'left', sortable: true, value: 'activo'},
+                    {text: 'Estatus', align: 'left', sortable: true, value: 'estatus'},
                 ]);
                 const searchProveedores = ref([]);
 
@@ -380,6 +499,29 @@
                     //fnTiposProveedor();
                 });
 
+                async function fnConsultarTablaSolicitud(){
+                    try{
+                        preloader("../../");
+                        //arreglo
+                        let parametros = new URLSearchParams();
+                        //le mandamos un parametro llamado accion
+                        parametros.append("accion", 5);
+                        //axios envia la peticion
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                nombre_origen.value = "Programa desarrollo";
+                                dataSolicitudProyecto.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                    
+                }
                 
                 async function fnConsultarTabla(){
                     try{
@@ -411,6 +553,7 @@
                                 preloader("../../");
                                 let parametros = new URLSearchParams();
                                 parametros.append("accion", 4);
+                                parametros.append("cve_origen_evento", cve_origen_evento.value);
                                 parametros.append("cve_espacio", cve_espacio.value);
                                 parametros.append("cve_modalidad", cve_modalidad.value);
                                 parametros.append("nombre_evento", nombre_evento.value);
@@ -418,7 +561,7 @@
                                 parametros.append("sin_horario", sin_horario.value);
                                 parametros.append("horario_inicio", horario_inicio.value);
                                 parametros.append("horario_fin", horario_fin.value);
-                                parametros.append("fecha_inicio", nombreUsuario.value);
+                                parametros.append("fecha_inicio", fecha_inicio.value);
                                 parametros.append("fecha_fin", fecha_fin.value);
                                 let {data,status} = await axios.post(ctr, parametros)
                                 if(status == 200){
@@ -540,15 +683,19 @@
                 }
 
                 function fnLimpiarCampos(cx){//cx = contexto
-                    tipo.value = "";
-                    nombreUsuario.value = "";
-                    fecha.value = "";
-                    rfc.value = "";
-                    padron.value = "";
-                    nombrePerfil.value = "";
-                    correoContacto.value = "";
-                    telefonoContacto.value = "";
-                    estatus.value = "";
+                    
+                    nombre_origen.value = "";
+                    cve_origen_evento.value ="";
+                    cve_espacio.value ="";
+                    cve_modalidad.value ="";
+                    cve_modalidad.value ="";
+                    sin_horario.value ="";
+                    horario_inicio.value ="";
+                    horario_fin.value ="";
+                    fecha_inicio.value ="";
+                    fecha_fin.value ="";
+                    nombre_evento.value="";
+                    
                     flagEditar.value = false;
                     itemEditar.value = {};
 
@@ -570,12 +717,25 @@
                 return{
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
                     nombre_evento, nombre_origen, horario_inicio, horario_fin, fecha_inicio, fecha_fin,
-                    dataProveedores, headersProveedores, searchProveedores, arrayTiposUsuario, sin_horario,
-                    arrayEspacio, arrayModalidad,
-                    dialogBuscador, dialogDetallesCotizacion, dialogProveedor,cve_even_prog,cve_origen_evento,cve_espacio,cve_modalidad,
-                    fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, itemEditar
+                    dataProveedores, headersProveedores, headersSolicitudProyecto, searchProveedores, arrayTiposUsuario, sin_horario,
+                    arrayEspacio, arrayModalidad, dataSolicitudProyecto, 
+                    dialogBuscador, dialogDetallesCotizacion, dialogProveedor,cve_origen_evento,cve_espacio,cve_modalidad,
+                    fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, fnConsultarTablaSolicitud, itemEditar
                 }
             },
+            methods: {
+    onEditarClick(item) {
+      // Lógica para hacer el focus en el componente deseado
+      this.$refs.componenteDestino.$el.querySelector('input').focus();
+      
+      // Aquí puedes realizar otras acciones según sea necesario al hacer clic en el botón.
+      // Por ejemplo, puedes actualizar datos, mostrar algún mensaje, etc.
+      
+      // También puedes asignar valores a la variable del componente de destino aquí, si lo necesitas.
+      this.cve_origen_evento = item.cve_materia;
+      this.nombre_evento = item.nombre_materia;
+    }
+  }
             
         });
 
