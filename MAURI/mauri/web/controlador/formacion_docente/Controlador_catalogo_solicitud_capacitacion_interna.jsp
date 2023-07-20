@@ -3,8 +3,8 @@
      * <p>Title        : 
      * <p>Description  : 
      * @author         : Maria Guadalupe Gutiérrez Alcantar
-     * @version        : 2
-     * @date           :  17 - 06 -23
+     * @version        : 3
+     * @date           :  7 - 07 -23
      */
 
 --%>
@@ -47,7 +47,8 @@
     String nombreCurso = request.getParameter("nombreCurso") != null && !request.getParameter("nombreCurso").equals("") ? request.getParameter("nombreCurso") : "-";
     String fechaInicio = request.getParameter("fechaInicio") != null && !request.getParameter("fechaInicio").equals("") ? request.getParameter("fechaInicio") : "-";
     String fechaFin = request.getParameter("fechaFin") != null && !request.getParameter("fechaFin").equals("") ? request.getParameter("fechaFin") : "-";
-    String horario = request.getParameter("horario") != null && !request.getParameter("horario").equals("") ? request.getParameter("horario") : "-";
+    String horario_inicio = request.getParameter("horario_inicio") != null && !request.getParameter("horario_inicio").equals("") ? request.getParameter("horario_inicio") : "-";
+    String horario_fin = request.getParameter("horario_fin") != null && !request.getParameter("horario_fin").equals("") ? request.getParameter("horario_fin") : "-";
     String lugar = request.getParameter("lugar") != null && !request.getParameter("lugar").equals("") ? request.getParameter("lugar") : "-";
     String tipoCurso = request.getParameter("tipoCurso") != null && !request.getParameter("tipoCurso").equals("") ? request.getParameter("tipoCurso") : "-";
     String dias = request.getParameter("dias") != null && !request.getParameter("dias").equals("") ? request.getParameter("dias") : "-";
@@ -70,7 +71,10 @@
         case 1:
             temp_obj = new JsonObject();
             temp_obj.addProperty("nombreFacilitador", nombreFacilitador);
-            temp_obj.addProperty("horario", horario);
+            temp_obj.addProperty("areaPertenece", areaPertenece);
+            temp_obj.addProperty("programaEducativo", programaEducativo);
+            temp_obj.addProperty("horario_inicio", horario_inicio);
+            temp_obj.addProperty("horario_fin", horario_fin);
             temp_obj.addProperty("tipoCompetencia", tipoCompetencia);
             temp_obj.addProperty("nombreCurso", nombreCurso);
             temp_obj.addProperty("dias", dias);
@@ -106,7 +110,10 @@
             out.println(datos.Consultas(parametros, "programaEducativo"));
             break; 
         case 6:
-            out.println(datos.Consultas(parametros, "horarios"));
+            out.println(datos.Consultas(parametros, "horarioInicio"));
+            break;
+        case 7:
+            out.println(datos.Consultas(parametros, "horarioFin"));
             break;
     }
     

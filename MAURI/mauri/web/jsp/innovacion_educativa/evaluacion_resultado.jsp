@@ -48,9 +48,9 @@
 
                                 <v-col md="8">
                                     <!--Cuatrimestre-->
-                                    <v-autocomplete v-model="cuatrimestre" outlined label="Cuatrimestre" persistent-hint
-                                        v-validate="'required|max:7'" data-vv-name="cuatrimestre"
-                                        :items="arrayCuatrimestre" item-value="idCuatrimestre" item-text="cuatrimestre"
+                                    <v-autocomplete v-model="cve_periodo" outlined label="Cuatrimestre" persistent-hint
+                                        v-validate="'required|max:70'" data-vv-name="cuatrimestre" :items="arrayPeriodo"
+                                        item-value="cve_periodo" item-text="descripcion"
                                         :error="errors.has('cuatrimestre')"
                                         :error-messages="errors.first('cuatrimestre')"></v-autocomplete>
                                 </v-col>
@@ -88,27 +88,25 @@
                                         Marque el servicio que recibió:
                                     </p>
                                     <v-col md="12">
-                                        
-                                        <!--Tipo de servicio-->
-                                        <v-autocomplete  v-model="cve_t_servicio" outlined label="Tipo de Servicio"
+                                        <!-- Tipo de servicio -->
+                                        <v-autocomplete v-model="cve_t_servicio" outlined label="Tipo de Servicio"
                                             persistent-hint v-validate="'required|max:100'"
                                             data-vv-name="tipo de servicio" :items="arrayTipoServicio"
                                             item-value="cve_tipo_servicio" item-text="nombre_tipo_servicio"
                                             :error="errors.has('tipo de servicio')"
-                                            :error-messages="errors.first('tipo de servicio')"></v-autocomplete>
-
+                                            :error-messages="errors.first('tipo de servicio')" @input="clearTipoServicio()"></v-autocomplete>
                                     </v-col>
 
-                                    <v-col md="12" >
-                                        <!--Asesoria de Proyecto-->
+                                    <v-col md="12">
+                                        <!-- Asesoria de Proyecto -->
                                         <v-autocomplete v-if="cve_t_servicio === 1" v-model="cve_asesoria_proyecto"
                                             outlined label="Asesoria de Proyecto" persistent-hint
                                             data-vv-name="asesoria de proyecto" :items="arrayAsesoriaProyecto"
-                                            item-value="cve_asesoria" item-text="asesoria_proyecto"
+                                            item-value="cve_asesoria" item-text="materia"
                                             :error="errors.has('asesoria de Proyecto')"
                                             :error-messages="errors.first('asesoria de proyecto')"></v-autocomplete>
 
-                                        <!--Solicitud del proyecto-->
+                                        <!-- Solicitud del proyecto -->
                                         <v-autocomplete v-if="cve_t_servicio === 2" v-model="cve_solicitud_proyecto"
                                             outlined label="Solicitud de Proyecto" persistent-hint
                                             data-vv-name="solicitud de proyecto" :items="arraySolicitud"
@@ -116,10 +114,11 @@
                                             :error="errors.has('solicitud de Proyecto')"
                                             :error-messages="errors.first('solicitud de proyecto')"></v-autocomplete>
                                     </v-col>
+
                                 </v-col>
 
-                                <v-col md="12" >
-                                    <p class="font-weight-medium my-12 text-center" >
+                                <v-col md="12">
+                                    <p class="font-weight-medium my-12 text-center">
                                         Califique el servicio que recibió de innovación educativa, considerando la
                                         siguiente escala:
                                     </p>
@@ -384,7 +383,7 @@
                                 </v-col>
 
                                 <v-col md="10">
-                                    <v-textarea v-model="comentarios" label="Comentarios/Sugerencias" 
+                                    <v-textarea v-model="comentarios" label="Comentarios/Sugerencias"
                                         prepend-icon="mdi-comment" solo></v-textarea>
                                 </v-col>
 
@@ -411,7 +410,7 @@
                                         <v-row justify="center">
                                             <v-col md=8>
                                                 <v-text-field outlined
-                                                    label="Área | Cuatrimestre | Año | Usuario de registro"
+                                                    label="Área | Cuatrimestre | Fecha de Registro | Nombre del evaluador(a)"
                                                     v-model="nombreBuscar" append-icon="mdi-magnify"
                                                     @input="fnBusqueda()"></v-text-field>
                                             </v-col>
@@ -500,20 +499,20 @@
                         const cve_asesoria_proyecto = ref("");
                         const cve_solicitud_proyecto = ref("");
                         const cve_area = ref("");
+                        const cve_periodo = ref("");
                         const suma = ref("");
                         const porcentaje = ref("");
-                        const cuatrimestre = ref("");
                         const comentarios = ref("");
                         const activo = ref("");
                         const fecha_registro = ref("");
 
                         const calificaciones = ref([0, 0, 0, 0, 0]);
 
-                        const arrayCuatrimestre = ref(["Ene-Abr", "May-Jun", "Jul-Ags"]);
                         const arrayTipoServicio = ref([]);
                         const arrayAsesoriaProyecto = ref([]);
                         const arraySolicitud = ref([]);
                         const arrayArea = ref([]);
+                        const arrayPeriodo = ref([]);
 
                         const fechaActual = ref("");
                         const fecha = ref("");
@@ -527,7 +526,7 @@
                         const headersEncuesta = ref([
                             { text: 'No', align: 'left', sortable: true, value: 'cve_eval_resul' },
                             { text: 'Nombre del/la evaluador/a', align: 'left', sortable: true, value: 'nombre_completo' },
-                            { text: 'Cuatrimestre', align: 'left', sortable: true, value: 'cuatrimestre' },
+                            { text: 'Cuatrimestre', align: 'left', sortable: true, value: 'descripcion' },
                             { text: 'Tipo de servicio', align: 'left', sortable: true, value: 'nombre_tipo_servicio' },
                             { text: 'Nombre de la área', align: 'left', sortable: true, value: 'nombre_area' },
                             { text: 'Total Calificación', align: 'left', sortable: true, value: 'suma' },
@@ -568,6 +567,7 @@
                             fnSolicitud();
                             fnConsultarArea();
                             fnReasignacionDatos();
+                            fnPeriodo();
                         });
 
                         //Consultar datos en la base de datos.
@@ -643,6 +643,24 @@
                                 swal.close();
                             }
                         }
+                        async function fnPeriodo() {
+                            try {
+                                preloader("../../");
+                                let parametros = new URLSearchParams();
+                                parametros.append("accion", 8);
+                                let { data, status } = await axios.post(ctr, parametros)
+                                if (status == 200) {
+                                    if (data.length > 0) {
+                                        arrayPeriodo.value = data
+                                    }
+                                }
+                            } catch (error) {
+                                mostrarSnackbar('error');
+                                console.error(error);
+                            } finally {
+                                swal.close();
+                            }
+                        }
 
                         async function fnConsultarTabla() {
                             try {
@@ -674,7 +692,7 @@
                                     const areaAreaMatch = item.nombre_area.toLowerCase().includes(this.nombreBuscar.toLowerCase());
                                     const anioRegistroMatch = item.fecha_registro.toLowerCase().includes(this.nombreBuscar.toLowerCase());
                                     const usuarioRegistroMatch = item.nombre_completo.toLowerCase().includes(this.nombreBuscar.toLowerCase());
-                                    const cuatrimestreMatch = item.cuatrimestre.toString().includes(this.nombreBuscar);
+                                    const cuatrimestreMatch = item.descripcion.toString().includes(this.nombreBuscar);
 
                                     return areaAreaMatch || anioRegistroMatch || cuatrimestreMatch || usuarioRegistroMatch;
                                 });
@@ -683,7 +701,7 @@
 
 
                         function fnReasignacionDatos() {
-                            nombreCompleto.value = currentUserObj[0].nombre + ' ' + currentUserObj[0].apellido_peterno + ' ' + currentUserObj[0].apellido_materno;
+                            nombreCompleto.value = currentUserObj[0].nombre + ' ' + currentUserObj[0].apellido_paterno + ' ' + currentUserObj[0].apellido_materno;
 
                             const calculo_fecha = new Date();
                             const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
@@ -702,9 +720,9 @@
                                         parametros.append("cve_asesoria_proyecto", cve_asesoria_proyecto.value);
                                         parametros.append("cve_area", cve_area.value);
                                         parametros.append("cve_solicitud_proyecto", cve_solicitud_proyecto.value);
+                                        parametros.append("cve_periodo", cve_periodo.value);
                                         parametros.append("suma", suma.value);
                                         parametros.append("porcentaje", porcentaje.value);
-                                        parametros.append("cuatrimestre", cuatrimestre.value);
                                         parametros.append("comentarios", comentarios.value);
                                         parametros.append("usuario_registro", this.usuario_registro);
 
@@ -739,7 +757,7 @@
                             cve_area.value = "";
                             porcentaje.value = "";
                             fecha.value = "";
-                            cuatrimestre.value = "";
+                            cve_periodo.value = "";
                             comentarios.value = "";
                             suma.value = "";
                             cve_area.value = "";
@@ -761,9 +779,9 @@
 
                         return {
                             cve_eval_resul, cve_t_servicio, cve_asesoria_proyecto, cve_solicitud_proyecto,
-                            suma, porcentaje, cuatrimestre, comentarios, activo, fecha,
+                            suma, porcentaje, cve_periodo, comentarios, activo, fecha,
                             fecha_registro, usuario_registro, calificaciones, cve_area, nombreCompleto, fechaActual,
-                            arrayCuatrimestre, arrayTipoServicio, arrayAsesoriaProyecto, arrayArea, arraySolicitud,
+                            arrayTipoServicio, arrayAsesoriaProyecto, arrayArea, arraySolicitud, arrayPeriodo,
                             headersEncuesta, dataEncuesta, searchEncuesta, fnBusqueda, fnReasignacionDatos, fnSolicitud,
                             dialogBuscador, nombreBuscar, searchBusqueda, currentUser, currentUserObj,
                             fnConsultarTabla, fnTipoServicio, fnAsesoriaProyecto, fnConsultarArea,
@@ -779,6 +797,10 @@
                             const porcentajeTotal = (total / 500) * 1000; // Calcula el porcentaje
                             this.porcentaje = porcentajeTotal.toString(); // Asigna el porcentaje a la variable
                         },
+                        clearTipoServicio() {
+                            this.cve_solicitud_proyecto = "";
+                            this.cve_asesoria_proyecto = "";
+                        }
                     },
                     watch: {
                         calificaciones: {
@@ -786,7 +808,7 @@
                                 this.calcularSuma();
                             },
                             deep: true,
-                        },
+                        }
                     },
                 });
                 Vue.config.devtools = true;

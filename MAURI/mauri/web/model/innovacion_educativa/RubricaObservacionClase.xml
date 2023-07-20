@@ -19,11 +19,11 @@ and open the template in the editor.
     rubrica_observacion_clase.usuario_registro,
     persona.cve_persona,
     persona.nombre,
-    persona.apellido_peterno,
+    persona.apellido_paterno,
     persona.apellido_materno,
     empleado.cve_persona AS Expr1,
     empleado.cve_empleado,
-    CONCAT(persona.nombre, ' ', persona.apellido_peterno, ' ', persona.apellido_materno) AS nombre_completo
+    CONCAT(persona.nombre, ' ', persona.apellido_paterno, ' ', persona.apellido_materno) AS nombre_completo
 FROM
     persona
     INNER JOIN empleado ON persona.cve_persona = empleado.cve_persona
@@ -47,7 +47,7 @@ FROM
     empleado.cve_empleado, 
     empleado.cve_persona, 
     persona.cve_persona AS Expr1,
-	CONCAT(persona.nombre, ' ', persona.apellido_peterno, ' ', persona.apellido_materno) AS nombre_completo
+	CONCAT(persona.nombre, ' ', persona.apellido_paterno, ' ', persona.apellido_materno) AS nombre_completo
 FROM empleado
 INNER JOIN persona ON empleado.cve_persona = persona.cve_persona
 		</query>

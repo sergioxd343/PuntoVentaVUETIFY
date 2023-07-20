@@ -40,6 +40,9 @@
                                             :error="errors.has('nombre tipo servicio')"
                                             :error-messages="errors.first('nombre tipo servicio')"></v-text-field>
                                     </v-col>
+                            </v-row>
+
+                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                     <v-row justify="center">
                                         <v-btn color="primary" @click="flagEditar ? fnEditar() : fnGuardarTipoServicio()"><v-icon>mdi-content-save</v-icon>{{flagEditar ? 'Editar' : 'Guardar'}}</v-btn>
                                         &nbsp;

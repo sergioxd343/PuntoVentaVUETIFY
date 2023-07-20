@@ -137,6 +137,9 @@
             parametros.add(temp_obj);
             out.println(datos.Registro(parametros, "editarAnalisis"));
             break;
+        case 10:
+            out.println(datos.Consultas(parametros, "consultarCarrera"));
+            break;
         default:
             out.print("ENTRO A CONTROLADOR"+ accion);
             break;

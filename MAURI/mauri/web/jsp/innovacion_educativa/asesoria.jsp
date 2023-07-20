@@ -42,9 +42,12 @@
 
                                 <v-col md="8">
                                     <!--Nombre del/la docente-->
-                                    <v-text-field outlined label="Nombre del/la docente:" persistent-hint
-                                        v-validate="'required|max:100'" :readonly="true"
-                                        :value="nombreCompleto"></v-text-field>
+                                    <v-autocomplete v-model="docente" outlined label="Nombre de/la docente:" persistent-hint
+                                        v-validate="'required|max:100'" data-vv-name="nombre de/la docente"
+                                        :items="arrayEmpleado" item-value="cve_empleado" item-text="nombre_completo"
+                                        :error="errors.has('nombre de/la docente')"
+                                        :error-messages="errors.first('nombre de/la docente')"
+                                        :readonly="modoEdicion"></v-autocomplete>
                                 </v-col>
                                 <v-col md="8">
                                     <!--Materia-->
@@ -77,7 +80,7 @@
                                     <v-menu ref="menu1" :close-on-content-click="false" :return-value.sync="fecha"
                                         transition="scale-transition" offset-y min-width="auto">
                                         <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field v-model="fechaActual" label="Fecha"
+                                            <v-text-field v-model="fechaActual" label="Fecha de registro"
                                                 prepend-icon="mdi-calendar" readonly></v-text-field>
                                         </template>
                                         <v-date-picker v-model="fecha" no-title scrollable :readonly="true">
@@ -200,7 +203,7 @@
                                         <v-row justify="center">
                                             <v-col md=8>
                                                 <v-text-field outlined
-                                                    label="Solicitante | Usuario de registro | Academia"
+                                                    label="Solicitante | Usuario de registro | Academia | Fecha de Registro"
                                                     v-model="nombreBuscar" append-icon="mdi-magnify"
                                                     @input="fnBusqueda()"></v-text-field>
                                             </v-col>
@@ -292,6 +295,7 @@
                         const cve_asesoria = ref("");
                         const cve_empleado = ref("");
                         const cve_academia = ref("");
+                        const docente = ref("");
                         const materia = ref("");
                         const fecha = ref("");
                         const motivo_solicitud = ref("");
@@ -346,7 +350,9 @@
                         const dataUsuarios = ref([]);
                         const headersDNAP = ref([
                             { text: 'No', align: 'left', sortable: true, value: 'cve_asesoria' },
+                            { text: 'Nombre de/la docente', align: 'left', sortable: true, value: 'nombre_completo_docente' },
                             { text: 'Nombre del solicitante', align: 'left', sortable: true, value: 'nombre_completo_solicitante' },
+                            { text: 'Nombre del responsable', align: 'left', sortable: true, value: 'nombre_completo_responsable' },
                             { text: 'Nombre de academia', align: 'left', sortable: true, value: 'nombre_academia' },
                             { text: 'Materia', align: 'left', sortable: true, value: 'materia' },
                             { text: 'Fecha de seguimiento', align: 'left', sortable: true, value: 'fecha' },
@@ -510,8 +516,9 @@
                                     const nombreAcademiaMatch = item.nombre_academia.toLowerCase().includes(this.nombreBuscar.toLowerCase());
                                     const usuarioRegistroMatch = item.nombre_completo.toLowerCase().includes(this.nombreBuscar.toLowerCase());
                                     const solicitanteMatch = item.nombre_completo_solicitante.toString().includes(this.nombreBuscar);
+                                    const anioRegistroMatch = item.fecha_registro.toLowerCase().includes(this.nombreBuscar.toLowerCase());
 
-                                    return nombreAcademiaMatch || usuarioRegistroMatch || solicitanteMatch;
+                                    return nombreAcademiaMatch || usuarioRegistroMatch || solicitanteMatch || anioRegistroMatch;
                                 });
                             }
                         }
@@ -523,7 +530,7 @@
                             this.cve_asesoria = item.cve_asesoria;
                             this.cve_empleado = item.cve_empleado;
                             this.cve_academia = item.cve_academia;
-                            this.nombreCompleto = item.nombre_completo_solicitante;
+                            this.docente = item.nombre_completo_docente;
                             this.materia = item.materia;
                             this.fecha = item.fecha;
                             this.fechaActual = item.fecha_registro;
@@ -543,7 +550,7 @@
                         }
 
                         function fnReasignacionDatos() {
-                            nombreCompleto.value = currentUserObj[0].nombre + ' ' + currentUserObj[0].apellido_peterno + ' ' + currentUserObj[0].apellido_materno;
+                            //nombreCompleto.value = currentUserObj[0].nombre + ' ' + currentUserObj[0].apellido_paterno + ' ' + currentUserObj[0].apellido_materno;
                             fechaActual.value = new Date().toISOString().substr(0, 10);
                         }
 
@@ -558,6 +565,7 @@
                                         console.log(cve_empleado.value);
                                         parametros.append("cve_empleado", cve_empleado.value);
                                         parametros.append("cve_academia", cve_academia.value);
+                                        parametros.append("docente", docente.value);
                                         parametros.append("materia", materia.value);
                                         parametros.append("fecha", fechaActual.value);
                                         parametros.append("motivo_solicitud", motivo_solicitud.value);
@@ -643,6 +651,7 @@
                             cve_asesoria.value = "";
                             cve_empleado.value = "";
                             cve_academia.value = "";
+                            docente.value = "";
                             materia.value = "";
                             fecha.value = "";
                             motivo_solicitud.value = "";
@@ -679,7 +688,7 @@
                             cve_asesoria, cve_empleado, cve_academia, materia, fecha, motivo_solicitud, compromisos, responsable,
                             sugerencias, entrevista, activo, fecha_registro, usuario_registro,
                             arrayEmpleado, arrayAcademia, sugerenciasActivo, opc_si, opc_no,
-                            currentUser, currentUserObj, userPermission, arrayUsuario,
+                            currentUser, currentUserObj, userPermission, arrayUsuario, docente,
                             opc_validado, opc_noValidado, modoEdicion, nombreCompleto, fnCambiarEstatus,
                             menu2, modal2, fnBusqueda, fnEditarItem, fnConsultarTabla, fnConsultarUsuario, fnReasignacionDatos,
                             dialogBuscador, nombreBuscar, searchBusqueda, fechaActual,

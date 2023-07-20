@@ -508,7 +508,7 @@
                 const cve_persona = user[0].cve_persona;
                 const idEmpleado = user[0].cve_empleado;
                 const nombre = user[0].nombre;
-                const ape1 = user[0].apellido_peterno;
+                const ape1 = user[0].apellido_paterno;
                 const ape2 = user[0].apellido_materno;
                 const sexo = user[0].sexo;
                 const puesto = user[0].nombre_puesto;

@@ -19,11 +19,17 @@
 		</query>
 	</programaEducativo>
 
-    <horarios>
+    <horarioInicio>
 		<query>
-			SELECT cve_horario, descripcion FROM horario
+			SELECT cve_horario, hora_inicio FROM horario
 		</query>
-	</horarios>
+	</horarioInicio>
+
+	<horarioFin>
+		<query>
+			SELECT cve_horario, hora_fin FROM horario
+		</query>
+	</horarioFin>
 
     <tablaSolicitud>
         <query>
@@ -33,12 +39,17 @@
 
     <insertarSolicitud>
         <query>
-			DECLARE @instructores VARCHAR(MAX);
-			SET @instructores = ?; 
+				DECLARE @instructores VARCHAR(MAX);
+				DECLARE @areas VARCHAR(MAX);
+				DECLARE @ugacs VARCHAR(MAX);
 
+				SET @instructores = ?;
+				SET @areas = ?;
+				SET @ugacs = ?;
 
 			EXEC InsertarSolicitudConInstructores
-				@cve_horario = ?,
+				@hora_inicio = ?,
+				@hora_fin = ?,
 				@tipo_competencia = ?,
 				@nombre = ?,
 				@total_dias = ?,
@@ -56,7 +67,10 @@
 				@perfil_participante = ?,
 				@estatus = 1,
 				@usuario_registro = ?,
-				@instructores = @instructores;
+				@instructores = @instructores,
+				@areas = @areas,
+				@ugacs = @ugacs;
+
         </query>
     </insertarSolicitud>
     

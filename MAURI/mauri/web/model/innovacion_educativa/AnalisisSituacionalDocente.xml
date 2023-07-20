@@ -35,14 +35,14 @@ and open the template in the editor.
     academia.nombre_academia,
     persona.cve_persona,
     persona.nombre,
-    persona.apellido_peterno,
+    persona.apellido_paterno,
     persona.apellido_materno,
-    CONCAT(persona.nombre, ' ', persona.apellido_peterno, ' ', persona.apellido_materno) AS nombre_completo
+    CONCAT(persona.nombre, ' ', persona.apellido_paterno, ' ', persona.apellido_materno) AS nombre_completo
 FROM
     analisis_docente
-    INNER JOIN unidad_academica ON analisis_docente.cve_unidad_academica = unidad_academica.cve_unidad_academica
-    INNER JOIN academia ON analisis_docente.cve_academia = academia.cve_academia
-    INNER JOIN persona ON analisis_docente.usuario_registro = persona.cve_persona
+    LEFT JOIN unidad_academica ON analisis_docente.cve_unidad_academica = unidad_academica.cve_unidad_academica
+    LEFT JOIN academia ON analisis_docente.cve_academia = academia.cve_academia
+    LEFT JOIN persona ON analisis_docente.usuario_registro = persona.cve_persona
 
 		</query>
 	</tablaAnalisis>
@@ -83,6 +83,10 @@ FROM            tipo_evento
 FROM            ugac
 		</query>
 	</consultarUGAC>
+  <consultarCarrera>
+		<query>
+		</query>
+	</consultarCarrera>
     <editarEstatus>
 		<query>
 			UPDATE analisis_docente

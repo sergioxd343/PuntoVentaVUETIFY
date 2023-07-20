@@ -1,0 +1,32 @@
+<CatalogoEmpleados>
+    <ImportarEmpleados>
+        <query>
+        EXEC    InsertarEmpleado
+            @nombre = ?,					
+	        @apellido_paterno = ?,		
+	        @apellido_materno = ?,		
+	        @email = ?,               	
+	        @movil = ?,            		
+	        @curp = ?, 					
+	        @rfc = ?, 					
+	        @sexo = ?,             		
+	        @fecha_nacimiento = ?,
+	        @cve_puesto = ?,					
+	        @cve_tipo_puesto = ?,			
+	        @cve_departamento = ?,			
+	        @cve_area = ?,					
+	        @cve_ugac = ?,					
+	        @cve_unidad_academica = ?,		
+	        @fecha_ingreso = ?,				
+	        @titulo_recibido = ?,		
+	        @grado_estudio = ?,
+			@nombre_usuario = ?,
+			@contrasenia = ?			
+        </query>
+    </ImportarEmpleados>
+	<consultarTabla>
+		<query>
+			SELECT * FROM v_empleado
+		</query>
+	</consultarTabla>
+</CatalogoEmpleados>

@@ -41,12 +41,16 @@
                                         :error="errors.has('nombre tipo evento')"
                                         :error-messages="errors.first('nombre tipo eventoo')"></v-text-field>
                                 </v-col>
+                                </v-row>
+
+                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                 <v-row justify="center">
                                     <v-btn color="primary" @click="flagEditar ? fnEditar() : fnGuardarTipoEvento()"><v-icon>mdi-content-save</v-icon>{{flagEditar ? 'Editar' : 'Guardar'}}</v-btn>
                                     &nbsp;
                                     <v-btn color="error" @click="fnLimpiarCampos()"><v-icon>mdi-cancel</v-icon>Cancelar</v-btn>
                                 </v-row>
-                                </v-row>
+                            </v-row>
+
                                 <!-- Tabla tipo evento --> 
                             <v-row justify="center">
                                 <v-col md=12>

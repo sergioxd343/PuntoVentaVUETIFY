@@ -44,7 +44,7 @@
     //VARIABLES DE PLANTILLA
 
      
-     String xml= String.valueOf(request.getRealPath(""))+"\\model\\catalogos_pequenios\\instructor.xml";
+     String xml= String.valueOf(request.getRealPath(""))+"\\model\\catalogos_pequenios\\instructor_externo.xml";
      GeneralDAO datos = new GeneralDAO(xml);
 //
      //JsonArray parametros = new JsonArray();
@@ -55,21 +55,21 @@
      
      int accion = request.getParameter("accion") != null && !request.getParameter("accion").equals("") ? Integer.parseInt(request.getParameter("accion")) : 0;
      String nombreInstructor = request.getParameter("nombre_instructor") != null && !request.getParameter("nombre_instructor").equals("") ? request.getParameter("nombre_instructor") : "-";
-     String areaAcademica = request.getParameter("area_academica") != null && !request.getParameter("area_academica").equals("") ? request.getParameter("area_academica") : "-";
-     int tipoInstructor = request.getParameter("cve_tipo_instructor") != null && !request.getParameter("cve_tipo_instructor").equals("") ? Integer.parseInt(request.getParameter("cve_tipo_instructor")) : 0;
+     String apellidoPaterno = request.getParameter("apellido_paterno") != null && !request.getParameter("apellido_paterno").equals("") ? request.getParameter("apellido_paterno") : "-";
+     String apellidoMaterno = request.getParameter("apellido_materno") != null && !request.getParameter("apellido_materno").equals("") ? request.getParameter("apellido_materno") : "-";
      String activo = request.getParameter("activo") != null && !request.getParameter("activo").equals("") ? request.getParameter("activo") : "-";
      String pass = request.getParameter("pass") != null && !request.getParameter("pass").equals("") ? request.getParameter("pass") : "-";
      int cve_persona = request.getParameter("cve_persona") != null && !request.getParameter("cve_persona").equals("") ? Integer.parseInt(request.getParameter("cve_persona")) : 0;
-     int cve_instructor = request.getParameter("cve_instructor") != null && !request.getParameter("cve_instructor").equals("") ? Integer.parseInt(request.getParameter("cve_instructor")) : 0;
+     int cve_instructor_e = request.getParameter("cve_instructor_e") != null && !request.getParameter("cve_instructor_e").equals("") ? Integer.parseInt(request.getParameter("cve_instructor_e")) : 0;
      switch (accion) {
         case 1:
           out.println(datos.Consultas(parametros, "tablaInstructor"));
           break;
         case 2:
             temp_obj = new JsonObject();
-            temp_obj.addProperty("cve_tipo_instructor", tipoInstructor);
             temp_obj.addProperty("nombre_instructor", nombreInstructor);
-            temp_obj.addProperty("area_academica", areaAcademica);
+            temp_obj.addProperty("apellido_paterno", apellidoPaterno);
+            temp_obj.addProperty("apellido_materno", apellidoMaterno);
             temp_obj.addProperty("usuario_registro", cve_persona);
             parametros.add(temp_obj);
             out.println(datos.Registro(parametros, "guardarInstructor"));
@@ -77,22 +77,10 @@
         case 3:
             temp_obj =new JsonObject();
             temp_obj.addProperty("activo", activo);
-            temp_obj.addProperty("cve_instructor", cve_instructor);
+            temp_obj.addProperty("cve_instructor_e", cve_instructor_e);
             parametros.add(temp_obj);
             out.println(datos.Registro(parametros, "cambiarEstatus"));
            break; 
-        case 4:
-          out.println(datos.Consultas(parametros, "tipoInstructor"));
-          break;  
-        case 5:
-          out.println(datos.Consultas(parametros, "areaAcademica"));
-          break;
-        case 6:
-          out.println(datos.Consultas(parametros, "empleado"));
-          break;
-        case 7:
-          out.println(datos.Consultas(parametros, "nombreEmpleado"));
-          break;
        default:
            out.print("ENTRO A CONTROLADOR"+ accion);
            break;

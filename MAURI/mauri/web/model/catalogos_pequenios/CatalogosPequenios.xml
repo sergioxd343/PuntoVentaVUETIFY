@@ -1,0 +1,17 @@
+<CatalogosPequenios>
+    <submenu>
+        <query>
+            SELECT cve_menu, 
+                cve_padre, 
+                nombre, 
+                ruta, 
+                orden, 
+                activo, 
+                fecha_registro, 
+                usuario_registro
+            FROM           
+                submenu_2
+            ORDER BY nombre
+        </query>
+    </submenu>
+</CatalogosPequenios>

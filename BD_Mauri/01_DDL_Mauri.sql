@@ -32,7 +32,19 @@ CREATE TABLE menu(
 
 -- ------------- TABLA SUBMENU -------------- --
 CREATE TABLE submenu(
-    cve_menu 					INT NOT NULL,
+    cve_menu 					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+    cve_padre 					INT NOT NULL,
+    nombre 						VARCHAR(70),
+    ruta 						VARCHAR(120),
+    orden 						INT,
+    activo 						BIT DEFAULT 1,
+	fecha_registro 				DATETIME DEFAULT GETDATE(),
+	usuario_registro 			INT
+);
+
+-- ------------- TABLA SUBMENU -------------- --
+CREATE TABLE submenu_2(
+    cve_menu 					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
     cve_padre 					INT NOT NULL,
     nombre 						VARCHAR(70),
     ruta 						VARCHAR(120),
@@ -70,22 +82,11 @@ CREATE TABLE usuario_grupo_seguridad(
 	usuario_registro 			INT
 );
 
--- ------------- TABLA USUARIO_GRUPO_SEGURIDAD -------------- --
-CREATE TABLE usuario(
-	cve_usuario					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	cve_persona 				INT NOT NULL,
-	nombre_usuario 				VARCHAR(50),
-	contrasenia 				VARCHAR(50),
-	activo 						BIT DEFAULT 1,
-	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT
-);
-
 -- ------------- TABLA PERSONA -------------- --
 CREATE TABLE persona(
 	cve_persona					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	nombre						VARCHAR(50),
-	apellido_peterno			VARCHAR(50) NOT NULL,
+	apellido_paterno			VARCHAR(50) NOT NULL,
 	apellido_materno			VARCHAR(50),
 	email               		VARCHAR(129) NOT NULL DEFAULT '',
 	movil            			VARCHAR(20) NOT NULL DEFAULT '',
@@ -96,6 +97,19 @@ CREATE TABLE persona(
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
 	usuario_registro 			INT
+);
+
+-- ------------- TABLA USUARIO_GRUPO_SEGURIDAD -------------- --
+CREATE TABLE usuario(
+	cve_usuario					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	cve_persona 				INT NOT NULL,
+	nombre_usuario 				VARCHAR(50),
+	contrasenia 				VARCHAR(50),
+	activo 						BIT DEFAULT 1,
+	fecha_registro 				DATETIME DEFAULT GETDATE(),
+	usuario_registro 			INT,
+	CONSTRAINT fk_usuario_persona FOREIGN KEY (cve_persona)
+	REFERENCES persona(cve_persona)
 );
 
 -- ------------- TABLA UNIDAD ACADEMICA ------------- --
@@ -114,7 +128,9 @@ CREATE TABLE academia(
 	nombre_academia 			VARCHAR(50),
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT
+	usuario_registro 			INT,
+	CONSTRAINT fk_academia_unidad_academica FOREIGN KEY (cve_unidad_academica)
+	REFERENCES unidad_academica(cve_unidad_academica)
 );
 
 -- ------------- TABLA PERIODO -------------- --
@@ -158,7 +174,9 @@ CREATE TABLE curso(
 	fecha_autoevaluacion		DATE,
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT
+	usuario_registro 			INT,
+	CONSTRAINT fk_curso_periodo FOREIGN KEY (cve_periodo)
+	REFERENCES periodo(cve_periodo)
 );
 
 -- ----------------- TABLA PUESTO ------------------- --
@@ -214,337 +232,21 @@ CREATE TABLE empleado(
 	grado_estudio				VARCHAR(25),
     activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT
+	usuario_registro 			INT,
+	CONSTRAINT fk_empleado_persona FOREIGN KEY (cve_persona) REFERENCES persona(cve_persona),
+	CONSTRAINT fk_empleado_puesto FOREIGN KEY (cve_puesto) REFERENCES puesto(cve_puesto),
+	CONSTRAINT fk_empleado_tipo_puesto FOREIGN KEY (cve_tipo_puesto) REFERENCES tipo_puesto(cve_tipo_puesto),
+	CONSTRAINT fk_empleado_departamento FOREIGN KEY (cve_departamento) REFERENCES departamento(cve_departamento),
+	CONSTRAINT fk_empleado_area FOREIGN KEY (cve_area) REFERENCES area(cve_area),
+	CONSTRAINT fk_empleado_ugac FOREIGN KEY (cve_ugac) REFERENCES ugac(cve_ugac),
+	CONSTRAINT fk_empleado_unidad_academica FOREIGN KEY (cve_unidad_academica) REFERENCES unidad_academica(cve_unidad_academica)
 );
 
--- ------------- TABLA SOLICITUD PROYECTO -------------- --
-CREATE TABLE solicitud_proyecto(
-	cve_solicitud_proyecto 		INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	cve_area					INT NOT NULL,
-	cve_periodo					INT NOT NULL,
-	objetivo_proyecto			TEXT,
-	descripcion_proyecto 		TEXT,
-	recursos_necesarios			TEXT,
-	acuerdos_establecidos 		TEXT,
-	estatus						BIT DEFAULT 1, -- El estatus puede tener 2 valores, (0-Cancelado, 1-Revisado)
-	activo 						BIT DEFAULT 1,
-	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT
-);
-
--- ------------- TABLA ASESORIA -------------- --
-CREATE TABLE asesoria(
-	cve_asesoria				INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	cve_empleado				INT NOT NULL,
-	cve_academia				INT NOT NULL,
-	materia						VARCHAR(50),
-	fecha						DATE,
-	motivo_solicitud			TEXT,
-	sugerencias					TEXT,
-	entrevista					TEXT,
-	activo 						BIT DEFAULT 1,
-	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT
-);
-
--- ----------------- TABLA ASESORIA_D ------------------- --
-CREATE TABLE asesoria_d(
-	cve_asesoria 				INT NOT NULL,
-	cve_responsable 			INT NOT NULL,
-	compromiso 					TEXT,
-	fecha_seguimiento 			DATE,
-	activo 						BIT DEFAULT 1,
-	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT
-);
-
--- ------------- TABLA RUBRICA -------------- --
-CREATE TABLE rubrica(
-	cve_rubrica					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	cve_empleado				INT NOT NULL,
-	nombre_rubica				VARCHAR(45),
-	filas						VARCHAR(25),
-	columnas					VARCHAR(25),
-	nombre_seccion				VARCHAR(45),
-	secciona_fila_inicio		VARCHAR(25),
-	seccion_fila_fin			VARCHAR(25),
-	nombre_columna				VARCHAR(45),
-	criterios_por_celda			TEXT,
-	activo 						BIT DEFAULT 1,
-	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT
-);
-
--- ------------- TABLA RUBRICA OBSERVACIÓN DE CLASE -------------- --
-CREATE TABLE rubrica_observacion_clase(
-	cve_empleado_docente		INT NOT NULL,
-	cve_rubrica					INT NOT NULL,
-	seccion						VARCHAR(45),
-	calificacion_seccion 		INT,
-	calificacion_total			INT,
-	cometario 					TEXT,
-	estatus						BIT, -- Cancelado/Activo
-	activo 						BIT DEFAULT 1,
-	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT
-);
-
--- ------------- TABLA ENCUESTA DE SATISFACCIÓN Y EVALUACION DE RESULTADOS -------------- --
-CREATE TABLE evaluacion_resultado(
-	cve_eval_resul				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	cve_t_servicio 				INT NOT NULL,
-	cve_asesoria_proyecto		INT,
-	cve_area					INT NOT NULL,
-	cve_solicitud_proyecto		INT NOT NULL,
-	suma						INT,
-	porcentaje 					FLOAT,
-	cuatrimestre				VARCHAR(8),
-	comentarios 				TEXT,
-	activo 						BIT DEFAULT 1,
-	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT
-);
-
--- ----------------- TABLA SOLICITUD FORMACION DOCENTE ------------------- --
-CREATE TABLE solicitud_formacion_docente(
-	cve_sol_form_doc 			INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	cve_unidad_academica 		INT NOT NULL,
-	cve_area 					INT NOT NULL,
-	cve_departamento 			INT NOT NULL,
-	cve_ugac 					INT NOT NULL,
-	cve_tipo_evento 			INT NOT NULL,
-	cve_tipo_orientacion 		INT NOT NULL,
-	cve_empleado_valida			INT NOT NULL,
-	cve_empleado_responsable 	INT NOT NULL,
-	cve_empleado_autoriza 		INT NOT NULL,
-	lugar 						VARCHAR(129),
-	fecha 						DATE,
-	horario 					DATETIME,
-	numero_horas 				INT,
-	centro_gestor 				VARCHAR(50),
-	proyecto_presupuesto 		FLOAT,
-	costo_total 				FLOAT,
-	transferencia_nombre 		VARCHAR(50),
-	transferencia_cuenta 		VARCHAR(25),
-	transferencia_plaza 		VARCHAR(20),
-	transferencia_banco 		VARCHAR(20),
-	transferencia_clave 		VARCHAR(25),
-	observaciones 				TEXT,
-	estatus						INT, -- 1.- validado, 2.- con observaciones, 3.- autorizado
-	activo 						BIT DEFAULT 1,
-	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT
-);
-
--- ----------------- TABLA SOLICITUD FORMACION DOCENTE_D ------------------- --
-CREATE TABLE solicitud_formacion_docente_d(
-	cve_sol_form_doc 			INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	cve_empleado_anotado 		INT NOT NULL,
-	activo 						BIT DEFAULT 1,
-	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT
-);
-
--- ------------- TABLA DANC -------------- --
-CREATE TABLE necesidad_capacitacion_anual (
-	cve_nec_cap_anual 			INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	cve_area_registro 			INT NOT NULL,
-	cve_unidad_academica 		INT NOT NULL,
-	cve_area 					INT NOT NULL,
-	cve_departamento 			INT NOT NULL,
-	cve_empleado_responsable 	INT NOT NULL,
-	cve_orientacion_evento 		INT NOT NULL,
-	cve_tipo_evento 			INT NOT NULL,
-	cve_tipo_capacitacion 		INT NOT NULL,
-	cve_origen_evento 			INT NOT NULL,
-	nivel_academico				VARCHAR(15),
-	direccion_subdireccion		VARCHAR(50),
-	programa_academico			VARCHAR(100),
-	anio_ejercicio 				VARCHAR(50),
-	necesidades_detectadas 		TEXT,
-	nombre_evento 				VARCHAR(50),
-	objetivo_evento 			TEXT,
-	justificacion 				TEXT,
-	otro_tipo_evento 			VARCHAR(50),
-	proveedor 					VARCHAR(50),
-	costo_capacitacion 			FLOAT,
-	mes 						VARCHAR(15),
-	fecha_inicio 				DATE,
-	fecha_temino 				DATE,
-	num_dias 					INT,
-	num_horas_efectivas 		INT,
-	participantes_ptc 			INT,
-	participantes_laboratoristas INT,
-	participantes_administrativo INT,
-	otros_participantes 		INT,
-	total_participantes 		INT,
-	total_hombres 				INT,
-	total_mujeres 				INT,
-	estatus						INT, -- 1.- permiso de ediciión, 2.- no autorizado, 3.- autorizado
-	activo 						BIT DEFAULT 1,
-	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT
-);
-
--- ------------- TABLA SOLICITUD DE REGISTRO DE CAPACITACION INTERNA -------------- --
-CREATE TABLE solicitud_capacitacion_interna(
-	cve_sol_cap_int 			INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	cve_horario					INT NOT NULL,
-	tipo_competencia			VARCHAR(15),
-	nombre						VARCHAR(50),
-	total_dias 					INT,
-	total_horas 				INT,
-	fecha_inicio				DATE,
-	fecha_fin					DATE,
-	lugar						VARCHAR(100),
-	curso						VARCHAR(30), -- abierto a la comunidad utl, grupo cerrado
-	numero_participantes 		INT,
-	objetivo 					TEXT,
-	alcance 					TEXT,
-	metodologia 				VARCHAR(50),
-	programa_evento 			VARCHAR(50),
-	resultado_aprendizaje 		TEXT,
-	perfil_participante 		TEXT,
-	estatus						INT, -- 1.- permiso de edición, 2.- no autorizado, 3.- autorizado
-	activo 						BIT DEFAULT 1,
-	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT
-);
-
--- ------------- TABLA ANALISIS SITUACIONAL DOCENTE -------------- --
-CREATE TABLE analisis_docente(
-	cve_analisis_docente 		INT IDENTITY (1,1) PRIMARY KEY,
-	cve_unidad_academica		INT NOT NULL,
-	cve_academia				INT NOT NULL,
-	programa_educativo			VARCHAR(100),
-	numero_ptc					INT,
-	anio_aplicacion				INT,
-	media_evaluacion_docente 	FLOAT,
-	media_evaluacion_tutoreo  	FLOAT,	
-	promedio_evaluacion_tutoreo FLOAT,
-	promedio_evaluacion_docente FLOAT,
-	porcentaje_docentes_acreditados FLOAT,
-	fortalezas					TEXT,
-	debilidades					TEXT,
-	necesidades					TEXT,
-	prioridad_capacitacion 		TEXT,
-	estrategias_intervencion 	TEXT,
-	estatus						BIT,
-	activo 						BIT DEFAULT 1,
-	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT
-);
-
--- ------------- TABLA PROGRAMA DESARROLLO MATERIA -------------- --
-CREATE TABLE programa_desarrollo_materia(
-	cve_prog_des 				INT NOT NULL,
-	cve_modulo					INT NOT NULL,
-	cve_materia 				INT NOT NULL,
-	nombre_materia				VARCHAR(70),
-	duracion 					VARCHAR(20),
-	objetivo 					TEXT,
-	resultado_aprendizaje 		TEXT,
-	activo 						BIT DEFAULT 1,
-	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT
-);
-
--- ------------- TABLA PROGRAMA_DESARROLLO_CUMPLIMIENTO -------------- --
-CREATE TABLE programa_desarrollo_cumplimento(
-	cve_prog_des 				INT NOT NULL,
-	cve_modulo 					INT NOT NULL,
-	cve_materia 				INT NOT NULL,
-	cve_empleado 				INT NOT NULL,
-	activo 						BIT DEFAULT 1,
-	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT
-);
-
--- ------------- TABLA PROGRAMA_DESARROLLO_MODULO -------------- --
-CREATE TABLE programa_desarrollo_modulo(
-	cve_prog_des 				INT NOT NULL,
-	cve_modulo 					INT NOT NULL,
-	nombre_modulo 				VARCHAR(50),
-	num_materias 				INT,
-	color 						VARCHAR(20),
-	activo 						BIT DEFAULT 1,
-	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT
-);
-
--- ------------- TABLA PROGRAMA_DESARROLLO -------------- --
-CREATE TABLE programa_desarrollo(
-	cve_prog_des 				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	nombre_prog_des 			VARCHAR(50),
-	descripcion 				TEXT,
-	numero_modulos 				INT,
-	activo 						BIT DEFAULT 1,
-	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT
-);
-
--- ------------- TABLA INSTRUCTOR_EXTERNO -------------- --
-CREATE TABLE instructor_externo(
-	cve_instructor 				INT NOT NULL,
-	nombre_instructor 			VARCHAR(50),
-	rfc 						VARCHAR(13),
-	activo 						BIT DEFAULT 1,
-	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT
-);
-
--- ------------- TABLA INSTRUCTOR_EVENTO_PROGRAMADO -------------- --
-CREATE TABLE instructor_evento_programado(
-	cve_evento_programado 		INT NOT NULL,
-	cve_tipo_instructor 		INT NOT NULL,
-	cve_instructor 				INT NOT NULL,
-	activo 						BIT DEFAULT 1,
-	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT
-);
-
--- ------------- TABLA EVENTO_PROGRAMADO -------------- --
-CREATE TABLE evento_programado(
-	cve_even_prog 				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	cve_origen_evento 			INT NOT NULL,
-	cve_espacio 				INT NOT NULL,
-	cve_modalidad 				INT NOT NULL,
-	nombre_evento 				VARCHAR(50),
-	nombre_origen 				VARCHAR(50),
-	sin_horario 				BIT,
-	horario_inicio 				TIME,
-	horario_fin 				TIME,
-	fecha_inicio 				DATE,
-	fecha_fin 					DATE,
-	estatus						INT, -- Cancelado, Cerrado, Programado y en Proceso
-	activo 						BIT DEFAULT 1,
-	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT
-);
-
--- ------------- TABLA EVENTO_PROGRAMADO_GRUPO -------------- --
-CREATE TABLE evento_programado_grupo(
-	cve_even_prog_grupo 		INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	cve_even_prog 				INT NOT NULL,
-	cve_empleado 				INT NOT NULL,
-	calificacion_empleado 		FLOAT,
-	aprobado_empleado		 	BIT, 
-	faltas_empleado 			INT,
-	fecha_calificacion_empleado DATE,
-	calificacion_curso 			INT,
-	observacion_curso 			TEXT,
-	calificacion_instructor 	INT,
-	calificacion_organizacion 	INT,
-	impacto 					TEXT,
-	curso_recomendable 			BIT,
-	fecha_calificacion_curso 	DATE,
-	calificacion_autoevaluacion INT,
-	evidencia_aplicacion_curso 	TEXT,
-	fecha_autoevaluacion 		DATE,
-	activo 						BIT DEFAULT 1,
-	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT
-);
+-- ------------- TABLA ORIGEN -------------- --
+CREATE TABLE origen(
+	cve_origen 					INT NOT NULL,
+	nombre_origen				VARCHAR(100)
+)
 
 -- ------------- TABLA TIPO_ORIENTACION -------------- --
 CREATE TABLE tipo_orientacion(
@@ -618,11 +320,365 @@ CREATE TABLE tipo_espacio(
 	usuario_registro 			INT
 );
 
+-- ------------- TABLA SOLICITUD PROYECTO -------------- --
+CREATE TABLE solicitud_proyecto(
+	cve_solicitud_proyecto 		INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	cve_area					INT NOT NULL,
+	cve_periodo					INT NOT NULL,
+	nombre_proyecto				VARCHAR(100),
+	objetivo_proyecto			TEXT,
+	descripcion_proyecto 		TEXT,
+	recursos_necesarios			TEXT,
+	acuerdos_establecidos 		TEXT,
+	estatus						BIT DEFAULT 1, -- El estatus puede tener 2 valores, (0-Cancelado, 1-Revisado)
+	activo 						BIT DEFAULT 1,
+	fecha_registro 				DATETIME DEFAULT GETDATE(),
+	usuario_registro 			INT,
+	CONSTRAINT fk_solicitud_proyecto_area FOREIGN KEY (cve_area) REFERENCES area(cve_area),
+	CONSTRAINT fk_solicitud_proyecto_periodo FOREIGN KEY (cve_periodo) REFERENCES periodo(cve_periodo)
+);
+
+-- ------------- TABLA ASESORIA -------------- --
+CREATE TABLE asesoria(
+	cve_asesoria				INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	cve_empleado				INT NOT NULL,
+	cve_academia				INT NOT NULL,
+	materia						VARCHAR(50),
+	fecha						DATE,
+	motivo_solicitud			TEXT,
+	sugerencias					TEXT,
+	entrevista					TEXT,
+	activo 						BIT DEFAULT 1,
+	fecha_registro 				DATETIME DEFAULT GETDATE(),
+	usuario_registro 			INT,
+	CONSTRAINT fk_asesoria_empleado FOREIGN KEY (cve_empleado) REFERENCES empleado(cve_empleado),
+	CONSTRAINT fk_asesoria_academia FOREIGN KEY (cve_academia) REFERENCES academia(cve_academia)
+);
+
+-- ----------------- TABLA ASESORIA_D ------------------- --
+CREATE TABLE asesoria_d(
+	cve_asesoria 				INT NOT NULL,
+	cve_responsable 			INT NOT NULL,
+	compromiso 					TEXT,
+	fecha_seguimiento 			DATE,
+	activo 						BIT DEFAULT 1,
+	fecha_registro 				DATETIME DEFAULT GETDATE(),
+	usuario_registro 			INT,
+	CONSTRAINT fk_asesoria_d_asesoria FOREIGN KEY (cve_asesoria) REFERENCES asesoria(cve_asesoria),
+	CONSTRAINT fk_asesoria_d_empleado_responsable FOREIGN KEY (cve_responsable) REFERENCES empleado(cve_empleado)
+);
+
+-- ------------- TABLA RUBRICA -------------- --
+CREATE TABLE rubrica(
+	cve_rubrica					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	cve_empleado				INT NOT NULL,
+	nombre_rubica				VARCHAR(45),
+	filas						VARCHAR(25),
+	columnas					VARCHAR(25),
+	nombre_seccion				VARCHAR(45),
+	secciona_fila_inicio		VARCHAR(25),
+	seccion_fila_fin			VARCHAR(25),
+	nombre_columna				VARCHAR(45),
+	criterios_por_celda			TEXT,
+	activo 						BIT DEFAULT 1,
+	fecha_registro 				DATETIME DEFAULT GETDATE(),
+	usuario_registro 			INT,
+	CONSTRAINT fk_rubrica_empleado FOREIGN KEY (cve_empleado) REFERENCES empleado(cve_empleado)
+);
+
+-- ------------- TABLA RUBRICA OBSERVACIÓN DE CLASE -------------- --
+CREATE TABLE rubrica_observacion_clase(
+	cve_empleado_docente		INT NOT NULL,
+	cve_rubrica					INT NOT NULL,
+	seccion						VARCHAR(45),
+	calificacion_seccion 		INT,
+	calificacion_total			INT,
+	cometario 					TEXT,
+	estatus						BIT, -- Cancelado/Activo
+	activo 						BIT DEFAULT 1,
+	fecha_registro 				DATETIME DEFAULT GETDATE(),
+	usuario_registro 			INT,
+	CONSTRAINT fk_rubrica_obs_clase_emp_doc FOREIGN KEY (cve_empleado_docente) REFERENCES empleado(cve_empleado),
+	CONSTRAINT fk_rubrica_obs_clase_rubrica FOREIGN KEY (cve_rubrica) REFERENCES rubrica(cve_rubrica)
+);
+
+-- ------------- TABLA ENCUESTA DE SATISFACCIÓN Y EVALUACION DE RESULTADOS -------------- --
+CREATE TABLE evaluacion_resultado(
+	cve_eval_resul				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	cve_t_servicio 				INT NOT NULL,
+	cve_asesoria_proyecto		INT,
+	cve_area					INT NOT NULL,
+	cve_solicitud_proyecto		INT,
+	cve_periodo					INT NOT NULL,
+	suma						INT,
+	porcentaje 					FLOAT,
+	comentarios 				TEXT,
+	activo 						BIT DEFAULT 1,
+	fecha_registro 				DATETIME DEFAULT GETDATE(),
+	usuario_registro 			INT,
+	CONSTRAINT fk_evaluacion_resultado_t_servicio FOREIGN KEY (cve_t_servicio) REFERENCES tipo_servicio(cve_tipo_servicio),
+	CONSTRAINT fk_evaluacion_resultado_area FOREIGN KEY (cve_area) REFERENCES area(cve_area),
+	CONSTRAINT fk_evaluacion_resultado_periodo FOREIGN KEY (cve_periodo) REFERENCES periodo(cve_periodo)
+);
+
+-- ----------------- TABLA SOLICITUD FORMACION DOCENTE ------------------- --
+CREATE TABLE solicitud_formacion_docente(
+	cve_sol_form_doc 			INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	cve_unidad_academica 		INT NOT NULL,
+	cve_area 					INT NOT NULL,
+	cve_departamento 			INT NOT NULL,
+	cve_ugac 					INT NOT NULL,
+	cve_tipo_evento 			INT NOT NULL,
+	cve_tipo_orientacion 		INT NOT NULL,
+	cve_empleado_valida			INT NOT NULL,
+	cve_empleado_responsable 	INT NOT NULL,
+	cve_empleado_autoriza 		INT NOT NULL,
+	lugar 						VARCHAR(129),
+	fecha 						DATE,
+	horario 					DATETIME,
+	numero_horas 				INT,
+	centro_gestor 				VARCHAR(50),
+	proyecto_presupuesto 		FLOAT,
+	costo_total 				FLOAT,
+	transferencia_nombre 		VARCHAR(50),
+	transferencia_cuenta 		VARCHAR(25),
+	transferencia_plaza 		VARCHAR(20),
+	transferencia_banco 		VARCHAR(20),
+	transferencia_clave 		VARCHAR(25),
+	observaciones 				TEXT,
+	estatus						INT, -- 1.- validado, 2.- con observaciones, 3.- autorizado
+	activo 						BIT DEFAULT 1,
+	fecha_registro 				DATETIME DEFAULT GETDATE(),
+	usuario_registro 			INT,
+	CONSTRAINT fk_sol_form_doc_unidad_academica FOREIGN KEY (cve_unidad_academica) REFERENCES unidad_academica(cve_unidad_academica),
+	CONSTRAINT fk_sol_form_doc_area FOREIGN KEY (cve_area) REFERENCES area(cve_area),
+	CONSTRAINT fk_sol_form_doc_departamento FOREIGN KEY (cve_departamento) REFERENCES departamento(cve_departamento),
+	CONSTRAINT fk_sol_form_doc_ugac FOREIGN KEY (cve_ugac) REFERENCES ugac(cve_ugac),
+	CONSTRAINT fk_sol_form_doc_tipo_evento FOREIGN KEY (cve_tipo_evento) REFERENCES tipo_evento(cve_tipo_evento),
+	CONSTRAINT fk_sol_form_doc_tipo_orientacion FOREIGN KEY (cve_tipo_orientacion) REFERENCES tipo_orientacion(cve_tipo_orientacion),
+	CONSTRAINT fk_sol_form_doc_empleado_valida FOREIGN KEY (cve_empleado_valida) REFERENCES empleado(cve_empleado),
+	CONSTRAINT fk_sol_form_doc_empleado_responsable FOREIGN KEY (cve_empleado_responsable) REFERENCES empleado(cve_empleado),
+	CONSTRAINT fk_sol_form_doc_empleado_autoriza FOREIGN KEY (cve_empleado_autoriza) REFERENCES empleado(cve_empleado)
+);
+
+-- ----------------- TABLA SOLICITUD FORMACION DOCENTE_D ------------------- --
+CREATE TABLE solicitud_formacion_docente_d(
+	cve_sol_form_doc 			INT NOT NULL,
+	cve_empleado_anotado 		INT NOT NULL,
+	activo 						BIT DEFAULT 1,
+	fecha_registro 				DATETIME DEFAULT GETDATE(),
+	usuario_registro 			INT,
+	CONSTRAINT fk_sol_form_doc_d_empleado_anotado FOREIGN KEY (cve_empleado_anotado) REFERENCES empleado(cve_empleado),
+);
+
+-- ------------- TABLA DANC -------------- --
+CREATE TABLE necesidad_capacitacion_anual (
+	cve_nec_cap_anual 			INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	cve_area_registro 			INT NOT NULL,
+	cve_unidad_academica 		INT NOT NULL,
+	cve_departamento 			INT NOT NULL,
+	cve_empleado_responsable 	INT NOT NULL,
+	cve_orientacion_evento 		INT NOT NULL,
+	cve_tipo_evento 			INT NOT NULL,
+	cve_tipo_capacitacion 		INT NOT NULL,
+	cve_origen_evento 			INT NOT NULL,
+	nivel_academico				VARCHAR(15),
+	direccion_subdireccion		VARCHAR(50),
+	programa_academico			VARCHAR(100),
+	anio_ejercicio 				INT,
+	necesidades_detectadas 		TEXT,
+	nombre_evento 				VARCHAR(50),
+	objetivo_evento 			TEXT,
+	justificacion 				TEXT,
+	otro_tipo_evento 			VARCHAR(50),
+	proveedor 					VARCHAR(50),
+	costo_capacitacion 			FLOAT,
+	mes 						VARCHAR(15),
+	fecha_inicio 				DATE,
+	fecha_temino 				DATE,
+	num_dias 					INT,
+	num_horas_efectivas 		INT,
+	participantes_ptc 			INT,
+	participantes_tec_academico INT,
+	participantes_administrativo INT,
+	otros_participantes 		INT,
+	total_participantes 		INT,
+	total_hombres 				INT,
+	total_mujeres 				INT,
+	estatus						INT, -- 1.- permiso de ediciión, 2.- no autorizado, 3.- autorizado
+	activo 						BIT DEFAULT 1,
+	fecha_registro 				DATETIME DEFAULT GETDATE(),
+	usuario_registro 			INT
+);
+
+-- ------------- TABLA SOLICITUD DE REGISTRO DE CAPACITACION INTERNA -------------- --
+CREATE TABLE solicitud_capacitacion_interna(
+	cve_sol_cap_int 			INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	tipo_competencia			VARCHAR(15),
+	nombre						VARCHAR(50),
+	total_dias 					INT,
+	total_horas 				INT,
+	hora_inicio					TIME,
+	hora_fin					TIME,
+	fecha_inicio				DATE,
+	fecha_fin					DATE,
+	lugar						VARCHAR(100),
+	curso						VARCHAR(30), -- abierto a la comunidad utl, grupo cerrado
+	numero_participantes 		INT,
+	objetivo 					TEXT,
+	alcance 					TEXT,
+	metodologia 				VARCHAR(50),
+	programa_evento 			VARCHAR(50),
+	resultado_aprendizaje 		TEXT,
+	perfil_participante 		TEXT,
+	estatus						INT, -- 1.- permiso de edición, 2.- no autorizado, 3.- autorizado
+	activo 						BIT DEFAULT 1,
+	fecha_registro 				DATETIME DEFAULT GETDATE(),
+	usuario_registro 			INT
+);
+
+-- ------------- TABLA ANALISIS SITUACIONAL DOCENTE -------------- --
+CREATE TABLE analisis_docente(
+	cve_analisis_docente 		INT IDENTITY (1,1) PRIMARY KEY,
+	cve_unidad_academica		INT NOT NULL,
+	cve_academia				INT NOT NULL,
+	programa_educativo			VARCHAR(100),
+	numero_ptc					INT,
+	anio_aplicacion				INT,
+	media_evaluacion_docente 	FLOAT,
+	media_evaluacion_tutoreo  	FLOAT,	
+	promedio_evaluacion_tutoreo FLOAT,
+	promedio_evaluacion_docente FLOAT,
+	porcentaje_docentes_acreditados FLOAT,
+	fortalezas					TEXT,
+	debilidades					TEXT,
+	necesidades					TEXT,
+	prioridad_capacitacion 		TEXT,
+	estrategias_intervencion 	TEXT,
+	estatus						BIT,
+	activo 						BIT DEFAULT 1,
+	fecha_registro 				DATETIME DEFAULT GETDATE(),
+	usuario_registro 			INT
+);
+
+-- ------------- TABLA PROGRAMA DESARROLLO MATERIA -------------- --
+CREATE TABLE programa_desarrollo_materia(
+	cve_prog_des_mat			INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	cve_prog_des 				INT NOT NULL,
+	cve_modulo					INT NOT NULL,
+	cve_materia 				INT NOT NULL,
+	nombre_materia				VARCHAR(70),
+	duracion 					VARCHAR(20),
+	objetivo 					TEXT,
+	resultado_aprendizaje 		TEXT,
+	activo 						BIT DEFAULT 1,
+	fecha_registro 				DATETIME DEFAULT GETDATE(),
+	usuario_registro 			INT
+);
+
+-- ------------- TABLA PROGRAMA_DESARROLLO_CUMPLIMIENTO -------------- --
+CREATE TABLE programa_desarrollo_cumplimento(
+	cve_prog_des 				INT NOT NULL,
+	cve_modulo 					INT NOT NULL,
+	cve_materia 				INT NOT NULL,
+	cve_empleado 				INT NOT NULL,
+	activo 						BIT DEFAULT 1,
+	fecha_registro 				DATETIME DEFAULT GETDATE(),
+	usuario_registro 			INT
+);
+
+-- ------------- TABLA PROGRAMA_DESARROLLO_MODULO -------------- --
+CREATE TABLE programa_desarrollo_modulo(
+	cve_prog_des 				INT NOT NULL,
+	cve_modulo 					INT NOT NULL,
+	nombre_modulo 				VARCHAR(50),
+	num_materias 				INT,
+	color 						VARCHAR(20),
+	activo 						BIT DEFAULT 1,
+	fecha_registro 				DATETIME DEFAULT GETDATE(),
+	usuario_registro 			INT
+);
+
+-- ------------- TABLA PROGRAMA_DESARROLLO -------------- --
+CREATE TABLE programa_desarrollo(
+	cve_prog_des 				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	nombre_prog_des 			VARCHAR(50),
+	descripcion 				TEXT,
+	numero_modulos 				INT,
+	activo 						BIT DEFAULT 1,
+	fecha_registro 				DATETIME DEFAULT GETDATE(),
+	usuario_registro 			INT
+);
+
+-- ------------- TABLA INSTRUCTOR_EXTERNO -------------- --
+CREATE TABLE instructor_externo(
+	cve_instructor_e 			INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	nombre_instructor 			VARCHAR(50),
+	apellido_paterno 			VARCHAR(50),
+	apellido_materno			VARCHAR(50),
+	activo 						BIT DEFAULT 1,
+	fecha_registro 				DATETIME DEFAULT GETDATE(),
+	usuario_registro 			INT
+);
+
+-- ------------- TABLA INSTRUCTOR_EVENTO_PROGRAMADO -------------- --
+CREATE TABLE instructor_evento_programado(
+	cve_evento_programado 		INT NOT NULL,
+	cve_tipo_instructor 		INT NOT NULL,
+	cve_instructor 				INT NOT NULL,
+	activo 						BIT DEFAULT 1,
+	fecha_registro 				DATETIME DEFAULT GETDATE(),
+	usuario_registro 			INT
+);
+
+-- ------------- TABLA EVENTO_PROGRAMADO -------------- --
+CREATE TABLE evento_programado(
+	cve_even_prog 				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	cve_origen_evento 			INT NOT NULL,
+	cve_espacio 				INT NOT NULL,
+	cve_modalidad 				INT NOT NULL,
+	nombre_evento 				VARCHAR(50),
+	nombre_origen 				VARCHAR(50),
+	sin_horario 				BIT,
+	horario_inicio 				TIME,
+	horario_fin 				TIME,
+	fecha_inicio 				DATE,
+	fecha_fin 					DATE,
+	estatus						INT, -- Cancelado, Cerrado, Programado y en Proceso
+	activo 						BIT DEFAULT 1,
+	fecha_registro 				DATETIME DEFAULT GETDATE(),
+	usuario_registro 			INT
+);
+
+-- ------------- TABLA EVENTO_PROGRAMADO_GRUPO -------------- --
+CREATE TABLE evento_programado_grupo(
+	cve_even_prog_grupo 		INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	cve_even_prog 				INT NOT NULL,
+	cve_empleado 				INT NOT NULL,
+	calificacion_empleado 		FLOAT,
+	aprobado_empleado		 	BIT, 
+	faltas_empleado 			INT,
+	fecha_calificacion_empleado DATE,
+	calificacion_curso 			INT,
+	observacion_curso 			TEXT,
+	calificacion_instructor 	INT,
+	calificacion_organizacion 	INT,
+	impacto 					TEXT,
+	curso_recomendable 			BIT,
+	fecha_calificacion_curso 	DATE,
+	calificacion_autoevaluacion INT,
+	evidencia_aplicacion_curso 	TEXT,
+	fecha_autoevaluacion 		DATE,
+	activo 						BIT DEFAULT 1,
+	fecha_registro 				DATETIME DEFAULT GETDATE(),
+	usuario_registro 			INT
+);
+
 -- ------------- TABLA EVALUCIÓN DE CAPACITACIÓN -------------- --
-CREATE TABLE evalucion_capacitacion(
+CREATE TABLE evaluacion_capacitacion(
+	cve_eval_capa				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	cve_empleado_docente 		INT NOT NULL,
 	cve_curso 					INT NOT NULL,
-	cve_calificacion 			INT NOT NULL,
 	nombre_facilitador 			VARCHAR(50),
 	calificacion_final 			INT,
 	activo 						BIT DEFAULT 1,
@@ -805,8 +861,12 @@ CREATE TABLE instructor(
 CREATE TABLE solicitud_instructor(
 	cve_sol_cap_int 			INT NOT NULL,
 	cve_instructor 				INT NOT NULL,
+	cve_area 					INT NOT NULL,
+	cve_ugac					INT NOT NULL,
 	FOREIGN KEY (cve_sol_cap_int) REFERENCES solicitud_capacitacion_interna(cve_sol_cap_int),
-	FOREIGN KEY (cve_instructor) REFERENCES instructor(cve_instructor)
+	FOREIGN KEY (cve_instructor) REFERENCES instructor(cve_instructor),
+	FOREIGN KEY (cve_area) REFERENCES area(cve_area),
+	FOREIGN KEY (cve_ugac) REFERENCES ugac(cve_ugac)
 );
 
 -- ------------- TABLA GRUPO EVENTOS -------------- --

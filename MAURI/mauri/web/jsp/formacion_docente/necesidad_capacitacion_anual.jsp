@@ -41,6 +41,14 @@
         .circle-cell .circle.rechazado {
         background-color: red;
         }
+
+        .validado {
+        background-color: green;
+        }
+
+        .cancelado {
+        background-color: red;
+        }
     </style>
     <body>
         <div id="app">
@@ -54,42 +62,43 @@
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                 
                                 <!--AÑO -->
-                                <v-col md=3 class="text-right">
-                                    <v-text-field 
-                                        id = "annioo"
-                                        v-model="annio"
-                                        outlined
-                                        label="Año a ejercer"    
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="año a ejercer"
-                                        
-                                    ></v-text-field>
-                                </v-col> 
+                                <v-col md="3" class="text-right">
+                                    
+                                <v-menu ref="menu5" :close-on-content-click="false"
+                                :return-value.sync="annio" transition="scale-transition" offset-y
+                                min-width="auto">
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-text-field v-model="annio" label="Año a ejercer"
+                                        prepend-icon="mdi-calendar" readonly v-bind="attrs"
+                                        v-on="on"></v-text-field>
+                                </template>
+                                <v-date-picker v-model="annio" no-title scrollable type="year">
+                                    <v-spacer></v-spacer>
+                                    <v-btn text color="primary" @click="menu5 = false"> 
+                                        Cancel
+                                    </v-btn>
+                                    <v-btn text color="primary" @click="$refs.menu5.save(annio)">
+                                        OK
+                                    </v-btn>
+                                </v-date-picker>
+                                </v-menu>
+                                </v-col>
+
                                 <v-col>&nbsp;&nbsp;&nbsp;&nbsp;</v-col>
 
                                 <v-col cols="12" sm="6" md="4" class="text-left">
-                                    <v-menu 
-                                            ref="menu0"  
-                                            :close-on-content-click="false"
-                                            :return-value.sync="fechaElavoracion" 
-                                            transition="scale-transition" 
-                                            offset-y min-width="auto">
+                                    <v-menu ref="menu1" :close-on-content-click="false" :return-value.sync="fechaElavoracion"
+                                        transition="scale-transition" offset-y min-width="auto">
                                         <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field 
-                                                v-model="fechaElavoracion" 
-                                                label="Fecha de elaboraci&oacute;n" 
-                                                prepend-icon="mdi-calendar"
-                                                readonly v-bind="attrs" 
-                                                v-on="on"
-                                            ></v-text-field>
+                                            <v-text-field v-model="fechaElavoracion" label="Fecha"
+                                                prepend-icon="mdi-calendar" readonly></v-text-field>
                                         </template>
-                                        <v-date-picker v-model="fechaElavoracion" no-title scrollable>
+                                        <v-date-picker v-model="fechaElavoracion" no-title scrollable :readonly="true">
                                             <v-spacer></v-spacer>
-                                            <v-btn text color="primary" @click="menu0 = false">
+                                            <v-btn text color="primary" @click="menu1 = false">
                                                 Cancel
                                             </v-btn>
-                                            <v-btn text color="primary" @click="$refs.menu0.save(fechaElavoracion)">
+                                            <v-btn text color="primary" @click="$refs.menu1.save(fechaElavoracion)">
                                                 OK
                                             </v-btn>
                                         </v-date-picker>
@@ -111,9 +120,10 @@
                                         :error="errors.has('dirección o subdirección')"
                                         :error-messages="errors.first('dirección o subdirección')"
                                         required
-                                    ></v-select>
+                                ></v-select>
                                 </v-col>
 
+                                
                                 
                             </v-row>
 
@@ -126,7 +136,7 @@
 
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                 
-                                <v-col md=4>
+                                <v-col md=6>
                                     <v-select
                                         v-model="unidadAcademica"
                                         outlined
@@ -135,13 +145,15 @@
                                         :items="arrayUnidadesAcademicas"
                                         item-value="cve_unidad_academica"
                                         item-text="nombre_unidad_academica"
-                                        data-vv-name="unidad acad&eacute;mica"
+                                        data-vv-name="unidad académica"
                                         :menu-props="{ maxHeight: '200' }" 
+                                        :error="errors.has('unidad academica')"
+                                        :error-messages="errors.first('unidad académica')"
                                         
                                     ></v-select>
                                 </v-col>
 
-                                <v-col md=2>
+                                <v-col md=6>
                                     <v-select
                                         v-model="nivelEducativo"
                                         outlined
@@ -157,22 +169,7 @@
                                     ></v-select>
                                 </v-col>
 
-                                <v-col md=6>
-                                    <v-select
-                                        v-model="direccionArea"
-                                        outlined
-                                        label="Direcci&oacute;n del &aacute;rea"
-                                        v-validate="'required'"
-                                        :items="arrayDireccSub"
-                                        item-value="cve_area"
-                                        item-text="nombre_area"
-                                        data-vv-name="direcci&oacute;n de &aacute;rea"
-                                        :error="errors.has('direcci&oacute;n de &aacute;rea')"
-                                        :error-messages="errors.first('direcci&oacute;n &aacute;rea')"
-                                        required
-                                    ></v-select>
-                                </v-col>
-                            
+                               
                             </v-row>
 
                             <v-row  class="align-center" style="padding: 0px 50px 0px 50px">
@@ -193,16 +190,18 @@
                                 </v-col>
 
                                 <v-col md=6>
-                                    <v-text-field 
+                                    <v-select 
                                         v-model="nombreGestor"
                                         outlined
+                                        v-validate="'required'"
+                                        :items="arrayEmpleados"
+                                        item-value="cve_empleado"
+                                        item-text="nombre"
                                         label="Nombre del gestor responsable"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
                                         data-vv-name="nombre del gestor responsable"
                                         :error="errors.has('nombre del gestor responsable')"
                                         :error-messages="errors.first('nombre del gestor responsable')"
-                                    ></v-text-field>
+                                    ></v-select>
                                 </v-col>
                             </v-row>
 
@@ -219,6 +218,9 @@
                                         label="Necesidades detectadas mediante ..."
                                         persistent-hint
                                         v-validate="'required|max:200'"
+                                        data-vv-name="necesidades detectadas mediante"
+                                        :error="errors.has('necesidades detectadas mediante')"
+                                        :error-messages="errors.first('necesidades detectadas mediante')"
                                         
                                     ></v-text-field>
                                 </v-col>
@@ -229,20 +231,26 @@
                                         outlined
                                         label="Nombre del evento"
                                         persistent-hint
-                                        v-validate="'required|max:200'"
-                                        
+                                        v-validate="'required|max:50'"
+                                        data-vv-name="nombre del evento"
+                                        :error="errors.has('nombre del evento')"
+                                        :error-messages="errors.first('nombre del evento')"
                                     ></v-text-field>
                                 </v-col>
 
                                 <v-col md=4>
-                                    <v-text-field 
+                                    <v-textarea 
                                         v-model="objetivoEvento"
                                         outlined
                                         label="Objetivo del evento"
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        
-                                    ></v-text-field>
+                                        auto-grow outlined
+                                        rows="1" row-height="15"
+                                        data-vv-name="objetivo del evento"
+                                        :error="errors.has('objetivo del evento')"
+                                        :error-messages="errors.first('objetivo del evento')"
+                                    ></v-textarea>
                                 </v-col>
                             </v-row>
 
@@ -253,21 +261,28 @@
                                         outlined
                                         v-validate="'required'"
                                         :items="arrayOrientacion"
+                                        item-value="cve_tipo_orientacion"
+                                        item-text="nombre_tipo_orientacion"
                                         label="Orientaci&oacute;n del evento"
-                                        
+                                        data-vv-name="orientación del evento"
+                                        :error="errors.has('orientación del evento')"
+                                        :error-messages="errors.first('orientación del evento')"
                                     ></v-select>
                                 </v-col>
 
                                 <v-col md=4>
-                                    <v-select 
+                                    <v-textarea 
                                         v-model="justificacionEvento"
                                         outlined
-                                        v-validate="'required'"
-                                        :items="arrayJustificacion"
+                                        v-validate="'required|max:200'"
                                         label="Justificaci&oacute;n del evento"
                                         persistent-hint
-                                       
-                                    ></v-select>
+                                        auto-grow outlined
+                                        rows="1" row-height="15"
+                                        data-vv-name="justificación del evento"
+                                        :error="errors.has('justificación del evento')"
+                                        :error-messages="errors.first('justificación del evento')"
+                                    ></v-textarea>
                                 </v-col>
 
                                 <v-col md=4>
@@ -280,7 +295,9 @@
                                         item-text="nombre_tipo_evento"
                                         label="Tipo de evento"
                                         persistent-hint
-                                        
+                                        data-vv-name="tipo del evento"
+                                        :error="errors.has('tipo del evento')"
+                                        :error-messages="errors.first('tipo del evento')"
                                     ></v-select>
                                 </v-col>
                             </v-row>
@@ -288,13 +305,12 @@
                             <v-row class="align-center" style="padding: 0px 50px 0px 50px">
                                 <v-col md=6>
                                     <v-text-field 
-                                    v-if="tipoEvento === 'Otro'"
+                                    v-if="tipoEvento === 7 "
                                         v-model="otroEvento"
                                         outlined
                                         label="Especifique el tipo de evento"
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        
                                     ></v-text-field>
                                 </v-col>
                             </v-row>
@@ -306,6 +322,8 @@
                                         outlined
                                         v-validate="'required'"
                                         :items="arrayTipoPrograma"
+                                        item-value="cve_tipo_capacitacion"
+                                        item-text="nombre_tipo_capacitacion"
                                         label="Tipo de Programa"    
                                         persistent-hint
                                         data-vv-name="tipo programa"
@@ -332,9 +350,8 @@
                                         label="Costo Capacitaci&oacute;n (Sugerido)"    
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        inputmode="decimal"
-                                        pattern="[0-9]+(\.[0-9][0-9]?)?"
-                                        type="number"
+                                        :rules="[validacion]"
+                                                                             
                                     ></v-text-field>
                                 </v-col>
 
@@ -344,6 +361,8 @@
                                             outlined
                                             v-validate="'required'"
                                             :items="arrayOrigen"
+                                            item-value="cve_tipo_origen"
+                                            item-text="nombre_tipo_origen"
                                             label="Origen del recurso para el evento"    
                                             persistent-hint
                                             data-vv-name="origen del recurso"
@@ -367,6 +386,9 @@
                                         :items="arrayMes"
                                         label="Seleccionar mes"    
                                         persistent-hint
+                                        data-vv-name="mes"
+                                        :error="errors.has('mes')"
+                                        :error-messages="errors.first('mes')"
                                        
                                     ></v-select>
                                 </v-col>
@@ -385,6 +407,9 @@
                                                 prepend-icon="mdi-calendar"
                                                 readonly v-bind="attrs" 
                                                 v-on="on"
+                                                data-vv-name="fecha de inicio"
+                                                :error="errors.has('fecha de inicio')"
+                                                :error-messages="errors.first('fecha de inicio')" 
                                             ></v-text-field>
                                         </template>
                                         <v-date-picker v-model="fechaInicio" no-title scrollable>
@@ -413,6 +438,9 @@
                                                 prepend-icon="mdi-calendar"
                                                 readonly v-bind="attrs" 
                                                 v-on="on"
+                                                data-vv-name="fecha de termino"
+                                                :error="errors.has('fecha de termino')"
+                                                :error-messages="errors.first('fecha de termino')"
                                             ></v-text-field>
                                         </template>
                                         <v-date-picker v-model="fechaTermino" no-title scrollable>
@@ -420,7 +448,7 @@
                                             <v-btn text color="primary" @click="menu = false">
                                                 Cancel
                                             </v-btn>
-                                            <v-btn text color="primary" @click="$refs.menu.save(fechaTermino)">
+                                            <v-btn text color="primary" @click="$refs.menu.save(fechaTermino); validarFechas();">
                                                 OK
                                             </v-btn>
                                         </v-date-picker>
@@ -437,10 +465,10 @@
                                         label="N&uacute;mero de d&iacute;as"    
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        inputmode="numeric"
-                                        pattern="[0-9]*"
-                                        type="number"
-                                       
+                                        data-vv-name="número de días"
+                                        :error="errors.has('número de días')"
+                                        :error-messages="errors.first('número de días')"
+                                        :rules="[validacion]"
                                     ></v-text-field>
                                 </v-col>
 
@@ -451,9 +479,10 @@
                                         label="N&uacute;mero de horas efectivas"    
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        inputmode="numeric"
-                                        pattern="[0-9]*"
-                                        type="number"
+                                        data-vv-name="número de horas efectivas"
+                                        :error="errors.has('número de horas efectivas')"
+                                        :error-messages="errors.first('número de horas efectivas')"
+                                        :rules="[validacion]"
                                         
                                     ></v-text-field>
                                 </v-col>
@@ -471,12 +500,12 @@
                                     <v-text-field 
                                         v-model="ptc"
                                         outlined
-                                        label="PTC"    
+                                        label="Cantidad de PTC"    
                                         persistent-hint
                                         data-vv-name="PTC"
                                         :error="errors.has('PTC')"
                                         :error-messages="errors.first('PTC')"
-                                        
+                                        :rules="[validacion]"
                                     ></v-text-field>
                                 </v-col>
 
@@ -484,12 +513,12 @@
                                     <v-text-field 
                                         v-model="laboratoristas"
                                         outlined
-                                        label="Laboratoristas"    
+                                        label="Cantidad de técnicos académicos"    
                                         persistent-hint
-                                        data-vv-name="laboratoristas"
-                                        :error="errors.has('laboratoristas')"
-                                        :error-messages="errors.first('laboratoristas')"
-                                        
+                                        data-vv-name="técnicos académicos"
+                                        :error="errors.has('técnicos académicos')"
+                                        :error-messages="errors.first('técnicos académicos')"
+                                        :rules="[validacion]"
                                     ></v-text-field>
                                 </v-col>
 
@@ -497,11 +526,12 @@
                                     <v-text-field 
                                         v-model="administrativo"
                                         outlined
-                                        label="Administrativo del &aacute;rea acad&eacute;mica"    
+                                        label="Cantidad de administrativo del &aacute;rea acad&eacute;mica"    
                                         persistent-hint
                                         data-vv-name="administrativo"
                                         :error="errors.has('administrativo')"
                                         :error-messages="errors.first('administrativo')"
+                                        :rules="[validacion]"
                                         
                                     ></v-text-field>
                                 </v-col>
@@ -509,11 +539,12 @@
                                     <v-text-field 
                                         v-model="otros"
                                         outlined
-                                        label="Otros participantes"    
+                                        label="Cantidad de otros participantes"    
                                         persistent-hint
                                         data-vv-name="otros"
                                         :error="errors.has('otros')"
                                         :error-messages="errors.first('otros')"
+                                        :rules="[validacion]"
                                     ></v-text-field>
                                 </v-col>
 
@@ -540,6 +571,7 @@
                                         data-vv-name="total de hombres"
                                         :error="errors.has('total de hombres')"
                                         :error-messages="errors.first('total de hombres')"
+                                        :rules="[validacion]"
                                     ></v-text-field>
                                 </v-col>
 
@@ -552,6 +584,8 @@
                                         data-vv-name="total de mujeres"
                                         :error="errors.has('total de mujeres')"
                                         :error-messages="errors.first('total de mujeres')"
+                                        @blur="comprobarTotal"
+                                        :rules="[validacion]"
                                         
                                     ></v-text-field>
                                 </v-col>
@@ -565,6 +599,7 @@
                                         data-vv-name="lugar"
                                         :error="errors.has('lugar')"
                                         :error-messages="errors.first('lugar')"
+                                        hint="(Si es fuera de la ciudad especificar)"
                                     ></v-text-field>
                                 </v-col>
                             </v-row>
@@ -588,9 +623,19 @@
                                         <template>
                                             <br>
                                             <div>
-                                               <v-text-field v-model="buscar" label="Buscar" :append-icon="iconoBusqueda" clearable @keyup.enter="filtrarTabla"></v-text-field>
+                                               <v-text-field v-model="buscar" label="Buscar" :append-icon="iconoBusqueda" clearable @keyup.enter="filtrarTabla"></v-text-field>                                               
                                             </div>
                                           </template>
+                                    </v-col>
+                                    <v-col md = "1">
+                                        <v-tooltip bottom open-on-hover>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <span class="tooltip-trigger" v-bind="attrs" v-on="on">
+                                                    <v-icon> mdi-information </v-icon>
+                                                </span>
+                                            </template>
+                                            <span>La busqueda se realiza por unidad academica, nombre evento, tipo evento y direccion </span>
+                                        </v-tooltip>
                                     </v-col>
                                 </v-row>
 
@@ -609,29 +654,24 @@
                                             items-per-page="10"
                                         >   
 
-                                        <template v-slot:item.actions="{ item }">
-                                            <v-icon color="green" @click="snackbar = false">mdi-circle</v-icon>
-                                            <v-icon color="yellow" @click="snackbar = false">mdi-circle</v-icon>
-                                            <v-icon color="red" @click="snackbar = false">mdi-circle</v-icon>
-                                        </template>
-                                          
-
-                                        <template v-slot:item.eliminar="{item}">
-                                            <v-btn fab small color="error" @click="fnEliminar(item);"><v-icon>mdi-trash-can</v-icon></v-btn>
-                                        </template>
-
-                                            <template v-slot:item.password="{item}">
-                                                <v-tooltip bottom>
-                                                    <template v-slot:activator="{on, attrs}">
-                                                        <span v-bind="attrs" v-on="on" @click="navigator.clipboard.writeText(item.password); mostrarSnackbar('success', 'Texto copiado al portapapeles.')"><b>{{item.password}}</b></span>
-                                                    </template>
-                                                    <span>Copiar contraseña</span>
-                                                </v-tooltip>
+                                        <template v-slot:item.estatus="{item}">
+                                            <v-select
+                                            v-model="item.estatus"
+                                            :items="arrayEstatus"
+                                            item-text="text"
+                                            item-value="icon"
+                                          >
+                                            <template v-slot:item="{ item }">
+                                              <v-list-item-content>
+                                                <v-icon :color="item.color">{{ item.icon }}</v-icon>
+                                              </v-list-item-content>
                                             </template>
+                                          </v-select>
+                                        </template>
+                                            
                                         </v-data-table>
-
-                                </v-col>
-                            </v-row>    
+                                    </v-col>
+                                </v-row>    
                         </v-container>
                        <v-divider></v-divider>
                        
@@ -691,7 +731,7 @@
                 const fechaElavoracion=ref("");
                 const unidadAcademica = ref("");
                 const nivelEducativo = ref("");
-                const direccionArea = ref("");
+                
                 const programaEducativo = ref("");
                 const nombreGestor = ref("");
                 const necesidadesDetectadas = ref("");
@@ -728,20 +768,28 @@
                 const fechaTermino = ref("");
                 const numDias=ref("");
                 const numHorasEfectivas=ref("");
+                const estatus=ref("");
                 const buscar=ref("");
 
                 
 
                 const arrayUnidadesAcademicas = ref([]);
                 const arrayNivelEducativo = ref(["T.S.U","Ingenieria"]);
-                const arrayOrientacion = ref(["Pedagógicas","Investigación","Tutoreo","Digitales","Técnicas","Transversales","Desarrollo de habilidades"]);
-                const arrayJustificacion = ref(["Pedagógicas","Investigación","Tutoreo","Digitales","Técnicas","Transversales","Desarrollo de habilidades"]);
+                const arrayOrientacion = ref([]);
+                const arrayJustificacion = ref([]);
                 const arrayTipoEvento = ref([]);
-                const arrayTipoPrograma = ref(["Interna","Externa"]);
-                const arrayOrigen = ref(["PFCE","Formación docente","Dirección académica"]);
+                const arrayTipoPrograma = ref([]);
+                const arrayOrigen = ref([]);
                 const arrayMes =ref(['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'])
+                const  arrayEstatus = ref([
+                    { icon: 'mdi-check', text: 'Aceptado' , color: 'green'},
+                    { icon: 'mdi-close', text: 'Cancelado', color: 'red' },
+                    { icon: 'mdi-pencil', text: 'Editar', color: 'yellow' },
+                ]);
                 const arrayDireccSub =ref([]);
                 const arrayProgramas =ref([]);
+                const arrayEmpleados =ref([]);
+
 
                   //SNACKBAR
                 const loader = ref(false);
@@ -758,14 +806,19 @@
                 const dataEventos = ref([]);
                 const searchEventos = ref([]);
                 const headersEventos = ref([
-                    {text: 'Unidad Academica', align: 'left', sortable: true, value: 'nombre_unidad_academica'},
+                    {text: 'Unidad Academica', align: 'left', sortable: true, value: 'nombre_unidad_academica', width: '200px'},
                     {text: 'Nombre del evento', align: 'left', sortable: true, value: 'nombre_evento'},
                     {text: 'Tipo de evento', align: 'left', sortable: true, value: 'nombre_tipo_evento'},
+                    {text: 'Dirección', align: 'left', sortable: true, value: 'nombre_area'},
                     {text: 'Fecha inicio', align: 'left', sortable: true, value: 'fecha_inicio'},
-                    {text: 'Fecha termino', align: 'left', sortable: true, value: 'fecha_temino'},
-                    {text: 'Número de días', align: 'left', sortable: true, value: 'num_dias'},
-                    { text: "Estatus", align: "left", sortable: false, value: "actions" }
+                    { text: "Estatus", align: "left", sortable: false, value: "estatus", width: '200px' }
                 ]);
+
+                const currentUser = localStorage.getItem('currentUser');
+                const user = JSON.parse(currentUser);
+                const nombre = user[0].nombre;
+                const idPersona = user[0].cve_persona;
+
 
                 //Accion automatizada para mostrar la tabla
                 onMounted(() => {
@@ -774,8 +827,57 @@
                     fnUnidadAcademica();
                     fnDirecciones();
                     fnProgramas();
+                    fnOrientacion();
+                    fnOrigen();
+                    fnEmpleados();
+                    fnFecha();
+                    fnTipoPrograma();
                     
                 });
+
+                function fnFecha() {
+                    const calculo_fecha = new Date();
+                    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                    fechaElavoracion.value = new Date().toISOString().substr(0, 10);                    
+                }
+                
+                async function fnTipoPrograma(){
+                    try{
+                        preloader("../../");
+                        let parametros = new URLSearchParams();
+                        parametros.append("accion", 10);
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                arrayTipoPrograma.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                }
+
+                async function fnOrientacion(){
+                    try{
+                        preloader("../../");
+                        let parametros = new URLSearchParams();
+                        parametros.append("accion", 7);
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                arrayOrientacion.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                }
 
                 async function fnConsultarTabla(){
                     try{
@@ -799,8 +901,6 @@
                     }
                 }
 
-                
-
                 async function fnUnidadAcademica(){
                     try{
                         preloader("../../");
@@ -810,6 +910,25 @@
                         if(status == 200){
                             if(data.length > 0){
                                 arrayUnidadesAcademicas.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                }
+
+                async function fnOrigen(){
+                    try{
+                        preloader("../../");
+                        let parametros = new URLSearchParams();
+                        parametros.append("accion", 8);
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                arrayOrigen.value = data
                             }
                         }
                     } catch(error){
@@ -838,8 +957,7 @@
                         swal.close();
                     }
                 }
-
-                
+  
                 async function fnDirecciones(){
                     try{
                         preloader("../../");
@@ -859,7 +977,25 @@
                     }
                 }
 
-                
+                async function fnEmpleados(){
+                    try{
+                        preloader("../../");
+                        let parametros = new URLSearchParams();
+                        parametros.append("accion", 9);
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                arrayEmpleados.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                }
+            
                 async function fnTipoEvento(){
                     try{
                         preloader("../../");
@@ -879,8 +1015,6 @@
                     }
                 }
 
-                async function fnCambiarEstatus(item){}
-
                 async function fnGuardar() {
                         this.$validator.validate().then(async (esValido) => {
                             if (esValido) {
@@ -888,13 +1022,15 @@
                                     preloader("../../");
                                     let parametros = new URLSearchParams();
                                     parametros.append("accion", 4);
-                                    parametros.append("unidadAcademica", unidadAcademica.value);
-                                    parametros.append("direccionArea", direccionArea.value);
-                                    parametros.append("tipoEvento", tipoEvento.value);
-                                    parametros.append("nivelEducativo", nivelEducativo.value);
                                     parametros.append("direccion", direccion.value);
+                                    parametros.append("unidadAcademica", unidadAcademica.value);
+                                    parametros.append("nombreGestor", nombreGestor.value);
+                                    parametros.append("orientacionEvento", orientacionEvento.value);
+                                    parametros.append("tipoEvento", tipoEvento.value);
+                                    parametros.append("tipoPrograma", tipoPrograma.value);
+                                    parametros.append("nivelEducativo", nivelEducativo.value);
                                     parametros.append("programaEducativo", programaEducativo.value);
-                                    parametros.append("annio", annio.value);
+                                    parametros.append("annio", parseInt(annio.value.slice(0, 4), 10));
                                     parametros.append("necesidadesDetectadas", necesidadesDetectadas.value);
                                     parametros.append("nombreEventoCapacitacion", nombreEventoCapacitacion.value);
                                     parametros.append("objetivoEvento", objetivoEvento.value);
@@ -914,7 +1050,7 @@
                                     parametros.append("total", total.value);
                                     parametros.append("totalH", totalH.value);
                                     parametros.append("totalM", totalM.value);
-                                    
+                                    parametros.append("id", idPersona);
                                     let { data, status } = await axios.post(ctr, parametros);
                                     if (status == 200) {
                                         if (data == "1") {
@@ -924,11 +1060,6 @@
                                             );
                                             fnConsultarTabla();
                                             fnLimpiarCampos(this);
-                                            // this.$validator.pause();
-                                            // Vue.nextTick(() => {
-                                            //     this.$validator.errors.clear();
-                                            //     this.$validator.resume();
-                                            // });
                                         }
                                     }
                                 } catch (error) {
@@ -941,54 +1072,37 @@
                         });
                     }
 
-                
-                
-
-                async function fnEliminar(item){
-                    confirmarE("¿Realmente quieres eliminar éste registro?").then(async (result) => {
-                        if(result.isConfirmed){
-                            try{
-                                preloader("../../");
-                                let parametros = new URLSearchParams();
-                                parametros.append("accion", 4);
-                                parametros.append("idPeriodo", item.Expr8);
-                                parametros.append("idEvento", item.Expr2);
-                                let {data,status} = await axios.post(ctr, parametros)
-                                if(status == 200){
-                                    if(data=="1"){
-                                        fnConsultarTabla();                                    
-                                    }
-                                }
-
-                            } catch(error){
-                                mostrarSnackbar('error');
-                                console.error(error);
-                            } finally{
-                                swal.close();
-                            }
-
-                        }
-                    })
-                }
-
                 function fnLimpiarCampos(cx){//cx = contexto
-                    idAcademia.value = "";
-                    nombreEventoCapacitacion.value = "";
-                    objetivoEvento.value = "";
-                    orientacionEvento.value = "";
-                    justificacionEvento.value = "";
-                    tipoEvento.value = "";
-                    otroTipoEvento.value = "";
-                    tipoPrograma.value = "";
-                    proveedorSugerido.value = "";
-                    costoCapacitacionSugerido.value = "";
-                    origenRecursoEvento.value = "";
-                    
-                    mes.value = "";
-                    fechaInicio.value = "";
-                    fechaElavoracion.value = "";
-                    numDias.value = "";
-                    numHorasEfectivas.value = "";
+                    direccion.value = ' ';
+                    unidadAcademica.value = ' ';
+                    nombreGestor.value = ' ' ;
+                    orientacionEvento.value = ' ' ;
+                    origenRecursoEvento.value = ' ';
+                    tipoEvento.value = ' ' ;
+                    tipoPrograma.value = ' ' ;
+                    nivelEducativo.value = ' ' ;
+                    programaEducativo.value = ' ' ;
+                    annio.value = ' ' ;
+                    necesidadesDetectadas.value = ' ' ;
+                    nombreEventoCapacitacion.value = ' ' ;
+                    objetivoEvento.value = ' ' ;
+                    justificacionEvento.value = ' ' ;
+                    otroEvento.value = ' ' ;
+                    proveedorSugerido.value = ' ' ;
+                    costoCapacitacionSugerido.value = ' ' ;
+                    mes.value = ' ' ;                                    
+                    fechaInicio.value = ' ' ;
+                    fechaTermino.value = ' ' ;
+                    numDias.value = ' ' ;
+                    numHorasEfectivas.value = ' ' ;
+                    ptc.value = ' ' ;
+                    laboratoristas.value = ' ' ;
+                    administrativo.value = ' ' ;
+                    otros.value = ' ' ;
+                    total.value = ' ' ;
+                    totalH.value = ' ' ;
+                    totalM.value = ' ' ;
+                    lugar.value = ' ';
 
                     flagEditar.value = false;
                     itemEditar.value = {};
@@ -1009,37 +1123,58 @@
                 }
 
                 return{
-                    annio: null, direccion, fechaElavoracion, unidadAcademica, nivelEducativo, direccionArea, programaEducativo,
+                    annio, direccion, fechaElavoracion, unidadAcademica, nivelEducativo, programaEducativo,
                     nombreGestor, necesidadesDetectadas, nombreEventoCapacitacion, objetivoEvento, orientacionEvento,
                     justificacionEvento,tipoEvento, otroEvento, tipoPrograma, proveedorSugerido, costoCapacitacionSugerido, 
-                    origenRecursoEvento, mes, fechaInicio, fechaTermino, numDias, numHorasEfectivas, ptc:0, laboratoristas:0, administrativo:0,
-                    otros:0, total:0, totalH, totalM, lugar, transporte, casetas, alimentacion, hospedaje, taxis, otrosGastos, oficial,
-                    particular, otrosO, origen, idEvento, buscar: "", iconoBusqueda: 'mdi-magnify',
-
-
-                    arrayOrientacion, arrayJustificacion, arrayTipoEvento, arrayTipoPrograma, arrayOrigen, arrayMes, arrayUnidadesAcademicas,
-                    arrayNivelEducativo, arrayDireccSub, arrayProgramas,
+                    origenRecursoEvento, mes, fechaInicio, fechaTermino, numDias, numHorasEfectivas, ptc, laboratoristas, administrativo,
+                    otros, total, totalH, totalM, lugar, transporte, casetas, alimentacion, hospedaje, taxis, otrosGastos, oficial,
+                    particular, otrosO, origen, idEvento, buscar: "", iconoBusqueda: 'mdi-magnify', estado: 'Validado', estatus,
+                    
+                    
+                    arrayOrientacion, arrayJustificacion, arrayTipoEvento, arrayTipoPrograma, arrayOrigen, arrayMes, arrayEstatus, arrayUnidadesAcademicas,
+                    arrayNivelEducativo, arrayDireccSub, arrayProgramas, arrayEmpleados,
 
                     flagEditar, itemEditar,
                     dataEventos,headersEventos, searchEventos, color_snackbar, snackbar, mensaje_snackbar,loader
-                    ,fnLimpiarCampos,fnGuardar,fnEliminar, fnCambiarEstatus, 
+                    ,fnLimpiarCampos,fnGuardar, fnOrientacion, fnOrigen, fnEmpleados, fnFecha, fnTipoPrograma
                     
                     
                 }
             },
             computed: {
-                    datosFiltrados() {
+                datosFiltrados() {
                     if (!this.buscar) {
                         return this.dataEventos;
                     }
 
                     const keyword = this.buscar.toLowerCase();
-                    return this.dataEventos.filter(item => item.nombre_evento.toLowerCase().includes(keyword));
-                    console.log(datosFiltrados())
-                    },
-                  
-                   
+                    return this.dataEventos.filter(item => {
+                        const tipoEvento = item.nombre_tipo_evento.toLowerCase();
+                        const direccion = item.nombre_area.toLowerCase();
+                        const nombreEvento = item.nombre_evento.toLowerCase();
+                        const fecha = item.fecha_registro.toLowerCase();
+                        const unidadAcademica = item.nombre_unidad_academica.toLowerCase();
 
+                        return (
+                        tipoEvento.includes(keyword) ||
+                        direccion.includes(keyword) ||
+                        nombreEvento.includes(keyword) ||
+                        fecha.includes(keyword) ||
+                        unidadAcademica.includes(keyword)
+                        );
+                    });
+                    },
+
+                    validacion() {
+                    return (value) => {
+                        
+                        if (!value || /^\d*$/.test(value.trim())) {
+                        // Si el campo está vacío o solo contiene números, es válido
+                        return true;
+                        }
+                        return 'Ingrese solo números en este campo.';
+                    };
+                    },
             },
             watch: {
                 ptc: function(newVal, oldVal) {
@@ -1054,12 +1189,6 @@
                 otros: function(newVal, oldVal) {
                     this.calcularTotal();
                 },
-                totalM: function () {
-                    this.comprobarTotal();
-                },
-                totalH: function () {
-                    this.comprobarTotal();
-                }
             },
             methods: {
                 calcularTotal() {
@@ -1067,23 +1196,47 @@
                     + parseFloat(this.otros) ;
                 },
                 comprobarTotal(){
-                    if (this.totalM && this.totalH && this.total && (parseInt(this.totalM) + parseInt(this.totalH) !== parseInt(this.total))) {
-                        Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: 'La suma del total de mujeres y total hombres no coincide con el total',
+                    if (this.totalM !== null && this.totalH !== null && this.total !== null) {
+                        const sum = parseInt(this.totalM) + parseInt(this.totalH);
+                        if (sum !== parseInt(this.total)) {
+                            Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'La suma del total de mujeres y total hombres no coincide con el total',
                             }).then(() => {
-                                this.totalM = null;
-                                this.totalH = null;
+                            this.totalM = null;
+                            this.totalH = null;
                             });
                         }
+                    }
                 },
                 filtrarTabla() {
                         console.log("jijojio:", this.buscar);
-                }
-                    
-            },    
-
+                },
+                validarFechas() {
+                    if (this.fechaInicio && this.fechaTermino) {
+                        if (this.fechaTermino < this.fechaInicio) {
+                        
+                        console.log("La fecha de término debe ser posterior a la fecha de inicio");
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'La fecha de término debe ser posterior a la fecha de inicio',
+                            }).then(() => {
+                            this.fechaInicio = null;
+                            this.fechaTermino = null;
+                            });
+                        } else {
+                        // Las fechas son válidas
+                        console.log("Las fechas son válidas");
+                        }
+                    }
+                },
+                isIcon(item) {
+                return item.startsWith('mdi-');
+                },
+                
+            },   
         });
 
     </script>

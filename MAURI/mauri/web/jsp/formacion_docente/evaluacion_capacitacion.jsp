@@ -71,6 +71,7 @@
                                             </v-row>
                                     </v-row>
 
+                                    <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                         <v-col md="12">
                                             <v-data-table
                                             v-if="mostrarParticipantes"
@@ -87,6 +88,7 @@
                                             <template v-slot:item.calificacion="{ item }">
                                                 <v-text-field outlined persistent-hint v-model="item.calificacion"></v-text-field>
                                             </template>
+                                              
                                             </v-data-table>
                                         </v-col>
                                       
@@ -97,13 +99,39 @@
                                           <v-btn color="primary" @click="flagEditar ? fnEditar() : fnGuardar()"><v-icon>mdi-content-save</v-icon>{{flagEditar ? 'Editar' : 'Guardar'}}</v-btn>
                                           &nbsp;
                                           <v-btn color="error" @click="fnLimpiarCampos()"><v-icon>mdi-cancel</v-icon>Cancelar</v-btn>
+                                         
                                         </v-row>
                                       
                                     </v-row>
                                   </template>
-                                    
-
                             </v-row>
+
+                            <v-row justify="center">
+                                <v-col md=12>
+                                    <v-data-table
+                                        :headers="headersEvaluaciones"
+                                        :items="dataEvaluaciones"
+                                        class="elevation-2"
+                                        no-data-text="No se encontro ningun registro"
+                                        :hide-default-header="dataEvaluaciones.length < 1"
+                                        :hide-default-footer="dataEvaluaciones.length < 1"
+                                        locale="es-ES"
+                                        :mobile-breakpoint="NaN"
+                                        items-per-page="10"
+                                    >   
+                                      
+                                        <template v-slot:item.editar="{ item }">
+                                            <v-btn fab small color="warning" @click="fnEditar(); flagEditar = true; itemEditar = item; 
+                                                ">
+                                                <v-icon>mdi-square-edit-outline</v-icon>
+                                            </v-btn>
+                                        </template>
+
+                                        
+                                            
+                                    </v-data-table>
+                                </v-col>
+                            </v-row>    
                         </v-container>
                     </v-card>
                 </v-container>
@@ -114,6 +142,7 @@
                     {{mensaje_snackbar}}
                     <%-- <v-icon color="white" @click="snackbar = false">mdi-close-circle</v-icon> --%>
                 </v-snackbar>
+
                 <v-overlay :value="loader" z-index="1000">
                     <v-img
                         aspect-ratio="2"
@@ -157,33 +186,24 @@
                 } = VueCompositionAPI;
                 const ctr = "../../controlador/formacion_docente/controlador_evaluacion_capacitacion.jsp";
                 //Variables POST
-                
-                       
+                const items = 1;
 
                 //Otras variables
                 const flagEditar = ref(false);
                 const itemEditar = ref({});
-                //Setup del calendario
-               
-                //Setup de inputs
-
-
+                
                 //SNACKBAR
                 const loader = ref(false);
                 const snackbar = ref(false);
                 const mensaje_snackbar = ref('');
                 const color_snackbar = ref('');
-                //Loaders
+                
                 //Dialogs
                 const dialogBuscador = ref(false);
-
                 const dialogDetallesCotizacion = ref(false);
                 const dialogProveedor = ref(false);
 
                 //DataTable
-                
-                
-
                 const headersGrupos = ref([
                     {text: 'Curso', align: 'left', sortable: true, value: 'nombre_evento'},
                     {text: '', align: 'left', sortable: true, value: 'ingresar'},
@@ -197,28 +217,33 @@
                     {text: 'Calificación final', align: 'left', sortable: true, value: 'calificacion'},
                 ]);
                 const dataParticipantes = ref([]);
+                const dataCalificaciones = ref([]);
+
+                const headersEvaluaciones = ref([
+                    
+                    {text: 'Nombre del curso', align: 'left', sortable: true, value: 'nombre_evento'},
+                    {text: 'Nombre del instructor', align: 'left', sortable: true, value: 'nombre_facilitador'},
+                    {text: 'Fecha de evaluación', align: 'left', sortable: true, value: 'fecha_registro'},
+                    {text: 'Editar', align: 'left', sortable: true, value: 'editar'},
+                ]);
+                const dataEvaluaciones = ref([]);
 
                 const currentUser = localStorage.getItem('currentUser');
                 const user = JSON.parse(currentUser);
                 const cve_persona = user[0].cve_persona;
                 const idEmpleado = user[0].cve_empleado;
-               
-
-                
-                
 
                 onMounted(() => {
                     fnConsultarTabla();
-                    
+                    fnConsultarTablaEvaluaciones();
+                    console.log(idEmpleado);
                 });
 
                 function fnObtener(grupo) {
-                   
                     const arregloGrupo = Object.values(grupo);
                     console.log('Arreglo del grupo:', arregloGrupo);
                     console.log('id evento:', arregloGrupo[0]);
                     this.cve = arregloGrupo[0];
-                    
                 }
 
                 async function fnLlenar() {
@@ -251,43 +276,37 @@
                 async function fnGuardar(){
                     this.$validator.validate().then(async esValido => {
                         if(esValido){
+                            this.dataParticipantes.forEach(async (participante) => {
                             try{
                                 preloader("../");
                                 let parametros = new URLSearchParams();
                                 
-                                parametros.append("accion", 3);
-                               // parametros.append("cve_empleado", cve_empleado);
-                                parametros.append("cve_curso", this.cve);
-                                parametros.append("nombreInstructor", this.nombreInstructor);
-                                //parametros.append("calificacion", calificacion);
-                                parametros.append("idUsuario", this.idEmpleado);
-
-                                this.dataParticipantes.forEach(participante => {
+                                    parametros.append("accion", 3);
                                     parametros.append("cve_empleado", participante.cve_empleado);
+                                    parametros.append("cve_curso", this.cve);
+                                    parametros.append("nombreInstructor", this.nombreInstructor);
                                     parametros.append("calificacion", participante.calificacion);
-                                });
+                                    parametros.append("idUsuario", idEmpleado);
                                 
                                 let {data,status} = await axios.post(ctr, parametros);
                                     console.log(parametros);
                                     if(status == 200){
                                         if(data == "1"){
                                             mostrarSnackbar("success", "Registro guardado correctamente.");
-                                            fnLimpiarCampos(this);   
+                                            fnConsultarTablaEvaluaciones();
                                         }
                                     }
-                                
                             } catch(error){
                                 mostrarSnackbar('error');
                                 console.error(error);
                             } finally{
                                 swal.close();
                             }
+                        });
                         }
                     })
                 }
 
-                
-                
                 async function fnConsultarTabla(){
                     try{
                         preloader("../../");
@@ -296,7 +315,6 @@
                         let {data,status} = await axios.post(ctr, parametros)
                         if(status == 200){
                             if(data.length > 0){
-
                                 dataGrupos.value = data
                             }
                         }
@@ -308,7 +326,59 @@
                     }
                 }
 
+                async function fnConsultarTablaEvaluaciones(){
+                    try{
+                        preloader("../../");
+                        let parametros = new URLSearchParams();
+                        parametros.append("accion", 4);
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                dataEvaluaciones.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                }
             
+                async function fnEditar(){
+                    this.$validator.validate().then(async esValido => {
+                        if(esValido){
+                            try{
+                                preloader("../");
+                                let parametros = new URLSearchParams();
+                                parametros.append("accion", 5);
+                                parametros.append("cve_curso", this.cve);
+                                let {data,status} = await axios.post(ctr, parametros)
+                                
+                                /*data.forEach(objeto => { console.log(objeto.calificacion_final);
+                                });*/
+
+                                if(status == 200){
+                                    const calificacionesFinales = data.map(objeto => objeto.calificacion_final);
+                                    console.log('valor calificaciones', calificacionesFinales);
+
+                                    for (let i = 0; i < this.dataParticipantes.length; i++) {
+                                        this.dataParticipantes[i].calificacion = calificacionesFinales[i];
+                                        console.log(this.dataParticipantes[i].calificacion); 
+                                    }
+                                    console.log(this.dataParticipantes); 
+                                }
+
+                            } catch(error){
+                                mostrarSnackbar('error');
+                                console.error(error);
+                            } finally{
+                                swal.close();
+                            }
+                        }
+                    })
+                }
+
                 function mostrarSnackbar(color, texto){
                     snackbar.value = true;
                     color_snackbar.value = color;
@@ -319,18 +389,21 @@
                 }
 
                 return{
+                    calificacion: [], items,
+                    calificacionesFinales: [],
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
 
-                   
-                    dataGrupos, headersGrupos, dataParticipantes, headersParticipantes, cve:'',
+                    headersGrupos, headersParticipantes, headersEvaluaciones,
+                    dataGrupos, dataParticipantes, dataCalificaciones, dataEvaluaciones , cve:'',
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor,
-                    fnConsultarTabla, fnObtener, fnLlenar, itemEditar,
+                    fnConsultarTabla, fnObtener, fnLlenar, fnConsultarTablaEvaluaciones, itemEditar,
                     mostrarGrupos: true,
                     mostrarParticipantes: false,
 
-                    fnGuardar
+                    fnGuardar, fnEditar
                 }
-            },
+                }
+            
         });
 
         Vue.config.devtools = true;
