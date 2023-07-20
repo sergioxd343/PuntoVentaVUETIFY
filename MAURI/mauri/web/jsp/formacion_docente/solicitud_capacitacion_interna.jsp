@@ -357,17 +357,27 @@
                                         <v-col md="4">
                                             <v-autocomplete v-model="areaPertenece[index]" outlined
                                                 @change="agregarArea(areaPertenece[index])"
-                                                label="Área académica a la que pertenece" :items="areas"
-                                                item-value="cve_area" item-text="nombre_area" :disabled="deshabilitar"
-                                                </v-autocomplete>
+                                                label="Área académica a la que pertenece" 
+                                                :items="areas"
+                                                item-value="cve_area" 
+                                                item-text="nombre_area"
+
+                                                :disabled="deshabilitar">
+
+                                            </v-autocomplete>
                                         </v-col>
 
                                         <v-col md="4">
                                             <v-autocomplete v-model="programaEducativo[index]" outlined
-                                                @change="agregarPrograma(programaEducativo[index])"
-                                                label="Programa Educativo" persistent-hint :items="programas"
-                                                item-value="cve_ugac" item-text="nombre_ugac" :disabled="deshabilitar"
-                                                </v-autocomplete>
+                                            @change="agregarPrograma(programaEducativo[index])"
+                                                label="Programa Educativo" persistent-hint
+                                                :items="programas"
+                                                item-value="cve_ugac" 
+                                                item-text="nombre_ugac" 
+
+                                                :disabled="deshabilitar">
+
+                                            </v-autocomplete>
                                         </v-col>
                                     </v-row>
 
@@ -416,6 +426,16 @@
                                                 clearable @keyup.enter="filtrarTabla"></v-text-field>
                                         </div>
                                     </template>
+                                </v-col>
+                                <v-col md = "1">
+                                    <v-tooltip bottom open-on-hover>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <span class="tooltip-trigger" v-bind="attrs" v-on="on">
+                                                <v-icon> mdi-information </v-icon>
+                                            </span>
+                                        </template>
+                                        <span>La busqueda se realiza por nombre curso, tipo de competencia, programa educativo </span>
+                                    </v-tooltip>
                                 </v-col>
                             </v-row>
 
@@ -578,6 +598,7 @@
                     const dataSolicitudCapacitacion = ref([]);
                     const headerCapacitacion = ref([
                         { text: "Nombre del curso", align: "left", sortable: true, value: "nombre" },
+                        { text: "Tipo de competencia", align: "left", sortable: true, value: "tipo_competencia" },
                         { text: "Total de días", align: "left", sortable: true, value: "total_dias" },
                         { text: "Total de horas", align: "left", sortable: true, value: "total_horas" },
                         { text: "Objetivo", align: "left", sortable: true, value: "objetivo" },
@@ -881,9 +902,17 @@
                             return this.dataSolicitudCapacitacion;
                         }
 
-                        const keyword = this.buscar.toLowerCase();
-                        return this.dataSolicitudCapacitacion.filter(item => item.nombre.toLowerCase().includes(keyword));
-                        console.log(datosFiltrados())
+                    const keyword = this.buscar.toLowerCase();
+                    return this.dataSolicitudCapacitacion.filter(item => {
+                        const nombre =  item.nombre.toLowerCase(); 
+                        const tipoCompetencia = item.tipo_competencia.toLowerCase();
+                        
+
+                        return (
+                            nombre.includes(keyword) ||
+                            tipoCompetencia.includes(keyword) 
+                        );
+                    });
                     },
                     validacion() {
                         return (value) => {

@@ -41,6 +41,14 @@
         .circle-cell .circle.rechazado {
         background-color: red;
         }
+
+        .validado {
+        background-color: green;
+        }
+
+        .cancelado {
+        background-color: red;
+        }
     </style>
     <body>
         <div id="app">
@@ -342,9 +350,8 @@
                                         label="Costo Capacitaci&oacute;n (Sugerido)"    
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        
                                         :rules="[validacion]"
-                                        
+                                                                             
                                     ></v-text-field>
                                 </v-col>
 
@@ -458,12 +465,10 @@
                                         label="N&uacute;mero de d&iacute;as"    
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        inputmode="numeric"
-                                        pattern="[0-9]*"
-                                        type="number"
                                         data-vv-name="número de días"
                                         :error="errors.has('número de días')"
                                         :error-messages="errors.first('número de días')"
+                                        :rules="[validacion]"
                                     ></v-text-field>
                                 </v-col>
 
@@ -474,12 +479,10 @@
                                         label="N&uacute;mero de horas efectivas"    
                                         persistent-hint
                                         v-validate="'required|max:200'"
-                                        inputmode="numeric"
-                                        pattern="[0-9]*"
-                                        type="number"
                                         data-vv-name="número de horas efectivas"
                                         :error="errors.has('número de horas efectivas')"
                                         :error-messages="errors.first('número de horas efectivas')"
+                                        :rules="[validacion]"
                                         
                                     ></v-text-field>
                                 </v-col>
@@ -620,9 +623,19 @@
                                         <template>
                                             <br>
                                             <div>
-                                               <v-text-field v-model="buscar" label="Buscar" :append-icon="iconoBusqueda" clearable @keyup.enter="filtrarTabla"></v-text-field>
+                                               <v-text-field v-model="buscar" label="Buscar" :append-icon="iconoBusqueda" clearable @keyup.enter="filtrarTabla"></v-text-field>                                               
                                             </div>
                                           </template>
+                                    </v-col>
+                                    <v-col md = "1">
+                                        <v-tooltip bottom open-on-hover>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <span class="tooltip-trigger" v-bind="attrs" v-on="on">
+                                                    <v-icon> mdi-information </v-icon>
+                                                </span>
+                                            </template>
+                                            <span>La busqueda se realiza por unidad academica, nombre evento, tipo evento y direccion </span>
+                                        </v-tooltip>
                                     </v-col>
                                 </v-row>
 
@@ -641,26 +654,24 @@
                                             items-per-page="10"
                                         >   
 
-                                        <template v-slot:item.actions="{ item }">
-                                            <v-icon color="green" @click="snackbar = false">mdi-circle</v-icon>
-                                            <v-icon color="yellow" @click="snackbar = false">mdi-circle</v-icon>
-                                            <v-icon color="red" @click="snackbar = false">mdi-circle</v-icon>
-                                        </template>
-                                          
-
-                                        
-                                            <template v-slot:item.password="{item}">
-                                                <v-tooltip bottom>
-                                                    <template v-slot:activator="{on, attrs}">
-                                                        <span v-bind="attrs" v-on="on" @click="navigator.clipboard.writeText(item.password); mostrarSnackbar('success', 'Texto copiado al portapapeles.')"><b>{{item.password}}</b></span>
-                                                    </template>
-                                                    <span>Copiar contraseña</span>
-                                                </v-tooltip>
+                                        <template v-slot:item.estatus="{item}">
+                                            <v-select
+                                            v-model="item.estatus"
+                                            :items="arrayEstatus"
+                                            item-text="text"
+                                            item-value="icon"
+                                          >
+                                            <template v-slot:item="{ item }">
+                                              <v-list-item-content>
+                                                <v-icon :color="item.color">{{ item.icon }}</v-icon>
+                                              </v-list-item-content>
                                             </template>
+                                          </v-select>
+                                        </template>
+                                            
                                         </v-data-table>
-
-                                </v-col>
-                            </v-row>    
+                                    </v-col>
+                                </v-row>    
                         </v-container>
                        <v-divider></v-divider>
                        
@@ -757,6 +768,7 @@
                 const fechaTermino = ref("");
                 const numDias=ref("");
                 const numHorasEfectivas=ref("");
+                const estatus=ref("");
                 const buscar=ref("");
 
                 
@@ -769,6 +781,11 @@
                 const arrayTipoPrograma = ref([]);
                 const arrayOrigen = ref([]);
                 const arrayMes =ref(['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'])
+                const  arrayEstatus = ref([
+                    { icon: 'mdi-check', text: 'Aceptado' , color: 'green'},
+                    { icon: 'mdi-close', text: 'Cancelado', color: 'red' },
+                    { icon: 'mdi-pencil', text: 'Editar', color: 'yellow' },
+                ]);
                 const arrayDireccSub =ref([]);
                 const arrayProgramas =ref([]);
                 const arrayEmpleados =ref([]);
@@ -789,13 +806,12 @@
                 const dataEventos = ref([]);
                 const searchEventos = ref([]);
                 const headersEventos = ref([
-                    {text: 'Unidad Academica', align: 'left', sortable: true, value: 'nombre_unidad_academica'},
+                    {text: 'Unidad Academica', align: 'left', sortable: true, value: 'nombre_unidad_academica', width: '200px'},
                     {text: 'Nombre del evento', align: 'left', sortable: true, value: 'nombre_evento'},
                     {text: 'Tipo de evento', align: 'left', sortable: true, value: 'nombre_tipo_evento'},
+                    {text: 'Dirección', align: 'left', sortable: true, value: 'nombre_area'},
                     {text: 'Fecha inicio', align: 'left', sortable: true, value: 'fecha_inicio'},
-                    {text: 'Fecha termino', align: 'left', sortable: true, value: 'fecha_temino'},
-                    {text: 'Número de días', align: 'left', sortable: true, value: 'num_dias'},
-                    { text: "Estatus", align: "left", sortable: false, value: "actions" }
+                    { text: "Estatus", align: "left", sortable: false, value: "estatus", width: '200px' }
                 ]);
 
                 const currentUser = localStorage.getItem('currentUser');
@@ -822,10 +838,8 @@
                 function fnFecha() {
                     const calculo_fecha = new Date();
                     const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-                    fechaElavoracion.value = new Date().toISOString().substr(0, 10);
-                    
+                    fechaElavoracion.value = new Date().toISOString().substr(0, 10);                    
                 }
-
                 
                 async function fnTipoPrograma(){
                     try{
@@ -1063,6 +1077,7 @@
                     unidadAcademica.value = ' ';
                     nombreGestor.value = ' ' ;
                     orientacionEvento.value = ' ' ;
+                    origenRecursoEvento.value = ' ';
                     tipoEvento.value = ' ' ;
                     tipoPrograma.value = ' ' ;
                     nivelEducativo.value = ' ' ;
@@ -1087,6 +1102,7 @@
                     total.value = ' ' ;
                     totalH.value = ' ' ;
                     totalM.value = ' ' ;
+                    lugar.value = ' ';
 
                     flagEditar.value = false;
                     itemEditar.value = {};
@@ -1112,9 +1128,10 @@
                     justificacionEvento,tipoEvento, otroEvento, tipoPrograma, proveedorSugerido, costoCapacitacionSugerido, 
                     origenRecursoEvento, mes, fechaInicio, fechaTermino, numDias, numHorasEfectivas, ptc, laboratoristas, administrativo,
                     otros, total, totalH, totalM, lugar, transporte, casetas, alimentacion, hospedaje, taxis, otrosGastos, oficial,
-                    particular, otrosO, origen, idEvento, buscar: "", iconoBusqueda: 'mdi-magnify',
+                    particular, otrosO, origen, idEvento, buscar: "", iconoBusqueda: 'mdi-magnify', estado: 'Validado', estatus,
                     
-                    arrayOrientacion, arrayJustificacion, arrayTipoEvento, arrayTipoPrograma, arrayOrigen, arrayMes, arrayUnidadesAcademicas,
+                    
+                    arrayOrientacion, arrayJustificacion, arrayTipoEvento, arrayTipoPrograma, arrayOrigen, arrayMes, arrayEstatus, arrayUnidadesAcademicas,
                     arrayNivelEducativo, arrayDireccSub, arrayProgramas, arrayEmpleados,
 
                     flagEditar, itemEditar,
@@ -1125,26 +1142,39 @@
                 }
             },
             computed: {
-                    datosFiltrados() {
+                datosFiltrados() {
                     if (!this.buscar) {
                         return this.dataEventos;
                     }
 
                     const keyword = this.buscar.toLowerCase();
-                    return this.dataEventos.filter(item => item.nombre_evento.toLowerCase().includes(keyword));
-                    console.log(datosFiltrados())
+                    return this.dataEventos.filter(item => {
+                        const tipoEvento = item.nombre_tipo_evento.toLowerCase();
+                        const direccion = item.nombre_area.toLowerCase();
+                        const nombreEvento = item.nombre_evento.toLowerCase();
+                        const fecha = item.fecha_registro.toLowerCase();
+                        const unidadAcademica = item.nombre_unidad_academica.toLowerCase();
+
+                        return (
+                        tipoEvento.includes(keyword) ||
+                        direccion.includes(keyword) ||
+                        nombreEvento.includes(keyword) ||
+                        fecha.includes(keyword) ||
+                        unidadAcademica.includes(keyword)
+                        );
+                    });
                     },
+
                     validacion() {
                     return (value) => {
-                        if (!value || /^\d+$/.test(value)) {
+                        
+                        if (!value || /^\d*$/.test(value.trim())) {
                         // Si el campo está vacío o solo contiene números, es válido
                         return true;
                         }
-                        // De lo contrario, muestra un mensaje de error
                         return 'Ingrese solo números en este campo.';
                     };
                     },
-                    
             },
             watch: {
                 ptc: function(newVal, oldVal) {
@@ -1201,7 +1231,11 @@
                         console.log("Las fechas son válidas");
                         }
                     }
-                }
+                },
+                isIcon(item) {
+                return item.startsWith('mdi-');
+                },
+                
             },   
         });
 

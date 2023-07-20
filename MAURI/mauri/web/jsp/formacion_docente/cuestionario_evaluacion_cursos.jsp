@@ -88,6 +88,38 @@
                                         </v-file-input>
                                     </template>
                                 </v-col>
+                                <v-chip style="width: 110px; display: flex; justify-content: center; align-items: center;" class="ma-2" color="indigo" outlined pill>
+                                    Abierto
+                                    <v-icon right>
+                                        mdi-lock-open
+                                    </v-icon>
+                                </v-chip>
+                                <v-chip style="width: 110px; display: flex; justify-content: center; align-items: center;" class="ma-2" color="grey" outlined pill>
+                                    Cerrado
+                                    <v-icon right>
+                                        mdi-lock
+                                    </v-icon>
+                                </v-chip>
+                                <v-chip style="width: 110px; display: flex; justify-content: center; align-items: center;" class="ma-2" color="error" outlined pill>
+                                    Cancelado
+                                    <v-icon right>
+                                        mdi-close
+                                    </v-icon>
+                                </v-chip>
+                                <v-chip style="width: 110px; display: flex; justify-content: center; align-items: center;" class="ma-2" color="green" outlined pill>
+                                    Validado
+                                    <v-icon right>
+                                        mdi-check
+                                    </v-icon>
+                                </v-chip>
+                                <v-tooltip bottom>
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-icon color="grey" dark v-bind="attrs" v-on="on">
+                                            mdi-comment
+                                        </v-icon>
+                                    </template>
+                                    <span>Esta es una nota</span>
+                                </v-tooltip>
                             </v-row>
                             <%-- <v-row justfy="center" dense> </v-row> --%>
                                 <v-row justify="center">

@@ -71,6 +71,7 @@
                                             </v-row>
                                     </v-row>
 
+                                    <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                         <v-col md="12">
                                             <v-data-table
                                             v-if="mostrarParticipantes"
@@ -119,12 +120,15 @@
                                         items-per-page="10"
                                     >   
                                       
-                                        <template v-slot:item.editar="{item}">
+                                        <template v-slot:item.editar="{ item }">
                                             <v-btn fab small color="warning" @click="fnEditar(); flagEditar = true; itemEditar = item; 
-                                              item.calificacion = item.calificacion_final;">
-                                            <v-icon>mdi-square-edit-outline</v-icon>
+                                                ">
+                                                <v-icon>mdi-square-edit-outline</v-icon>
                                             </v-btn>
                                         </template>
+
+                                        
+                                            
                                     </v-data-table>
                                 </v-col>
                             </v-row>    
@@ -138,6 +142,7 @@
                     {{mensaje_snackbar}}
                     <%-- <v-icon color="white" @click="snackbar = false">mdi-close-circle</v-icon> --%>
                 </v-snackbar>
+
                 <v-overlay :value="loader" z-index="1000">
                     <v-img
                         aspect-ratio="2"
@@ -181,33 +186,24 @@
                 } = VueCompositionAPI;
                 const ctr = "../../controlador/formacion_docente/controlador_evaluacion_capacitacion.jsp";
                 //Variables POST
-                const calificacion = ref("");
-                       
+                const items = 1;
 
                 //Otras variables
                 const flagEditar = ref(false);
                 const itemEditar = ref({});
-                //Setup del calendario
-               
-                //Setup de inputs
-
-
+                
                 //SNACKBAR
                 const loader = ref(false);
                 const snackbar = ref(false);
                 const mensaje_snackbar = ref('');
                 const color_snackbar = ref('');
-                //Loaders
+                
                 //Dialogs
                 const dialogBuscador = ref(false);
-
                 const dialogDetallesCotizacion = ref(false);
                 const dialogProveedor = ref(false);
 
                 //DataTable
-                
-                
-
                 const headersGrupos = ref([
                     {text: 'Curso', align: 'left', sortable: true, value: 'nombre_evento'},
                     {text: '', align: 'left', sortable: true, value: 'ingresar'},
@@ -221,6 +217,7 @@
                     {text: 'Calificación final', align: 'left', sortable: true, value: 'calificacion'},
                 ]);
                 const dataParticipantes = ref([]);
+                const dataCalificaciones = ref([]);
 
                 const headersEvaluaciones = ref([
                     
@@ -235,10 +232,6 @@
                 const user = JSON.parse(currentUser);
                 const cve_persona = user[0].cve_persona;
                 const idEmpleado = user[0].cve_empleado;
-               
-
-                
-                
 
                 onMounted(() => {
                     fnConsultarTabla();
@@ -247,12 +240,10 @@
                 });
 
                 function fnObtener(grupo) {
-                   
                     const arregloGrupo = Object.values(grupo);
                     console.log('Arreglo del grupo:', arregloGrupo);
                     console.log('id evento:', arregloGrupo[0]);
                     this.cve = arregloGrupo[0];
-                    
                 }
 
                 async function fnLlenar() {
@@ -363,13 +354,21 @@
                                 parametros.append("accion", 5);
                                 parametros.append("cve_curso", this.cve);
                                 let {data,status} = await axios.post(ctr, parametros)
+                                
+                                /*data.forEach(objeto => { console.log(objeto.calificacion_final);
+                                });*/
+
                                 if(status == 200){
-                                    if(data == "1"){
-                                        mostrarSnackbar("success", "Registro actualizado correctamente.");
-                                        fnConsultarTabla();
-                                        console.log("hoal")
+                                    const calificacionesFinales = data.map(objeto => objeto.calificacion_final);
+                                    console.log('valor calificaciones', calificacionesFinales);
+
+                                    for (let i = 0; i < this.dataParticipantes.length; i++) {
+                                        this.dataParticipantes[i].calificacion = calificacionesFinales[i];
+                                        console.log(this.dataParticipantes[i].calificacion); 
                                     }
+                                    console.log(this.dataParticipantes); 
                                 }
+
                             } catch(error){
                                 mostrarSnackbar('error');
                                 console.error(error);
@@ -390,11 +389,12 @@
                 }
 
                 return{
-                    calificacion,
+                    calificacion: [], items,
+                    calificacionesFinales: [],
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
 
                     headersGrupos, headersParticipantes, headersEvaluaciones,
-                    dataGrupos, dataParticipantes, dataEvaluaciones , cve:'',
+                    dataGrupos, dataParticipantes, dataCalificaciones, dataEvaluaciones , cve:'',
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor,
                     fnConsultarTabla, fnObtener, fnLlenar, fnConsultarTablaEvaluaciones, itemEditar,
                     mostrarGrupos: true,
@@ -402,7 +402,7 @@
 
                     fnGuardar, fnEditar
                 }
-            }
+                }
             
         });
 

@@ -347,9 +347,6 @@ INSERT INTO tipo_espacio (nombre_tipo_espacio, usuario_registro)
                         ('Sala', 1),
                         ('Centros de computo', 1);
 
-INSERT INTO instructor_evento_programado VALUES (1,1,1,1,GETDATE(),1),
-                                                (2,1,2,1,GETDATE(),1);
-
 INSERT INTO periodo (fecha_inicio, fecha_fin, numero_periodo, descripcion, usuario_registro) 
 VALUES                          ('2023-01-09', '2023-04-29', 1, 'Enero - Abril 2023', 1),
                                 ('2023-05-02', '2023-08-26', 2, 'Mayo - Agosto 2023', 1),

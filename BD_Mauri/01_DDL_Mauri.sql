@@ -667,6 +667,19 @@ CREATE TABLE programa_desarrollo_modulo(
 	CONSTRAINT fk_prog_des_modulo_prog_des FOREIGN KEY (cve_prog_des) REFERENCES programa_desarrollo(cve_prog_des)
 );
 
+-- ------------- TABLA INSTRUCTORES -------------- --
+CREATE TABLE instructor(
+	cve_instructor 				INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	cve_tipo_instructor 		INT NOT NULL,
+	nombre_instructor 			VARCHAR(50),
+	area_academica				VARCHAR(50),
+	programa_educativo 			VARCHAR(50),
+	activo 						BIT DEFAULT 1,
+	fecha_registro 				DATETIME DEFAULT GETDATE(),
+	usuario_registro 			INT,
+	CONSTRAINT fk_instructor_tipo_instructor FOREIGN KEY (cve_tipo_instructor) REFERENCES tipo_instructor(cve_tipo_instructor)
+);
+
 -- ------------- TABLA INSTRUCTOR_EXTERNO -------------- --
 CREATE TABLE instructor_externo(
 	cve_instructor_e 			INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
@@ -674,16 +687,6 @@ CREATE TABLE instructor_externo(
 	apellido_paterno 			VARCHAR(50),
 	apellido_materno			VARCHAR(50),
 	empresa						VARCHAR(100),
-	activo 						BIT DEFAULT 1,
-	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT
-);
-
--- ------------- TABLA INSTRUCTOR_EVENTO_PROGRAMADO -------------- --
-CREATE TABLE instructor_evento_programado(
-	cve_evento_programado 		INT NOT NULL,
-	cve_tipo_instructor 		INT NOT NULL,
-	cve_instructor 				INT NOT NULL,
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
 	usuario_registro 			INT
@@ -704,6 +707,8 @@ CREATE TABLE evento_programado(
 	cve_origen_evento 			INT NOT NULL,
 	cve_espacio 				INT NOT NULL,
 	cve_modalidad 				INT NOT NULL,
+	cve_tipo_instructor 		INT NOT NULL,
+	cve_instructor 				INT NOT NULL,
 	nombre_evento 				VARCHAR(50),
 	nombre_origen 				VARCHAR(50),
 	sin_horario 				BIT,
@@ -716,7 +721,9 @@ CREATE TABLE evento_programado(
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
 	usuario_registro 			INT,
 	CONSTRAINT fk_evento_programado_espacio FOREIGN KEY (cve_espacio) REFERENCES espacio(cve_espacio),
-	CONSTRAINT fk_evento_programado_modalidad FOREIGN KEY (cve_modalidad) REFERENCES modalidad_evento(cve_modalidad)
+	CONSTRAINT fk_evento_programado_modalidad FOREIGN KEY (cve_modalidad) REFERENCES modalidad_evento(cve_modalidad),
+	CONSTRAINT fk_evento_programado_tipo_instructor FOREIGN KEY (cve_tipo_instructor) REFERENCES tipo_instructor(cve_tipo_instructor),
+	CONSTRAINT fk_evento_programado_instructor FOREIGN KEY (cve_instructor) REFERENCES instructor(cve_instructor)
 );
 
 -- ------------- TABLA EVENTO_PROGRAMADO_GRUPO -------------- --
@@ -825,25 +832,16 @@ CREATE TABLE cuestionario_evalucion_curso(
 	cali_herramientas_curso 	INT,
 	cali_actividades_desa 		INT,
 	cali_objetivo_curso 		INT,
+	cali_curso_contenido		FLOAT,
+	cali_facilitador			FLOAT,
+	cali_organizacion			FLOAT,
+	cali_impacto_aplicacion		FLOAT,
 	principal_aprendizaje 		TEXT,
 	comentarios 				TEXT,
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
 	usuario_registro 			INT,
 	CONSTRAINT fk_cuest_eval_curso_jornada FOREIGN KEY (cve_jornada) REFERENCES jornada(cve_jornada)
-);
-
--- ------------- TABLA INSTRUCTORES -------------- --
-CREATE TABLE instructor(
-	cve_instructor 				INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	cve_tipo_instructor 		INT NOT NULL,
-	nombre_instructor 			VARCHAR(50),
-	area_academica				VARCHAR(50),
-	programa_educativo 			VARCHAR(50),
-	activo 						BIT DEFAULT 1,
-	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT,
-	CONSTRAINT fk_instructor_tipo_instructor FOREIGN KEY (cve_tipo_instructor) REFERENCES tipo_instructor(cve_tipo_instructor)
 );
 
 -- ------------- TABLA SOLICITUD_INSTRUCTOR -------------- --
