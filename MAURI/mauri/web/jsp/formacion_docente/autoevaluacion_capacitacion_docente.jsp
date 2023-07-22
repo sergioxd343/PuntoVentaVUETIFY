@@ -631,11 +631,8 @@
                 async function fnInfoCursos(){
                     try{
                         preloader("../");
-                        //arreglo
                         let parametros = new URLSearchParams();
-                        //le mandamos un parametro llamado accion
                         parametros.append("accion", 5);
-                        //axios envia la peticion
                         preloader("../../");
                         parametros.append("cursoSeleccionado", valor);
                                     

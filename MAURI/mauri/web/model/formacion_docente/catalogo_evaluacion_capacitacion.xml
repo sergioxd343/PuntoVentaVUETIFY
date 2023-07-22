@@ -14,18 +14,26 @@ and open the template in the editor.
 
 	<tablaParticipantes>
 		<query>
-			SELECT TOP (200) 
-				evento_programado_grupo.cve_empleado,
-				persona.nombre + ' ' + persona.apellido_paterno + ' ' + persona.apellido_materno AS nombre,
-				evento_programado.nombre_evento,
-				instructor_evento_programado.cve_instructor,
-				instructor.nombre_instructor
+			use mauri1
+
+SELECT evento_programado_grupo.cve_empleado, 
+			persona.nombre + ' ' + persona.apellido_paterno + ' ' + persona.apellido_materno AS nombre,
+			empleado.cve_puesto, empleado.cve_area,
+			puesto.nombre_puesto,
+			area.nombre_area,
+			evento_programado.nombre_evento,
+			instructor_evento_programado.cve_instructor,
+			instructor.nombre_instructor,
+			0 AS calificacion
 			FROM evento_programado_grupo
-			INNER JOIN evento_programado ON evento_programado_grupo.cve_even_prog = evento_programado.cve_even_prog
+			INNER JOIN evento_programado ON evento_programado.cve_even_prog = evento_programado_grupo.cve_even_prog
+			INNER JOIN empleado ON evento_programado_grupo.cve_empleado = empleado.cve_empleado
+			INNER JOIN puesto ON empleado.cve_puesto = puesto.cve_puesto
+			INNER JOIN area ON empleado.cve_area = area.cve_area
+			INNER JOIN persona ON empleado.cve_persona = persona.cve_persona
 			INNER JOIN instructor_evento_programado ON evento_programado.cve_even_prog = instructor_evento_programado.cve_evento_programado
 			INNER JOIN instructor ON instructor_evento_programado.cve_instructor = instructor.cve_instructor
-			INNER JOIN empleado ON evento_programado_grupo.cve_empleado = empleado.cve_empleado
-			INNER JOIN persona ON empleado.cve_persona = persona.cve_persona
+						
 			WHERE evento_programado.cve_even_prog = ?;
 		</query>
 	</tablaParticipantes>

@@ -235,20 +235,6 @@ INSERT INTO submenu_2 (cve_padre, nombre, ruta, orden, usuario_registro)
                     (5, 'Periodo', '../catalogos_pequenios/periodo.jsp', 28, 1),
                     (5, 'Horario', '../catalogos_pequenios/horario.jsp', 29, 1);
 
--- ------------- INSERTS DE MENU_PERMISOS -------------- --
-INSERT INTO menu_permisos (cve_grupo_seguridad, cve_menu, usuario_registro) 
-            VALUES  (1, 1, 1),
-                    (1, 2, 1),
-                    (1, 3, 1),
-                    (1, 4, 1),
-					(1, 5, 1),
-					(2, 1, 1),
-					(2, 2, 1),
-					(2, 3, 1),
-					(3, 1, 1),
-					(3, 2, 1),
-					(3, 3, 1);
-
 -- ------------- INSERTS DE GRUPO_SEGURIDAD -------------- --
 INSERT INTO grupo_seguridad (nombre, tiempo_sesion, usuario_registro) 
 			VALUES  ('Administrador', 5000, 1),
@@ -263,7 +249,51 @@ INSERT INTO grupo_seguridad (nombre, tiempo_sesion, usuario_registro)
                     ('Gestorias', 5000, 1);
 
 -- ------------- INSERTS DE USUARIO_GRUPO_SEGURIDAD -------------- --
-INSERT INTO usuario_grupo_seguridad (cve_grupo_seguridad, cve_persona, usuario_registro) VALUES (1, 1, 1);
+INSERT INTO usuario_grupo_seguridad (cve_grupo_seguridad, cve_usuario, usuario_registro) VALUES (1, 1, 1);
+
+-- ------------- INSERTS DE MENU_PERMISOS -------------- --
+INSERT INTO menu_permisos (cve_grupo_seguridad, cve_menu, usuario_registro) 
+            VALUES  (1, 1, 1),
+                    (1, 2, 1),
+                    (1, 3, 1),
+                    (1, 4, 1),
+					(1, 5, 1),
+					(1, 6, 1),
+                    (1, 7, 1),
+                    (1, 8, 1),
+                    (1, 9, 1),
+					(1, 10, 1),
+					(1, 11, 1),
+                    (1, 12, 1),
+                    (1, 13, 1),
+                    (1, 14, 1),
+					(1, 15, 1),
+					(1, 16, 1),
+                    (1, 17, 1),
+                    (1, 18, 1),
+                    (1, 19, 1),
+					(1, 20, 1),
+                    (2, 2, 1),
+                    (2, 3, 1),
+                    (2, 4, 1),
+                    (2, 5, 1),
+                    (2, 7, 1),
+                    (2, 8, 1),
+                    (2, 9, 1),
+                    (2, 10, 1),
+                    (3, 2, 1),
+                    (3, 3, 1),
+                    (3, 4, 1),
+                    (3, 5, 1),
+                    (3, 6, 1),
+                    (3, 7, 1),
+                    (4, 1, 1),
+                    (4, 3, 1),
+                    (4, 6, 1),
+                    (4, 8, 1),
+                    (4, 9, 1),
+                    (4, 10, 1),
+                    (4, 12, 1);
 
 -- ------------- INSERTS DE TIPO_ORIENTACION -------------- --
 INSERT INTO tipo_orientacion (nombre_tipo_orientacion, usuario_registro) 
@@ -317,9 +347,6 @@ INSERT INTO tipo_espacio (nombre_tipo_espacio, usuario_registro)
                         ('Sala', 1),
                         ('Centros de computo', 1);
 
-INSERT INTO instructor_evento_programado VALUES (1,1,1,1,GETDATE(),1),
-                                                (2,1,2,1,GETDATE(),1);
-
 INSERT INTO periodo (fecha_inicio, fecha_fin, numero_periodo, descripcion, usuario_registro) 
 VALUES                          ('2023-01-09', '2023-04-29', 1, 'Enero - Abril 2023', 1),
                                 ('2023-05-02', '2023-08-26', 2, 'Mayo - Agosto 2023', 1),
@@ -327,6 +354,12 @@ VALUES                          ('2023-01-09', '2023-04-29', 1, 'Enero - Abril 2
                                 ('2024-01-09', '2024-04-29', 1, 'Enero - Abril 2024', 1),
                                 ('2024-05-02', '2024-08-26', 2, 'Mayo - Agosto 2024', 1),
                                 ('2024-09-05', '2024-12-17', 3, 'Septiembre - Diciembre 2024', 1);
+
+INSERT INTO jornada (nombre_jornada, usuario_registro)
+            VALUES  ('Matutino 8:00 a 12:00 horas', 1),
+                    ('Diurno 12:00 a 16:00 horas', 1),
+                    ('Vespertino 15:00 a 20:00 horas', 1),
+                    ('Vespertino-Nocturno 16:00 a 21:00 horas', 1);
 
 INSERT INTO academia (cve_unidad_academica, nombre_academia, usuario_registro)
 VALUES  (1, 'Academia de Cálculo', 1),
@@ -434,13 +467,13 @@ VALUES
 (3, 'Tecnología Educativa Aplicada', 'Integración de herramientas tecnológicas en la enseñanza', 'Explorar las posibilidades que ofrecen las tecnologías educativas para mejorar la enseñanza y el aprendizaje en el aula.', 'El curso abarcará el uso de plataformas digitales, aplicaciones móviles y recursos multimedia en la práctica docente.', '2023-10-15', 1);
 
 -- ------------- INSERTS DE INSTRUCTOR -------------- --
-INSERT INTO instructor (cve_tipo_instructor, nombre_instructor, area_academica, programa_educativo, usuario_registro)
+INSERT INTO instructor (nombre_instructor, area_academica, programa_educativo, usuario_registro)
                 VALUES 
-                        (1, 'Maria Guadalupe', 'Dirección de Servicios Informáticos', 'Desarrollo de software', 1),
-                        (2, 'Simón Zendejas', 'Dirección de Servicios Informáticos', 'Desarrollo de software', 1),
-                        (1, 'Sergio Tavarez', 'Secretaría de Vinculación', 'Academia de expreción oral y escrita', 1),
-                        (2, 'Carlos Andrade', 'Dirección de Administración y Finanzas', 'Academia de matematicas', 1),
-                        (1, 'Brenda Gutiérrez', 'Dirección de Desarrollo Académico y Docente', 'Academia de expreción oral y escrita', 1);
+                        ('Maria Guadalupe', 'Dirección de Servicios Informáticos', 'Desarrollo de software', 1),
+                        ('Simón Zendejas', 'Dirección de Servicios Informáticos', 'Desarrollo de software', 1),
+                        ('Sergio Tavarez', 'Secretaría de Vinculación', 'Academia de expreción oral y escrita', 1),
+                        ('Carlos Andrade', 'Dirección de Administración y Finanzas', 'Academia de matematicas', 1),
+                        ('Brenda Gutiérrez', 'Dirección de Desarrollo Académico y Docente', 'Academia de expreción oral y escrita', 1);
 
 
 INSERT INTO espacio (nombre_espacio, usuario_registro) 
@@ -485,41 +518,21 @@ VALUES                          ('07:00', '07:55', '07:00 - 07:55', 1),
                                 ('14:00', '15:15', '14:25 - 15:15', 1);
 
 
-INSERT INTO necesidad_capacitacion_anual   (cve_area_registro,
-											cve_unidad_academica,
-											cve_area,
-											cve_departamento,
-											cve_empleado_responsable,
-											cve_orientacion_evento,
-											cve_tipo_evento,
-											cve_tipo_capacitacion,
-											cve_origen_evento,
-											nivel_academico,
-											direccion_subdireccion,
-											programa_academico,
-											anio_ejercicio,
-											necesidades_detectadas,
-											nombre_evento,
-											objetivo_evento,
-											justificacion,
-											otro_tipo_evento,
-											proveedor,
-											costo_capacitacion,
-											mes,
-											fecha_inicio,
-											fecha_temino,
-											num_dias,
-											num_horas_efectivas,
-											participantes_ptc,
-											participantes_laboratoristas,
-											participantes_administrativo,
-											otros_participantes,
-											total_participantes,
-											total_hombres,
-											total_mujeres)
-				VALUES
-						(1, 1, 2, 1, 1, 1, 1, 1, 1, 'T.S.U', 'Dirección de Sustentabilidad para el desarrollo', 'TSU en TI Área Entornos Virtuales y Negocios Digitales', --11
-						'2022', 'Falta de eficiencia', 'Evento de comunicación', 'Mejorar', 'Quejas de alumnos', '', 'UTL', 234, 'Junio', '2023-06-07', '2023-06-13', 12, 2, 0, 8, 22, 10, 12, 1, 1)
+INSERT INTO necesidad_capacitacion_anual VALUES 
+(1, 1, 1, 1, 1, 1, 'T.S.U', 'TSU en TI Área Entornos Virtuales y Negocios Digitales', '2022', 
+'Falta de eficiencia', 'Evento de comunicación I', 'Mejorar', 'Quejas de alumnos', '', 
+'UTL', 234, 'Junio', '2023-06-07', '2023-06-13', 1, 2, 0, 8, 22, 10, 40, 20, 20, 1, 1, GETDATE(),1)
+
+INSERT INTO necesidad_capacitacion_anual VALUES 
+(1, 2, 2, 3, 3, 2, 'Ingenieria', 'Academia de español', '2023', 
+'Falta de conocimiento', 'Tipos de redacciones', 'Usar más tipos de textos', 'La finalidad es variar los trabajos', '', 
+'UTL', '', 'Agosto', '2023-08-07', '2023-08-17', 14, 10, 2, 8, 22, 10, 42, 22, 20, 1, 1, GETDATE(),1)
+
+INSERT INTO necesidad_capacitacion_anual VALUES 
+(1, 2, 1, 2, 1, 1, 'T.S.U', 'Academia de frances', '2023', 
+'Evaluaciones a estudiantes', 'Enseñanza de técnicas', 'Conocer diferentes técnicas para aprender vocabulario', 
+'Es necesario impulsar el aprendizaje de los jovenes', '', 'UTL', '', 'Agosto', '2023-08-07', '2023-08-17', 
+14, 10, 2, 0, 2, 0, 4, 1, 3, 1, 1, GETDATE(),1)
 
 INSERT INTO evento_programado_grupo VALUES
 (1,1,10,1,0,'2023-06-10',10, '', 10,10,'Grande',1,'2023-06-11',10,'Entrevistas a estudiantes','2023-06-13', 1, '2023-06-13',1),
@@ -527,6 +540,3 @@ INSERT INTO evento_programado_grupo VALUES
 (2, 2, 9, 1, 0, '2023-06-25', 9,'Buena observación',9,8, 'Impacto positivo',1,'2023-06-25',9, 'Encuestas a estudiantes', '2023-06-25', 1, GETDATE(),1),
 (1, 3, 9, 1, 0, '2023-06-25', 9,'Buena observación',9,8, 'Impacto positivo',1,'2023-06-25',9, 'Encuestas a estudiantes', '2023-06-25', 1, GETDATE(),1),
 (2, 4, 10, 1, 0, '2023-06-25', 9,'Buena observación',9,8, 'Impacto positivo',1,'2023-06-25',9, 'Encuestas a estudiantes', '2023-06-25', 1, GETDATE(),1)
-
-
-
