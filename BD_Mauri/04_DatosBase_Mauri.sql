@@ -467,13 +467,13 @@ VALUES
 (3, 'Tecnología Educativa Aplicada', 'Integración de herramientas tecnológicas en la enseñanza', 'Explorar las posibilidades que ofrecen las tecnologías educativas para mejorar la enseñanza y el aprendizaje en el aula.', 'El curso abarcará el uso de plataformas digitales, aplicaciones móviles y recursos multimedia en la práctica docente.', '2023-10-15', 1);
 
 -- ------------- INSERTS DE INSTRUCTOR -------------- --
-INSERT INTO instructor (cve_tipo_instructor, nombre_instructor, area_academica, programa_educativo, usuario_registro)
+INSERT INTO instructor (nombre_instructor, area_academica, programa_educativo, usuario_registro)
                 VALUES 
-                        (1, 'Maria Guadalupe', 'Dirección de Servicios Informáticos', 'Desarrollo de software', 1),
-                        (2, 'Simón Zendejas', 'Dirección de Servicios Informáticos', 'Desarrollo de software', 1),
-                        (1, 'Sergio Tavarez', 'Secretaría de Vinculación', 'Academia de expreción oral y escrita', 1),
-                        (2, 'Carlos Andrade', 'Dirección de Administración y Finanzas', 'Academia de matematicas', 1),
-                        (1, 'Brenda Gutiérrez', 'Dirección de Desarrollo Académico y Docente', 'Academia de expreción oral y escrita', 1);
+                        ('Maria Guadalupe', 'Dirección de Servicios Informáticos', 'Desarrollo de software', 1),
+                        ('Simón Zendejas', 'Dirección de Servicios Informáticos', 'Desarrollo de software', 1),
+                        ('Sergio Tavarez', 'Secretaría de Vinculación', 'Academia de expreción oral y escrita', 1),
+                        ('Carlos Andrade', 'Dirección de Administración y Finanzas', 'Academia de matematicas', 1),
+                        ('Brenda Gutiérrez', 'Dirección de Desarrollo Académico y Docente', 'Academia de expreción oral y escrita', 1);
 
 
 INSERT INTO espacio (nombre_espacio, usuario_registro) 
@@ -518,40 +518,21 @@ VALUES                          ('07:00', '07:55', '07:00 - 07:55', 1),
                                 ('14:00', '15:15', '14:25 - 15:15', 1);
 
 
-INSERT INTO necesidad_capacitacion_anual   (cve_area_registro,
-											cve_unidad_academica,
-											cve_departamento,
-											cve_empleado_responsable,
-											cve_orientacion_evento,
-											cve_tipo_evento,
-											cve_tipo_capacitacion,
-											cve_origen_evento,
-											nivel_academico,
-											direccion_subdireccion,
-											programa_academico,
-											anio_ejercicio,
-											necesidades_detectadas,
-											nombre_evento,
-											objetivo_evento,
-											justificacion,
-											otro_tipo_evento,
-											proveedor,
-											costo_capacitacion,
-											mes,
-											fecha_inicio,
-											fecha_temino,
-											num_dias,
-											num_horas_efectivas,
-											participantes_ptc,
-											participantes_tec_academico,
-											participantes_administrativo,
-											otros_participantes,
-											total_participantes,
-											total_hombres,
-											total_mujeres)
-				VALUES
-						(1, 1, 1, 1, 1, 1, 1, 1, 'T.S.U', 'Dirección de Sustentabilidad para el desarrollo', 'TSU en TI Área Entornos Virtuales y Negocios Digitales', --11
-						'2022', 'Falta de eficiencia', 'Evento de comunicación', 'Mejorar', 'Quejas de alumnos', '', 'UTL', 234, 'Junio', '2023-06-07', '2023-06-13', 12, 2, 0, 8, 22, 10, 12, 1, 1)
+INSERT INTO necesidad_capacitacion_anual VALUES 
+(1, 1, 1, 1, 1, 1, 'T.S.U', 'TSU en TI Área Entornos Virtuales y Negocios Digitales', '2022', 
+'Falta de eficiencia', 'Evento de comunicación I', 'Mejorar', 'Quejas de alumnos', '', 
+'UTL', 234, 'Junio', '2023-06-07', '2023-06-13', 1, 2, 0, 8, 22, 10, 40, 20, 20, 1, 1, GETDATE(),1)
+
+INSERT INTO necesidad_capacitacion_anual VALUES 
+(1, 2, 2, 3, 3, 2, 'Ingenieria', 'Academia de español', '2023', 
+'Falta de conocimiento', 'Tipos de redacciones', 'Usar más tipos de textos', 'La finalidad es variar los trabajos', '', 
+'UTL', '', 'Agosto', '2023-08-07', '2023-08-17', 14, 10, 2, 8, 22, 10, 42, 22, 20, 1, 1, GETDATE(),1)
+
+INSERT INTO necesidad_capacitacion_anual VALUES 
+(1, 2, 1, 2, 1, 1, 'T.S.U', 'Academia de frances', '2023', 
+'Evaluaciones a estudiantes', 'Enseñanza de técnicas', 'Conocer diferentes técnicas para aprender vocabulario', 
+'Es necesario impulsar el aprendizaje de los jovenes', '', 'UTL', '', 'Agosto', '2023-08-07', '2023-08-17', 
+14, 10, 2, 0, 2, 0, 4, 1, 3, 1, 1, GETDATE(),1)
 
 INSERT INTO evento_programado_grupo VALUES
 (1,1,10,1,0,'2023-06-10',10, '', 10,10,'Grande',1,'2023-06-11',10,'Entrevistas a estudiantes','2023-06-13', 1, '2023-06-13',1),

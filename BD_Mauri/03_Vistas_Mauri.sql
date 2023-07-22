@@ -164,25 +164,14 @@ SELECT					ROW_NUMBER() OVER (ORDER BY cuestionario_evalucion_curso.cve_cuest_ev
 						cuestionario_evalucion_curso.cve_jornada, 
 						cuestionario_evalucion_curso.nombre_instructor, 
 						cuestionario_evalucion_curso.fecha, 
-                        cuestionario_evalucion_curso.cali_duracion, 
-						cuestionario_evalucion_curso.cali_cumplimiento_o, 
-						cuestionario_evalucion_curso.cali_apli_contenido, 
-						cuestionario_evalucion_curso.cali_contenido, 
-                        cuestionario_evalucion_curso.cali_aprendizaje, 
-						cuestionario_evalucion_curso.cali_habil_acti_facilitador,
-						cuestionario_evalucion_curso.cali_con_dom_facilitador, 
-						cuestionario_evalucion_curso.cali_retroalimentacion_f, 
-                        cuestionario_evalucion_curso.cali_motivacion_f, 
-						cuestionario_evalucion_curso.cali_oferta_curso, 
-						cuestionario_evalucion_curso.cali_proceso_inscripcion, 
-						cuestionario_evalucion_curso.cali_comite_organizador, 
-                        cuestionario_evalucion_curso.cali_actitud_atencion_comite, 
-						cuestionario_evalucion_curso.cali_herramientas_curso, 
-						cuestionario_evalucion_curso.cali_actividades_desa, 
-						cuestionario_evalucion_curso.cali_objetivo_curso, 
+                        cuestionario_evalucion_curso.cali_curso_contenido, 
+						cuestionario_evalucion_curso.cali_facilitador, 
+						cuestionario_evalucion_curso.cali_organizacion, 
+						cuestionario_evalucion_curso.cali_impacto_aplicacion,
                         cuestionario_evalucion_curso.principal_aprendizaje, 
 						cuestionario_evalucion_curso.comentarios, 
-						jornada.nombre_jornada
+						jornada.nombre_jornada,
+						cuestionario_evalucion_curso.activo
 FROM            
 						cuestionario_evalucion_curso INNER JOIN
                         jornada ON cuestionario_evalucion_curso.cve_jornada = jornada.cve_jornada

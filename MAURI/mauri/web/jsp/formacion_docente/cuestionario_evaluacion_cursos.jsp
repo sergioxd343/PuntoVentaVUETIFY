@@ -88,38 +88,6 @@
                                         </v-file-input>
                                     </template>
                                 </v-col>
-                                <v-chip style="width: 110px; display: flex; justify-content: center; align-items: center;" class="ma-2" color="indigo" outlined pill>
-                                    Abierto
-                                    <v-icon right>
-                                        mdi-lock-open
-                                    </v-icon>
-                                </v-chip>
-                                <v-chip style="width: 110px; display: flex; justify-content: center; align-items: center;" class="ma-2" color="grey" outlined pill>
-                                    Cerrado
-                                    <v-icon right>
-                                        mdi-lock
-                                    </v-icon>
-                                </v-chip>
-                                <v-chip style="width: 110px; display: flex; justify-content: center; align-items: center;" class="ma-2" color="error" outlined pill>
-                                    Cancelado
-                                    <v-icon right>
-                                        mdi-close
-                                    </v-icon>
-                                </v-chip>
-                                <v-chip style="width: 110px; display: flex; justify-content: center; align-items: center;" class="ma-2" color="green" outlined pill>
-                                    Validado
-                                    <v-icon right>
-                                        mdi-check
-                                    </v-icon>
-                                </v-chip>
-                                <v-tooltip bottom>
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-icon color="grey" dark v-bind="attrs" v-on="on">
-                                            mdi-comment
-                                        </v-icon>
-                                    </template>
-                                    <span>Esta es una nota</span>
-                                </v-tooltip>
                             </v-row>
                             <%-- <v-row justfy="center" dense> </v-row> --%>
                                 <v-row justify="center">
@@ -136,14 +104,37 @@
                                             :hide-default-header="dataCuestionario.length < 1"
                                             :hide-default-footer="dataCuestionario.length < 1" locale="es-ES"
                                             :mobile-breakpoint="NaN" items-per-page="10">
-                                            <template v-slot:item.estatus="{item}">
-                                                <v-chip class="ma-2"
-                                                    style="width: 80px; display: flex; justify-content: center; align-items: center;"
-                                                    link @click="fnCambiarEstatus(item)"
-                                                    :color="item.activo ? 'success' : 'grey'" outlined>
+                                            <template v-slot:item.status="{item}">
+                                                <v-chip link @click="fnCambiarEstatus(item)"
+                                                    style="width: 110px; display: flex; justify-content: center; align-items: center;"
+                                                    class="ma-2" :color="item.activo ? 'indigo' : 'grey'" outlined pill>
                                                     {{ item.activo ?
-                                                    "Activo" : "Inactivo" }}
+                                                    "Abierto" : "Cerrado" }}
+                                                    <v-icon right>
+                                                        {{ item.activo ? 'mdi-lock-open' : 'mdi-lock' }}
+                                                    </v-icon>
                                                 </v-chip>
+                                            </template>
+                                            <template v-slot:item.estatus="{item}">
+                                                <v-chip link @click="fnCambiarEstatus(item)"
+                                                    style="width: 110px; display: flex; justify-content: center; align-items: center;"
+                                                    class="ma-2" :color="item.activo ? 'green' : 'error'" outlined pill>
+                                                    {{ item.activo ?
+                                                    "Validado" : "Cancelado" }}
+                                                    <v-icon right>
+                                                        {{ item.activo ? 'mdi-check' : 'mdi-close' }}
+                                                    </v-icon>
+                                                </v-chip>
+                                            </template>
+                                            <template v-slot:item.comentario="{item}">
+                                                <v-tooltip bottom>
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                        <v-icon color="grey" dark v-bind="attrs" v-on="on">
+                                                            mdi-comment
+                                                        </v-icon>
+                                                    </template>
+                                                    <span>Esta es una nota</span>
+                                                </v-tooltip>
                                             </template>
                                         </v-data-table>
                                     </v-col>
@@ -229,8 +220,15 @@
                         { text: "Nombre instructor", align: "left", sortable: true, value: "nombre_instructor" },
                         { text: "Jornada", align: "left", sortable: true, value: "nombre_jornada" },
                         { text: "Fecha", align: "left", sortable: true, value: "fecha" },
+                        { text: "Calificación Curso y contenido", align: "center", sortable: true, value: "cali_curso_contenido" },
+                        { text: "Calificación Facilitador(a)", align: "center", sortable: true, value: "cali_facilitador" },
+                        { text: "Calificación Organización", align: "center", sortable: true, value: "cali_organizacion" },
+                        { text: "Calificación Impacto y aplicación", align: "center", sortable: true, value: "cali_impacto_aplicacion" },
                         { text: "Aprendizaje", align: "left", sortable: true, value: "principal_aprendizaje" },
                         { text: "Comentarios", align: "left", sortable: true, value: "comentarios" },
+                        { text: "Estatus", align: "left", sortable: true, value: "estatus" },
+                        { text: "Status", align: "left", sortable: true, value: "status" },
+                        { text: "Nota", align: "left", sortable: true, value: "comentario" },
                     ]);
 
                     onMounted(() => {
@@ -270,27 +268,13 @@
                                     const fechaConvertida = new Date((numeroSerie - 25569) * 86400 * 1000);
                                     const fechaFormateada = fechaConvertida.toLocaleDateString();
                                     parametros.append("fecha", fechaFormateada.split("/").reverse().join("-"));
-                                    parametros.append("cali_duracion", element.pregunta_uno);
-                                    parametros.append("cali_cumplimiento_o", element.pregunta_dos);
-                                    parametros.append("cali_apli_contenido", element.pregunta_tres);
-                                    parametros.append("cali_contenido", element.pregunta_cuatro);
-                                    parametros.append("cali_aprendizaje", element.pregunta_cinco);
-                                    parametros.append("cali_habil_acti_facilitador", element.pregunta_seis);
-                                    parametros.append("cali_con_dom_facilitador", element.pregunta_siete);
-                                    parametros.append("cali_retroalimentacion_f", element.pregunta_ocho);
-                                    parametros.append("cali_motivacion_f", element.pregunta_nueve);
-                                    parametros.append("cali_oferta_curso", element.pregunta_diez);
-                                    parametros.append("cali_proceso_inscripcion", element.pregunta_once);
-                                    parametros.append("cali_comite_organizador", element.pregunta_doce);
-                                    parametros.append("cali_actitud_atencion_comite", element.pregunta_trece);
-                                    parametros.append("cali_herramientas_curso", element.pregunta_catorce);
-                                    parametros.append("cali_actividades_desa", element.pregunta_quince);
-                                    parametros.append("cali_objetivo_curso", element.pregunta_dieciseis);
+                                    parametros.append("cali_curso_contenido", (parseInt(element.pregunta_uno) + parseInt(element.pregunta_dos) + parseInt(element.pregunta_tres) + parseInt(element.pregunta_cuatro) + parseInt(element.pregunta_cinco)) / 5);
+                                    parametros.append("cali_facilitador", (parseInt(element.pregunta_seis) + parseInt(element.pregunta_siete) + parseInt(element.pregunta_ocho) + parseInt(element.pregunta_nueve)) / 4);
+                                    parametros.append("cali_organizacion", (parseInt(element.pregunta_diez) + parseInt(element.pregunta_once) + parseInt(element.pregunta_doce) + parseInt(element.pregunta_trece)) / 4);
+                                    parametros.append("cali_impacto_aplicacion", (parseInt(element.pregunta_catorce) + parseInt(element.pregunta_quince) + parseInt(element.pregunta_dieciseis)) / 3);
                                     parametros.append("principal_aprendizaje", element.aprendizaje);
                                     parametros.append("comentarios", element.comentario);
-                                    parametros.append("cve_usuario", cve_usuario);
-                                    console.log("🚀 ~ file: cuestionario_evaluacion_cursos.jsp:240 ~ this.$validator.validate ~ parametros:", parametros)
-                                    // Realizar la solicitud POST utilizando axios
+                                    parametros.append("cve_usuario", cve_usuario);// Realizar la solicitud POST utilizando axios
                                     let { data, status } = await axios.post(ctr, parametros);
 
                                     if (status == 200) {
@@ -316,6 +300,36 @@
                                 swal.close();
                             }
                         });
+                    }
+
+                    async function fnCambiarEstatus(item) {
+                        try {
+                            preloader("../");
+                            let parametros = new URLSearchParams();
+                            parametros.append("accion", 3);
+                            parametros.append("cve_cuest_eval_curso", item.cve_cuest_eval_curso);
+                            parametros.append("activo", (item.activo == true ? 0 : 1)); console.log("🚀 ~ file: perfil_usuario.jsp:283 ~ fnCambiarEstatus ~ parametros:", parametros)
+                            let { data, status } = await axios.post(ctr, parametros);
+                            if (status == 200) {
+                                if (data == "1") {
+                                    mostrarSnackbar(
+                                        "success",
+                                        "Registro actualizado correctamente."
+                                    );
+                                    fnCargarTabla();
+                                    // this.$validator.pause();
+                                    // Vue.nextTick(() => {
+                                    //     this.$validator.errors.clear();
+                                    //     this.$validator.resume();
+                                    // });
+                                }
+                            }
+                        } catch (error) {
+                            mostrarSnackbar("error");
+                            console.error(error);
+                        } finally {
+                            swal.close();
+                        }
                     }
 
                     async function fnCargarTabla() {
@@ -346,6 +360,8 @@
                                 mostrarSnackbar('warning', 'No se seleccionaron archivos');
                                 return;
                             }
+                            console.log("🚀 ~ file: cuestionario_evaluacion_cursos.jsp:368 ~ files.length:", files.length)
+
 
                             for (var i = 0; i < files.length; i++) {
                                 const file = files[i];
@@ -387,8 +403,6 @@
                                             "jornada",
                                         ],
                                     });
-                                    console.log("🚀 ~ file: cuestionario_evaluacion_cursos.jsp:272 ~ jsonData:", jsonData)
-
                                     // Transformar los datos al formato deseado
                                     resolve(jsonData);
                                 };
@@ -396,17 +410,6 @@
                                 reader.readAsArrayBuffer(file);
                             }
                         });
-                    }
-
-                    function padLeft(value, length) {
-                        return value.toString().padStart(length, '0');
-                    }
-
-                    function convertirNumeroSerieAFecha(numeroSerie) {
-                        const fechaBase = new Date('1900-01-01');
-                        const fecha = new Date(fechaBase.getTime() + (numeroSerie - 1) * 24 * 60 * 60 * 1000);
-                        console.log("🚀 ~ file: cuestionario_evaluacion_cursos.jsp:344 ~ convertirNumeroSerieAFecha ~ fecha:", fecha)
-                        return fecha;
                     }
 
 
@@ -451,12 +454,11 @@
                         cve_usuario,
                         mostrarSnackbar,
                         fnLeerArchivo,
+                        fnCambiarEstatus,
                         flagEditar,
                         fnGuardar,
                         fnLimpiarCampos,
                         fnCargarTabla,
-                        padLeft,
-                        convertirNumeroSerieAFecha,
                         itemEditar,
                     };
                 },
