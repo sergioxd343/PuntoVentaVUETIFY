@@ -118,7 +118,7 @@ BEGIN
         AreaId,
         UgacId
     FROM @instructorData;
-    
+    
 END
 GO
 
