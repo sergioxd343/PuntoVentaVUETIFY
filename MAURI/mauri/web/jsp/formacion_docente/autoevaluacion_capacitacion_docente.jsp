@@ -20,7 +20,7 @@
 
         #tabla {
             border-collapse: collapse;
-            margin: auto;
+            
         }
 
         .th,
@@ -54,28 +54,28 @@
                                 <table id="tabla" class="text-left">
                                     <tbody>
                                         <tr>
-                                            <th class="th">Número de control</th>
-                                            <td class="td" style="width: 670px;"> {{idEmpleado}} </td>
+                                            <th class="th" style="width: 220px;">Número de control</th>
+                                            <td class="td" style="width: 990px;"> {{idEmpleado}} </td>
                                         </tr>
                                         <tr>
                                             <th class="th">Nombre del participante</th>
-                                            <td class="td" style="width: 670px;"> {{nombre}} {{ape1}} {{ape2}} </td>
+                                            <td class="td" style="width: 990px;"> {{nombre}} {{ape1}} {{ape2}} </td>
                                         </tr>
                                         <tr>
                                             <th class="th">Sexo</th>
-                                            <td class="td" style="width: 670px;"> {{sexo}} </td>
+                                            <td class="td" style="width: 990px;"> {{sexo}} </td>
                                         </tr>
                                         <tr>
                                             <th class="th">Puesto</th>
-                                            <td class="td" style="width: 670px;"> {{puesto}} </td>
+                                            <td class="td" style="width: 990px;"> {{puesto}} </td>
                                         </tr>
                                         <tr>
                                             <th class="th">Área</th>
-                                            <td class="td" style="width: 670px;"> {{area}} </td>
+                                            <td class="td" style="width: 990px;"> {{area}} </td>
                                         </tr>
                                         <tr>
                                             <th class="th">Carrera</th>
-                                            <td class="td" style="width: 670px;"> {{carrera}} </td>
+                                            <td class="td" style="width: 990px;"> {{carrera}} </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -105,32 +105,33 @@
                                         :error-messages="errors.first('areaCapacitacion')"
                                     ></v-select>
                                 </v-col>
-                                    
-                               
-                                <v-col md=5>
-                                    <label for="area">Objetivo: </label>
-                                </v-col>
-
-                                <v-col md=5>
-                                    <label for="area">Alcance: </label>
-                                </v-col>
+                           
+                                <v-col md=12>
+                                <table id="tabla" class="text-left">
+                                    <tbody>
+                                        <tr>
+                                            <th class="th" style="width: 110px;">Objetivo:</th>
+                                            <td class="td" style="width: 1110px;" id="objetivoCel"> {{objetivoR}}  </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="th">Periodo:</th>
+                                            <td class="td" style="width: 1110px;">  </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="th">Fecha inicio:</th>
+                                            <td class="td" style="width: 1110px;" id="fechaICel"> {{fechaI}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="th">Fecha fin:</th>
+                                            <td class="td" style="width: 1110px;" id="fechaFCel"> {{fechaF}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </v-col>
                             </v-row>
 
-                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-                                    
-                                <v-col md=5>
-                                    <label for="area">Periodo: </label>
-                                </v-col>
-
-                                <v-col md=5>
-                                    <label for="area">Fecha inicio: </label>
-                                </v-col>
-
-                                <v-col md=5>
-                                    <label for="area">Fecha fin: </label>
-                                </v-col>
-
-                                 <!-- AREA EN QUE SE CAPACITO -->
+                            <v-row class="align-end" style="padding: 0px 50px 0px 50px">
+                                <!-- AREA EN QUE SE CAPACITO -->
                                  <v-col md=3>
                                     <v-select 
                                         v-model="areaCapacitacion"
@@ -144,11 +145,7 @@
                                         :error-messages="errors.first('areaCapacitacion')"
                                     ></v-select>
                                 </v-col>
-                                
-                                
-
-                               
-                                </v-row>
+                            </v-row>
                                 
                                 <v-row class="align-center" style="padding: 0px 50px 0px 100px">
                                     <v-p> <b>Conteste las siguientes preguntas de manera objetiva, considerando la siguiente escala: <br>
@@ -465,6 +462,7 @@
                 const arrayCursos = ref([]);
                 const arrayCursosTomados = ref([]);
                 const arrayCursoSeleccionado = ref([]);
+                const arrayCursoSeleccionadoInfo = ref([]);
 
                 
                 //Otras variables
@@ -515,12 +513,17 @@
                 const area = user[0].nombre_area;
                 const carrera = user[0].nombre_ugac;
 
+                const objetivoR = ref('');
+                const fechaI = ref('');
+                const fechaF = ref('');
+
                 
 
                 onMounted(() => {
                     fnConsultarTabla();
                     periodos();
                     cursos();
+                    
                     
                 });
 
@@ -606,18 +609,15 @@
                 async function cursos(){
                     try{
                         preloader("../");
-                        //arreglo
                         let parametros = new URLSearchParams();
-                        //le mandamos un parametro llamado accion
                         parametros.append("accion", 3);
-                        //axios envia la peticion
                         preloader("../../");
-                        parametros.append("cve", idEmpleado);
-                                    
+                        parametros.append("cve", idEmpleado); 
                         let {data,status} = await axios.post(ctr, parametros)
                         if(status == 200){
                             if(data.length > 0){
                                 arrayCursosTomados.value = data
+                                
                             }
                         }
                     } catch(error){
@@ -634,12 +634,46 @@
                         let parametros = new URLSearchParams();
                         parametros.append("accion", 5);
                         preloader("../../");
-                        parametros.append("cursoSeleccionado", valor);
-                                    
+                        parametros.append("cursoSeleccionado", this.cursoTomado);
+                        console.log('cursoo',cursoTomado)
                         let {data,status} = await axios.post(ctr, parametros)
                         if(status == 200){
                             if(data.length > 0){
-                                arrayCursoSeleccionado.value = data
+                                arrayCursoSeleccionadoInfo.value = data
+                                console.log('info evento programado:',arrayCursoSeleccionadoInfo)
+                                console.log('nombre origen:', this.arrayCursoSeleccionadoInfo[0].nombre_origen)
+                                if( this.arrayCursoSeleccionadoInfo[0].nombre_origen === 'DANC'){
+                                    console.log('clave de origen de curso:', this.arrayCursoSeleccionadoInfo[0].cve_origen_evento);
+                                    try{
+                                        preloader("../");
+                                        let parametros = new URLSearchParams();
+                                        parametros.append("accion", 6);
+                                        parametros.append("cursoSeleccionado", this.arrayCursoSeleccionadoInfo[0].cve_origen_evento);
+                                        let {data,status} = await axios.post(ctr, parametros)
+                                        if(status == 200){
+                                            if(data.length > 0){
+                                                arrayCursoSeleccionadoInfo.value = data
+                                                const objetivoR = this.arrayCursoSeleccionadoInfo[0].objetivo_evento;
+                                                const objetivoCel = document.getElementById('objetivoCel');
+                                                objetivoCel.textContent = objetivoR;
+
+                                                const fechaI = this.arrayCursoSeleccionadoInfo[0].fecha_inicio;
+                                                const fechaICel = document.getElementById('fechaICel');
+                                                fechaICel.textContent = fechaI;
+
+                                                const fechaF = this.arrayCursoSeleccionadoInfo[0].fecha_temino;
+                                                const fechaFCel = document.getElementById('fechaFCel');
+                                                fechaFCel.textContent = fechaF;
+                                                
+                                            }
+                                        }
+                                    } catch(error){
+                                        mostrarSnackbar('error');
+                                        console.error(error);
+                                    } finally{
+                                        swal.close();
+                                    }
+                                } 
                             }
                         }
                     } catch(error){
@@ -701,16 +735,15 @@
                     idEmpleado, area, carrera,
                     objetivo, alcance, periodo, fecha, areaCapacitacion, escala1, escala2, escala3, escala4, escala5,  otraAct, otraAct1,
                     option, option1, option2, option3, option4, otro, evidencias, promedio, currentUser, nombre, ape1, ape2, sexo, puesto,
-                    cursoTomado,
+                    cursoTomado, objetivoR, fechaI, fechaF,
                     
-
                     arrayCarreras, arrayAreasCapacitacion, arrayEscala, arrayPeriodo, arrayCursos, arrayCursosTomados, arrayCursoSeleccionado,
-                    
+                    arrayCursoSeleccionadoInfo,                    
                     
                     dataProveedores, headersProveedores, searchProveedores, arrayTiposProveedores, 
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor,
                     fnLimpiarCampos, itemEditar, searchBusqueda,
-                    fnConsultarTabla, fnGuardar, fnInfoCursos, periodos,
+                    fnConsultarTabla, fnGuardar, periodos, fnInfoCursos
                 }
             },
             methods: {
@@ -727,7 +760,7 @@
                 cursoTomado(valorSeleccionado) {
                     const valor = valorSeleccionado;
                     console.log(valor); // Imprime el valor seleccionado en la consola
-                    fnInfoCursos();
+                    this.fnInfoCursos();
                     
                 }
             },

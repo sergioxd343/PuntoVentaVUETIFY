@@ -8,14 +8,14 @@
 USE master;
 GO
 
-IF DB_ID('mauri') IS NOT NULL
-DROP DATABASE mauri;
+IF DB_ID('mauri1') IS NOT NULL
+DROP DATABASE mauri1;
 GO
 
-CREATE DATABASE mauri;
+CREATE DATABASE mauri1;
 GO
 
-USE mauri;
+USE mauri1;
 GO
 
 -- ------------- TABLA PERSONA -------------- --
@@ -864,8 +864,4 @@ CREATE TABLE autoevaluacion_capacitacion_docente(
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
 	usuario_registro 			INT,
 	CONSTRAINT fk_autoe_cap_doc_empleado FOREIGN KEY (cve_empleado) REFERENCES empleado(cve_empleado)
-<<<<<<< HEAD
-);
-=======
-);
->>>>>>> 55e3fea73683ee1fbe049455ad940a37dd6acb45
+

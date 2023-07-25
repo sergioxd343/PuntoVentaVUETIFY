@@ -103,5 +103,13 @@
             parametros.add(cursoSeleccionado);
             out.println(datos.Consultas(parametros, "infoCurso")); 
             break;
+        case 6: 
+            parametros.add(cursoSeleccionado);
+            out.println(datos.Consultas(parametros, "cursoDANC")); 
+            break;
+        case 7: 
+            parametros.add(cursoSeleccionado);
+            out.println(datos.Consultas(parametros, "cursoSolicitudP")); 
+            break;
     }
 %>

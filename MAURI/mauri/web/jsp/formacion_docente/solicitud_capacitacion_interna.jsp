@@ -181,7 +181,6 @@
 
                                     <!--HORARIO INICIO -->
                                     <v-col md="6">
-<<<<<<< HEAD
                                         <template>
                                             <div>
                                                 <v-col style=" flex: 0 1 auto;">
@@ -216,26 +215,6 @@
                                                 </v-col>
                                             </div>
                                           </template>
-=======
-
-                                        <v-select v-model="horario_inicio" label="Horario inicio"
-                                            v-validate="'required'" :items="horarios" item-value="cve_horario"
-                                            item-text="hora_inicio" :error="errors.has('horario inicio')"
-                                            data-vv-name="horario inicio"
-                                            :error-messages="errors.first('horario inicio')"
-                                            prepend-icon="mdi-clock-outline" :disabled="deshabilitar"></v-select>
-                                    </v-col>
-
-
-
-                                    <!--HORARIO FIN -->
-                                    <v-col md="6">
-                                        <v-select v-model="horario_fin" label="Horario fin" v-validate="'required'"
-                                            :items="horarios1" item-value="cve_horario" item-text="hora_fin"
-                                            :error="errors.has('horario fin')" data-vv-name="horario fin"
-                                            :error-messages="errors.first('horario fin')"
-                                            prepend-icon="mdi-clock-outline" :disabled="deshabilitar"></v-select>
->>>>>>> 55e3fea73683ee1fbe049455ad940a37dd6acb45
                                     </v-col>
 
 
@@ -883,31 +862,9 @@
                             resultadoAprendizaje.value = "";
                             perfil.value = "";
 
-<<<<<<< HEAD
                             nombreFacilitador.value = "";
                             areaPertenece.value = "";
                             programaEducativo.value = "";
-=======
-                    function fnLimpiarCampos(cx) {
-                        //cx = contexto
-                        tipoCompetencia.value = "";
-                        nombreCurso.value = "";
-                        fechaInicio.value = "";
-                        fechaFin.value = "";
-                        horario_inicio.value = "";
-                        horario_fin.value = "";
-                        lugar.value = "";
-                        tipoCurso.value = "";
-                        dias.value = "";
-                        horas.value = "";
-                        numeroParticipantes.value = "";
-                        objetivo.value = "";
-                        alcance.value = "";
-                        metodologia.value = "";
-                        programaCurso.value = "";
-                        resultadoAprendizaje.value = "";
-                        perfil.value = "";
->>>>>>> 55e3fea73683ee1fbe049455ad940a37dd6acb45
 
                             flagDescargar.value = false;
                             itemEditar.value = {};
@@ -917,13 +874,6 @@
                             else this.$validator.reset();
                         }
 
-<<<<<<< HEAD
-=======
-                        if (this == undefined) cx.$validator.reset();
-                        else this.$validator.reset();
-                    }
-
->>>>>>> 55e3fea73683ee1fbe049455ad940a37dd6acb45
                     function mostrarSnackbar(color, texto) {
                         snackbar.value = true;
                         color_snackbar.value = color;
@@ -948,23 +898,7 @@
 
                         idSolicitud,
 
-<<<<<<< HEAD
                         color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagDescargar,
-=======
-                        color_snackbar,
-                        snackbar,
-                        mensaje_snackbar,
-                        loader,
-                        mostrarSnackbar,
-                        flagDescargar,
-
-
-                        tipoCompetencia, fechaInicio, fechaFin, nombreCurso, horario_inicio,
-                        horario_fin, lugar, dias, horas,
-                        numeroParticipantes, tipoCurso, objetivo, alcance, metodologia, programaCurso,
-                        resultadoAprendizaje, perfil,
-                        nombreFacilitador, areaPertenece, programaEducativo, numberOfInputs,
->>>>>>> 55e3fea73683ee1fbe049455ad940a37dd6acb45
 
                         dataSolicitudCapacitacion, headerCapacitacion,
 
