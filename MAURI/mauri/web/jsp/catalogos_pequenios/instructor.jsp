@@ -58,7 +58,7 @@
                                         v-model="apellidoPaterno" 
                                         outlined label="Apellido paterno:" 
                                         persistent-hint
-                                        hint="Ingresa solo el apellido paterno"
+                                        hint="Ingresa solo el apellido paterno            "
                                         v-validate="'required|max:200'" 
                                         data-vv-name="apellidoPaterno"
                                         :error="errors.has('apellidoPaterno')"
@@ -71,11 +71,24 @@
                                         v-model="apellidoMaterno" 
                                         outlined label="Apellido materno:" 
                                         persistent-hint
-                                        hint="Ingresa solo el apellido materno"
+                                        hint="Ingresa solo el apellido materno         "
                                         v-validate="'required|max:200'" 
                                         data-vv-name="apellidoMaterno"
                                         :error="errors.has('apellidoMaterno')"
                                         :error-messages="errors.first('apellidoMaterno')"
+                                        ></v-text-field>
+                                </v-col>
+
+                                <v-col md=3>
+                                    <v-text-field 
+                                        v-model="empresa" 
+                                        outlined label="Nombre de la empresa:" 
+                                        persistent-hint
+                                        hint="Nombre de la empresa/institución que proporciona el servicio"
+                                        v-validate="'required|max:200'" 
+                                        data-vv-name="empresa"
+                                        :error="errors.has('empresa')"
+                                        :error-messages="errors.first('empresa')"
                                         ></v-text-field>
                                 </v-col>
                                 
@@ -177,7 +190,7 @@
                 const nombreInstructor = ref("");
                 const apellidoPaterno = ref("");
                 const apellidoMaterno = ref("");
-                
+                const empresa = ref("");
 
                 const currentUser = localStorage.getItem("currentUser");
                 const currentUserObj = JSON.parse(currentUser);
@@ -204,10 +217,11 @@
                 const dataInstructor = ref([]);
                 
                 const headersInstructor = ref([
-                    {text: 'No', align: 'left', sortable: true, value: 'cve_instructor'},
+                    {text: 'No', align: 'left', sortable: true, value: 'cve_instructor_e'},
                     {text: 'Nombre del instructor', align: 'left', sortable: true, value: 'nombre_instructor'},
                     {text: 'Apellido paterno', align: 'left', sortable: true, value: 'apellido_paterno'},
                     {text: 'Apellido materno', align: 'left', sortable: true, value: 'apellido_materno'},
+                    {text: 'Empresa', align: 'left', sortable: true, value: 'empresa'},
                     {text: 'Fecha de registro', align: 'left', sortable: true, value: 'fecha_registro'},
                     {text: 'Estatus', align: 'left', sortable: true, value: 'estatus'},
                 ]);
@@ -252,6 +266,7 @@
                                 parametros.append("nombre_instructor", nombreInstructor.value);
                                 parametros.append("apellido_paterno", apellidoPaterno.value);
                                 parametros.append("apellido_materno", apellidoMaterno.value);
+                                parametros.append("empresa", empresa.value);
                                 parametros.append("cve_persona",this.usuario_registro); // Agrega el valor de cve_persona
                                 let {data,status} = await axios.post(ctr, parametros)
                                 if(status == 200){
@@ -312,6 +327,7 @@
                     nombreInstructor.value = "";
                     apellidoMaterno.value = "";  
                     apellidoPaterno.value = "";  
+                    empresa.value = "";
                     flagEditar.value = false;
                     itemEditar.value = {};
 
@@ -334,7 +350,7 @@
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
                     nombreInstructor, currentUser, currentUserObj, usuario_registro,
                     headersInstructor, fnConsultarInstructor, dataInstructor, apellidoMaterno, apellidoPaterno,
-                    searchTipos, fnLimpiarCampos, fnGuardarInstructor, fnCambiarEstatus,
+                    searchTipos, fnLimpiarCampos, fnGuardarInstructor, fnCambiarEstatus, empresa,
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor,
                     
                     //fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, itemEditar

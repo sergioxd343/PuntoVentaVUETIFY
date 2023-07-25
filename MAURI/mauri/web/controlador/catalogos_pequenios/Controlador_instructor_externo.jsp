@@ -57,6 +57,7 @@
      String nombreInstructor = request.getParameter("nombre_instructor") != null && !request.getParameter("nombre_instructor").equals("") ? request.getParameter("nombre_instructor") : "-";
      String apellidoPaterno = request.getParameter("apellido_paterno") != null && !request.getParameter("apellido_paterno").equals("") ? request.getParameter("apellido_paterno") : "-";
      String apellidoMaterno = request.getParameter("apellido_materno") != null && !request.getParameter("apellido_materno").equals("") ? request.getParameter("apellido_materno") : "-";
+     String empresa = request.getParameter("empresa") != null && !request.getParameter("empresa").equals("") ? request.getParameter("empresa") : "-";
      String activo = request.getParameter("activo") != null && !request.getParameter("activo").equals("") ? request.getParameter("activo") : "-";
      String pass = request.getParameter("pass") != null && !request.getParameter("pass").equals("") ? request.getParameter("pass") : "-";
      int cve_persona = request.getParameter("cve_persona") != null && !request.getParameter("cve_persona").equals("") ? Integer.parseInt(request.getParameter("cve_persona")) : 0;
@@ -70,6 +71,7 @@
             temp_obj.addProperty("nombre_instructor", nombreInstructor);
             temp_obj.addProperty("apellido_paterno", apellidoPaterno);
             temp_obj.addProperty("apellido_materno", apellidoMaterno);
+            temp_obj.addProperty("empresa", empresa);
             temp_obj.addProperty("usuario_registro", cve_persona);
             parametros.add(temp_obj);
             out.println(datos.Registro(parametros, "guardarInstructor"));
