@@ -415,12 +415,10 @@ CREATE TABLE rubrica(
 	cve_rubrica					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	cve_empleado				INT NOT NULL,
 	nombre_rubica				VARCHAR(45),
-	filas						VARCHAR(25),
-	columnas					VARCHAR(25),
-	nombre_seccion				VARCHAR(45),
-	secciona_fila_inicio		VARCHAR(25),
-	seccion_fila_fin			VARCHAR(25),
-	nombre_columna				VARCHAR(45),
+	filas						INT,
+	columnas					INT,
+	secciones					TEXT,
+	headers						TEXT,
 	criterios_por_celda			TEXT,
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
@@ -666,12 +664,14 @@ CREATE TABLE programa_desarrollo_modulo(
 -- ------------- TABLA INSTRUCTORES -------------- --
 CREATE TABLE instructor(
 	cve_instructor 				INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	cve_tipo_instructor			INT NOT NULL,
 	nombre_instructor 			VARCHAR(50),
 	area_academica				VARCHAR(50),
 	programa_educativo 			VARCHAR(50),
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
-	usuario_registro 			INT
+	usuario_registro 			INT,
+	CONSTRAINT fk_instructor_tipo_instructor FOREIGN KEY (cve_tipo_instructor) REFERENCES tipo_instructor (cve_tipo_instructor)
 );
 
 -- ------------- TABLA INSTRUCTOR_EXTERNO -------------- --
@@ -753,6 +753,7 @@ CREATE TABLE evaluacion_capacitacion(
 	cve_curso 					INT NOT NULL,
 	nombre_facilitador 			VARCHAR(50),
 	calificacion_final 			INT,
+	asistencia 					INT,
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
 	usuario_registro 			INT,

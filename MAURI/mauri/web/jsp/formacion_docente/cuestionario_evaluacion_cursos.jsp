@@ -95,7 +95,7 @@
                                         @click="fnGuardar()"><v-icon>mdi-content-save</v-icon>Guardar</v-btn>
                                     &nbsp;
                                     <v-btn color="error"
-                                        @click="fnLimpiarCampos()"><v-icon>mdi-cancel</v-icon>Cancelar</v-btn>
+                                        @click="fnExportar()"><v-icon>mdi-cancel</v-icon>Cancelar</v-btn>
                                 </v-row>
                                 <v-row justify="center">
                                     <v-col>
@@ -162,6 +162,9 @@
     <script src="../../javascript/VueJs/vee-validate/es.js"></script>
     <script src="../../javascript/VueJs/sweetalert2/sweetalert2.all.js"></script>
     <script src="../../javascript/unpkg.com_xlsx@0.18.5_dist_xlsx.full.min.js"></script>
+    <script src="../../javascript/Blob.js"></script>
+    <script src="../../javascript/FileSaver.js"></script>
+    <script src="../../javascript/jhxlsx.js"></script>
 
 
     <%--Desarrollo--%>
@@ -204,6 +207,11 @@
                     const flagEditar = ref(false);
                     const itemEditar = ref({});
                     const files = ref([]);
+
+                    const tablaReporte = ref([]);
+
+                    const cabeceraTablaReporte = ref([]);
+                    const dataExportar = ref([]);
                     //Combo
 
 
@@ -233,6 +241,27 @@
 
                     onMounted(() => {
                         fnCargarTabla();
+                        tablaReporte.value = [{
+                            "id": 1,
+                            "nombre": "Juan",
+                            "apellido": "Pérez"
+                        },
+                        {
+                            "id": 2,
+                            "nombre": "María",
+                            "apellido": "González"
+                        },
+                        {
+                            "id": 3,
+                            "nombre": "Pedro",
+                            "apellido": "Sánchez"
+                        }];
+
+                        cabeceraTablaReporte.value = [
+                            { "text": "id" },
+                            { "text": "nombre" },
+                            { "text": "apellido" }
+                        ];
                     });
 
                     async function fnGuardar() {
@@ -413,6 +442,97 @@
                     }
 
 
+                    async function fnExportar() {
+                        loader.value = true;
+                        if (tablaReporte.value.length > 0) {
+                            //loader.value = true;
+                            dataExportar.value = []
+                            let array_ = [];
+                            console.log("🚀 ~ file: cuestionario_evaluacion_cursos.jsp:454 ~ fnExportar ~ cabeceraTablaReporte.value:", cabeceraTablaReporte.value)
+                            cabeceraTablaReporte.value.map(i => {
+                                console.log("Cabeceras: ", i.text);
+                                array_.push(
+                                    { text: i.text }
+                                )
+                            });
+                            dataExportar.value.push([{ text: '' }]);
+                            dataExportar.value.push(array_);
+
+
+                            console.log("dataExportar.value: ", dataExportar.value);
+
+
+                            array_ = [];
+                            /*
+                            tablaReporte.value.forEach(function(item, index){ 
+                            cabeceraTablaReporte.value.map(i=>{
+                            array_.push(
+                            {text:item.}
+                            )
+                            })
+                            dataExportar.value.push(array_);
+                            array_  = [];
+                            })
+                            */
+                            console.log("🚀 ~ file: cuestionario_evaluacion_cursos.jsp:473 ~ tablaReporte.value.forEach ~ tablaReporte.value:", tablaReporte.value)
+
+
+                            tablaReporte.value.forEach(function (item, index) {
+
+                                console.log("item: ", item.id);
+
+                                cabeceraTablaReporte.value.map(i => {
+                                    console.log("I:", i.valu);
+                                    array_.push(
+
+                                        { text: item[i.text] },
+
+                                    )
+                                })
+                                dataExportar.value.push(array_);
+                                array_ = [];
+                            })
+
+
+
+                            //Se declara el nombre del archivo y de la hoja de excel, así mismo se manda llamar el data = dataExport
+                            var tableData = [
+                                {
+                                    "sheetName": "Reporte Transparencia",
+                                    "data": dataExportar.value
+                                }
+                            ];
+
+                            var date_variable = new Date();
+                            var year = date_variable.getFullYear();
+                            var month = date_variable.getMonth() + 1;
+                            var day = date_variable.getDate();
+
+                            var hour = date_variable.getHours();
+                            var minutes = date_variable.getMinutes();
+                            var seconds = date_variable.getSeconds();
+
+                            var full_date = year + month + day + hour + minutes + seconds;
+
+                            var options = {
+                                fileName: "Reporte de Transparencia_" + full_date
+                            };
+                            //Libreria que realiza el exportar a Excel
+                            Jhxlsx.export(tableData, options);
+
+                        }
+
+                        try {
+                        }
+                        catch (error) {
+                            console.log(error);
+                        } finally {
+                            //oading2.value = false;
+                            loader.value = false;
+                        }
+                    };
+
+
                     function fnLimpiarCampos(cx) {
                         //cx = contexto
                         nombre.value = "";
@@ -448,13 +568,17 @@
                         loader,
                         files,
                         currentUser,
+                        tablaReporte,
+                        cabeceraTablaReporte,
                         dataCuestionario,
+                        dataExportar,
                         headerCuestionario,
                         user,
                         cve_usuario,
                         mostrarSnackbar,
                         fnLeerArchivo,
                         fnCambiarEstatus,
+                        fnExportar,
                         flagEditar,
                         fnGuardar,
                         fnLimpiarCampos,
