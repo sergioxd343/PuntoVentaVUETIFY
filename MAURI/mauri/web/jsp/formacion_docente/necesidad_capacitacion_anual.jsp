@@ -485,7 +485,7 @@
                             </v-row>
                             <v-divider></v-divider>
 
-                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+                            <v-row class="align-center" style="padding: 0px 50px 0px 50px">
                             
                                 <v-col md=3 > 
                                     <v-text-field 
@@ -580,8 +580,10 @@
                                         
                                     ></v-text-field>
                                 </v-col>
-                                
-                                <v-col md=3> 
+                            </v-row>
+
+                            <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+                                <v-col md=12> 
                                     <v-text-field 
                                         v-model="lugar"
                                         outlined

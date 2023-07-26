@@ -37,8 +37,7 @@ IF OBJECT_ID('InsertarSolicitudConInstructores', 'P') IS NOT NULL
 GO
 CREATE PROCEDURE InsertarSolicitudConInstructores
 (
-    @hora_inicio VARCHAR(50),
-	@hora_fin VARCHAR(50),
+    @cve_horario INT,
     @tipo_competencia VARCHAR(15),
     @nombre VARCHAR(50),
     @total_dias INT,
@@ -64,22 +63,22 @@ AS
 BEGIN
     
     INSERT INTO solicitud_capacitacion_interna (
-        hora_inicio, hora_fin, tipo_competencia, nombre, total_dias, total_horas,
+        cve_horario, tipo_competencia, nombre, total_dias, total_horas,
         fecha_inicio, fecha_fin, lugar, curso, numero_participantes,
         objetivo, alcance, metodologia, programa_evento, resultado_aprendizaje,
         perfil_participante, estatus, usuario_registro
     )
     VALUES (
-        @hora_inicio, @hora_fin, @tipo_competencia, @nombre, @total_dias, @total_horas,
+        @cve_horario, @tipo_competencia, @nombre, @total_dias, @total_horas,
         @fecha_inicio, @fecha_fin, @lugar, @curso, @numero_participantes,
         @objetivo, @alcance, @metodologia, @programa_evento, @resultado_aprendizaje,
         @perfil_participante, @estatus, @usuario_registro
     );
 
     DECLARE @cve_sol_cap_int INT;
-    SET @cve_sol_cap_int = SCOPE_IDENTITY(); --  ltimo cve insertado
+    SET @cve_sol_cap_int = SCOPE_IDENTITY(); -- �ltimo cve insertado
 
-    -- Tabla temporal para almacenar los datos de instructores,  reas y ugacs
+    -- Tabla temporal para almacenar los datos de instructores, �reas y ugacs
     DECLARE @instructorData TABLE (
         InstructorId INT,
         AreaId INT,
@@ -118,7 +117,7 @@ BEGIN
         AreaId,
         UgacId
     FROM @instructorData;
-    
+    
 END
 GO
 

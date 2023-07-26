@@ -31,7 +31,7 @@
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px"> 
                             
                                 <template>
-                                    <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
+                                    <!--<v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                       <v-col md="6">
                                         <v-data-table
                                           v-if="mostrarGrupos"
@@ -49,8 +49,21 @@
                                             <v-icon color="green" @click="mostrarParticipantes = true; mostrarGrupos = false; fnObtener(item); fnLlenar()">mdi-arrow-right</v-icon>
                                           </template>
                                         </v-data-table>
-                                      </v-col>
-                                    </v-row>
+                                      </v-col>-->
+
+                                    <v-col md=7>
+                                        <v-select 
+                                            v-model="curso"
+                                            outlined
+                                            label="Seleccione "
+                                            v-validate="'required'"
+                                            :items="dataGrupos"
+                                            item-value="cve_even_prog"
+                                            item-text="nombre_evento"
+                                            
+                                        ></v-select>
+                                    </v-col>
+                                </v-row>
                                   
                                     <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                         <v-row v-if="mostrarParticipantes">
@@ -190,6 +203,7 @@
                 const ctr = "../../controlador/formacion_docente/controlador_evaluacion_capacitacion.jsp";
                 //Variables POST
                 const items = 1;
+                const curso = ref('');
 
                 //Otras variables
                 const flagEditar = ref(false);
@@ -242,8 +256,49 @@
                 onMounted(() => {
                     fnConsultarTabla();
                     fnConsultarTablaEvaluaciones();
-                    console.log(idEmpleado);
+                    console.log('current',currentUser)
+                    console.log('id',idEmpleado);
+                    fnVerCursos();
                 });
+
+                async function fnConsultarTabla(){
+                    try{
+                        preloader("../../");
+                        let parametros = new URLSearchParams();
+                        parametros.append("accion", 1);
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                dataGrupos.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                }
+
+                async function fnVerCursos(){
+                    try{
+                        preloader("../../");
+                        let parametros = new URLSearchParams();
+                        parametros.append("accion", 1);
+                        parametros.append("idUsuario", idEmpleado);
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                dataGrupos.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                }
 
                 function fnObtener(grupo) {
                     const arregloGrupo = Object.values(grupo);
@@ -251,6 +306,14 @@
                     console.log('id evento:', arregloGrupo[0]);
                     this.cve = arregloGrupo[0];
                 }
+
+                function ejecutarFunciones() {
+                    this.mostrarParticipantes = true;
+                    this.mostrarGrupos = false;
+                    this.fnObtener(curso);
+                    this.fnLlenar();
+                }
+                
 
                 async function fnLlenar() {
                         this.$validator.validate().then(async (esValido) => {
@@ -313,24 +376,7 @@
                     })
                 }
 
-                async function fnConsultarTabla(){
-                    try{
-                        preloader("../../");
-                        let parametros = new URLSearchParams();
-                        parametros.append("accion", 1);
-                        let {data,status} = await axios.post(ctr, parametros)
-                        if(status == 200){
-                            if(data.length > 0){
-                                dataGrupos.value = data
-                            }
-                        }
-                    } catch(error){
-                        mostrarSnackbar('error');
-                        console.error(error);
-                    } finally{
-                        swal.close();
-                    }
-                }
+                
 
                 async function fnConsultarTablaEvaluaciones(){
                     try{
@@ -410,7 +456,7 @@
                 }
 
                 return{
-                    calificacion: [], items,
+                    calificacion: [], items, curso,
                     calificacionesFinales: [],
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
 
@@ -421,9 +467,17 @@
                     mostrarGrupos: true,
                     mostrarParticipantes: false,
 
-                    fnGuardar, fnEditar
+                    fnGuardar, fnEditar, ejecutarFunciones
                 }
+            }, watch: {
+                curso(valorSeleccionado){
+                    const valor = valorSeleccionado;
+                    console.log(valor);
+                    this.ejecutarFunciones();
+                    
                 }
+            }
+            
             
         });
 

@@ -38,31 +38,70 @@
                                       <v-card-text>
                                         <v-row>
                                           <v-col cols="12" md="6" class="my-col">
-                                            <v-btn color="primary" @click="fnLimpiarCampos()" class="custom-btn">
+                                            <v-btn color="primary" @click="fnConsultarTablaSolicitud()" class="custom-btn">
                                              SOLICITUD DE PROYECTO
                                             </v-btn>
                                           </v-col>
                                           
                                           <v-col cols="12" md="6" class="my-col">
-                                            <v-btn color="primary" @click="fnLimpiarCampos()" class="custom-btn">
+                                            <v-btn color="primary" @click="fnConsultarTablaAsesoria()" class="custom-btn">
                                                 ASESORAMIENTO PEDAGÓGICO
                                             </v-btn>
                                           </v-col>
                                           
                                           <v-col cols="12" md="6" class="my-col">
-                                            <v-btn color="primary" @click="fnLimpiarCampos()" class="custom-btn">
+                                            <v-btn color="primary" @click="fnConsultarTablaDanc()" class="custom-btn">
                                               DANC
                                             </v-btn>
                                           </v-col>
                                           
                                           <v-col cols="12" md="6" class="my-col">
-                                            <v-btn color="primary" @click="fnConsultarTablaSolicitud()" class="custom-btn">
+                                            <v-btn color="primary" @click="fnConsultarTablaProgramaDesarrollo()" class="custom-btn">
                                               PROGRAMA DE DESARROLLO
                                             </v-btn>
                                           </v-col>
                                         </v-row>
 
-                                        <v-col md=12>
+                                        <v-col md=12 v-if="showAsesoria">
+                                            <v-data-table
+                                                :headers="headerAsesoria"
+                                                :items="dataAsesoria"
+                                                :search="searchProveedores"
+                                                class="elevation-2"
+                                                no-data-text="No se encontro ningun registro"
+                                                :hide-default-header="dataProveedores.length < 1"
+                                                :hide-default-footer="dataProveedores.length < 1"
+                                                locale="es-ES"
+                                                :mobile-breakpoint="NaN"
+                                                items-per-page="10"
+                                            >  
+                                            <template v-slot:item.editar="{item}">
+                                                <v-btn  small color="warning" @click="fnProgramarAsesoria(item)">Programar</v-btn>
+                                            </template>
+                                            </v-data-table>
+                                        </v-col>
+
+                                        <v-col md=12 v-if="showPrograma">
+                                            <v-data-table
+                                                :headers="headersProgramaDesarrollo"
+                                                :items="dataProgramaDesarrollo"
+                                                :search="searchProveedores"
+                                                class="elevation-2"
+                                                no-data-text="No se encontro ningun registro"
+                                                :hide-default-header="dataProveedores.length < 1"
+                                                :hide-default-footer="dataProveedores.length < 1"
+                                                locale="es-ES"
+                                                :mobile-breakpoint="NaN"
+                                                items-per-page="10"
+                                            >  
+                                            <template v-slot:item.editar="{item}">
+                                                <v-btn  small color="warning" @click="fnProgramarProgramaDesarrollo(item)">Programar</v-btn>
+                                            </template>
+                                            </v-data-table>
+                                        </v-col>
+
+
+                                        <v-col md=12 v-if="showNombreProyecto">
                                             <v-data-table
                                                 :headers="headersSolicitudProyecto"
                                                 :items="dataSolicitudProyecto"
@@ -76,10 +115,26 @@
                                                 items-per-page="10"
                                             >  
                                             <template v-slot:item.editar="{item}">
-                                                <v-btn  small color="warning" @click="
-                                                    nombre_evento = item.nombre_materia;
-                                                    cve_origen_evento = item.cve_materia;
-                                                ">Programar</v-btn>
+                                                <v-btn  small color="warning" @click="fnProgramarSolicitud(item)">Programar</v-btn>
+                                            </template>
+                                            </v-data-table>
+                                        </v-col>
+
+                                        <v-col md=12 v-if="showDanc">
+                                            <v-data-table
+                                                :headers="headerDanc"
+                                                :items="dataDanc"
+                                                :search="searchProveedores"
+                                                class="elevation-2"
+                                                no-data-text="No se encontro ningun registro"
+                                                :hide-default-header="dataProveedores.length < 1"
+                                                :hide-default-footer="dataProveedores.length < 1"
+                                                locale="es-ES"
+                                                :mobile-breakpoint="NaN"
+                                                items-per-page="10"
+                                            >  
+                                            <template v-slot:item.editar="{item}">
+                                                <v-btn  small color="warning" @click="fnProgramarDanc(item)">Programar</v-btn>
                                             </template>
                                             </v-data-table>
                                         </v-col>
@@ -88,8 +143,11 @@
                                     </v-card>
                                   </v-col>
 
-                                
-                                <v-col md=6>
+
+                                  
+
+                              
+                                <v-col md=6 ref="nombreEventoRef">
                                     <v-text-field 
                                         v-model="nombre_origen"
                                         outlined
@@ -133,6 +191,40 @@
 
                                 <v-col md="6">
                                     <v-select
+                                      v-model="cve_tipo_instructor"
+                                      :items="arrayTipoInstructor"
+                                      item-text="nombre_tipo_instructor" // Especifica la propiedad del objeto a mostrar como texto en el select
+                                      item-value="cve_tipo_instructor" // Especifica la propiedad del objeto a usar como valor en el select
+                                      outlined
+                                      label="Tipo de instructor"
+                                      persistent-hint
+                                      v-validate="'required|max:200'"
+                                      data-vv-name="espacio"
+                                      :error="errors.has('espacio')"
+                                      :error-messages="errors.first('espacio')"
+                                      
+                                    ></v-select>
+                                  </v-col>
+
+                                  <v-col md="6">
+                                    <v-select
+                                      v-model="cve_instructor"
+                                      :items="arrayInstructor"
+                                      item-text="nombre_instructor" // Especifica la propiedad del objeto a mostrar como texto en el select
+                                      item-value="cve_instructor" // Especifica la propiedad del objeto a usar como valor en el select
+                                      outlined
+                                      label="Instructor"
+                                      persistent-hint
+                                      v-validate="'required|max:200'"
+                                      data-vv-name="espacio"
+                                      :error="errors.has('espacio')"
+                                      :error-messages="errors.first('espacio')"
+                                      
+                                    ></v-select>
+                                  </v-col>
+
+                                <v-col md="6">
+                                    <v-select
                                       v-model="cve_espacio"
                                       :items="arrayEspacio"
                                       item-text="nombre_espacio" // Especifica la propiedad del objeto a mostrar como texto en el select
@@ -166,38 +258,7 @@
                                     ></v-select>
                                   </v-col>
 
-                                                            
-                                
-
-                                
-
-                                <template>
-                                    <v-col md="6">
-                                      <v-switch v-model="sin_horario" label="¿Cuenta con un horario?"></v-switch>
-                                    </v-col>
-                                  </template>
-
-                                  <v-col md="6" v-if="sin_horario">
-                                    <v-card outlined>
-                                      <v-card-title class="subheading">Horario Inicio</v-card-title>
-                                      <v-card-text>
-                                        <v-time-picker v-model="horario_inicio"></v-time-picker>
-                                      </v-card-text>
-                                    </v-card>
-                                  </v-col>
-                                
-                                  <v-col md="6" v-if="sin_horario">
-                                    <v-card outlined>
-                                      <v-card-title class="subheading">Horario Fin</v-card-title>
-                                      <v-card-text>
-                                        <v-time-picker v-model="horario_fin"></v-time-picker>
-                                      </v-card-text>
-                                    </v-card>
-                                  </v-col>
-
-                                
-
-                                <v-col cols="12" sm="6" md="4">
+                                  <v-col cols="12" sm="6" md="4">
                                     <v-menu 
                                             ref="menu1"  
                                             :close-on-content-click="false"
@@ -218,8 +279,9 @@
                                             </v-btn>
                                         </v-date-picker>
                                     </v-menu>
-                                </v-col>
-
+                                </v-col>   
+                                
+                                
                                 <v-col cols="12" sm="6" md="4">
                                     <v-menu 
                                             ref="menu2"  
@@ -242,6 +304,39 @@
                                         </v-date-picker>
                                     </v-menu>
                                 </v-col>
+                                
+
+                                
+
+                                <template>
+                                    <v-col md="6">
+                                      <v-switch v-model="sin_horario" label="¿Cuenta con un horario?"></v-switch>
+                                    </v-col>
+                                </template>
+
+                                <v-col md="6" v-if="sin_horario">
+                                    <v-time-picker
+                                        v-model="horario_inicio"
+                                        :landscape="$vuetify.breakpoint.mdAndUp"
+                                        full-width
+                                        type="month"
+                                    ></v-time-picker>
+                                  </v-col>
+                                
+                                  <v-col md="6" v-if="sin_horario">
+                                    <v-time-picker
+                                        v-model="horario_fin"
+                                        :landscape="$vuetify.breakpoint.mdAndUp"
+                                        full-width
+                                        type="month"
+                                    ></v-time-picker>
+                                  </v-col>
+
+                                
+
+                                
+
+                                
 
 
                                 
@@ -444,13 +539,23 @@
                 const horario_fin = ref("");
                 const fecha_inicio = ref("");
                 const fecha_fin = ref("");
+                const cve_tipo_instructor =ref("");
+                const cve_instructor = ref("");
                 //Otras variables
                 const flagEditar = ref(false);
                 const itemEditar = ref({});
+
+                const showNombreProyecto=ref(false);
+                const showPrograma=ref(false);
+                const showDanc = ref(false);
+                const showAsesoria = ref(true);
                 //Setup del calendario
                 const arrayEspacio =ref([]);
                 const arrayModalidad = ref([]);
                 const arrayTiposUsuario = ref([]);
+                const arrayTipoInstructor = ref([]);
+                const arrayInstructor = ref([]);
+                const arrayHorario = ref([]);
                 //Setup de inputs
 
 
@@ -470,14 +575,31 @@
                 //dataUsuarios
                 const dataSolicitudProyecto = ref([]);
                 const dataProveedores = ref([]); 
+                const dataProgramaDesarrollo = ref([]);
                 const dataUsuarios = ref([]);
+                const dataDanc = ref([]);
+                const dataAsesoria = ref([]);
+
+                const headerAsesoria = ref([
+                    {text: 'No', align: 'left', sortable: true, value: 'cve_asesoria'},
+                    {text: 'Nombre del proyecto', align: 'left', sortable: true, value: 'materia'},
+                    {text: 'Motivo', align: 'left', sortable: true, value: 'motivo_solicitud'},
+                    {text: 'Sugerencia', align: 'left', sortable: true, value: 'justificacion'},
+                    {text: 'ELEGIR', align: 'left', sortable: true, value: 'editar'},
+                ]);
+                const headerDanc = ref([
+                    {text: 'No', align: 'left', sortable: true, value: 'cve_nec_cap_anual'},
+                    {text: 'Nombre del proyecto', align: 'left', sortable: true, value: 'nombre_evento'},
+                    {text: 'Objetivo', align: 'left', sortable: true, value: 'objetivo_evento'},
+                    {text: 'Justificación', align: 'left', sortable: true, value: 'justificacion'},
+                    {text: 'ELEGIR', align: 'left', sortable: true, value: 'editar'},
+                ]);
 
                 const headersSolicitudProyecto = ref([
-                    {text: 'No', align: 'left', sortable: true, value: 'cve_prog_des'},
-                    {text: 'Nombre de la materia', align: 'left', sortable: true, value: 'nombre_materia'},
-                    {text: 'Duracion', align: 'left', sortable: true, value: 'duracion'},
-                    {text: 'Objetivo', align: 'left', sortable: true, value: 'objetivo'},
-                    {text: 'Rezultado', align: 'left', sortable: true, value: 'resultado_aprendizaje'},
+                    {text: 'No', align: 'left', sortable: true, value: 'cve_solicitud_proyecto'},
+                    {text: 'Nombre del proyecto', align: 'left', sortable: true, value: 'nombre_proyecto'},
+                    {text: 'Objetivo', align: 'left', sortable: true, value: 'objetivo_proyecto'},
+                    {text: 'Descripción', align: 'left', sortable: true, value: 'descripcion_proyecto'},
                     {text: 'ELEGIR', align: 'left', sortable: true, value: 'editar'},
                 ]);
 
@@ -488,6 +610,16 @@
                     {text: 'Horario inicio', align: 'left', sortable: true, value: 'horario_inicio'},
                     {text: 'fecha inicio', align: 'left', sortable: true, value: 'fecha_inicio'},
                     {text: 'Estatus', align: 'left', sortable: true, value: 'estatus'},
+                    {text: 'Eliminar', align: 'left', sortable: true, value: 'eliminar'},
+                ]);
+
+                const headersProgramaDesarrollo = ref([
+                    {text: 'No', align: 'left', sortable: true, value: 'cve_prog_des'},
+                    {text: 'Nombre de la materia', align: 'left', sortable: true, value: 'nombre_materia'},
+                    {text: 'Duracion', align: 'left', sortable: true, value: 'duracion'},
+                    {text: 'Objetivo', align: 'left', sortable: true, value: 'objetivo'},
+                    {text: 'Rezultado', align: 'left', sortable: true, value: 'resultado_aprendizaje'},
+                    {text: 'ELEGIR', align: 'left', sortable: true, value: 'editar'},
                 ]);
                 const searchProveedores = ref([]);
 
@@ -496,10 +628,13 @@
                     fnConsultarTabla();
                     fnEspacios();
                     fnModalidad();
+                    fnTipoInstructor();
+                    fnInstructor();
+                    fnHorario();
                     //fnTiposProveedor();
                 });
 
-                async function fnConsultarTablaSolicitud(){
+                async function fnConsultarTablaProgramaDesarrollo(){
                     try{
                         preloader("../../");
                         //arreglo
@@ -510,7 +645,67 @@
                         let {data,status} = await axios.post(ctr, parametros)
                         if(status == 200){
                             if(data.length > 0){
+                                this.showPrograma = true;
+                                this.showDanc = false;
+                                this.showNombreProyecto = false;
+                                this.showAsesoria = false;
                                 nombre_origen.value = "Programa desarrollo";
+                                dataProgramaDesarrollo.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                    
+                }
+
+                async function fnConsultarTablaDanc(){
+                    try{
+                        preloader("../../");
+                        //arreglo
+                        let parametros = new URLSearchParams();
+                        //le mandamos un parametro llamado accion
+                        parametros.append("accion", 12);
+                        //axios envia la peticion
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                this.showDanc = true;
+                                this.showNombreProyecto =false;
+                                this.showPrograma = false;
+                                this.showAsesoria = false;
+                                nombre_origen.value = "Necesidad de capacitación anual";
+                                dataDanc.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                    
+                }
+                
+                async function fnConsultarTablaSolicitud(){
+                    try{
+                        preloader("../../");
+                        //arreglo
+                        let parametros = new URLSearchParams();
+                        //le mandamos un parametro llamado accion
+                        parametros.append("accion", 11);
+                        //axios envia la peticion
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                this.showNombreProyecto = true;
+                                this.showDanc = false;
+                                this.showPrograma=false;
+                                this.showAsesoria = false;
+                                nombre_origen.value = "Solicitud de proyecto";
                                 dataSolicitudProyecto.value = data
                             }
                         }
@@ -523,6 +718,35 @@
                     
                 }
                 
+
+                async function fnConsultarTablaAsesoria(){
+                    try{
+                        preloader("../../");
+                        //arreglo
+                        let parametros = new URLSearchParams();
+                        //le mandamos un parametro llamado accion
+                        parametros.append("accion", 13);
+                        //axios envia la peticion
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                this.showAsesoria = true;
+                                this.showNombreProyecto = false;
+                                this.showDanc = false;
+                                this.showPrograma=false;
+                                nombre_origen.value = "Detección de necesidad para el asesoramiento pedagógico";
+                                dataAsesoria.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                    
+                }
+
                 async function fnConsultarTabla(){
                     try{
                         preloader("../../");
@@ -556,6 +780,8 @@
                                 parametros.append("cve_origen_evento", cve_origen_evento.value);
                                 parametros.append("cve_espacio", cve_espacio.value);
                                 parametros.append("cve_modalidad", cve_modalidad.value);
+                                parametros.append("cve_tipo_instructor", cve_tipo_instructor.value);
+                                parametros.append("cve_instructor", cve_instructor.value);
                                 parametros.append("nombre_evento", nombre_evento.value);
                                 parametros.append("nombre_origen", nombre_origen.value);
                                 parametros.append("sin_horario", sin_horario.value);
@@ -584,6 +810,168 @@
                             }
                         }
                     })
+                }
+
+                async function fnProgramarSolicitud(item) {
+                    let nombre_evento = item.nombre_proyecto;
+                    let cve_origen_evento = item.cve_solicitud_proyecto;
+
+                    // Aquí puedes realizar otras operaciones con las variables si es necesario
+
+                    // Finalmente, puedes asignar los valores a los v-models de los v-text-field
+                    this.nombre_evento = nombre_evento;
+                    this.cve_origen_evento = cve_origen_evento;
+
+                    this.showDanc = false;
+                    this.showPrograma = false;
+                    this.showNombreProyecto = false;
+                    this.showAsesoria =false;
+                }
+
+                async function fnProgramarProgramaDesarrollo(item) {
+                    let nombre_evento = item.nombre_materia;
+                    let cve_origen_evento = item.cve_prog_des_mat;
+
+                    this.showDanc = false;
+                    this.showPrograma = false;
+                    this.showNombreProyecto = false;
+                    this.showAsesoria =false;
+
+                    // Aquí puedes realizar otras operaciones con las variables si es necesario
+
+                    // Finalmente, puedes asignar los valores a los v-models de los v-text-field
+                    this.nombre_evento = nombre_evento;
+                    this.cve_origen_evento = cve_origen_evento;
+
+                    
+                    this.$refs.nombreEventoRef.focus();
+                }
+
+                async function fnProgramarDanc(item) {
+                    let nombre_evento = item.nombre_evento;
+                    let cve_origen_evento = item.cve_nec_cap_anual;
+
+                    
+
+                    // Aquí puedes realizar otras operaciones con las variables si es necesario
+
+                    // Finalmente, puedes asignar los valores a los v-models de los v-text-field
+                    this.nombre_evento = nombre_evento;
+                    this.cve_origen_evento = cve_origen_evento;
+
+                    this.showDanc = false;
+                    this.showPrograma = false;
+                    this.showNombreProyecto = false;
+                    this.showAsesoria =false;
+
+                    this.$refs.nombreEventoRef.focus();
+                }
+
+                async function fnProgramarAsesoria(item) {
+                    let nombre_evento = item.materia;
+                    let cve_origen_evento = item.cve_asesoria;
+
+                    this.showDanc = false;
+                    this.showPrograma = false;
+                    this.showNombreProyecto = false;
+                    this.showAsesoria =false;
+
+                    // Aquí puedes realizar otras operaciones con las variables si es necesario
+
+                    // Finalmente, puedes asignar los valores a los v-models de los v-text-field
+                    this.nombre_evento = nombre_evento;
+                    this.cve_origen_evento = cve_origen_evento;
+
+                    this.showPrograma = false;
+                    this.$refs.nombreEventoRef.focus();
+                }
+
+                async function fnCambiarEstatus(item) {
+                        try {
+                            preloader("../");
+                            let parametros = new URLSearchParams();
+                            parametros.append("accion", 9);
+                            parametros.append("cve_even_prog", item.cve_even_prog);
+                            parametros.append("activo", (item.activo == true ? 0 : 1));
+                            console.log("🚀 ~ file: perfil_usuario.jsp:283 ~ fnCambiarEstatus ~ parametros:", parametros)
+                            let { data, status } = await axios.post(ctr, parametros);
+                            if (status == 200) {
+                                if (data == "1") {
+                                    mostrarSnackbar(
+                                        "success",
+                                        "Registro actualizado correctamente."
+                                    );
+                                    fnConsultarTabla();
+                                    // this.$validator.pause();
+                                    // Vue.nextTick(() => {
+                                    //     this.$validator.errors.clear();
+                                    //     this.$validator.resume();
+                                    // });
+                                }
+                            }
+                        } catch (error) {
+                            mostrarSnackbar("error");
+                            console.error(error);
+                        } finally {
+                            swal.close();
+                        }
+                    }
+
+                async function fnInstructor(){
+                    try{
+                        preloader("../../");
+                        let parametros = new URLSearchParams();
+                        parametros.append("accion", 7);
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                arrayInstructor.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                }
+
+                async function fnTipoInstructor(){
+                    try{
+                        preloader("../../");
+                        let parametros = new URLSearchParams();
+                        parametros.append("accion", 6);
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                arrayTipoInstructor.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                }
+
+                async function fnHorario(){
+                    try{
+                        preloader("../../");
+                        let parametros = new URLSearchParams();
+                        parametros.append("accion", 8);
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+                                arrayHorario.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
                 }
 
                 async function fnEspacios(){
@@ -663,8 +1051,8 @@
                             try{
                                 preloader("../../");
                                 let parametros = new URLSearchParams();
-                                parametros.append("accion", 5);
-                                parametros.append("id_usuario", item.id_usuario);
+                                parametros.append("accion", 10);
+                                parametros.append("cve_even_prog", item.cve_even_prog);
                                 let {data,status} = await axios.post(ctr, parametros)
                                 if(status == 200){
                                     if(data=="1"){
@@ -695,6 +1083,8 @@
                     fecha_inicio.value ="";
                     fecha_fin.value ="";
                     nombre_evento.value="";
+                    cve_instructor.value="";
+                    cve_tipo_instructor.value="";
                     
                     flagEditar.value = false;
                     itemEditar.value = {};
@@ -715,12 +1105,13 @@
                 }
 
                 return{
-                    color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
-                    nombre_evento, nombre_origen, horario_inicio, horario_fin, fecha_inicio, fecha_fin,
-                    dataProveedores, headersProveedores, headersSolicitudProyecto, searchProveedores, arrayTiposUsuario, sin_horario,
-                    arrayEspacio, arrayModalidad, dataSolicitudProyecto, 
-                    dialogBuscador, dialogDetallesCotizacion, dialogProveedor,cve_origen_evento,cve_espacio,cve_modalidad,
-                    fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, fnConsultarTablaSolicitud, itemEditar
+                    color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar, showNombreProyecto, showPrograma, showDanc, showAsesoria,
+                    nombre_evento, nombre_origen, horario_inicio, horario_fin, fecha_inicio, fecha_fin, cve_tipo_instructor, cve_instructor, dataAsesoria, headerAsesoria,
+                    dataProveedores, headersProveedores, headersSolicitudProyecto, headerDanc, headersProgramaDesarrollo,searchProveedores, arrayTiposUsuario, sin_horario, 
+                    arrayEspacio, dataDanc, arrayModalidad, dataSolicitudProyecto, arrayTipoInstructor, arrayInstructor, arrayHorario,
+                    dialogBuscador, dialogDetallesCotizacion, dialogProveedor,cve_origen_evento,cve_espacio,cve_modalidad, dataProgramaDesarrollo,
+                    fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnCambiarEstatus, fnEditar, fnEliminar, fnConsultarTablaSolicitud, fnTipoInstructor,
+                    fnConsultarTablaProgramaDesarrollo, fnProgramarAsesoria ,fnConsultarTablaAsesoria, fnInstructor, fnConsultarTablaDanc, fnProgramarSolicitud,fnProgramarDanc, fnProgramarProgramaDesarrollo, itemEditar
                 }
             },
             methods: {

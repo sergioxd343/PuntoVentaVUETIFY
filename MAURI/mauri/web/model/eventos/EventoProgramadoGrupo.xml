@@ -5,23 +5,82 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <CatalogoProveedores>
-    <tablaEventoProgramado>
+    <tablaAsistencia>
 		<query>
-			select * from evento_programado;
-		</query>
-	</tablaEventoProgramado>
-    <guardarProgramaDesarrollo>
-		<query>
-			INSERT INTO programa_desarrollo (nombre_prog_des, descripcion, numero_modulos, usuario_registro)
-VALUES (?, ?, ?, 1);
+		SELECT
+    epg.cve_even_prog_grupo,
+    ep.nombre_evento,
+    ep.nombre_origen,
+    ep.horario_inicio,
+    ep.horario_fin,
+    CONVERT(VARCHAR(8), ep.fecha_inicio, 3) as fecha_inicio_dia_mes_anio,
+    CONVERT(VARCHAR(8), ep.fecha_fin, 3) as fecha_fin_dia_mes_anio,
+    i.nombre_instructor
+FROM
+    evento_programado ep
+JOIN
+    evento_programado_grupo epg ON ep.cve_even_prog = epg.cve_even_prog
+JOIN
+    instructor i ON ep.cve_instructor = i.cve_instructor
+WHERE
+    epg.cve_empleado = 1;
+
 
 		</query>
-	</guardarProgramaDesarrollo>
+	</tablaAsistencia>
+	<tablaEventoProgramado>
+		<query>
+			SELECT
+    ep.cve_even_prog,
+    ep.cve_origen_evento,
+    ep.cve_espacio,
+    ep.cve_modalidad,
+    ep.cve_tipo_instructor,
+    ep.cve_instructor,
+    ep.nombre_evento,
+    ep.nombre_origen,
+    ep.sin_horario,
+    ep.horario_inicio,
+    ep.horario_fin,
+    CONVERT(VARCHAR(8), ep.fecha_inicio, 3) as fecha_inicio_dia_mes_anio,
+    CONVERT(VARCHAR(8), ep.fecha_fin, 3) as fecha_fin_dia_mes_anio,
+    ep.estatus,
+    ep.activo,
+    ep.fecha_registro,
+    ep.usuario_registro,
+    i.nombre_instructor
+FROM
+    evento_programado ep
+JOIN
+    instructor i ON ep.cve_instructor = i.cve_instructor
+WHERE
+    ep.activo = 1;
+
+		</query>
+	</tablaEventoProgramado>
+    <guardarEventoProgramadoGrupo>
+		<query>
+DECLARE @cve_even_prog_variable INT;
+DECLARE @cve_empleado_variable INT;
+
+-- Asignar los valores deseados a las variables
+SET @cve_even_prog_variable = ?;
+SET @cve_empleado_variable = ?;
+
+-- Realizar el INSERT con las variables
+INSERT INTO evento_programado_grupo (cve_even_prog, cve_empleado)
+SELECT @cve_even_prog_variable, @cve_empleado_variable
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM evento_programado_grupo
+    WHERE cve_even_prog = @cve_even_prog_variable AND cve_empleado = @cve_empleado_variable
+);
+</query>
+	</guardarEventoProgramadoGrupo>
     <desactivarProgramaDesarrollo>
 		<query>
-			UPDATE programa_desarrollo
-SET activo = 0
-WHERE cve_prog_des = ?;
+			DELETE FROM evento_programado_grupo
+WHERE cve_even_prog_grupo = ?;
 		</query>
 	</desactivarProgramaDesarrollo>
 </CatalogoProveedores>

@@ -114,17 +114,21 @@
                                 <v-row justfy="center" dense >
                                     <v-col class="text-center"><b>Agregar Participantes</b></v-col>
                                 </v-row>
-                                <v-row v-for="(item, index) in numberOfInputs" :key="index" justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-                                    <v-col md="4">
-                                        <v-select v-model="cve_empleado" @change="agregarParticipante" outlined
-                                                  label="Nombre del participante:" persistent-hint :items="arrayParticipantes"
+
+                                <v-row v-for="(item, index) in numberOfInputs" :key="index" justify="center"
+                                        class="align-center" style="padding: 0px 50px 0px 50px">
+                                    <v-col md="9">
+                                        <v-select v-model="cve_empleado[index]" @change="agregarPraticipante(cve_empleado[index])" outlined
+                                                  label="Datos del participante:" persistent-hint
+                                                  hint="Nombre completo del participante -- sexo -- puesto"
+                                                  :items="arrayParticipantes"
                                                   item-value="cve_empleado" :item-text="obtenerNombreCompleto"
                                                   v-validate="'required|max:500'" data-vv-name="cve_empleado"
                                                   :error="errors.has('cve_empleado')" :error-messages="errors.first('cve_empleado')">
                                         </v-select>
                                       </v-col> 
                                     
-                                      <v-col md="2">
+                                      <!--<v-col md="2">
                                         <v-text-field v-model="numEmpleado" outlined persistent-hint
                                                       hint="Numero de empleado"
                                                       v-validate="'required|max:500'" data-vv-name="numEmpleado"
@@ -146,14 +150,14 @@
                                                       v-validate="'required|max:500'" data-vv-name="puesto"
                                                       :error="errors.has('puesto')" :error-messages="errors.first('puesto')"
                                                       readonly></v-text-field>
-                                      </v-col>     
-                                  
+                                      </v-col>   -->  
                                 </v-row>
-                                <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-                                    <v-tooltip top>
+                                <v-row  justify="center"
+                                class="align-center">
+                                    <v-tooltip top >
                                         <template v-slot:activator="{ on, attrs }">
-                                            <v-btn color="primary" v-bind="attrs" v-on="on" style="margin-right: 25px;"
-                                                @click="numberOfInputs++"><v-icon>mdi-account-multiple-plus</v-icon></v-btn>
+                                            <v-btn color="primary" v-bind="attrs" v-on="on"
+                                                @click="numberOfInputs++" style="margin-right: 25px; margin-left: 25px;"><v-icon>mdi-account-multiple-plus</v-icon></v-btn>
                                         </template>
                                         <span>Agregar un nuevo participante</span>
                                     </v-tooltip>
@@ -228,107 +232,88 @@
 
                                 <v-row justify="center" class="align-center" >
                                         
-                                    <v-col md="2">
-                                        <v-menu 
-                                            ref="menu1" 
+                                    
+                                <v-col cols="12" sm="6" md="3">
+                                    <v-menu 
+                                            ref="menu1"  
                                             :close-on-content-click="false"
                                             :return-value.sync="fechaInicio" 
                                             transition="scale-transition" 
-                                            offset-y
-                                            min-width="auto">
-                                            <template v-slot:activator="{ on, attrs }">
-                                                <v-text-field 
-                                                    v-validate="'required'" 
-                                                    data-vv-name="fecha inicio"
-                                                    :error="errors.has('fecha inicio')" 
-                                                    v-model="fechaInicio"
-                                                    label="Fecha Inicio" 
-                                                    :error-messages="errors.first('fecha inicio')"
-                                                    prepend-icon="mdi-calendar" 
-                                                    readonly v-bind="attrs"
-                                                    v-on="on"></v-text-field>
-                                            </template>
-                                            <v-date-picker v-model="fechaInicio" no-title scrollable>
-                                                <v-spacer></v-spacer>
-                                                <v-btn text color="primary" @click="menu1 = false">
-                                                    Cancel
-                                                </v-btn>
-                                                <v-btn text color="primary" @click="$refs.menu1.save(fechaInicio)">
-                                                    OK
-                                                </v-btn>
-                                            </v-date-picker>
-                                        </v-menu>
-                                    </v-col>
-
-                                    <v-col md="2">
-                                        <v-menu 
-                                            ref="menu1" 
+                                            offset-y min-width="auto">
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-text-field v-model="fechaInicio" label="Fecha de inicio" prepend-icon="mdi-calendar"
+                                                readonly v-bind="attrs" v-on="on"></v-text-field>
+                                        </template>
+                                        <v-date-picker v-model="fechaInicio" no-title scrollable>
+                                            <v-spacer></v-spacer>
+                                            <v-btn text color="primary" @click="menu1 = false">
+                                                Cancel
+                                            </v-btn>
+                                            <v-btn text color="primary" @click="$refs.menu1.save(fechaInicio)">
+                                                OK
+                                            </v-btn>
+                                        </v-date-picker>
+                                    </v-menu>
+                                </v-col>
+                                <v-col cols="12" sm="6" md="3">
+                                    <v-menu 
+                                            ref="menu2"  
                                             :close-on-content-click="false"
                                             :return-value.sync="fechaFin" 
                                             transition="scale-transition" 
-                                            offset-y
-                                            min-width="auto">
-                                            <template v-slot:activator="{ on, attrs }">
-                                                <v-text-field 
-                                                    v-validate="'required'" 
-                                                    data-vv-name="fecha fin"
-                                                    :error="errors.has('fecha fin')" 
-                                                    v-model="fechaFin"
-                                                    label="Fecha Fin" 
-                                                    :error-messages="errors.first('fecha fin')"
-                                                    prepend-icon="mdi-calendar" 
-                                                    readonly v-bind="attrs"
-                                                    v-on="on"></v-text-field>
-                                            </template>
-                                            <v-date-picker v-model="fechaInicio" no-title scrollable>
-                                                <v-spacer></v-spacer>
-                                                <v-btn text color="primary" @click="menu1 = false">
-                                                    Cancel
-                                                </v-btn>
-                                                <v-btn text color="primary" @click="$refs.menu1.save(fechaFin)">
-                                                    OK
-                                                </v-btn>
-                                            </v-date-picker>
-                                        </v-menu>
-                                    </v-col>
-                                    <v-col md=4>
-                                
-                                        <template>
-                                            <div>
-                                                <v-col style=" flex: 0 1 auto;">
-                                                  <h4>Hora de inicio:</h4>
-                                                  <v-time-picker
-                                                    v-model="horaInicio"
-                                                    :max="horaFin"
-                                                    width ="170px"
-                                                    landscape
-                                                    type="month"
-                                                    
-                                                    class="mt-3"
-                                                  ></v-time-picker>
-                                                </v-col>
-                                                
-                                            </div>
-                                          </template>
-                                    </v-col>
-                                    <v-col md=4>
-                                        <v-col style="flex: 0 1 auto;">
-                                            <h4>Hora de fin:</h4>
-                                            <v-time-picker
-                                              v-model="horaFin"
-                                              :min="horaInicio"
-                                              width ="170px"
-                                              landscape
-                                              type="month"
-                                              width="170"
-                                              class="mt-1"
-                                            ></v-time-picker>
-                                          </v-col>
-                                    </v-col> 
-
+                                            offset-y min-width="auto">
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-text-field v-model="fechaFin" label="Fecha de fin" prepend-icon="mdi-calendar"
+                                                readonly v-bind="attrs" v-on="on"></v-text-field>
+                                        </template>
+                                        <v-date-picker v-model="fechaFin" no-title scrollable>
+                                            <v-spacer></v-spacer>
+                                            <v-btn text color="primary" @click="menu2 = false">
+                                                Cancel
+                                            </v-btn>
+                                            <v-btn text color="primary" @click="$refs.menu2.save(fechaFin)">
+                                                OK
+                                            </v-btn>
+                                        </v-date-picker>
+                                    </v-menu>
+                                </v-col>
                                 </v-row>
 
-                                <v-row justify="center" class="align-center">
+                                <v-row justify="center" class="align-center" >
+                                <v-col md=4>
+                                
+                                    <template>
+                                        <div>
+                                            <v-col style=" flex: 0 1 auto;">
+                                              <h4>Hora de inicio:</h4>
+                                              <v-time-picker
+                                                v-model="horaInicio"
+                                                :max="horaFin"
+                                                width ="170px"
+                                                landscape
+                                                type="month"
+                                                
+                                                class="mt-3"
+                                              ></v-time-picker>
+                                            </v-col>
+                                            
+                                        </div>
+                                      </template>
+                                </v-col>
+                                <v-col md=4>
+                                    <v-col style="flex: 0 1 auto;">
+                                        <h4>Hora de fin:</h4>
+                                        <v-time-picker
+                                          v-model="horaFin"
+                                          :min="horaInicio"
+                                          width ="170px"
+                                          landscape
+                                          type="month"
+                                          width="170"
+                                          class="mt-1"
+                                        ></v-time-picker>
+                                      </v-col>
+                                </v-col> 
                                 
                                 <v-col md=2>
                                     <v-text-field 
@@ -440,8 +425,7 @@
                                                     :error-messages="errors.first('Anombre')"></v-text-field>
                                             </v-col>
 
-                                            <v-col md=2   v-if="solicitudPago !== 'Interesado(a)'">
-
+                                            <v-col md=2  class="text-align text-center" v-if="solicitudPago !== 'Interesado(a)'">
                                                 <v-span class="justify-content: center;">Numero de cuenta:</v-span>
 
                                             </v-col>
@@ -697,7 +681,6 @@
                     const arrayArea = ref([]);
                     const arrayParticipantes = ref([]);
                     const participanteSeleccionado = ref([]);
-                    const selectedParticipante = ref([]);
                     const arrayPago = ref(["Interesado(a)","Proveedor"]);
 
                     const headersSolicitudFormacionDocente = ref([
@@ -966,7 +949,8 @@
                         }
 
                         function obtenerNombreCompleto(participante) {
-                            return participante.nombre + ' ' + participante.apellido_paterno + ' ' + participante.apellido_materno;
+                            return participante.nombre + ' ' + participante.apellido_paterno + ' ' + participante.apellido_materno 
+                            + ' -- ' + participante.sexo + ' -- ' + participante.nombre_puesto;
                             }
                         
 
@@ -1023,26 +1007,21 @@
                         puesto, selectedRol, unidadAcademica, arrayUnidadAcademica, fnUnidadAcademica, dataSolicitudFormacionDocente,
                         arrayPago, solicitudPago, fnReasignacionDatos, Anombre, plaza, numCuenta, clabeInter, banco, fnParticipantes, 
                         arrayParticipantes, fnArea, arrayArea, participanteSeleccionado, obtenerNombreCompleto, fechaFin, solicitante,
-                        ape1, ape2, nombre, selectedParticipante,
+                        ape1, ape2, 
                         ptc, tecnico, alumnado, admin, otro, selectedArea, numberOfInputs
                     }
                 },
                 methods: {
 
-                    agregarParticipante() {
-      const participanteSeleccionado = this.arrayParticipantes.find(participante => participante.cve_empleado === this.cve_empleado);
-      if (participanteSeleccionado) {
-        // Actualizar los campos con los datos del participante seleccionado
-        this.numEmpleado = participanteSeleccionado.cve_empleado;
-        this.sexo = participanteSeleccionado.sexo;
-        this.puesto = participanteSeleccionado.nombre_puesto;
-      } else {
-        // Si no se selecciona un participante, dejar los campos vacíos
-        this.numEmpleado = '';
-        this.sexo = '';
-        this.puesto = '';
-      }
-    }
+                    agregarParticipante(participante) {
+                        if (participante) {
+                            const index = this.participanteSeleccionado.indexOf(participante);
+                            if (index === -1) {
+                                this.participanteSeleccionado.push(participante);
+                            }
+                        }
+                        console.log(this.participanteSeleccionado);
+                    }
                     /*handleCheckboxChange(index, field) {
                         // Desactivar los otros checkboxes en la misma fila
                         for (let i = 0; i < this.numberOfInputs; i++) {

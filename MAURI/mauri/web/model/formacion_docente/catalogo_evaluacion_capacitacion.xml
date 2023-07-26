@@ -4,7 +4,7 @@
 
     <tablaPrincipal>
 		<query>
-			SELECT * FROM evento_programado;
+			SELECT * FROM evento_programado WHERE cve_instructor = ?;
 		</query>
 	</tablaPrincipal>
 
@@ -16,7 +16,6 @@
 				puesto.nombre_puesto,
 				area.nombre_area,
 				evento_programado.nombre_evento,
-				instructor_evento_programado.cve_instructor,
 				instructor.nombre_instructor,
 				0 AS calificacion
 				FROM evento_programado_grupo
@@ -25,8 +24,7 @@
 				INNER JOIN puesto ON empleado.cve_puesto = puesto.cve_puesto
 				INNER JOIN area ON empleado.cve_area = area.cve_area
 				INNER JOIN persona ON empleado.cve_persona = persona.cve_persona
-				INNER JOIN instructor_evento_programado ON evento_programado.cve_even_prog = instructor_evento_programado.cve_evento_programado
-				INNER JOIN instructor ON instructor_evento_programado.cve_instructor = instructor.cve_instructor
+				INNER JOIN instructor ON evento_programado.cve_instructor = instructor.cve_instructor
 						
 			WHERE evento_programado.cve_even_prog = ?;
 		</query>
