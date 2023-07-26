@@ -12,7 +12,7 @@
             content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
         <script src="../../javascript/VueJs/vue/vue.js"></script>
         <script type="" src="../../javascript/VueJs/vue/vue-composition-api.prod.js"></script>
-        <title>Solicitud capacitación tecnica</title>
+        <title>Rúbricas</title>
     </head>
     <style>
         body {
@@ -26,774 +26,862 @@
                 <v-container fluid>
                     <v-card>
                         <v-card-title style="background-color: #00b293; color:#ffffff; headline">
-                            Rúbrica de observación de clase
+                            Rúbricas
                         </v-card-title>
                         <!--En este apartado estan los inputs para comenzar el registro-->
 
                         <v-container fluid class="elevation-2">
                             <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
 
-                                <v-col md=4>
-                                    <!--Sección-->
-                                    Seleccione la sección a calificar:
-                                    <v-radio-group v-model="seccion">
-                                        <v-radio label="Inicio" value="sec_inicio"
-                                            @change="fnLimpiarCampos(this)"></v-radio>
-                                        <v-radio label="Desarrollo" value="sec_desarrollo"
-                                            @change="fnLimpiarCampos(this)"></v-radio>
-                                        <v-radio label="Cierre" value="sec_cierre"
-                                            @change="fnLimpiarCampos(this)"></v-radio>
-                                    </v-radio-group>
-                                </v-col>
-                                <v-col md="4">
-                                    <!--Empleado-->
-                                    <v-autocomplete v-model="cve_empleado_docente" outlined label="Empleado"
-                                        persistent-hint v-validate="'required|max:100'" data-vv-name="empleado"
-                                        :items="arrayEmpleado" item-value="cve_empleado" item-text="nombre_completo"
-                                        :error="errors.has('empleado')"
-                                        :error-messages="errors.first('empleado')"></v-autocomplete>
-                                </v-col>
+                                <v-autocomplete v-model="cve_rubrica" outlined label="Rúbrica" persistent-hint
+                                    v-validate="'required|max:150'" data-vv-name="rubrica" :items="rubricas"
+                                    item-value="cve_rubrica" item-text="nombre_rubica" :error="errors.has('rubrica')"
+                                    :error-messages="errors.first('rubrica')"></v-autocomplete>
 
-                                <v-col md=12>
-                                    <v-card>
-                                        <v-list v-if="seccion === 'sec_inicio'">
-                                            <!-- Encabezado de la tabla -->
-                                            <v-row class="grey lighten-3">
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="font-weight-bold">
-                                                            Autónomo (10)
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="font-weight-bold">
-                                                            Destacado (9)
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="font-weight-bold">
-                                                            Satisfactorio (8)
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="font-weight-bold">
-                                                            No Acreditado (7)
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="font-weight-bold">
-                                                            Calificación
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                            </v-row>
-
-                                            <!-- Filas de la tabla -->
+                                <v-col md="12">
+                                    <v-tabs v-model="activeTab" background-color="transparent" grow>
+                                        <v-tab v-for="(tab, index) in tabs" :key="index">{{ tab }}</v-tab>
+                                    </v-tabs>
+                                    <v-tabs-items v-model="activeTab">
+                                        <v-tab-item>
                                             <v-row>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Es puntual e inicia inmediatamente
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
+                                                <!--TAB DE RUBRICA DE OBSERVACION DE CLASE-->
+                                                <v-col md=4>
+                                                    <!--Sección-->
+                                                    Seleccione la sección a calificar:
+                                                    <v-radio-group v-model="seccion">
+                                                        <v-radio label="Inicio" value="sec_inicio"
+                                                            @change="fnLimpiarCampos(this)"></v-radio>
+                                                        <v-radio label="Desarrollo" value="sec_desarrollo"
+                                                            @change="fnLimpiarCampos(this)"></v-radio>
+                                                        <v-radio label="Cierre" value="sec_cierre"
+                                                            @change="fnLimpiarCampos(this)"></v-radio>
+                                                    </v-radio-group>
                                                 </v-col>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Es puntual para entrar al salón de clase pero no inicia con
-                                                            la clase
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
+                                                <v-col md="4">
+                                                    <!--Empleado-->
+                                                    <v-autocomplete v-model="cve_empleado_docente" outlined
+                                                        label="Empleado" persistent-hint v-validate="'required|max:100'"
+                                                        data-vv-name="empleado" :items="arrayEmpleado"
+                                                        item-value="cve_empleado" item-text="nombre_completo"
+                                                        :error="errors.has('empleado')"
+                                                        :error-messages="errors.first('empleado')"></v-autocomplete>
                                                 </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Llega a clase con demora
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
+
+                                                <v-col md=12>
+                                                    <v-card>
+                                                        <v-list v-if="seccion === 'sec_inicio'">
+                                                            <!-- Encabezado de la tabla -->
+                                                            <v-row class="grey lighten-3">
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="font-weight-bold">
+                                                                            Autónomo (10)
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="font-weight-bold">
+                                                                            Destacado (9)
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="font-weight-bold">
+                                                                            Satisfactorio (8)
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="font-weight-bold">
+                                                                            No Acreditado (7)
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="font-weight-bold">
+                                                                            Calificación
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                            </v-row>
+
+                                                            <!-- Filas de la tabla -->
+                                                            <v-row>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Es puntual e inicia inmediatamente
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Es puntual para entrar al salón de clase
+                                                                            pero no inicia con
+                                                                            la clase
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Llega a clase con demora
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            El/la docente no asiste
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-text-field v-model="calificacionSec[0]"
+                                                                            outlined label="Calificación"
+                                                                            persistent-hint
+                                                                            v-validate="{required: true, min_value: 7, max_value: 10}"
+                                                                            data-vv-name="1.calificación"
+                                                                            inputmode="numeric" pattern="[0-9]*"
+                                                                            type="number"
+                                                                            :error="errors.has('1.calificación')"
+                                                                            :error-messages="errors.first('1.calificación')"></v-text-field>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                            </v-row>
+
+                                                            <v-row>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Se presenta los objetivos de clase, los
+                                                                            temas y las
+                                                                            actividades
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Se presenta los objetivos y los temas de
+                                                                            clase
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Se presenta el objetivo de clase
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            No se presenta el objetivo de la clase
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-text-field v-model="calificacionSec[1]"
+                                                                            outlined label="Calificación"
+                                                                            persistent-hint
+                                                                            v-validate="{required: true, min_value: 7, max_value: 10}"
+                                                                            data-vv-name="2.calificación"
+                                                                            inputmode="numeric" pattern="[0-9]*"
+                                                                            type="number"
+                                                                            :error="errors.has('2.calificación')"
+                                                                            :error-messages="errors.first('2.calificación')"></v-text-field>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                            </v-row>
+
+                                                            <!-- Filas de la tabla -->
+                                                            <v-row>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            El material es pertinente para la actividad
+                                                                            y suficiente
+                                                                            para todo el alumnado
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Se asegura de tener el material para su
+                                                                            clase antes de
+                                                                            iniciar
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Lleva material, pero es insuficiente para el
+                                                                            alumnado
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            El material que se presenta sale del
+                                                                            contexto de la clase y
+                                                                            es insuficiente para ejecutar su actividad
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-text-field v-model="calificacionSec[2]"
+                                                                            outlined label="Calificación"
+                                                                            persistent-hint
+                                                                            v-validate="{required: true, min_value: 7, max_value: 10}"
+                                                                            data-vv-name="3.calificación"
+                                                                            inputmode="numeric" pattern="[0-9]*"
+                                                                            type="number"
+                                                                            :error="errors.has('3.calificación')"
+                                                                            :error-messages="errors.first('3.calificación')"></v-text-field>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                            </v-row>
+                                                        </v-list>
+
+                                                        <v-list v-if="seccion === 'sec_desarrollo'">
+                                                            <!-- Encabezado de la tabla -->
+                                                            <v-row class="grey lighten-3">
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="font-weight-bold">
+                                                                            Autónomo (10)
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="font-weight-bold">
+                                                                            Destacado (9)
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="font-weight-bold">
+                                                                            Satisfactorio (8)
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="font-weight-bold">
+                                                                            No Acreditado (7)
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="font-weight-bold">
+                                                                            Calificación
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                            </v-row>
+
+                                                            <!-- Filas de la tabla -->
+                                                            <v-row>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            El/la profesor(a) funge como facilitador del
+                                                                            aprendizaje
+                                                                            interactuando con todos el alumnado
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            El/la profesor(a) realiza exposición e
+                                                                            interactúa con los
+                                                                            estudiantes, promueve la colaboración
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            El/la profesor(a) realiza una exposición
+                                                                            dirigida solo a
+                                                                            algunos estudiantes sin promover la
+                                                                            colaboración
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            El/la profesor(a) dirige la clase de manera
+                                                                            unilateral,
+                                                                            totalmente expositiva y sin promuever la
+                                                                            colaboración
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-text-field v-model="calificacionSec[3]"
+                                                                            outlined label="Calificación"
+                                                                            persistent-hint
+                                                                            v-validate="{required: true, min_value: 7, max_value: 10}"
+                                                                            data-vv-name="4.calificación"
+                                                                            inputmode="numeric" pattern="[0-9]*"
+                                                                            type="number"
+                                                                            :error="errors.has('4.calificación')"
+                                                                            :error-messages="errors.first('4.calificación')"></v-text-field>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                            </v-row>
+
+                                                            <v-row>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            No tiene muletillas, explica los tecnicismos
+                                                                            y utiliza un
+                                                                            lenguaje fluido
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Se asegura que sus estudiantes comprendan
+                                                                            los tecnicismos
+                                                                            empleados
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Utiliza pocas muletillas y/o explica algunos
+                                                                            tecnicismos
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            El lenguaje es complejo para su comprensión
+                                                                            o poco fluido
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-text-field v-model="calificacionSec[4]"
+                                                                            outlined label="Calificación"
+                                                                            persistent-hint
+                                                                            v-validate="{required: true, min_value: 7, max_value: 10}"
+                                                                            data-vv-name="5.calificación"
+                                                                            inputmode="numeric" pattern="[0-9]*"
+                                                                            type="number"
+                                                                            :error="errors.has('5.calificación')"
+                                                                            :error-messages="errors.first('5.calificación')"></v-text-field>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                            </v-row>
+
+                                                            <!-- Filas de la tabla -->
+                                                            <v-row>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Genera un adecuado ambiente de aprendizaje
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Utiliza estrategias para atraer la atención
+                                                                            y retomarla
+                                                                            cuando el grupo se dispersa
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            La intervención que realiza atrae la
+                                                                            atención, con poca
+                                                                            frecuencia
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Omite el uso de estrategias que favorezcan
+                                                                            la atención
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-text-field v-model="calificacionSec[5]"
+                                                                            outlined label="Calificación"
+                                                                            persistent-hint
+                                                                            v-validate="{required: true, min_value: 7, max_value: 10}"
+                                                                            data-vv-name="6.calificación"
+                                                                            inputmode="numeric" pattern="[0-9]*"
+                                                                            type="number"
+                                                                            :error="errors.has('6.calificación')"
+                                                                            :error-messages="errors.first('6.calificación')"></v-text-field>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                            </v-row>
+
+                                                            <!-- Filas de la tabla -->
+                                                            <v-row>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Responde las dudas oportunamente y utiliza
+                                                                            ejemplos del
+                                                                            contexto del estudiante
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Responde las dudas y agrega algunos ejemplos
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Responde algunas dudas de los estudiantes
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Evita cotestar las dudas de los estudiantes
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-text-field v-model="calificacionSec[6]"
+                                                                            outlined label="Calificación"
+                                                                            persistent-hint
+                                                                            v-validate="{required: true, min_value: 7, max_value: 10}"
+                                                                            data-vv-name="7.calificación"
+                                                                            inputmode="numeric" pattern="[0-9]*"
+                                                                            type="number"
+                                                                            :error="errors.has('7.calificación')"
+                                                                            :error-messages="errors.first('7.calificación')"></v-text-field>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                            </v-row>
+
+                                                            <!-- Filas de la tabla -->
+                                                            <v-row>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Asigna actividades de aprendizaje indicando
+                                                                            instrucciones,
+                                                                            entregas y características, supervisa la
+                                                                            ejecución de la
+                                                                            actividad de los estudiantes
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Asigna actividades de aprendizaje, supervisa
+                                                                            con poca
+                                                                            frecuencia su comprensión o elaboración
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Asigna 1 actividad de aprendizaje
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            No propone actividades de aprendizaje
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-text-field v-model="calificacionSec[7]"
+                                                                            outlined label="Calificación"
+                                                                            persistent-hint
+                                                                            v-validate="{required: true, min_value: 7, max_value: 10}"
+                                                                            data-vv-name="8.calificación"
+                                                                            inputmode="numeric" pattern="[0-9]*"
+                                                                            type="number"
+                                                                            :error="errors.has('8.calificación')"
+                                                                            :error-messages="errors.first('8.calificación')"></v-text-field>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                            </v-row>
+
+                                                            <!-- Filas de la tabla -->
+                                                            <v-row>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Utiliza técnicas de grupos o trabajo
+                                                                            colaborativo y domina
+                                                                            la metodología
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Utiliza técnicas de grupo o trabajo
+                                                                            colaborativo, pero
+                                                                            requiere dominar la metodología
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Utiliza técnicas de grupo o trabajo
+                                                                            colaborativo pero no
+                                                                            están contextualizadas
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            No utiliza técnicas de grupo ni promueve la
+                                                                            colaboración
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-text-field v-model="calificacionSec[8]"
+                                                                            outlined label="Calificación"
+                                                                            persistent-hint
+                                                                            v-validate="{required: true, min_value: 7, max_value: 10}"
+                                                                            data-vv-name="9.calificación"
+                                                                            inputmode="numeric" pattern="[0-9]*"
+                                                                            type="number"
+                                                                            :error="errors.has('9.calificación')"
+                                                                            :error-messages="errors.first('9.calificación')"></v-text-field>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                            </v-row>
+
+                                                            <!-- Filas de la tabla -->
+                                                            <v-row>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Domina el tema y lo sabe explicar, plantea
+                                                                            ejemplos del
+                                                                            contexto del alumnado
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Domina el tema, pero no es claro en su
+                                                                            explicación
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Conoce el tema y al explicarlo duda del uso
+                                                                            de conceptos
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            No conoce el tema o no sabe explicarlo
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-text-field v-model="calificacionSec[9]"
+                                                                            outlined label="Calificación"
+                                                                            persistent-hint
+                                                                            v-validate="{required: true, min_value: 7, max_value: 10}"
+                                                                            data-vv-name="10.calificación"
+                                                                            inputmode="numeric" pattern="[0-9]*"
+                                                                            type="number"
+                                                                            :error="errors.has('10.calificación')"
+                                                                            :error-messages="errors.first('10.calificación')"></v-text-field>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                            </v-row>
+                                                        </v-list>
+
+                                                        <v-list v-if="seccion === 'sec_cierre'">
+                                                            <!-- Encabezado de la tabla -->
+                                                            <v-row class="grey lighten-3">
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="font-weight-bold">
+                                                                            Autónomo (10)
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="font-weight-bold">
+                                                                            Destacado (9)
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="font-weight-bold">
+                                                                            Satisfactorio (8)
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="font-weight-bold">
+                                                                            No Acreditado (7)
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="font-weight-bold">
+                                                                            Calificación
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                            </v-row>
+
+                                                            <!-- Filas de la tabla -->
+                                                            <v-row>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Construye con el grupo el sec_cierre,
+                                                                            promueve la reflexión
+                                                                            sobre el aprendizaje significativo
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Elabora el sec_cierre integrando la
+                                                                            información revisada en
+                                                                            clase
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Hace un sec_cierre apresurado al terminar la
+                                                                            hora de clase
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Omite el sec_cierre de tema, o lo hace con
+                                                                            mucho tiempo de
+                                                                            anticipación del termino de clase
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-text-field v-model="calificacionSec[10]"
+                                                                            outlined label="Calificación"
+                                                                            persistent-hint
+                                                                            v-validate="{required: true, min_value: 7, max_value: 10}"
+                                                                            data-vv-name="11.calificación"
+                                                                            inputmode="numeric" pattern="[0-9]*"
+                                                                            type="number"
+                                                                            :error="errors.has('11.calificación')"
+                                                                            :error-messages="errors.first('11.calificación')"></v-text-field>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                            </v-row>
+
+                                                            <v-row>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Explica la tarea, criterios de entrega y se
+                                                                            asegura su
+                                                                            comprensión
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Al asignar una tarea, Explica la actividad y
+                                                                            los criterios
+                                                                            de entrega
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Al asignar tarea, explica la actividad, no
+                                                                            especifica los
+                                                                            criterios de entrega
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Al asignar una tarea, genera confusión en
+                                                                            las instrucciónes,
+                                                                            especificaciones o criterios de entrega
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-text-field v-model="calificacionSec[11]"
+                                                                            outlined label="Calificación"
+                                                                            persistent-hint
+                                                                            v-validate="{required: true, min_value: 7, max_value: 10}"
+                                                                            data-vv-name="12.calificación"
+                                                                            inputmode="numeric" pattern="[0-9]*"
+                                                                            type="number"
+                                                                            :error="errors.has('12.calificación')"
+                                                                            :error-messages="errors.first('12.calificación')"></v-text-field>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                            </v-row>
+
+                                                            <!-- Filas de la tabla -->
+                                                            <v-row>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Termina la clase a tiempo, recoge el
+                                                                            material y el salón
+                                                                            queda en orden
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Termina clase a tiempo, recoge el material,
+                                                                            pero no
+                                                                            organizan el salón
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Termina la clase a tiempo, pero no recoge el
+                                                                            material u
+                                                                            ordena el salón
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="3">
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title class="text-wrap">
+                                                                            Se excede del tiempo de la sesión. O se
+                                                                            retira antes de
+                                                                            terminar la clase
+                                                                        </v-list-item-title>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                                <v-col cols="2">
+                                                                    <v-list-item-content>
+                                                                        <v-text-field v-model="calificacionSec[12]"
+                                                                            outlined label="Calificación"
+                                                                            persistent-hint
+                                                                            v-validate="{required: true, min_value: 7, max_value: 10}"
+                                                                            data-vv-name="13.calificación"
+                                                                            inputmode="numeric" pattern="[0-9]*"
+                                                                            type="number"
+                                                                            :error="errors.has('13.calificación')"
+                                                                            :error-messages="errors.first('13.calificación')"></v-text-field>
+                                                                    </v-list-item-content>
+                                                                </v-col>
+                                                            </v-row>
+                                                        </v-list>
+                                                    </v-card>
                                                 </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            El/la docente no asiste
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
+
+                                                <v-col md="6">
+                                                    <v-text-field outlined label="Calificación de la sección"
+                                                        persistent-hint data-vv-name="calificación de sección"
+                                                        inputmode="numeric" pattern="[0-9]*" type="number"
+                                                        :error="errors.has('calificación de sección')"
+                                                        :error-messages="errors.first('calificación de sección')"
+                                                        :readonly="true" v-model="calificacionPromedio"></v-text-field>
                                                 </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-text-field v-model="calificacionSec[0]" outlined
-                                                            label="Calificación" persistent-hint
-                                                            v-validate="{required: true, min_value: 7, max_value: 10}"
-                                                            data-vv-name="1.calificación" inputmode="numeric"
-                                                            pattern="[0-9]*" type="number"
-                                                            :error="errors.has('1.calificación')"
-                                                            :error-messages="errors.first('1.calificación')"></v-text-field>
-                                                    </v-list-item-content>
+                                                <v-col md="6">
+                                                    <v-text-field outlined label="Calificación total" persistent-hint
+                                                        data-vv-name="calificación total" inputmode="numeric"
+                                                        pattern="[0-9]*" type="number"
+                                                        :error="errors.has('calificación total')"
+                                                        :error-messages="errors.first('calificación total')"
+                                                        :readonly="true" v-model="calificacionTotal"></v-text-field>
+                                                </v-col>
+                                                <v-col md="8">
+                                                    <!--Comentario-->
+                                                    <v-textarea v-model="comentario" outlined label="Comentario:"
+                                                        persistent-hint v-validate="'max:255'"></v-textarea>
+                                                </v-col>
+
+                                                <v-col md="2">
+                                                    <v-checkbox v-model="activo" label="Activo/Cancelado"
+                                                        color="success" value=true hide-details
+                                                        :disabled="!flagEditar"></v-checkbox>
                                                 </v-col>
                                             </v-row>
-
-                                            <v-row>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Se presenta los objetivos de clase, los temas y las
-                                                            actividades
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Se presenta los objetivos y los temas de clase
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Se presenta el objetivo de clase
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            No se presenta el objetivo de la clase
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-text-field v-model="calificacionSec[1]" outlined
-                                                            label="Calificación" persistent-hint
-                                                            v-validate="{required: true, min_value: 7, max_value: 10}"
-                                                            data-vv-name="2.calificación" inputmode="numeric"
-                                                            pattern="[0-9]*" type="number"
-                                                            :error="errors.has('2.calificación')"
-                                                            :error-messages="errors.first('2.calificación')"></v-text-field>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                            </v-row>
-
-                                            <!-- Filas de la tabla -->
-                                            <v-row>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            El material es pertinente para la actividad y suficiente
-                                                            para todo el alumnado
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Se asegura de tener el material para su clase antes de
-                                                            iniciar
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Lleva material, pero es insuficiente para el alumnado
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            El material que se presenta sale del contexto de la clase y
-                                                            es insuficiente para ejecutar su actividad
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-text-field v-model="calificacionSec[2]" outlined
-                                                            label="Calificación" persistent-hint
-                                                            v-validate="{required: true, min_value: 7, max_value: 10}"
-                                                            data-vv-name="3.calificación" inputmode="numeric"
-                                                            pattern="[0-9]*" type="number"
-                                                            :error="errors.has('3.calificación')"
-                                                            :error-messages="errors.first('3.calificación')"></v-text-field>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                            </v-row>
-                                        </v-list>
-
-                                        <v-list v-if="seccion === 'sec_desarrollo'">
-                                            <!-- Encabezado de la tabla -->
-                                            <v-row class="grey lighten-3">
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="font-weight-bold">
-                                                            Autónomo (10)
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="font-weight-bold">
-                                                            Destacado (9)
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="font-weight-bold">
-                                                            Satisfactorio (8)
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="font-weight-bold">
-                                                            No Acreditado (7)
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="font-weight-bold">
-                                                            Calificación
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                            </v-row>
-
-                                            <!-- Filas de la tabla -->
-                                            <v-row>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            El/la profesor(a) funge como facilitador del aprendizaje
-                                                            interactuando con todos el alumnado
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            El/la profesor(a) realiza exposición e interactúa con los
-                                                            estudiantes, promueve la colaboración
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            El/la profesor(a) realiza una exposición dirigida solo a
-                                                            algunos estudiantes sin promover la colaboración
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            El/la profesor(a) dirige la clase de manera unilateral,
-                                                            totalmente expositiva y sin promuever la colaboración
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-text-field v-model="calificacionSec[3]" outlined
-                                                            label="Calificación" persistent-hint
-                                                            v-validate="{required: true, min_value: 7, max_value: 10}"
-                                                            data-vv-name="4.calificación" inputmode="numeric"
-                                                            pattern="[0-9]*" type="number"
-                                                            :error="errors.has('4.calificación')"
-                                                            :error-messages="errors.first('4.calificación')"></v-text-field>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                            </v-row>
-
-                                            <v-row>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            No tiene muletillas, explica los tecnicismos y utiliza un
-                                                            lenguaje fluido
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Se asegura que sus estudiantes comprendan los tecnicismos
-                                                            empleados
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Utiliza pocas muletillas y/o explica algunos tecnicismos
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            El lenguaje es complejo para su comprensión o poco fluido
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-text-field v-model="calificacionSec[4]" outlined
-                                                            label="Calificación" persistent-hint
-                                                            v-validate="{required: true, min_value: 7, max_value: 10}"
-                                                            data-vv-name="5.calificación" inputmode="numeric"
-                                                            pattern="[0-9]*" type="number"
-                                                            :error="errors.has('5.calificación')"
-                                                            :error-messages="errors.first('5.calificación')"></v-text-field>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                            </v-row>
-
-                                            <!-- Filas de la tabla -->
-                                            <v-row>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Genera un adecuado ambiente de aprendizaje
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Utiliza estrategias para atraer la atención y retomarla
-                                                            cuando el grupo se dispersa
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            La intervención que realiza atrae la atención, con poca
-                                                            frecuencia
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Omite el uso de estrategias que favorezcan la atención
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-text-field v-model="calificacionSec[5]" outlined
-                                                            label="Calificación" persistent-hint
-                                                            v-validate="{required: true, min_value: 7, max_value: 10}"
-                                                            data-vv-name="6.calificación" inputmode="numeric"
-                                                            pattern="[0-9]*" type="number"
-                                                            :error="errors.has('6.calificación')"
-                                                            :error-messages="errors.first('6.calificación')"></v-text-field>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                            </v-row>
-
-                                            <!-- Filas de la tabla -->
-                                            <v-row>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Responde las dudas oportunamente y utiliza ejemplos del
-                                                            contexto del estudiante
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Responde las dudas y agrega algunos ejemplos
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Responde algunas dudas de los estudiantes
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Evita cotestar las dudas de los estudiantes
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-text-field v-model="calificacionSec[6]" outlined
-                                                            label="Calificación" persistent-hint
-                                                            v-validate="{required: true, min_value: 7, max_value: 10}"
-                                                            data-vv-name="7.calificación" inputmode="numeric"
-                                                            pattern="[0-9]*" type="number"
-                                                            :error="errors.has('7.calificación')"
-                                                            :error-messages="errors.first('7.calificación')"></v-text-field>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                            </v-row>
-
-                                            <!-- Filas de la tabla -->
-                                            <v-row>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Asigna actividades de aprendizaje indicando instrucciones,
-                                                            entregas y características, supervisa la ejecución de la
-                                                            actividad de los estudiantes
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Asigna actividades de aprendizaje, supervisa con poca
-                                                            frecuencia su comprensión o elaboración
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Asigna 1 actividad de aprendizaje
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            No propone actividades de aprendizaje
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-text-field v-model="calificacionSec[7]" outlined
-                                                            label="Calificación" persistent-hint
-                                                            v-validate="{required: true, min_value: 7, max_value: 10}"
-                                                            data-vv-name="8.calificación" inputmode="numeric"
-                                                            pattern="[0-9]*" type="number"
-                                                            :error="errors.has('8.calificación')"
-                                                            :error-messages="errors.first('8.calificación')"></v-text-field>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                            </v-row>
-
-                                            <!-- Filas de la tabla -->
-                                            <v-row>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Utiliza técnicas de grupos o trabajo colaborativo y domina
-                                                            la metodología
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Utiliza técnicas de grupo o trabajo colaborativo, pero
-                                                            requiere dominar la metodología
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Utiliza técnicas de grupo o trabajo colaborativo pero no
-                                                            están contextualizadas
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            No utiliza técnicas de grupo ni promueve la colaboración
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-text-field v-model="calificacionSec[8]" outlined
-                                                            label="Calificación" persistent-hint
-                                                            v-validate="{required: true, min_value: 7, max_value: 10}"
-                                                            data-vv-name="9.calificación" inputmode="numeric"
-                                                            pattern="[0-9]*" type="number"
-                                                            :error="errors.has('9.calificación')"
-                                                            :error-messages="errors.first('9.calificación')"></v-text-field>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                            </v-row>
-
-                                            <!-- Filas de la tabla -->
-                                            <v-row>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Domina el tema y lo sabe explicar, plantea ejemplos del
-                                                            contexto del alumnado
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Domina el tema, pero no es claro en su explicación
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Conoce el tema y al explicarlo duda del uso de conceptos
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            No conoce el tema o no sabe explicarlo
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-text-field v-model="calificacionSec[9]" outlined
-                                                            label="Calificación" persistent-hint
-                                                            v-validate="{required: true, min_value: 7, max_value: 10}"
-                                                            data-vv-name="10.calificación" inputmode="numeric"
-                                                            pattern="[0-9]*" type="number"
-                                                            :error="errors.has('10.calificación')"
-                                                            :error-messages="errors.first('10.calificación')"></v-text-field>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                            </v-row>
-                                        </v-list>
-
-                                        <v-list v-if="seccion === 'sec_cierre'">
-                                            <!-- Encabezado de la tabla -->
-                                            <v-row class="grey lighten-3">
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="font-weight-bold">
-                                                            Autónomo (10)
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="font-weight-bold">
-                                                            Destacado (9)
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="font-weight-bold">
-                                                            Satisfactorio (8)
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="font-weight-bold">
-                                                            No Acreditado (7)
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="font-weight-bold">
-                                                            Calificación
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                            </v-row>
-
-                                            <!-- Filas de la tabla -->
-                                            <v-row>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Construye con el grupo el sec_cierre, promueve la reflexión
-                                                            sobre el aprendizaje significativo
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Elabora el sec_cierre integrando la información revisada en
-                                                            clase
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Hace un sec_cierre apresurado al terminar la hora de clase
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Omite el sec_cierre de tema, o lo hace con mucho tiempo de
-                                                            anticipación del termino de clase
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-text-field v-model="calificacionSec[10]" outlined
-                                                            label="Calificación" persistent-hint
-                                                            v-validate="{required: true, min_value: 7, max_value: 10}"
-                                                            data-vv-name="11.calificación" inputmode="numeric"
-                                                            pattern="[0-9]*" type="number"
-                                                            :error="errors.has('11.calificación')"
-                                                            :error-messages="errors.first('11.calificación')"></v-text-field>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                            </v-row>
-
-                                            <v-row>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Explica la tarea, criterios de entrega y se asegura su
-                                                            comprensión
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Al asignar una tarea, Explica la actividad y los criterios
-                                                            de entrega
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Al asignar tarea, explica la actividad, no especifica los
-                                                            criterios de entrega
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Al asignar una tarea, genera confusión en las instrucciónes,
-                                                            especificaciones o criterios de entrega
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-text-field v-model="calificacionSec[11]" outlined
-                                                            label="Calificación" persistent-hint
-                                                            v-validate="{required: true, min_value: 7, max_value: 10}"
-                                                            data-vv-name="12.calificación" inputmode="numeric"
-                                                            pattern="[0-9]*" type="number"
-                                                            :error="errors.has('12.calificación')"
-                                                            :error-messages="errors.first('12.calificación')"></v-text-field>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                            </v-row>
-
-                                            <!-- Filas de la tabla -->
-                                            <v-row>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Termina la clase a tiempo, recoge el material y el salón
-                                                            queda en orden
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Termina clase a tiempo, recoge el material, pero no
-                                                            organizan el salón
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Termina la clase a tiempo, pero no recoge el material u
-                                                            ordena el salón
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="3">
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="text-wrap">
-                                                            Se excede del tiempo de la sesión. O se retira antes de
-                                                            terminar la clase
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                                <v-col cols="2">
-                                                    <v-list-item-content>
-                                                        <v-text-field v-model="calificacionSec[12]" outlined
-                                                            label="Calificación" persistent-hint
-                                                            v-validate="{required: true, min_value: 7, max_value: 10}"
-                                                            data-vv-name="13.calificación" inputmode="numeric"
-                                                            pattern="[0-9]*" type="number"
-                                                            :error="errors.has('13.calificación')"
-                                                            :error-messages="errors.first('13.calificación')"></v-text-field>
-                                                    </v-list-item-content>
-                                                </v-col>
-                                            </v-row>
-                                        </v-list>
-                                    </v-card>
-                                </v-col>
-
-                                <v-col md="6">
-                                    <v-text-field outlined label="Calificación de la sección" persistent-hint
-                                        data-vv-name="calificación de sección"
-                                        inputmode="numeric" pattern="[0-9]*" type="number"
-                                        :error="errors.has('calificación de sección')"
-                                        :error-messages="errors.first('calificación de sección')" :readonly="true"
-                                        v-model="calificacionPromedio"></v-text-field>
-                                </v-col>
-                                <v-col md="6">
-                                    <v-text-field outlined label="Calificación total" persistent-hint
-                                        data-vv-name="calificación total"
-                                        inputmode="numeric" pattern="[0-9]*" type="number"
-                                        :error="errors.has('calificación total')"
-                                        :error-messages="errors.first('calificación total')" :readonly="true"
-                                        v-model="calificacionTotal"></v-text-field>
-                                </v-col>
-                                <v-col md="8">
-                                    <!--Comentario-->
-                                    <v-textarea v-model="comentario" outlined label="Comentario:" persistent-hint
-                                        v-validate="'max:255'"></v-textarea>
-                                </v-col>
-
-                                <v-col md="2">
-                                    <v-checkbox v-model="activo" label="Activo/Cancelado" color="success" value=true
-                                        hide-details :disabled="!flagEditar"></v-checkbox>
+                                        </v-tab-item>
+                                    </v-tabs-items>
                                 </v-col>
 
                             </v-row>
@@ -949,6 +1037,10 @@
 
                         const calificacionSec = ref([""]);
 
+                        const activeTab = null;
+                        const tabs = ref(["Observación de clase"]);
+                        const rubricas = ref([]);
+
                         //SNACKBAR
                         const loader = ref(false);
                         const snackbar = ref(false);
@@ -991,6 +1083,7 @@
                         onMounted(() => {
                             fnConsultarTabla();
                             fnEmpleado();
+                            fnRubricas();
                         });
 
                         //Consultar datos en la base de datos.
@@ -1003,6 +1096,25 @@
                                 if (status == 200) {
                                     if (data.length > 0) {
                                         arrayEmpleado.value = data;
+                                    }
+                                }
+                            } catch (error) {
+                                mostrarSnackbar('error');
+                                console.error(error);
+                            } finally {
+                                swal.close();
+                            }
+                        }
+
+                        async function fnRubricas() {
+                            try {
+                                preloader("../../");
+                                let parametros = new URLSearchParams();
+                                parametros.append("accion", 6);
+                                let { data, status } = await axios.post(ctr, parametros)
+                                if (status == 200) {
+                                    if (data.length > 0) {
+                                        rubricas.value = data;
                                     }
                                 }
                             } catch (error) {
@@ -1033,11 +1145,11 @@
                                         });
 
                                         data.forEach(objeto => {
-                                            if(objeto.seccion === "sec_inicio"){
+                                            if (objeto.seccion === "sec_inicio") {
                                                 objeto.seccion = "Inicio";
-                                            }else if (objeto.seccion === "sec_desarrollo"){
+                                            } else if (objeto.seccion === "sec_desarrollo") {
                                                 objeto.seccion = "Desarrollo";
-                                            }else if (objeto.seccion === "sec_cierre"){
+                                            } else if (objeto.seccion === "sec_cierre") {
                                                 objeto.seccion = "Cierre";
                                             }
                                         });
@@ -1143,6 +1255,7 @@
                             fecha_registro.value = "";
                             usuario_registro.value = "";
                             calificacionSec.value = [""];
+                            tabs.value = ["Observación de clase"];
 
                             flagEditar.value = false;
                             itemEditar.value = {};
@@ -1160,7 +1273,7 @@
                             comentario, activo, fecha_registro, usuario_registro, calificacionSec, arrayEmpleado,
                             sec_inicio, sec_desarrollo, sec_cierre, fnConsultarTabla, fnEmpleado, fnBusquedaNombre,
                             color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar,
-                            dialogBuscador, nombreBuscar, searchBusqueda,
+                            dialogBuscador, nombreBuscar, searchBusqueda, activeTab, tabs, rubricas,
                             headersRubrica, flagEditar, dataRubrica, searchRubrica, fnLimpiarCampos, fnGuardar,
                             fnEditar, itemEditar
                         }
