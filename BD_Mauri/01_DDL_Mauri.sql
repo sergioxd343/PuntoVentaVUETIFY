@@ -8,14 +8,14 @@
 USE master;
 GO
 
-IF DB_ID('mauri1') IS NOT NULL
-DROP DATABASE mauri1;
+IF DB_ID('mauri') IS NOT NULL
+DROP DATABASE mauri;
 GO
 
-CREATE DATABASE mauri1;
+CREATE DATABASE mauri;
 GO
 
-USE mauri1;
+USE mauri;
 GO
 
 -- ------------- TABLA PERSONA -------------- --
