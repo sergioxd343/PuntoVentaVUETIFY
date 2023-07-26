@@ -7,10 +7,9 @@ and open the template in the editor.
 <CatalogoProveedores>
 	<tablaRubrica>
 		<query>
-			SELECT TOP (200) rubrica.cve_rubrica, rubrica.cve_empleado, rubrica.nombre_rubica, rubrica.filas, rubrica.columnas, rubrica.nombre_seccion, rubrica.secciona_fila_inicio, rubrica.seccion_fila_fin, rubrica.nombre_columna, 
-       rubrica.criterios_por_celda, rubrica.activo, rubrica.fecha_registro, rubrica.usuario_registro, empleado.cve_empleado AS Expr1, empleado.cve_persona, persona.cve_persona AS Expr2, persona.nombre, 
-       persona.apellido_paterno, persona.apellido_materno,
-       CONCAT(persona.nombre, ' ', persona.apellido_paterno, ' ', persona.apellido_materno) AS nombre_completo
+			SELECT TOP (200) rubrica.cve_rubrica, rubrica.cve_empleado, rubrica.nombre_rubica, rubrica.filas, rubrica.columnas, rubrica.secciones, rubrica.headers, rubrica.criterios_por_celda, rubrica.activo, rubrica.fecha_registro, 
+               rubrica.usuario_registro, empleado.cve_empleado AS Expr1, empleado.cve_persona, persona.cve_persona AS Expr2, persona.nombre, persona.apellido_paterno, persona.apellido_materno,
+               CONCAT(persona.nombre, ' ', persona.apellido_paterno, ' ', persona.apellido_materno) AS nombreCompleto
 FROM rubrica
 INNER JOIN empleado ON rubrica.cve_empleado = empleado.cve_empleado
 INNER JOIN persona ON empleado.cve_persona = persona.cve_persona;
@@ -19,26 +18,29 @@ INNER JOIN persona ON empleado.cve_persona = persona.cve_persona;
 	</tablaRubrica>
 	<guardarRubrica>
 		<query>
-			INSERT INTO rubrica (cve_empleado, nombre_rubica, filas, columnas, nombre_seccion, secciona_fila_inicio, seccion_fila_fin, nombre_columna, criterios_por_celda)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+			INSERT INTO rubrica (cve_empleado, nombre_rubica, filas, columnas, secciones, headers, criterios_por_celda)
+VALUES (
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?
+);
 
 		</query>
 	</guardarRubrica>
 	<editarRubrica>
 		<query>
-			UPDATE rubrica
-				SET cve_empleado = ?,
-					nombre_rubica = ?,
-					filas = ?,
-					columnas = ?,
-					nombre_seccion = ?,
-					secciona_fila_inicio = ?,
-					seccion_fila_fin = ?,
-					nombre_columna = ?,
-					criterios_por_celda = ?,
-					activo = ?,
-					fecha_registro = ?,
-					usuario_registro = ?
+			UPDATE rubrica SET
+			 	cve_empleado = ?,
+				nombre_rubica = ?,
+				filas = ?,
+				columnas = ?,
+				secciones = ?,
+				headers = ?,
+				criterios_por_celda = ?
 				WHERE cve_rubrica = ?;
 
 		</query>

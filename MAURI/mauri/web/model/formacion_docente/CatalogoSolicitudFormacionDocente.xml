@@ -1,5 +1,40 @@
 <CatalogoSolicitudCapacitacionInterna>
 
+	<insertarSolicitud>
+        <query>
+				DECLARE @instructores VARCHAR(MAX);
+				DECLARE @areas VARCHAR(MAX);
+				DECLARE @ugacs VARCHAR(MAX);
+
+				SET @instructores = ?;
+				SET @areas = ?;
+				SET @ugacs = ?;
+
+			EXEC InsertarSolicitudConInstructores
+				@cve_horario = ?,
+				@tipo_competencia = ?,
+				@nombre = ?,
+				@total_dias = ?,
+				@total_horas = ?,
+				@fecha_inicio = ?,
+				@fecha_fin = ?,
+				@lugar = ?,
+				@curso = ?,
+				@numero_participantes = ?,
+				@objetivo = ?,
+				@alcance = ?,
+				@metodologia = ?,
+				@programa_evento = ?,
+				@resultado_aprendizaje = ?,
+				@perfil_participante = ?,
+				@estatus = 1,
+				@usuario_registro = ?,
+				@instructores = @instructores,
+				@areas = @areas,
+				@ugacs = @ugacs;
+
+        </query>
+    </insertarSolicitud>
     <buscar_cve_docente>
 		<query>
 			SELECT * FROM v_empleado;
@@ -26,7 +61,7 @@
 
     <areas>
 		<query>
-			SELECT cve_area, nombre_area FROM area
+			SELECT cve_area, nombre_area FROM area where cve_area = 9 OR cve_area =20 OR cve_area =4
 		</query>
 	</areas>
 
@@ -44,5 +79,57 @@
                 VALUES (?, 1, ?, ?, ?, ?, ? , ?, ?, ?, ?, ?, ?, 1, GETDATE(), 1);
         </query>
     </insertarSolicitud>
+
+	<tipoEvento>
+		<query>
+			SELECT nombre_tipo_evento, activo
+			FROM     tipo_evento
+			WHERE  (activo = 'True')
+		</query>
+	</tipoEvento>
+
+	<tipoModalidad>
+		<query>
+			SELECT nombre_tipo_modalidad, activo
+			FROM     tipo_modalidad
+			WHERE  (activo = 'True')
+		</query>
+	</tipoModalidad>
     
+	<horario>
+		<query>
+			SELECT hora_inicio, hora_fin, activo
+			FROM     horario
+			WHERE  (activo = 'True')
+		</query>
+	</horario>
+	<unidadAcademica>
+		<query>
+			SELECT nombre_unidad_academica, activo
+			FROM     unidad_academica
+			WHERE  (activo = 'True')
+		</query>
+	</unidadAcademica>
+	<participantes>
+		<query>
+			SELECT persona.nombre, persona.sexo, persona.apellido_paterno, persona.apellido_materno, empleado.cve_empleado, puesto.nombre_puesto
+FROM     persona INNER JOIN
+                  empleado ON persona.cve_persona = empleado.cve_persona INNER JOIN
+                  puesto ON empleado.cve_puesto = puesto.cve_puesto
+WHERE  (persona.activo = 'True') ORDER BY persona.nombre
+		</query>
+	</participantes>
+
+	<!--<revisa>
+		<query>
+			SELECT persona.nombre, persona.apellido_paterno, persona.apellido_materno, empleado.cve_empleado, puesto.nombre_puesto, area.nombre_area
+FROM     persona INNER JOIN
+                  empleado ON persona.cve_persona = empleado.cve_persona INNER JOIN
+                  puesto ON empleado.cve_puesto = puesto.cve_puesto INNER JOIN
+                  area ON empleado.cve_area = area.cve_area
+WHERE  (persona.activo = 'True') AND (puesto.nombre_puesto = 'Administrativo de área académica') AND (area.nombre_area = 'Rectoria')
+ORDER BY persona.nombre
+		</query>
+	</revisa>-->
+	
 </CatalogoSolicitudCapacitacionInterna>

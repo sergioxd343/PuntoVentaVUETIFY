@@ -66,6 +66,7 @@
     String areaPertenece = request.getParameter("areaPertenece") != null && !request.getParameter("areaPertenece").equals("") ? request.getParameter("areaPertenece") : "-";
     String programaEducativo = request.getParameter("programaEducativo") != null && !request.getParameter("programaEducativo").equals("") ? request.getParameter("programaEducativo") : "-";
     String id = request.getParameter("id") != null && !request.getParameter("id").equals("") ? request.getParameter("id") : "-";
+    String cve_solicitud = request.getParameter("cve_solicitud") != null && !request.getParameter("cve_solicitud").equals("") ? request.getParameter("cve_solicitud") : "-";
    
     switch(accion){
         case 1:
@@ -97,24 +98,24 @@
         case 2:
         out.println(datos.Consultas(parametros, "tablaSolicitud"));
             break;
-
         case 3:
             out.println(datos.Consultas(parametros, "facilitadores"));
             break;
-        
         case 4:
             out.println(datos.Consultas(parametros, "areas"));
             break;
-
         case 5:
             out.println(datos.Consultas(parametros, "programaEducativo"));
             break; 
         case 6:
-            out.println(datos.Consultas(parametros, "horarioInicio"));
+            parametros.add(cve_solicitud);
+            out.println(datos.Consultas(parametros, "verInstructores"));
             break;
         case 7:
-            out.println(datos.Consultas(parametros, "horarioFin"));
+            parametros.add(cve_solicitud);
+            out.println(datos.Consultas(parametros, "verSolicitudes"));
             break;
+            
     }
     
 

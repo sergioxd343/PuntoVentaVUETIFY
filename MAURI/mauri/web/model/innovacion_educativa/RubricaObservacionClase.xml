@@ -52,6 +52,12 @@ FROM empleado
 INNER JOIN persona ON empleado.cve_persona = persona.cve_persona
 		</query>
 	</consultarEmpleado>
+	<consultarRubricas>
+		<query>
+			SELECT   TOP (200) cve_rubrica, cve_empleado, nombre_rubica, filas, columnas, secciones, headers, criterios_por_celda, activo, fecha_registro, usuario_registro
+		FROM         rubrica
+		</query>
+	</consultarRubricas>
 	<editarRubrica>
 		<query>
 			UPDATE rubrica_observacion_clase

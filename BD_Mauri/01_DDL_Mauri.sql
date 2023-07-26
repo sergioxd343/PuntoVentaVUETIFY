@@ -865,4 +865,4 @@ CREATE TABLE autoevaluacion_capacitacion_docente(
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
 	usuario_registro 			INT,
 	CONSTRAINT fk_autoe_cap_doc_empleado FOREIGN KEY (cve_empleado) REFERENCES empleado(cve_empleado)
-);
+

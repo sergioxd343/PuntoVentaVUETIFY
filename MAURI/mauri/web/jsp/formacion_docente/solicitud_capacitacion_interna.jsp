@@ -21,6 +21,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
         <title>Solicitud de registro de capacitacíon interna</title>
+        
     </head>
     <style>
         body {
@@ -97,7 +98,7 @@
                                         <v-radio-group v-model="tipoCompetencia" class="mt-0" v-validate="'required'"
                                             data-vv-name="tipo de competencia"
                                             :error="errors.has('tipo de competencia')"
-                                            :error-messages="errors.first('tipo de competencia')" row>
+                                            :error-messages="errors.first('tipo de competencia')" row :disabled="deshabilitar">
                                             <v-radio label="Pedagógicas" value="pedagógica"></v-radio>
                                             <v-radio label="Investigación " value="investigación"></v-radio>
                                             <v-radio label="Tutoreo" value="tutoreo"></v-radio>
@@ -180,24 +181,40 @@
 
                                     <!--HORARIO INICIO -->
                                     <v-col md="6">
-
-                                        <v-select v-model="horario_inicio" label="Horario inicio"
-                                            v-validate="'required'" :items="horarios" item-value="cve_horario"
-                                            item-text="hora_inicio" :error="errors.has('horario inicio')"
-                                            data-vv-name="horario inicio"
-                                            :error-messages="errors.first('horario inicio')"
-                                            prepend-icon="mdi-clock-outline" :disabled="deshabilitar"></v-select>
+                                        <template>
+                                            <div>
+                                                <v-col style=" flex: 0 1 auto;">
+                                                  <h4>Hora de inicio:</h4>
+                                                  <v-time-picker
+                                                    v-model="horario_inicio"
+                                                    width ="180px"
+                                                    landscape
+                                                    type="time"
+                                                    class="mt-3"
+                                                    :disabled="deshabilitar"
+                                                  ></v-time-picker>
+                                                </v-col>
+                                            </div>
+                                          </template>
                                     </v-col>
-
-
 
                                     <!--HORARIO FIN -->
                                     <v-col md="6">
-                                        <v-select v-model="horario_fin" label="Horario fin" v-validate="'required'"
-                                            :items="horarios1" item-value="cve_horario" item-text="hora_fin"
-                                            :error="errors.has('horario fin')" data-vv-name="horario fin"
-                                            :error-messages="errors.first('horario fin')"
-                                            prepend-icon="mdi-clock-outline" :disabled="deshabilitar"></v-select>
+                                        <template>
+                                            <div>
+                                                <v-col style=" flex: 0 1 auto;">
+                                                  <h4>Hora de fin:</h4>
+                                                  <v-time-picker
+                                                    v-model="horario_fin"
+                                                    width ="180px"
+                                                    landscape
+                                                    type="time"
+                                                    class="mt-3"
+                                                    :disabled="deshabilitar"
+                                                  ></v-time-picker>
+                                                </v-col>
+                                            </div>
+                                          </template>
                                     </v-col>
 
 
@@ -361,9 +378,7 @@
                                                 :items="areas"
                                                 item-value="cve_area" 
                                                 item-text="nombre_area"
-
                                                 :disabled="deshabilitar">
-
                                             </v-autocomplete>
                                         </v-col>
 
@@ -374,9 +389,7 @@
                                                 :items="programas"
                                                 item-value="cve_ugac" 
                                                 item-text="nombre_ugac" 
-
                                                 :disabled="deshabilitar">
-
                                             </v-autocomplete>
                                         </v-col>
                                     </v-row>
@@ -410,7 +423,7 @@
                                     {{ flagDescargar ? 'Descargar' : 'Guardar' }}
                                 </v-btn>
                                 &nbsp;
-                                <v-btn color="error" @click="fnLimpiarCampos();">
+                                <v-btn color="error" @click="fnLimpiarCampos(); numberOfInputs = 1; deshabilitar = false;" >
                                     <v-icon>mdi-cancel</v-icon>Cancelar
                                 </v-btn>
                             </v-row>
@@ -456,15 +469,13 @@
 
                                         <!--VISUALIZARs-->
                                         <template v-slot:item.ver="{ item }">
-                                            <v-icon color="blue" @click="$vuetify.goTo(0); itemVer = item;  flagDescargar = true;
+                                            <v-icon color="blue" @click="$vuetify.goTo(0); itemVer = item; flagDescargar = true; fnObtener(item); cargarInstructores(); cargarSolicitudes(); deshabilitar = true;
                                                                     idSolicitud = item.idSolicitud;
                                                                     tipoCompetencia = item.tipo_competencia
                                                                     nombreCurso = item.nombre
                                                                     fechaInicio = item.fecha_inicio
                                                                     fechaFin = item.fecha_fin
                                                                     dias = item.total_dias
-                                                                    horario_inicio = item.hora_inicio
-                                                                    horario_fin = item.hora_fin
                                                                     lugar = item.lugar
                                                                     horas = item.total_horas
                                                                     numeroParticipantes = item.numero_participantes
@@ -476,9 +487,6 @@
                                                                     horasPorTema = item.horas_tema
                                                                     resultadoAprendizaje = item.resultado_aprendizaje
                                                                     perfil = item.perfil_participante
-                                                                   
-                                                                    nombreFacilitador[index] = item.nombre_instructor;
-                                                                    console.log(item.cve_tipo_instructor);
                                                                 ">mdi-eye</v-icon>
                                         </template>
                                     </v-data-table>
@@ -508,10 +516,12 @@
     <script src="../../javascript/VueJs/vee-validate/vee-validate.js"></script>
     <script src="../../javascript/VueJs/vee-validate/es.js"></script>
     <script src="../../javascript/VueJs/sweetalert2/sweetalert2.all.js"></script>
+    
 
     <%--Desarrollo--%>
         <script type="module">
             import {
+
                 preloader,
                 guardar,
                 errorGuardar,
@@ -561,7 +571,6 @@
                     const resultadoAprendizaje = ref("");
                     const perfil = ref("");
 
-
                     //Pueden ser varios, por eso es un arreglo
                     const nombreFacilitador = ref([]);
                     const areaPertenece = ref([]);
@@ -572,12 +581,10 @@
                     const areas = ref([]);
                     const facilitadores = ref([]);
                     const programas = ref([]);
-                    const horarios = ref([]);
-                    const horarios1 = ref([]);
                     const instructoresSeleccionados = ref([]);
                     const areasSeleccionados = ref([]);
                     const programasSeleccionados = ref([]);
-
+                    const dataInstructores = ref([]);
 
                     //Otras variables
                     const flagDescargar = ref(false);
@@ -585,15 +592,12 @@
                     const itemVer = ref({});
                     const buscar = ref("");
 
-
-
                     //SNACKBAR
                     const loader = ref(false);
                     const snackbar = ref(false);
                     const mensaje_snackbar = ref("");
                     const color_snackbar = ref("");
-                    //Loaders
-                    //Dialogs
+                    
                     //DataTable
                     const dataSolicitudCapacitacion = ref([]);
                     const headerCapacitacion = ref([
@@ -604,10 +608,7 @@
                         { text: "Objetivo", align: "left", sortable: true, value: "objetivo" },
                         { text: "Estatus", align: "left", sortable: false, value: "actions" },
                         { text: "Ver", align: "left", sortable: false, value: "ver" },
-
                     ]);
-
-
 
                     const currentUser = localStorage.getItem('currentUser');
                     const user = JSON.parse(currentUser);
@@ -625,11 +626,10 @@
                         fnAreas();
                         fnFacilitadores();
                         fnProgramaEducativo();
-                        fnHorario();
-                        fnHorarioFin();
                         console.log({ idPersona })
                     });
 
+                    
 
                     async function fnDescargar() {
                         var element = document.getElementById("imprimir");
@@ -645,6 +645,74 @@
                         await html2pdf().from(element).set(options).save();
                     }
 
+                    function fnObtener(solicitud) {
+                        const arregloSolicitud = Object.values(solicitud);
+                        console.log('Arreglo de la solicitud:', arregloSolicitud);
+                        console.log('cve solicitud:', arregloSolicitud[0]);
+                        this.cve_solicitud = arregloSolicitud[0];
+                    }
+
+                    async function cargarInstructores() {
+                        try {
+                            preloader("../../");
+                                let parametros = new URLSearchParams();
+                                parametros.append("accion", 6);
+                                parametros.append("cve_solicitud", this.cve_solicitud);
+                                let { data, status } = await axios.post(ctr, parametros);
+                                    if (status == 200) {
+                                        dataInstructores.value = data;
+                                        this.numberOfInputs = data.length;
+                                        console.log('Instructores ', dataInstructores)
+
+                                        for(let i = 0; i < data.length; i++){
+                                            this.nombreFacilitador[i] = data[i].cve_instructor;
+                                            this.areaPertenece[i] = data[i].cve_area;
+                                            this.programaEducativo[i] = data[i].cve_ugac;
+                                        }
+                                    }
+                        } catch (error) {
+                            mostrarSnackbar("error");
+                            console.error(error);
+                        } finally {
+                            swal.close();
+                        }
+                    }
+
+                    async function cargarSolicitudes() {
+                        
+                        try {
+                            preloader("../../");
+                                let parametros = new URLSearchParams();
+                                parametros.append("accion", 7);
+                                parametros.append("cve_solicitud", this.cve_solicitud);
+                                let { data, status } = await axios.post(ctr, parametros);
+                                    if (status == 200) {
+                                        dataSolicitudCapacitacion.value = data;
+
+                                        console.log('hora_inicio:', data[0].hora_inicio);
+                                        let horaInicio = data[0].hora_inicio;
+                                        let horaFin = data[0].hora_fin;
+                                        
+                                        let horaInicioF = horaInicio.slice(0, 5);
+                                        let horaFinF = horaFin.slice(0, 5); 
+                                        console.log(horaInicioF); 
+
+                                        this.horario_inicio = horaInicioF;
+                                        this.horario_fin = horaFinF;
+
+
+
+                                           
+                                           
+                                    }
+                        } catch (error) {
+                            mostrarSnackbar("error");
+                            console.error(error);
+                        } finally {
+                            swal.close();
+                        }
+                    }
+                    
 
                     async function fnFacilitadores() {
                         try {
@@ -684,7 +752,6 @@
                         }
                     }
 
-
                     async function fnAreas() {
                         try {
                             preloader("../../");
@@ -703,45 +770,6 @@
                             swal.close();
                         }
                     }
-
-                    async function fnHorario() {
-                        try {
-                            preloader("../../");
-                            let parametros = new URLSearchParams();
-                            parametros.append("accion", 6);
-                            let { data, status } = await axios.post(ctr, parametros);
-                            if (status == 200) {
-                                if (data.length > 0) {
-                                    horarios.value = data;
-                                }
-                            }
-                        } catch (error) {
-                            mostrarSnackbar("error");
-                            console.error(error);
-                        } finally {
-                            swal.close();
-                        }
-                    }
-
-                    async function fnHorarioFin() {
-                        try {
-                            preloader("../../");
-                            let parametros = new URLSearchParams();
-                            parametros.append("accion", 7);
-                            let { data, status } = await axios.post(ctr, parametros);
-                            if (status == 200) {
-                                if (data.length > 0) {
-                                    horarios1.value = data;
-                                }
-                            }
-                        } catch (error) {
-                            mostrarSnackbar("error");
-                            console.error(error);
-                        } finally {
-                            swal.close();
-                        }
-                    }
-
 
                     async function fnConsultarTabla() {
                         try {
@@ -800,11 +828,8 @@
                                             );
                                             fnConsultarTabla();
                                             fnLimpiarCampos(this);
-                                            // this.$validator.pause();
-                                            // Vue.nextTick(() => {
-                                            //     this.$validator.errors.clear();
-                                            //     this.$validator.resume();
-                                            // });
+                                            this.numberOfInputs = 1;
+                                            
                                         }
                                     }
                                 } catch (error) {
@@ -817,38 +842,37 @@
                         });
                     }
 
-
                     function fnLimpiarCampos(cx) {
-                        //cx = contexto
-                        tipoCompetencia.value = "";
-                        nombreCurso.value = "";
-                        fechaInicio.value = "";
-                        fechaFin.value = "";
-                        horario_inicio.value = "";
-                        horario_fin.value = "";
-                        lugar.value = "";
-                        tipoCurso.value = "";
-                        dias.value = "";
-                        horas.value = "";
-                        numeroParticipantes.value = "";
-                        objetivo.value = "";
-                        alcance.value = "";
-                        metodologia.value = "";
-                        programaCurso.value = "";
-                        resultadoAprendizaje.value = "";
-                        perfil.value = "";
+                            //cx = contexto
+                            tipoCompetencia.value = "";
+                            nombreCurso.value = "";
+                            fechaInicio.value = "";
+                            fechaFin.value = "";
+                            horario_inicio.value = "";
+                            horario_fin.value = "";
+                            lugar.value = "";
+                            tipoCurso.value = "";
+                            dias.value = "";
+                            horas.value = "";
+                            numeroParticipantes.value = "";
+                            objetivo.value = "";
+                            alcance.value = "";
+                            metodologia.value = "";
+                            programaCurso.value = "";
+                            resultadoAprendizaje.value = "";
+                            perfil.value = "";
 
-                        nombreFacilitador.value = "";
-                        areaPertenece.value = "";
-                        programaEducativo.value = "";
+                            nombreFacilitador.value = "";
+                            areaPertenece.value = "";
+                            programaEducativo.value = "";
 
-                        flagDescargar.value = false;
-                        itemEditar.value = {};
-                        itemVer.value = {};
+                            flagDescargar.value = false;
+                            itemEditar.value = {};
+                            itemVer.value = {};
 
-                        if (this == undefined) cx.$validator.reset();
-                        else this.$validator.reset();
-                    }
+                            if (this == undefined) cx.$validator.reset();
+                            else this.$validator.reset();
+                        }
 
                     function mostrarSnackbar(color, texto) {
                         snackbar.value = true;
@@ -863,30 +887,23 @@
 
 
                     return {
-
                         nombre, ape1, ape2, area, programa, puesto, carrera,
 
-                        programas, horarios, horarios1, areas, facilitadores, instructoresSeleccionados, areasSeleccionados, programasSeleccionados,
+                        tipoCompetencia, fechaInicio, fechaFin, nombreCurso, horario_inicio, horario_fin, lugar, dias, horas,
+                        numeroParticipantes, tipoCurso, objetivo, alcance, metodologia, programaCurso, resultadoAprendizaje, perfil,
+                        nombreFacilitador, areaPertenece, programaEducativo, numberOfInputs,
+
+                        programas, areas, facilitadores, instructoresSeleccionados, areasSeleccionados, programasSeleccionados,
+                        dataInstructores,
 
                         idSolicitud,
 
-                        color_snackbar,
-                        snackbar,
-                        mensaje_snackbar,
-                        loader,
-                        mostrarSnackbar,
-                        flagDescargar,
-
-
-                        tipoCompetencia, fechaInicio, fechaFin, nombreCurso, horario_inicio,
-                        horario_fin, lugar, dias, horas,
-                        numeroParticipantes, tipoCurso, objetivo, alcance, metodologia, programaCurso,
-                        resultadoAprendizaje, perfil,
-                        nombreFacilitador, areaPertenece, programaEducativo, numberOfInputs,
+                        color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagDescargar,
 
                         dataSolicitudCapacitacion, headerCapacitacion,
 
-                        fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnDescargar, fnFacilitadores, fnHorario, fnHorarioFin,
+                        fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnDescargar, fnFacilitadores, fnObtener, cargarInstructores,
+                        cargarSolicitudes, 
 
                         itemEditar,
                         itemVer,
