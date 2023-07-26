@@ -88,6 +88,9 @@
                                             <template v-slot:item.calificacion="{ item }">
                                                 <v-text-field outlined persistent-hint v-model="item.calificacion"></v-text-field>
                                             </template>
+                                            <template v-slot:item.asistencias="{ item }">
+                                                <v-text-field outlined persistent-hint v-model="item.asistencias"></v-text-field>
+                                            </template>
                                               
                                             </v-data-table>
                                         </v-col>
@@ -214,6 +217,9 @@
                     {text: 'N°', align: 'left', sortable: true, value: 'cve_empleado'},
                     {text: 'Número de control', align: 'left', sortable: true, value: 'cve_empleado'},
                     {text: 'Nombre', align: 'left', sortable: true, value: 'nombre'},
+                    {text: 'Puesto', align: 'left', sortable: true, value: 'nombre_puesto'},
+                    {text: 'Dirección', align: 'left', sortable: true, value: 'nombre_area'},
+                    {text: 'Asistencias', align: 'left', sortable: true, value: 'asistencias'},
                     {text: 'Calificación final', align: 'left', sortable: true, value: 'calificacion'},
                 ]);
                 const dataParticipantes = ref([]);
@@ -359,15 +365,30 @@
                                 });*/
 
                                 if(status == 200){
-                                    const calificacionesFinales = data.map(objeto => objeto.calificacion_final);
+                                    /*const calificacionesFinales = data.map(objeto => objeto.calificacion_final);
                                     console.log('valor calificaciones', calificacionesFinales);
 
                                     for (let i = 0; i < this.dataParticipantes.length; i++) {
                                         this.dataParticipantes[i].calificacion = calificacionesFinales[i];
                                         console.log(this.dataParticipantes[i].calificacion); 
                                     }
-                                    console.log(this.dataParticipantes); 
+                                    console.log(this.dataParticipantes); */
+
+                                    console.log("data",data)
+                                    
+
+                                    this.dataParticipantes.forEach(participante => {
+                                        data.forEach(calificacion => {
+                                            console.log(participante.cve_empleado + " == "+calificacion.cve_empleado_docente)
+                                            if(participante.cve_empleado == calificacion.cve_empleado_docente)
+                                                participante.calificacion = calificacion.calificacion_final;
+                                        })
+                                    })
+                                    console.log("array",this.dataParticipantes)
+
                                 }
+
+
 
                             } catch(error){
                                 mostrarSnackbar('error');

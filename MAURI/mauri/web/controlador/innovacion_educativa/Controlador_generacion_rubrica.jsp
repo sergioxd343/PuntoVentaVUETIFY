@@ -37,16 +37,14 @@
     int cve_rubrica = request.getParameter("cve_rubrica") != null && !request.getParameter("cve_rubrica").equals("") ? Integer.parseInt(request.getParameter("cve_rubrica")) : 0;
     int cve_empleado = request.getParameter("cve_empleado") != null && !request.getParameter("cve_empleado").equals("") ? Integer.parseInt(request.getParameter("cve_empleado")) : 0;
     int usuario_registro = request.getParameter("usuario_registro") != null && !request.getParameter("usuario_registro").equals("") ? Integer.parseInt(request.getParameter("usuario_registro")) : 0;
+    int filas = request.getParameter("filas") != null && !request.getParameter("filas").equals("") ? Integer.parseInt(request.getParameter("filas")) : 0;
+    int columnas = request.getParameter("columnas") != null && !request.getParameter("columnas").equals("") ? Integer.parseInt(request.getParameter("columnas")) : 0;
 
     boolean activo = request.getParameter("activo") != null && !request.getParameter("activo").equals("") ? Boolean.parseBoolean(request.getParameter("activo")) : false;
 
     String nombre_rubica = request.getParameter("nombre_rubica") != null && !request.getParameter("nombre_rubica").equals("") ? request.getParameter("nombre_rubica") : "-";
-    String filas = request.getParameter("filas") != null && !request.getParameter("filas").equals("") ? request.getParameter("filas") : "-";
-    String columnas = request.getParameter("columnas") != null && !request.getParameter("columnas").equals("") ? request.getParameter("columnas") : "-";
-    String nombre_seccion = request.getParameter("nombre_seccion") != null && !request.getParameter("nombre_seccion").equals("") ? request.getParameter("nombre_seccion") : "-";
-    String secciona_fila_inicio = request.getParameter("secciona_fila_inicio") != null && !request.getParameter("secciona_fila_inicio").equals("") ? request.getParameter("secciona_fila_inicio") : "-";
-    String seccion_fila_fin = request.getParameter("seccion_fila_fin") != null && !request.getParameter("seccion_fila_fin").equals("") ? request.getParameter("seccion_fila_fin") : "-";
-    String nombre_columna = request.getParameter("nombre_columna") != null && !request.getParameter("nombre_columna").equals("") ? request.getParameter("nombre_columna") : "-";
+    String secciones = request.getParameter("secciones") != null && !request.getParameter("secciones").equals("") ? request.getParameter("secciones") : "-";
+    String headers = request.getParameter("headers") != null && !request.getParameter("headers").equals("") ? request.getParameter("headers") : "-";
     String criterios_por_celda = request.getParameter("criterios_por_celda") != null && !request.getParameter("criterios_por_celda").equals("") ? request.getParameter("criterios_por_celda") : "-";
     String fecha_registro = request.getParameter("fecha_registro") != null && !request.getParameter("fecha_registro").equals("") ? request.getParameter("fecha_registro") : "-";
     
@@ -60,10 +58,8 @@
             temp_obj.addProperty("nombre_rubica", nombre_rubica);
             temp_obj.addProperty("filas", filas);
             temp_obj.addProperty("columnas", columnas);
-            temp_obj.addProperty("nombre_seccion", nombre_seccion);
-            temp_obj.addProperty("secciona_fila_inicio", secciona_fila_inicio);
-            temp_obj.addProperty("seccion_fila_fin", seccion_fila_fin);
-            temp_obj.addProperty("nombre_columna", nombre_columna);
+            temp_obj.addProperty("secciones", secciones);
+            temp_obj.addProperty("headers", headers);
             temp_obj.addProperty("criterios_por_celda", criterios_por_celda);
 
             parametros.add(temp_obj);
@@ -76,14 +72,9 @@
             temp_obj.addProperty("nombre_rubica", nombre_rubica);
             temp_obj.addProperty("filas", filas);
             temp_obj.addProperty("columnas", columnas);
-            temp_obj.addProperty("nombre_seccion", nombre_seccion);
-            temp_obj.addProperty("secciona_fila_inicio", secciona_fila_inicio);
-            temp_obj.addProperty("seccion_fila_fin", seccion_fila_fin);
-            temp_obj.addProperty("nombre_columna", nombre_columna);
+            temp_obj.addProperty("secciones", secciones);
+            temp_obj.addProperty("headers", headers);
             temp_obj.addProperty("criterios_por_celda", criterios_por_celda);
-            temp_obj.addProperty("activo", activo);
-            temp_obj.addProperty("fecha_registro", fecha_registro);
-            temp_obj.addProperty("usuario_registro", usuario_registro);
             
             temp_obj.addProperty("cve_rubrica", cve_rubrica);
 

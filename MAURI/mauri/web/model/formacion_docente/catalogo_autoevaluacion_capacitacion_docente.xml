@@ -6,6 +6,59 @@ and open the template in the editor.
 -->
 <CatalogoProveedores>
 
+	<cursoTomado>
+		<query>
+			SELECT TOP (200) 
+				evento_programado.cve_even_prog, 
+				evento_programado.cve_origen_evento, 
+				evento_programado.cve_espacio, 
+				evento_programado.cve_modalidad, 
+				evento_programado.nombre_evento, 
+				evento_programado.nombre_origen, 
+				evento_programado.sin_horario, 
+				evento_programado.horario_inicio, 
+				evento_programado.horario_fin, 
+				evento_programado.fecha_inicio, 
+				evento_programado.fecha_fin, 
+				evento_programado.estatus, 
+				evento_programado.activo, 
+				evento_programado.fecha_registro, 
+				evento_programado.usuario_registro, 
+				evento_programado_grupo.cve_empleado
+			FROM evento_programado
+			INNER JOIN evento_programado_grupo 
+				ON evento_programado.cve_even_prog = evento_programado_grupo.cve_even_prog
+			WHERE evento_programado_grupo.cve_empleado = ?;
+		</query>
+	</cursoTomado>
+
+	<infoCurso>
+		<query>
+			SELECT * FROM evento_programado WHERE cve_even_prog = ?;
+		</query>
+	</infoCurso>
+	
+
+	<cursoDANC>
+		<query>			
+			SELECT * FROM necesidad_capacitacion_anual
+			INNER JOIN evento_programado ON evento_programado.cve_origen_evento = necesidad_capacitacion_anual.cve_nec_cap_anual
+			WHERE evento_programado.nombre_origen = 'DANC' AND evento_programado.cve_origen_evento = ?;
+		</query>
+	</cursoDANC>
+
+	<cursoSolicitudP>
+		<query>			
+			SELECT * FROM solicitud_proyecto
+			INNER JOIN evento_programado ON evento_programado.cve_origen_evento = solicitud_proyecto.cve_solicitud_proyecto
+			WHERE evento_programado.nombre_origen = 'Programa desarrollo' AND evento_programado.cve_origen_evento = ?;
+		</query>
+	</cursoSolicitudP>
+
+	
+
+
+
 	<tablaAutoevaluacion>
 		<query>
 			SELECT evento_programado.nombre_evento, evento_programado_grupo.cve_empleado, empleado.cve_puesto, persona.nombre + ' ' 
@@ -42,38 +95,6 @@ and open the template in the editor.
 		</query>
 	</periodo>
 
-	<cursoTomado>
-		<query>
-			SELECT TOP (200) 
-				evento_programado.cve_even_prog, 
-				evento_programado.cve_origen_evento, 
-				evento_programado.cve_espacio, 
-				evento_programado.cve_modalidad, 
-				evento_programado.nombre_evento, 
-				evento_programado.nombre_origen, 
-				evento_programado.sin_horario, 
-				evento_programado.horario_inicio, 
-				evento_programado.horario_fin, 
-				evento_programado.fecha_inicio, 
-				evento_programado.fecha_fin, 
-				evento_programado.estatus, 
-				evento_programado.activo, 
-				evento_programado.fecha_registro, 
-				evento_programado.usuario_registro, 
-				evento_programado_grupo.cve_empleado
-			FROM evento_programado
-			INNER JOIN evento_programado_grupo 
-				ON evento_programado.cve_even_prog = evento_programado_grupo.cve_even_prog
-			WHERE evento_programado_grupo.cve_empleado = ?;
-		</query>
-	</cursoTomado>
-
-	<infoCurso>
-		<query>
-			select * from evento_programado WHERE cve_even_prog = ?
-		</query>
-	</infoCurso>
 	
-
 
 </CatalogoProveedores>

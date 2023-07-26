@@ -6,12 +6,12 @@
     </obtenerUsuario>
     <obtenerPerfil>
         <query>
-            SELECT * FROM grupo_seguridad
+            SELECT * FROM grupo_seguridad ORDER BY (nombre)
         </query>
     </obtenerPerfil>
     <grupoSeguridad>
         <query>
-            INSERT INTO usuario_grupo_seguridad (cve_grupo_seguridad, cve_persona, usuario_registro) VALUES (?, ?, 1);
+            INSERT INTO usuario_grupo_seguridad (cve_grupo_seguridad, cve_usuario, usuario_registro) VALUES (?, ?, 1);
         </query>
     </grupoSeguridad>
     <cambiarEstatus>

@@ -14,7 +14,7 @@ SELECT			menu.cve_menu,
 				submenu.cve_menu AS cve_menu_2, 
 				submenu.cve_padre AS cve_padre_2, 
 				submenu.activo AS activo_2, 
-				submenu.orden AS orden_2, 
+                submenu.orden AS orden_2, 
 				submenu.ruta AS ruta_2, 
 				submenu.nombre AS menu_nivel_2, 
 				grupo_seguridad.nombre AS rol, 
@@ -22,11 +22,11 @@ SELECT			menu.cve_menu,
 				usuario.contrasenia
 FROM            
 				menu INNER JOIN
-				submenu ON menu.cve_menu = submenu.cve_padre INNER JOIN
-				menu_permisos ON submenu.cve_padre = menu_permisos.cve_menu INNER JOIN
-				grupo_seguridad ON menu_permisos.cve_grupo_seguridad = grupo_seguridad.cve_grupo_seguridad INNER JOIN
-				usuario_grupo_seguridad ON grupo_seguridad.cve_grupo_seguridad = usuario_grupo_seguridad.cve_grupo_seguridad INNER JOIN
-				usuario ON usuario_grupo_seguridad.cve_persona = usuario.cve_persona
+                submenu ON menu.cve_menu = submenu.cve_padre INNER JOIN
+                menu_permisos ON submenu.cve_menu = menu_permisos.cve_menu INNER JOIN
+                grupo_seguridad ON menu_permisos.cve_grupo_seguridad = grupo_seguridad.cve_grupo_seguridad INNER JOIN
+                usuario_grupo_seguridad ON grupo_seguridad.cve_grupo_seguridad = usuario_grupo_seguridad.cve_grupo_seguridad INNER JOIN
+                usuario ON usuario_grupo_seguridad.cve_usuario = usuario.cve_usuario
 GO
 
 IF OBJECT_ID('v_usuario_persona', 'V') IS NOT NULL
@@ -109,7 +109,6 @@ GO
 CREATE VIEW solicitud_cursos AS
 SELECT
     solicitud_capacitacion_interna.cve_sol_cap_int,
-    solicitud_capacitacion_interna.cve_horario,
     solicitud_capacitacion_interna.tipo_competencia,
     solicitud_capacitacion_interna.nombre,
     solicitud_capacitacion_interna.total_dias,
@@ -154,4 +153,26 @@ FROM            modalidad_evento INNER JOIN
                          area ON empleado.cve_area = area.cve_area INNER JOIN
                          ugac ON empleado.cve_ugac = ugac.cve_ugac ON tipo_puesto.cve_tipo_puesto = empleado.cve_tipo_puesto INNER JOIN
                          puesto ON empleado.cve_puesto = puesto.cve_puesto
+GO
+
+IF OBJECT_ID('v_cuestionario_jornada', 'V') IS NOT NULL
+    DROP VIEW v_cuestionario_jornada;
+GO
+CREATE VIEW v_cuestionario_jornada AS
+SELECT					ROW_NUMBER() OVER (ORDER BY cuestionario_evalucion_curso.cve_cuest_eval_curso) AS numero_fila, 
+						cuestionario_evalucion_curso.cve_cuest_eval_curso, 
+						cuestionario_evalucion_curso.cve_jornada, 
+						cuestionario_evalucion_curso.nombre_instructor, 
+						cuestionario_evalucion_curso.fecha, 
+                        cuestionario_evalucion_curso.cali_curso_contenido, 
+						cuestionario_evalucion_curso.cali_facilitador, 
+						cuestionario_evalucion_curso.cali_organizacion, 
+						cuestionario_evalucion_curso.cali_impacto_aplicacion,
+                        cuestionario_evalucion_curso.principal_aprendizaje, 
+						cuestionario_evalucion_curso.comentarios, 
+						jornada.nombre_jornada,
+						cuestionario_evalucion_curso.activo
+FROM            
+						cuestionario_evalucion_curso INNER JOIN
+                        jornada ON cuestionario_evalucion_curso.cve_jornada = jornada.cve_jornada
 GO

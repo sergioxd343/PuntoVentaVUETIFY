@@ -8,7 +8,7 @@ and open the template in the editor.
     <tablaInstructor>
 		<query>
 
-		SELECT cve_instructor_e, nombre_instructor, apellido_paterno, apellido_materno, activo, fecha_registro, usuario_registro
+		SELECT cve_instructor_e, nombre_instructor, apellido_paterno, apellido_materno, empresa, activo, fecha_registro, usuario_registro
 		FROM     instructor_externo
 
 		</query>
@@ -17,8 +17,8 @@ and open the template in the editor.
     <guardarInstructor>
 		<query>
 
-			INSERT INTO instructor_externo (nombre_instructor, apellido_paterno, apellido_materno, activo, fecha_registro, usuario_registro) 
-			VALUES (?, ?, ?,'True', GETDATE (), ?)
+			INSERT INTO instructor_externo (nombre_instructor, apellido_paterno, apellido_materno, empresa, activo, fecha_registro, usuario_registro) 
+			VALUES (?, ?, ?, ?,'True', GETDATE (), ?)
 
 		</query>
 	</guardarInstructor>

@@ -63,25 +63,16 @@
                                 
                                 <!--AÑO -->
                                 <v-col md="3" class="text-right">
-                                    
-                                <v-menu ref="menu5" :close-on-content-click="false"
-                                :return-value.sync="annio" transition="scale-transition" offset-y
-                                min-width="auto">
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-text-field v-model="annio" label="Año a ejercer"
-                                        prepend-icon="mdi-calendar" readonly v-bind="attrs"
-                                        v-on="on"></v-text-field>
-                                </template>
-                                <v-date-picker v-model="annio" no-title scrollable type="year">
-                                    <v-spacer></v-spacer>
-                                    <v-btn text color="primary" @click="menu5 = false"> 
-                                        Cancel
-                                    </v-btn>
-                                    <v-btn text color="primary" @click="$refs.menu5.save(annio)">
-                                        OK
-                                    </v-btn>
-                                </v-date-picker>
-                                </v-menu>
+                                    <v-text-field 
+                                        v-model="annio" 
+                                        label="Año a ejercer"
+                                        prepend-icon="mdi-calendar" 
+                                        data-vv-name="año a ejercer"
+                                        :error="errors.has('año a ejercer')"
+                                        :error-messages="errors.first('año a ejercer')"
+                                        required
+                                        
+                                        ></v-text-field>
                                 </v-col>
 
                                 <v-col>&nbsp;&nbsp;&nbsp;&nbsp;</v-col>
@@ -743,11 +734,11 @@
                 const otroEvento = ref("");
                 const tipoPrograma=ref("");
                 const proveedorSugerido=ref("");
-                const ptc=ref("");
-                const laboratoristas=ref("");
-                const administrativo=ref("");
-                const otros=ref("");
-                const total=ref("");
+                const ptc=ref(0);
+                const laboratoristas=ref(0);
+                const administrativo=ref(0);
+                const otros=ref(0);
+                const total=ref(0);
                 const totalH=ref("");
                 const totalM=ref("");
                 const lugar=ref("");
@@ -1030,7 +1021,7 @@
                                     parametros.append("tipoPrograma", tipoPrograma.value);
                                     parametros.append("nivelEducativo", nivelEducativo.value);
                                     parametros.append("programaEducativo", programaEducativo.value);
-                                    parametros.append("annio", parseInt(annio.value.slice(0, 4), 10));
+                                    parametros.append("annio", annio.value);
                                     parametros.append("necesidadesDetectadas", necesidadesDetectadas.value);
                                     parametros.append("nombreEventoCapacitacion", nombreEventoCapacitacion.value);
                                     parametros.append("objetivoEvento", objetivoEvento.value);

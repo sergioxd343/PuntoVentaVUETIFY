@@ -1,0 +1,27 @@
+<CatalogoCuestionarioEvaluacionCurso>
+    <insertarCuestionario>
+        <query>
+            INSERT INTO cuestionario_evalucion_curso	(cve_jornada, 
+                                                        nombre_instructor, 
+                                                        fecha, 
+                                                        cali_curso_contenido, 
+                                                        cali_facilitador, 
+                                                        cali_organizacion, 
+											            cali_impacto_aplicacion, 
+                                                        principal_aprendizaje, 
+                                                        comentarios, 
+                                                        usuario_registro)
+			VALUES                                      (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        </query>
+    </insertarCuestionario>
+    <consultarCuestionarios>
+        <query>
+            SELECT * FROM v_cuestionario_jornada
+        </query>
+    </consultarCuestionarios>
+    <cambiarEstatus>
+        <query>
+            UPDATE cuestionario_evalucion_curso SET activo = ? WHERE cve_cuest_eval_curso = ?
+        </query>
+    </cambiarEstatus>
+</CatalogoCuestionarioEvaluacionCurso>

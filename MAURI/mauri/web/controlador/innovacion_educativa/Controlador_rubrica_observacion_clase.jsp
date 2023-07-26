@@ -80,6 +80,9 @@
         case 5:
             out.println(datos.Consultas(parametros, "consultarCuatrimestre"));
             break;
+        case 6:
+            out.println(datos.Consultas(parametros, "consultarRubricas"));
+            break;
         default:
             out.print("ENTRO A CONTROLADOR"+ accion);
             break;

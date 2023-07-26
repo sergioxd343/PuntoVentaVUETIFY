@@ -63,13 +63,13 @@ AS
 BEGIN
     
     INSERT INTO solicitud_capacitacion_interna (
-		tipo_competencia, nombre, total_dias, total_horas,
+        cve_horario, tipo_competencia, nombre, total_dias, total_horas,
         fecha_inicio, fecha_fin, lugar, curso, numero_participantes,
         objetivo, alcance, metodologia, programa_evento, resultado_aprendizaje,
         perfil_participante, estatus, usuario_registro
     )
     VALUES (
-		@tipo_competencia, @nombre, @total_dias, @total_horas,
+        @cve_horario, @tipo_competencia, @nombre, @total_dias, @total_horas,
         @fecha_inicio, @fecha_fin, @lugar, @curso, @numero_participantes,
         @objetivo, @alcance, @metodologia, @programa_evento, @resultado_aprendizaje,
         @perfil_participante, @estatus, @usuario_registro

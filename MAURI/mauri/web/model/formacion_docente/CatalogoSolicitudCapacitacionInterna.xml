@@ -19,23 +19,24 @@
 		</query>
 	</programaEducativo>
 
-    <horarioInicio>
-		<query>
-			SELECT cve_horario, hora_inicio FROM horario
-		</query>
-	</horarioInicio>
-
-	<horarioFin>
-		<query>
-			SELECT cve_horario, hora_fin FROM horario
-		</query>
-	</horarioFin>
-
     <tablaSolicitud>
         <query>
             SELECT * FROM solicitud_capacitacion_interna
         </query>
     </tablaSolicitud>
+
+	<verInstructores>
+        <query>
+            SELECT * FROM solicitud_instructor WHERE cve_sol_cap_int = ?;
+        </query>
+    </verInstructores>
+
+	<verSolicitudes>
+        <query>
+            SELECT * FROM solicitud_capacitacion_interna WHERE cve_sol_cap_int = ?;
+        </query>
+    </verSolicitudes>
+
 
     <insertarSolicitud>
         <query>

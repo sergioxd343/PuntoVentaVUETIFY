@@ -68,138 +68,75 @@
                         </v-card-title>
                         <v-container fluid>
                             <v-row justify="center" dense>
-                                <v-col md="10">
-                                    <v-text-field v-model="nombreCurso" outlined label="Nombre del curso"
-                                        persistent-hint v-validate="'required|max:500'" data-vv-name="nombre del curso"
-                                        :error="errors.has('nombre del curso')"
-                                        :error-messages="errors.first('nombre del curso')"></v-text-field>
+                                <v-col md="12">
+                                    <template>
+                                        <v-file-input id="archivoInput" accept=".xlsx" v-model="files" counter
+                                            label="Importar" multiple placeholder="Seleccione los archivos"
+                                            prepend-icon="mdi-paperclip" persistent-hint outlined :show-size="1000"
+                                            v-validate="'required'" data-vv-name="Importar"
+                                            :error="errors.has('Importar')" :error-messages="errors.first('Importar')">
+                                            <template v-slot:selection="{ index, text }">
+                                                <v-chip v-if="index < 2" color="deep-purple accent-4" dark label small>
+                                                    {{ text }}
+                                                </v-chip>
+
+                                                <span v-else-if="index === 2"
+                                                    class="text-overline grey--text text--darken-3 mx-2">
+                                                    +{{ files.length - 2 }} File(s)
+                                                </span>
+                                            </template>
+                                        </v-file-input>
+                                    </template>
                                 </v-col>
-                                <v-col md="2">
-                                    <v-text-field v-model="fecha" outlined label="Fecha" persistent-hint
-                                        v-validate="'required|max:500'" data-vv-name="fecha"
-                                        :error="errors.has('fecha')" :error-messages="errors.first('fecha')"
-                                        readonly></v-text-field>
-                                </v-col>
-                                <v-col md="9">
-                                    <v-text-field v-model="nombreInstructor" outlined
-                                        label="Nombre del(a) instructor (a)" persistent-hint
-                                        v-validate="'required|max:500'" data-vv-name="nombre del(a) instructor (a)"
-                                        :error="errors.has('nombre del(a) instructor (a)')"
-                                        :error-messages="errors.first('nombre del(a) instructor (a)')"></v-text-field>
-                                </v-col>
-                                <v-col md="3">
-                                    <p>Tipo de curso: </p>
-                                    <v-radio-group v-model="tipoCurso" class="mt-0" v-validate="'required'"
-                                        data-vv-name="tipo de curso" :error="errors.has('tipo de curso')"
-                                        :error-messages="errors.first('tipo de curso')" row>
-                                        <v-radio label="Presencial" value="Presencial"></v-radio>
-                                        <v-radio label="Virtual " value="Virtual"></v-radio>
-                                        <v-radio label="Mixto" value="Mixto"></v-radio>
-                                    </v-radio-group>
-                                </v-col>
-                                <v-alert outlined type="warning" prominent border="left">
-                                    <strong>Estimado(a) participante:</strong><br>
-                                    La siguiente encuesta tiene como objetivo retroalimentar nuestra actividad de
-                                    capacitación, por lo mismo le pedimos la
-                                    mayor objetividad posible al contestarla. Este instrumento es un factor importante
-                                    para el mejoramiento de nuestra labor
-                                    y la capacitación.
-                                </v-alert>
-                                <v-row class="align-center" style="padding: 0px 50px 0px 100px">
-                                    <v-col md="12">
-                                        <v-p> <b>CRITERIOS DE EVALUACIÓN<br>
-                                                10. Excelente <br>
-                                                9. Muy Bien <br>
-                                                8. Bien <br>
-                                                7. Regular <br>
-                                                6. Insuficiente
-                                            </b>
-                                        </v-p>
-                                    </v-col>
-                                </v-row>
-                                <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-                                    <v-col md=10>
-                                        <v-p>1.- Con base en el objetivo del curso, la duraci&oacute;n fue</v-p>
-                                    </v-col>
-                                    <v-col md=2>
-                                        <v-select v-model="escala1" outlined v-validate="'required'"
-                                            :items="arrayEscala" item-value="idEscala" item-text="numero"
-                                            data-vv-name="escala" :error="errors.has('escala')"
-                                            :error-messages="errors.first('escala')"></v-select>
-                                    </v-col>
-                                </v-row>
-
-                                <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-
-                                    <v-col md=10>
-                                        <v-p>
-                                            2.- Los objetivos establecidos, se cumplieron de manera:
-                                        </v-p>
-                                    </v-col>
-
-                                    <v-col md=2>
-                                        <v-select v-model="escala2" outlined v-validate="'required'"
-                                            :items="arrayEscala" item-value="idEscala" item-text="numero"
-                                            data-vv-name="tipo" :error="errors.has('tipo')"
-                                            :error-messages="errors.first('tipo')"></v-select>
-                                    </v-col>
-                                </v-row>
-
-                                <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-
-                                    <v-col md=10>
-                                        <v-p>
-                                            3.- La aplicación del contenido a mi labor docente la considero:
-                                        </v-p>
-                                    </v-col>
-
-                                    <v-col md=2>
-                                        <v-select v-model="escala3" outlined v-validate="'required'"
-                                            :items="arrayEscala" item-value="idEscala" item-text="numero"
-                                            data-vv-name="tipo" :error="errors.has('tipo')"
-                                            :error-messages="errors.first('tipo')"></v-select>
-                                    </v-col>
-                                </v-row>
-
-                                <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-                                    <v-col md=10>
-                                        <v-p>
-                                            4.- El contenido del curso se adaptó al modelo de la UTL:
-                                        </v-p>
-                                    </v-col>
-                                    <v-col md=2>
-                                        <v-select v-model="escala4" outlined v-validate="'required'"
-                                            :items="arrayEscala" item-value="idEscala" item-text="numero"
-                                            data-vv-name="tipo" :error="errors.has('tipo')"
-                                            :error-messages="errors.first('tipo')"></v-select>
-                                    </v-col>
-                                </v-row>
-
-                                <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
-                                    <v-col md=10>
-                                        <v-p>
-                                            5.- De acuerdo al contenido ¿Cómo autoevalúo mi aprendizaje?
-                                        </v-p>
-                                    </v-col>
-                                    <v-col md=2>
-                                        <v-select v-model="escala4" outlined v-validate="'required'"
-                                            :items="arrayEscala" item-value="idEscala" item-text="numero"
-                                            data-vv-name="tipo" :error="errors.has('tipo')"
-                                            :error-messages="errors.first('tipo')"></v-select>
-                                    </v-col>
-                                </v-row>
                             </v-row>
                             <%-- <v-row justfy="center" dense> </v-row> --%>
                                 <v-row justify="center">
                                     <v-btn color="primary"
-                                        @click="fnEditar()"><v-icon>mdi-content-save</v-icon>Guardar</v-btn>
+                                        @click="fnGuardar()"><v-icon>mdi-content-save</v-icon>Guardar</v-btn>
                                     &nbsp;
                                     <v-btn color="error"
                                         @click="fnLimpiarCampos()"><v-icon>mdi-cancel</v-icon>Cancelar</v-btn>
                                 </v-row>
                                 <v-row justify="center">
-                                    <v-col md="12">
-
+                                    <v-col>
+                                        <v-data-table :headers="headerCuestionario" :items="dataCuestionario"
+                                            class="elevation-2" no-data-text="No se encontro ningun registro"
+                                            :hide-default-header="dataCuestionario.length < 1"
+                                            :hide-default-footer="dataCuestionario.length < 1" locale="es-ES"
+                                            :mobile-breakpoint="NaN" items-per-page="10">
+                                            <template v-slot:item.status="{item}">
+                                                <v-chip link @click="fnCambiarEstatus(item)"
+                                                    style="width: 110px; display: flex; justify-content: center; align-items: center;"
+                                                    class="ma-2" :color="item.activo ? 'indigo' : 'grey'" outlined pill>
+                                                    {{ item.activo ?
+                                                    "Abierto" : "Cerrado" }}
+                                                    <v-icon right>
+                                                        {{ item.activo ? 'mdi-lock-open' : 'mdi-lock' }}
+                                                    </v-icon>
+                                                </v-chip>
+                                            </template>
+                                            <template v-slot:item.estatus="{item}">
+                                                <v-chip link @click="fnCambiarEstatus(item)"
+                                                    style="width: 110px; display: flex; justify-content: center; align-items: center;"
+                                                    class="ma-2" :color="item.activo ? 'green' : 'error'" outlined pill>
+                                                    {{ item.activo ?
+                                                    "Validado" : "Cancelado" }}
+                                                    <v-icon right>
+                                                        {{ item.activo ? 'mdi-check' : 'mdi-close' }}
+                                                    </v-icon>
+                                                </v-chip>
+                                            </template>
+                                            <template v-slot:item.comentario="{item}">
+                                                <v-tooltip bottom>
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                        <v-icon color="grey" dark v-bind="attrs" v-on="on">
+                                                            mdi-comment
+                                                        </v-icon>
+                                                    </template>
+                                                    <span>Esta es una nota</span>
+                                                </v-tooltip>
+                                            </template>
+                                        </v-data-table>
                                     </v-col>
                                 </v-row>
                         </v-container>
@@ -224,6 +161,8 @@
     <script src="../../javascript/VueJs/vee-validate/vee-validate.js"></script>
     <script src="../../javascript/VueJs/vee-validate/es.js"></script>
     <script src="../../javascript/VueJs/sweetalert2/sweetalert2.all.js"></script>
+    <script src="../../javascript/unpkg.com_xlsx@0.18.5_dist_xlsx.full.min.js"></script>
+
 
     <%--Desarrollo--%>
         <script type="module">
@@ -253,23 +192,18 @@
                 setup() {
                     const { ref, onMounted, watch } = VueCompositionAPI;
                     const ctr =
-                        "../../controlador/sistema/Controlador_perfil_usuario.jsp";
+                        "../../controlador/formacion_docente/Controlador_catalogo_cuestionario_evaluacion_curso.jsp";
                     //Variables POST
-                    const nombreCurso = ref("");
-                    const fecha = ref("");
-                    const nombreInstructor = ref("");
-                    const tipoCurso = ref("");
-                    const arrayEscala = ref([10, 9, 8, 7, 6]);
-                    const escala1 = ref("");
-                    const escala2 = ref("");
-                    const escala3 = ref("");
-                    const escala4 = ref("");
-                    const escala5 = ref("");
+                    const currentUser = localStorage.getItem('currentUser');
+                    const user = JSON.parse(currentUser);
+                    const cve_usuario = user[0].cve_usuario;
+                    const dataCuestionario = ref([]);
 
 
                     //Otras variables
                     const flagEditar = ref(false);
                     const itemEditar = ref({});
+                    const files = ref([]);
                     //Combo
 
 
@@ -281,17 +215,203 @@
                     //Loaders
                     //Dialogs
                     //DataTable
-                    const headerCapacitacion = ref([
+                    const headerCuestionario = ref([
+                        { text: "No.", align: "left", sortable: true, value: "numero_fila" },
+                        { text: "Nombre instructor", align: "left", sortable: true, value: "nombre_instructor" },
+                        { text: "Jornada", align: "left", sortable: true, value: "nombre_jornada" },
+                        { text: "Fecha", align: "left", sortable: true, value: "fecha" },
+                        { text: "Calificación Curso y contenido", align: "center", sortable: true, value: "cali_curso_contenido" },
+                        { text: "Calificación Facilitador(a)", align: "center", sortable: true, value: "cali_facilitador" },
+                        { text: "Calificación Organización", align: "center", sortable: true, value: "cali_organizacion" },
+                        { text: "Calificación Impacto y aplicación", align: "center", sortable: true, value: "cali_impacto_aplicacion" },
+                        { text: "Aprendizaje", align: "left", sortable: true, value: "principal_aprendizaje" },
+                        { text: "Comentarios", align: "left", sortable: true, value: "comentarios" },
+                        { text: "Estatus", align: "left", sortable: true, value: "estatus" },
+                        { text: "Status", align: "left", sortable: true, value: "status" },
+                        { text: "Nota", align: "left", sortable: true, value: "comentario" },
                     ]);
-                    const searchCapacitacion = ref([]);
 
                     onMounted(() => {
-                        fnReasignacionDatos();
+                        fnCargarTabla();
                     });
 
-                    function fnReasignacionDatos() {
-                        fecha.value = new Date().toISOString().substr(0, 10);
+                    async function fnGuardar() {
+                        this.$validator.validate().then(async (esValido) => {
+                            try {
+                                // Llamar a la función fnLeerArchivo para obtener los datos
+                                const datos = await fnLeerArchivo();
+                                datos.shift();
+                                preloader("../../");
+                                // Recorrer los datos y realizar las operaciones necesarias
+                                for (const element of datos) {
+                                    // Crear los parámetros para la solicitud POST
+                                    let parametros = new URLSearchParams();
+                                    parametros.append("accion", 1);
+                                    let cve_jornada = 0;
+                                    switch (element.jornada) {
+                                        case 'Matutino 8:00 a 12:00 horas;':
+                                            cve_jornada = 1;
+                                            break;
+                                        case 'Diurno 12:00 a 16:00 horas;':
+                                            cve_jornada = 2;
+                                            break;
+                                        case 'Vespertino 15:00 a 20:00 horas;':
+                                            cve_jornada = 3;
+                                            break;
+                                        case 'Vespertino-Nocturno 16:00 a 21:00 horas;':
+                                            cve_jornada = 4;
+                                            break;
+                                    }
+                                    parametros.append("cve_jornada", cve_jornada);
+                                    parametros.append("nombre_instructor", element.nombre);
+                                    const numeroSerie = element.hora_fin;
+                                    const fechaConvertida = new Date((numeroSerie - 25569) * 86400 * 1000);
+                                    const fechaFormateada = fechaConvertida.toLocaleDateString();
+                                    parametros.append("fecha", fechaFormateada.split("/").reverse().join("-"));
+                                    parametros.append("cali_curso_contenido", (parseInt(element.pregunta_uno) + parseInt(element.pregunta_dos) + parseInt(element.pregunta_tres) + parseInt(element.pregunta_cuatro) + parseInt(element.pregunta_cinco)) / 5);
+                                    parametros.append("cali_facilitador", (parseInt(element.pregunta_seis) + parseInt(element.pregunta_siete) + parseInt(element.pregunta_ocho) + parseInt(element.pregunta_nueve)) / 4);
+                                    parametros.append("cali_organizacion", (parseInt(element.pregunta_diez) + parseInt(element.pregunta_once) + parseInt(element.pregunta_doce) + parseInt(element.pregunta_trece)) / 4);
+                                    parametros.append("cali_impacto_aplicacion", (parseInt(element.pregunta_catorce) + parseInt(element.pregunta_quince) + parseInt(element.pregunta_dieciseis)) / 3);
+                                    parametros.append("principal_aprendizaje", element.aprendizaje);
+                                    parametros.append("comentarios", element.comentario);
+                                    parametros.append("cve_usuario", cve_usuario);// Realizar la solicitud POST utilizando axios
+                                    let { data, status } = await axios.post(ctr, parametros);
+
+                                    if (status == 200) {
+                                        if (data == "1") {
+                                            mostrarSnackbar(
+                                                "success",
+                                                "Registro actualizado correctamente."
+                                            );
+                                            fnCargarTabla();
+                                            //fnConsultarTabla();
+                                            // this.$validator.pause();
+                                            // Vue.nextTick(() => {
+                                            //     this.$validator.errors.clear();
+                                            //     this.$validator.resume();
+                                            // });
+                                        }
+                                    }
+                                }
+                            } catch (error) {
+                                mostrarSnackbar("error");
+                                console.error(error);
+                            } finally {
+                                swal.close();
+                            }
+                        });
                     }
+
+                    async function fnCambiarEstatus(item) {
+                        try {
+                            preloader("../");
+                            let parametros = new URLSearchParams();
+                            parametros.append("accion", 3);
+                            parametros.append("cve_cuest_eval_curso", item.cve_cuest_eval_curso);
+                            parametros.append("activo", (item.activo == true ? 0 : 1)); console.log("🚀 ~ file: perfil_usuario.jsp:283 ~ fnCambiarEstatus ~ parametros:", parametros)
+                            let { data, status } = await axios.post(ctr, parametros);
+                            if (status == 200) {
+                                if (data == "1") {
+                                    mostrarSnackbar(
+                                        "success",
+                                        "Registro actualizado correctamente."
+                                    );
+                                    fnCargarTabla();
+                                    // this.$validator.pause();
+                                    // Vue.nextTick(() => {
+                                    //     this.$validator.errors.clear();
+                                    //     this.$validator.resume();
+                                    // });
+                                }
+                            }
+                        } catch (error) {
+                            mostrarSnackbar("error");
+                            console.error(error);
+                        } finally {
+                            swal.close();
+                        }
+                    }
+
+                    async function fnCargarTabla() {
+                        try {
+                            preloader("../../");
+                            let parametros = new URLSearchParams();
+                            parametros.append("accion", 2);
+                            let { data, status } = await axios.post(ctr, parametros);
+                            if (status == 200) {
+                                if (data.length > 0) {
+                                    dataCuestionario.value = data;
+                                }
+                            }
+                        } catch (error) {
+                            mostrarSnackbar("error");
+                            console.error(error);
+                        } finally {
+                            swal.close();
+                        }
+                    }
+
+                    function fnLeerArchivo() {
+                        return new Promise(function (resolve, reject) {
+                            const fileInput = document.getElementById('archivoInput');
+                            const files = fileInput.files;
+
+                            if (files.length === 0) {
+                                mostrarSnackbar('warning', 'No se seleccionaron archivos');
+                                return;
+                            }
+                            console.log("🚀 ~ file: cuestionario_evaluacion_cursos.jsp:368 ~ files.length:", files.length)
+
+
+                            for (var i = 0; i < files.length; i++) {
+                                const file = files[i];
+                                const reader = new FileReader();
+
+                                reader.onload = function (e) {
+                                    const data = new Uint8Array(e.target.result);
+                                    const workbook = XLSX.read(data, { type: 'array' });
+
+                                    // Leer la primera hoja del archivo
+                                    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+
+                                    // Obtener los datos en formato JSON
+                                    const jsonData = XLSX.utils.sheet_to_json(worksheet, {
+                                        header: [
+                                            "cve",
+                                            "hora_inicio",
+                                            "hora_fin",
+                                            "correo",
+                                            "nombre",
+                                            "pregunta_uno",
+                                            "pregunta_dos",
+                                            "pregunta_tres",
+                                            "pregunta_cuatro",
+                                            "pregunta_cinco",
+                                            "pregunta_seis",
+                                            "pregunta_siete",
+                                            "pregunta_ocho",
+                                            "pregunta_nueve",
+                                            "pregunta_diez",
+                                            "pregunta_once",
+                                            "pregunta_doce",
+                                            "pregunta_trece",
+                                            "pregunta_catorce",
+                                            "pregunta_quince",
+                                            "pregunta_dieciseis",
+                                            "aprendizaje",
+                                            "comentario",
+                                            "jornada",
+                                        ],
+                                    });
+                                    // Transformar los datos al formato deseado
+                                    resolve(jsonData);
+                                };
+
+                                reader.readAsArrayBuffer(file);
+                            }
+                        });
+                    }
+
 
                     function fnLimpiarCampos(cx) {
                         //cx = contexto
@@ -326,22 +446,19 @@
                         snackbar,
                         mensaje_snackbar,
                         loader,
-                        nombreCurso,
-                        fecha,
-                        nombreInstructor,
-                        tipoCurso,
-                        escala1,
-                        escala2,
-                        escala3,
-                        escala4,
-                        escala5,
-                        arrayEscala,
+                        files,
+                        currentUser,
+                        dataCuestionario,
+                        headerCuestionario,
+                        user,
+                        cve_usuario,
                         mostrarSnackbar,
-                        fnReasignacionDatos,
+                        fnLeerArchivo,
+                        fnCambiarEstatus,
                         flagEditar,
-                        headerCapacitacion,
-                        searchCapacitacion,
+                        fnGuardar,
                         fnLimpiarCampos,
+                        fnCargarTabla,
                         itemEditar,
                     };
                 },
