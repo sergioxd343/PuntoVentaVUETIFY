@@ -233,8 +233,7 @@ INSERT INTO submenu_2 (cve_padre, nombre, ruta, orden, usuario_registro)
                     (5, 'Orientación', '../catalogos_pequenios/tipo_orientacion.jsp',25, 1),
                     (5, 'Origen', '../catalogos_pequenios/tipo_origen.jsp', 26, 1),
                     (5, 'Servicio', '../catalogos_pequenios/tipo_servicio.jsp', 27, 1),
-                    (5, 'Periodo', '../catalogos_pequenios/periodo.jsp', 28, 1),
-                    (5, 'Horario', '../catalogos_pequenios/horario.jsp', 29, 1);
+                    (5, 'Periodo', '../catalogos_pequenios/periodo.jsp', 28, 1);
 
 -- ------------- INSERTS DE GRUPO_SEGURIDAD -------------- --
 INSERT INTO grupo_seguridad (nombre, tiempo_sesion, usuario_registro) 
@@ -468,13 +467,13 @@ VALUES
 (3, 'Tecnología Educativa Aplicada', 'Integración de herramientas tecnológicas en la enseñanza', 'Explorar las posibilidades que ofrecen las tecnologías educativas para mejorar la enseñanza y el aprendizaje en el aula.', 'El curso abarcará el uso de plataformas digitales, aplicaciones móviles y recursos multimedia en la práctica docente.', '2023-10-15', 1);
 
 -- ------------- INSERTS DE INSTRUCTOR -------------- --
-INSERT INTO instructor (nombre_instructor, area_academica, programa_educativo, usuario_registro)
+INSERT INTO instructor (cve_tipo_instructor, nombre_instructor, area_academica, programa_educativo, usuario_registro)
                 VALUES 
-                        ('Maria Guadalupe', 'Dirección de Servicios Informáticos', 'Desarrollo de software', 1),
-                        ('Simón Zendejas', 'Dirección de Servicios Informáticos', 'Desarrollo de software', 1),
-                        ('Sergio Tavarez', 'Secretaría de Vinculación', 'Academia de expreción oral y escrita', 1),
-                        ('Carlos Andrade', 'Dirección de Administración y Finanzas', 'Academia de matematicas', 1),
-                        ('Brenda Gutiérrez', 'Dirección de Desarrollo Académico y Docente', 'Academia de expreción oral y escrita', 1);
+                        (1, 'Maria Guadalupe', 'Dirección de Servicios Informáticos', 'Desarrollo de software', 1),
+                        (2, 'Simón Zendejas', 'Dirección de Servicios Informáticos', 'Desarrollo de software', 1),
+                        (1, 'Sergio Tavarez', 'Secretaría de Vinculación', 'Academia de expreción oral y escrita', 1),
+                        (2, 'Carlos Andrade', 'Dirección de Administración y Finanzas', 'Academia de matematicas', 1),
+                        (1, 'Brenda Gutiérrez', 'Dirección de Desarrollo Académico y Docente', 'Academia de expreción oral y escrita', 1);
 
 
 INSERT INTO espacio (nombre_espacio, usuario_registro) 
