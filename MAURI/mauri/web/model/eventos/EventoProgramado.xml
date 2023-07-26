@@ -5,23 +5,26 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <CatalogoProveedores>
-    <tablaProgramaDesarrollo>
+    <tablaEventoProgramado>
 		<query>
 			select * from evento_programado;
 		</query>
-	</tablaProgramaDesarrollo>
+	</tablaEventoProgramado>
     <guardarEventoProgramado>
 		<query>
-			INSERT INTO evento_programado (cve_origen_evento, cve_espacio, cve_modalidad, nombre_evento, nombre_origen, sin_horario, horario_inicio, horario_fin, fecha_inicio, fecha_fin, estatus, usuario_registro)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1);
+			INSERT INTO evento_programado (cve_origen_evento, cve_espacio, cve_modalidad, cve_tipo_instructor, cve_instructor, nombre_evento, nombre_origen, sin_horario, horario_inicio, horario_fin, fecha_inicio, fecha_fin, estatus, usuario_registro)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1);
 
 		</query>
 	</guardarEventoProgramado>
+	<eliminarEventoProgramado>
+		<query>
+			DELETE FROM evento_programado WHERE cve_even_prog = ?;
+		</query>
+	</eliminarEventoProgramado>
     <desactivarProgramaDesarrollo>
 		<query>
-			UPDATE programa_desarrollo
-SET activo = 0
-WHERE cve_prog_des = ?;
+			UPDATE evento_programado SET activo = ? WHERE cve_even_prog = ?
 		</query>
 	</desactivarProgramaDesarrollo>
 	<selectEspacios>
@@ -34,9 +37,39 @@ WHERE cve_prog_des = ?;
 			SELECT * FROM modalidad_evento WHERE activo = 1;
 		</query>
 	</selectModalidad>
-	<tablaSolicitudProyecto>
+	<tablaProgramaDesarrollo>
 	<query>
 		select * from programa_desarrollo_materia WHERE activo = 1;
 		</query>
+	</tablaProgramaDesarrollo>
+	<selectTipoInstructor>
+	<query>
+		select * from tipo_instructor where activo = 1;
+	</query>
+	</selectTipoInstructor>
+	<selectInstructor>
+	<query>
+		select * from instructor where activo = 1;
+	</query>
+	</selectInstructor>
+	<selectHorario>
+	<query>
+		select * from horario where activo = 1;
+	</query>
+	</selectHorario>
+	<tablaSolicitudProyecto>
+	<query>
+		select * from solicitud_proyecto where activo = 1;
+	</query>
 	</tablaSolicitudProyecto>
+	<tablaDanc>
+	<query>
+		select * from necesidad_capacitacion_anual where activo = 1;
+	</query>
+	</tablaDanc>
+	<tablaAsesoria>
+	<query>
+		select * from asesoria where activo = 1;
+	</query>
+	</tablaAsesoria>
 </CatalogoProveedores>

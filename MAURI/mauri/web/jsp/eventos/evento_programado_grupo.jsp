@@ -32,33 +32,52 @@
                                     <v-card-title  style="background-color: #00b293; color:#ffffff; headline" >		
                                         Eventos programados
                                     </v-card-title>
+
                                     <v-data-table
-                                      :headers="headersProveedores"
-                                      :items="dataProveedores"
-                                      class="elevation-1"
-                                    >
-                                      <template v-slot:item.select="{ item }">
-                                        <v-checkbox v-model="item.selected"></v-checkbox>
+                                    :headers="headersProveedores"
+                                    :items="dataProveedores"
+                                    :search="search"
+                                    class="elevation-1"
+                                    :sort-by="['nombre_origen', 'fat']"
+                                    :sort-desc="[true, true]"
+                                  >
+                                    <template v-slot:item.horario="{ item }">
+                                      {{ item.horario_inicio.substring(0, 5) }} - {{ item.horario_fin.substring(0, 5) }}
+                                    </template>
+                                    <template v-slot:item.fecha="{ item }">
+                                        {{ item.fecha_inicio_dia_mes_anio | formatDate }} - {{ item.fecha_fin_dia_mes_anio | formatDate }}
                                       </template>
-                                    </v-data-table>
+                                    <template v-slot:item.select="{ item }">
+                                        <v-icon @click="checkbox(item)">mdi-calendar-clock</v-icon>
+                                      </template>
+                                  </v-data-table>
 
                                 </v-col>
                                 
-                                    <v-btn color="primary" dark @click="moveSelectedProveedores">Mover seleccionados</v-btn>
-                                </v-row>
+
+                            </v-row>
                                     <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                                         <v-col md="12">
                                         <v-card-title  style="background-color: #00b293; color:#ffffff; headline" >		
                                             Eventos a los que asistiré
                                         </v-card-title>
                                     <v-data-table
-                                      :headers="headersProveedores"
-                                      :items="selectedProveedores"
+                                      :headers="headersAsistencia"
+                                      :items="dataAsistencia"
                                       class="elevation-1"
                                     >
-                                    <template v-slot:item.select="{ item }">
-                                        <v-checkbox v-model="item.selected"></v-checkbox>
+                                    <template v-slot:item.eliminar="{item}">
+                                        <v-btn fab small color="error" @click="fnEliminar(item);"><v-icon>mdi-trash-can</v-icon></v-btn>
+                                    </template>
+                                    <template v-slot:item.horario="{ item }">
+                                        {{ item.horario_inicio.substring(0, 5) }} - {{ item.horario_fin.substring(0, 5) }}
                                       </template>
+                                      <template v-slot:item.fecha="{ item }">
+                                        {{ item.fecha_inicio_dia_mes_anio }} - {{ item.fecha_fin_dia_mes_anio }}
+                                      </template>
+                                      <template v-slot:item.select="{ item }">
+                                          <v-icon @click="checkbox(item)">mdi-calendar-clock</v-icon>
+                                        </template>
                                     </v-data-table>
                                   </v-col>
                                 
@@ -104,6 +123,7 @@
                                     <v-text-field label="Filtrar" v-model="searchBusqueda"></v-text-field>
                                 </v-col>
                             </v-row>
+
                             <v-row justify="center">
                                 <v-col md=12>
                                     <v-data-table
@@ -180,6 +200,7 @@
 
 
                 //pruebas
+                const search = ref("");
                 const selectedProveedores = ref([]);
 
                 //Otras variables
@@ -206,24 +227,33 @@
                 //DataTable
                 //dataUsuarios
                 const dataProveedores = ref([]); 
+                const dataAsistencia = ref([]);
                 const dataUsuarios = ref([]);
-                const headersEventos = ref([
-                    {text: 'No', align: 'left', sortable: true, value: 'id_usuario'},
-                ]);
-                const headersProveedores = ref([
-                    {text: 'Nombre del evento', align: 'left', sortable: true, value: 'nombre_evento'},
+
+                const headersAsistencia = ref([
+                    {text: 'Nombre evento', align: 'left', sortable: true, value: 'nombre_evento'},
                     {text: 'Nombre origen', align: 'left', sortable: true, value: 'nombre_origen'},
-                    {text: 'Horario inicio ', align: 'left', sortable: true, value: 'horario_inicio'},
-                    {text: 'Horario fin', align: 'left', sortable: true, value: 'horario_fin'},
-                    {text: 'fecha Inicio', align: 'left', sortable: true, value: 'fecha_inicio'},
-                    {text: 'Fecha fin', align: 'left', sortable: true, value: 'fecha_fin'},
-                    { text: 'Seleccionar', align: 'left', sortable: false, value: 'select' },
+                    { text: 'Nombre del instructor', align: 'left', sortable: true, value: 'nombre_instructor' },
+                    { text: 'Horario', align: 'left', sortable: true, value: 'horario' },
+                    { text: 'Fecha', align: 'left', sortable: true, value: 'fecha' },
+                    {text: 'Eliminar', align: 'left', sortable: true, value: 'eliminar'},
+                 ]);
+
+                
+                const headersProveedores = ref([
+                    { text: 'Nombre del evento', align: 'left', sortable: true, value: 'nombre_evento' },
+                    { text: 'Nombre origen', align: 'left', sortable: true, value: 'nombre_origen' },
+                    { text: 'Nombre del instructor', align: 'left', sortable: true, value: 'nombre_instructor' },
+                    { text: 'Horario', align: 'left', sortable: true, value: 'horario' },
+                    { text: 'Fecha', align: 'left', sortable: true, value: 'fecha' },
+                    { text: 'Programar', align: 'left', sortable: false, value: 'select' },
                 ]);
                 const searchProveedores = ref([]);
 
                 //Accion automatizada para mostrar la tabla
                 onMounted(() => {
                     fnConsultarTabla();
+                    fnConsultarTablaAsistencia();
                 });
 
                 function moveSelectedProveedores() {
@@ -254,6 +284,29 @@
                     }
                 }
                 
+                async function fnConsultarTablaAsistencia(){
+                    try{
+                        preloader("../../");
+                        //arreglo
+                        let parametros = new URLSearchParams();
+                        //le mandamos un parametro llamado accion
+                        parametros.append("accion", 3);
+                        //axios envia la peticion
+                        let {data,status} = await axios.post(ctr, parametros)
+                        if(status == 200){
+                            if(data.length > 0){
+
+                                dataAsistencia.value = data
+                            }
+                        }
+                    } catch(error){
+                        mostrarSnackbar('error');
+                        console.error(error);
+                    } finally{
+                        swal.close();
+                    }
+                }
+
                 async function fnConsultarTabla(){
                     try{
                         preloader("../../");
@@ -277,6 +330,40 @@
                     }
                 }
 
+                async function checkbox(item){
+                    this.$validator.validate().then(async esValido => {
+                        if(esValido){
+                            try{
+                                preloader("../../");
+                                let parametros = new URLSearchParams();
+                                parametros.append("accion", 2);
+                                parametros.append("cve_even_prog", item.cve_even_prog);
+                                let {data,status} = await axios.post(ctr, parametros)
+                                if(status == 200){
+                                    if(data == "1"){
+                                        mostrarSnackbar("success", "Registro guardado correctamente.");
+                                        fnConsultarTabla();
+                                        fnConsultarTablaAsistencia();
+                                        // this.$validator.pause();
+                                        // Vue.nextTick(() => {
+                                        //     this.$validator.errors.clear();
+                                        //     this.$validator.resume();
+                                        // });   
+                                    }if(data == "0"){
+                                        mostrarSnackbar("errord", "Ya cuentas con un registro similar");
+                                        
+                                    }
+                                }
+                            } catch(error){
+                                mostrarSnackbar('error');
+                                console.error(error);
+                            } finally{
+                                swal.close();
+                            }
+                        }
+                    })
+                }
+
                 async function fnGuardar(){
                     this.$validator.validate().then(async esValido => {
                         if(esValido){
@@ -292,7 +379,7 @@
                                     if(data == "1"){
                                         mostrarSnackbar("success", "Registro guardado correctamente.");
                                         fnConsultarTabla();
-                                        fnLimpiarCampos(this);
+                                        fnConsultarTablaAsistencia();
                                         // this.$validator.pause();
                                         // Vue.nextTick(() => {
                                         //     this.$validator.errors.clear();
@@ -310,70 +397,20 @@
                     })
                 }
 
-                async function fnTiposProveedor(){
-                    try{
-                        preloader("../../");
-                        let parametros = new URLSearchParams();
-                        parametros.append("accion", 3);
-                        let {data,status} = await axios.post(ctr, parametros)
-                        if(status == 200){
-                            if(data.length > 0){
-                                arrayTiposUsuario.value = data
-                            }
-                        }
-                    } catch(error){
-                        mostrarSnackbar('error');
-                        console.error(error);
-                    } finally{
-                        swal.close();
-                    }
-                }
-
-                async function fnEditar(){
-                    this.$validator.validate().then(async esValido => {
-                        if(esValido){
-                            try{
-                                preloader("../../");
-                                let parametros = new URLSearchParams();
-                                parametros.append("accion", 4); 
-                                parametros.append("tipo", tipo.value);
-                                parametros.append("nombreUsuario", nombreUsuario.value);
-                                parametros.append("fecha", fecha.value);
-                                let {data,status} = await axios.post(ctr, parametros)
-                                if(status == 200){
-                                    if(data == "1"){
-                                        mostrarSnackbar("success", "Registro actualizado correctamente.");
-                                        fnConsultarTabla();
-                                        fnLimpiarCampos(this);
-                                        // this.$validator.pause();
-                                        // Vue.nextTick(() => {
-                                        //     this.$validator.errors.clear();
-                                        //     this.$validator.resume();
-                                        // });   
-                                    }
-                                }
-                            } catch(error){
-                                mostrarSnackbar('error');
-                                console.error(error);
-                            } finally{
-                                swal.close();
-                            }
-                        }
-                    })
-                }
-
+               
                 async function fnEliminar(item){
                     confirmarE("¿Realmente quieres eliminar éste registro?").then(async (result) => {
                         if(result.isConfirmed){
                             try{
                                 preloader("../../");
                                 let parametros = new URLSearchParams();
-                                parametros.append("accion", 5);
-                                parametros.append("id_usuario", item.id_usuario);
+                                parametros.append("accion", 4);
+                                parametros.append("cve_even_prog_grupo", item.cve_even_prog_grupo);
                                 let {data,status} = await axios.post(ctr, parametros)
                                 if(status == 200){
                                     if(data=="1"){
                                         fnConsultarTabla();
+                                        fnConsultarTablaAsistencia();
                                     }
                                 }
                             } catch(error){
@@ -387,40 +424,25 @@
                     })
                 }
 
-                function fnLimpiarCampos(cx){//cx = contexto
-                    tipo.value = "";
-                    nombreUsuario.value = "";
-                    fecha.value = "";
-                    rfc.value = "";
-                    padron.value = "";
-                    nombrePerfil.value = "";
-                    correoContacto.value = "";
-                    telefonoContacto.value = "";
-                    estatus.value = "";
-                    flagEditar.value = false;
-                    itemEditar.value = {};
-
-                    if(this == undefined)
-                        cx.$validator.reset();
-                    else
-                        this.$validator.reset();
-                }
+               
 
                 function mostrarSnackbar(color, texto){
                     snackbar.value = true;
                     color_snackbar.value = color;
                     if(color=="error")
                         mensaje_snackbar.value = "Ocurrió un error. Intentalo de nuevo más tarde.";
+                    else if(color=="errord")
+                        mensaje_snackbar.value = "Ya cuentas con un registro similar";
                     else
                         mensaje_snackbar.value = texto; 
                 }
 
                 return{
                     color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
-                    tableSelected, singleSelect, selectedProveedores,
-                    dataProveedores, headersProveedores, headersEventos, searchProveedores, arrayTiposUsuario, 
+                    tableSelected, singleSelect, selectedProveedores, checkbox, dataAsistencia, search,
+                    dataProveedores, headersProveedores, headersAsistencia, searchProveedores, arrayTiposUsuario, 
                     dialogBuscador, dialogDetallesCotizacion, dialogProveedor, moveSelectedProveedores,
-                    fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnEliminar, itemEditar
+                    fnConsultarTabla, fnGuardar, fnEliminar, itemEditar
                 }
             },
             
