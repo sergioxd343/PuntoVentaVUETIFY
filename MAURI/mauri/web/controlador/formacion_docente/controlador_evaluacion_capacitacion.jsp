@@ -3,8 +3,8 @@
      * <p>Title        :  
      * <p>Description  : 
      * @author         : Maria Guadalupe Gutiérrez Alcantar
-     * @version        : 5
-     * @date           : 22 - 07 - 2023
+     * @version        : 6
+     * @date           : 25 - 07 - 2023
      */
 
 --%>
@@ -70,6 +70,7 @@
 
     switch (accion) {
         case 1:
+            parametros.add(idUsuario);
             out.println(datos.Consultas(parametros, "tablaPrincipal"));
             break;
         case 2:

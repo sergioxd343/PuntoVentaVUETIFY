@@ -3,7 +3,7 @@
     
     <facilitadores>
 		<query>
-			SELECT * FROM instructor WHERE cve_tipo_instructor = 1;
+			SELECT * FROM instructor
 		</query>
 	</facilitadores>
 
