@@ -474,7 +474,8 @@ CREATE TABLE solicitud_formacion_docente(
 	cve_empleado_responsable 	INT NOT NULL,
 	cve_empleado_autoriza 		INT NOT NULL,
 	lugar 						VARCHAR(129),
-	fecha 						DATE,
+	fecha_inicio 				DATE,
+	fecha_fin					DATE,
 	hora_inicio 				TIME,
 	hora_fin					TIME,
 	numero_horas 				INT,
@@ -703,6 +704,7 @@ CREATE TABLE evento_programado(
 	cve_modalidad 				INT NOT NULL,
 	cve_tipo_instructor 		INT NOT NULL,
 	cve_instructor 				INT NOT NULL,
+	cve_periodo					INT NOT NULL,
 	nombre_evento 				VARCHAR(50),
 	nombre_origen 				VARCHAR(50),
 	sin_horario 				BIT,
@@ -717,7 +719,8 @@ CREATE TABLE evento_programado(
 	CONSTRAINT fk_evento_programado_espacio FOREIGN KEY (cve_espacio) REFERENCES espacio(cve_espacio),
 	CONSTRAINT fk_evento_programado_modalidad FOREIGN KEY (cve_modalidad) REFERENCES modalidad_evento(cve_modalidad),
 	CONSTRAINT fk_evento_programado_tipo_instructor FOREIGN KEY (cve_tipo_instructor) REFERENCES tipo_instructor(cve_tipo_instructor),
-	CONSTRAINT fk_evento_programado_instructor FOREIGN KEY (cve_instructor) REFERENCES instructor(cve_instructor)
+	CONSTRAINT fk_evento_programado_instructor FOREIGN KEY (cve_instructor) REFERENCES instructor(cve_instructor),
+	CONSTRAINT fk_evento_programado_periodo FOREIGN KEY (cve_periodo) REFERENCES periodo(cve_periodo)
 );
 
 -- ------------- TABLA EVENTO_PROGRAMADO_GRUPO -------------- --
@@ -752,8 +755,8 @@ CREATE TABLE evaluacion_capacitacion(
 	cve_empleado_docente 		INT NOT NULL,
 	cve_curso 					INT NOT NULL,
 	nombre_facilitador 			VARCHAR(50),
+	asistencias					INT,
 	calificacion_final 			INT,
-	asistencia 					INT,
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
 	usuario_registro 			INT,
@@ -809,6 +812,7 @@ CREATE TABLE lista_asistencia_capacitacion(
 CREATE TABLE cuestionario_evalucion_curso(
 	cve_cuest_eval_curso 		INT NOT NULL PRIMARY KEY IDENTITY(1,1),
 	cve_jornada 				INT NOT NULL,
+	cve_curso					INT NOT NULL,
 	nombre_instructor		 	VARCHAR(50),
 	fecha 						DATE,
 	cali_curso_contenido		FLOAT,
@@ -820,7 +824,8 @@ CREATE TABLE cuestionario_evalucion_curso(
 	activo 						BIT DEFAULT 1,
 	fecha_registro 				DATETIME DEFAULT GETDATE(),
 	usuario_registro 			INT,
-	CONSTRAINT fk_cuest_eval_curso_jornada FOREIGN KEY (cve_jornada) REFERENCES jornada(cve_jornada)
+	CONSTRAINT fk_cuest_eval_curso_jornada FOREIGN KEY (cve_jornada) REFERENCES jornada(cve_jornada),
+	CONSTRAINT fk_cuest_eval_curso_curso FOREIGN KEY (cve_curso) REFERENCES curso(cve_curso)
 );
 
 -- ------------- TABLA SOLICITUD_INSTRUCTOR -------------- --

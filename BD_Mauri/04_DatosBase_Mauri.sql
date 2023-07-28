@@ -210,7 +210,7 @@ INSERT INTO submenu (cve_padre, nombre, ruta, orden, usuario_registro)
                     (2, 'Encuesta de Satisfacción y Evaluación de Resultado', '../innovacion_educativa/evaluacion_resultado.jsp', 10, 1),
                     (2, 'Detacción de necesidad para Asesoramiento', '../innovacion_educativa/asesoria.jsp', 11, 1),
                     (2, 'Rúbrica de Observación de Clase', '../innovacion_educativa/rubrica_observacion_clase.jsp', 12, 1),
-                    (2, 'Generador de rubricas', '../inovacion_educativa/generador_rubrica.jsp', 13, 1),
+                    (2, 'Generador de rubricas', '../innovacion_educativa/generacion_rubrica.jsp', 13, 1),
                     (2, 'Analisis Situacional Docente', '../innovacion_educativa/analisis_situacional_docente.jsp', 13, 1),
                     (2, 'Solicitud de Proyecto', '../innovacion_educativa/solicitud_proyecto.jsp', 14, 1),
                     (3, 'Evento Programado', '../eventos/evento_programado.jsp', 16, 1),
@@ -273,6 +273,7 @@ INSERT INTO menu_permisos (cve_grupo_seguridad, cve_menu, usuario_registro)
                     (1, 18, 1),
                     (1, 19, 1),
 					(1, 20, 1),
+                    (1, 21, 1),
                     (2, 2, 1),
                     (2, 3, 1),
                     (2, 4, 1),
@@ -464,7 +465,8 @@ VALUES
 (1, 'Evaluación Formativa y Retroalimentación', 'Prácticas efectivas de evaluación educativa', 'Desarrollar habilidades en la planificación y aplicación de estrategias de evaluación formativa para mejorar el proceso de enseñanza y aprendizaje.', 'El curso abarcará técnicas como la rúbrica, la autoevaluación y la retroalimentación efectiva.', '2023-07-30', 1),
 (2, 'Liderazgo Educativo', 'Gestión y liderazgo en entornos educativos', 'Examinar los conceptos y habilidades necesarios para ejercer un liderazgo efectivo en instituciones educativas y promover una cultura de mejora continua.', 'El curso abarcará temas como el liderazgo transformacional, la gestión del cambio y la toma de decisiones estratégicas.', '2023-09-10', 1),
 (2, 'Diseño de Programas de Formación Docente', 'Desarrollo de planes de capacitación para profesores', 'Aprender a diseñar programas de formación docente que promuevan el crecimiento profesional y la actualización de conocimientos y habilidades de los profesores.', 'El curso abarcará la identificación de necesidades de capacitación, el diseño de contenidos y la evaluación de programas.', '2023-09-05', 1),
-(3, 'Tecnología Educativa Aplicada', 'Integración de herramientas tecnológicas en la enseñanza', 'Explorar las posibilidades que ofrecen las tecnologías educativas para mejorar la enseñanza y el aprendizaje en el aula.', 'El curso abarcará el uso de plataformas digitales, aplicaciones móviles y recursos multimedia en la práctica docente.', '2023-10-15', 1);
+(3, 'Tecnología Educativa Aplicada', 'Integración de herramientas tecnológicas en la enseñanza', 'Explorar las posibilidades que ofrecen las tecnologías educativas para mejorar la enseñanza y el aprendizaje en el aula.', 'El curso abarcará el uso de plataformas digitales, aplicaciones móviles y recursos multimedia en la práctica docente.', '2023-10-15', 1),
+(4, 'Elaboración de Informe Final de Estadía', 'Informe Técnico de Estadias', 'Aprender a realizar correctamente un informe final de estadias', 'El curso esta enfocado en tecnicas para realizar correctamente un IFE', '2023-12-11', 1);
 
 -- ------------- INSERTS DE INSTRUCTOR -------------- --
 INSERT INTO instructor (cve_tipo_instructor, nombre_instructor, area_academica, programa_educativo, usuario_registro)
@@ -489,11 +491,6 @@ INSERT INTO modalidad_evento (nombre_modalidad, usuario_registro)
 				VALUES
 						('Virtual',1),
 						('Presencial',1);
-
-INSERT INTO evento_programado (cve_origen_evento, cve_espacio, cve_modalidad, nombre_evento, nombre_origen, sin_horario, horario_inicio, horario_fin, fecha_inicio, fecha_fin, usuario_registro)
-				VALUES
-						(1,2,2,'Estrategias pedagógicas','Pedagógia', '', '9:30', '11:00', '2023-05-10', '2023-05-18', 1),
-						(1,1,2,'Comunicación','Comunicación', '', '2:00', '3:00', '2023-07-01', '2023-07-11', 1);
 
 INSERT INTO categoria_evento (nombre_categoria, usuario_registro) 
 				VALUES
@@ -533,6 +530,79 @@ INSERT INTO necesidad_capacitacion_anual VALUES
 'Evaluaciones a estudiantes', 'Enseñanza de técnicas', 'Conocer diferentes técnicas para aprender vocabulario', 
 'Es necesario impulsar el aprendizaje de los jovenes', '', 'UTL', '', 'Agosto', '2023-08-07', '2023-08-17', 
 14, 10, 2, 0, 2, 0, 4, 1, 3, 1, 1, GETDATE(),1)
+
+DECLARE @instructores VARCHAR(MAX);
+				DECLARE @areas VARCHAR(MAX);
+				DECLARE @ugacs VARCHAR(MAX);
+
+				SET @instructores = '1,2';
+				SET @areas = '2,2';
+				SET @ugacs = '1,3';
+
+			EXEC InsertarSolicitudConInstructores
+				@hora_inicio = '12:00',
+				@hora_fin = '1:00',
+				@tipo_competencia = 'investigación',
+				@nombre = 'Curso de C++',
+				@total_dias = 7,
+				@total_horas = 20,
+				@fecha_inicio = '2023-09-01',
+				@fecha_fin = '2023-09-13',
+				@lugar = 'CVD',
+				@curso = 'Grupo cerrado',
+				@numero_participantes = 20,
+				@objetivo = 'Lograr formar docentes con conocimientos en c++',
+				@alcance = 'Grande',
+				@metodologia = 'Taller',
+				@programa_evento = 'Introduccion (1) Conceptos(1)',
+				@resultado_aprendizaje = 'Certificado',
+				@perfil_participante = 'Docente',
+				@estatus = 1,
+				@usuario_registro = 1,
+				@instructores = @instructores,
+				@areas = @areas,
+				@ugacs = @ugacs;
+
+				SET @instructores = '1';
+				SET @areas = '2';
+				SET @ugacs = '1';
+
+			EXEC InsertarSolicitudConInstructores
+				@hora_inicio = '2:00',
+				@hora_fin = '3:15',
+				@tipo_competencia = 'Digitales',
+				@nombre = 'Canva desde 0',
+				@total_dias = 5,
+				@total_horas = 22,
+				@fecha_inicio = '2023-09-01',
+				@fecha_fin = '2023-09-13',
+				@lugar = 'D10',
+				@curso = 'Grupo cerrado',
+				@numero_participantes = 20,
+				@objetivo = 'Dominar el uso de canva',
+				@alcance = 'Grande',
+				@metodologia = 'Curso',
+				@programa_evento = 'Introduccion (1) Practicas(2)',
+				@resultado_aprendizaje = 'Plantillas',
+				@perfil_participante = 'Docente',
+				@estatus = 1,
+				@usuario_registro = 1,
+				@instructores = @instructores,
+				@areas = @areas,
+				@ugacs = @ugacs;
+
+INSERT INTO evento_programado 
+(cve_origen_evento, cve_espacio, cve_modalidad, cve_tipo_instructor, cve_instructor, cve_periodo, nombre_evento, nombre_origen, sin_horario, horario_inicio, horario_fin, fecha_inicio, fecha_fin,activo, estatus, fecha_registro, usuario_registro)
+				VALUES (2,1, 2, 1, 2, 1, 'Tipos de redacciones', 'DANC', 1,'10:00','12:00','2023-08-07','2023-08-17', 1, 1, GETDATE(),1),
+				(1,1, 2, 1, 1, 2, 'Evento de comunicacón I', 'DANC', 1,'09:30','11:00','2023-06-07','2023-07-13', 1, 1, GETDATE(),1),
+				(1,3,2,1,1, 3, 'MAURI','Solicitud de proyecto',1,'11:30','1:00','2023-08-01','2023-08-09',1,1,GETDATE(),1),
+				(1,4,2,1,1, 4, 'Aplicaciones Web I','Asesoramiento pedagógico',1,'11:30','1:00','2023-08-06','2023-08-10',1,1,GETDATE(),1),
+				(1,1, 2, 1, 2, 5, 'INDUCCIÓN A LA UTL', 'Programa desarrollo', 1,'12:00','2:00','2023-09-17','2023-09-20', 1, 1, GETDATE(),1);
+
+INSERT INTO evento_programado (cve_origen_evento, cve_espacio, cve_modalidad, cve_tipo_instructor, cve_instructor, cve_periodo, nombre_evento, nombre_origen, sin_horario, horario_inicio, horario_fin, fecha_inicio, fecha_fin, usuario_registro)
+				VALUES
+						(1,2,2, 1, 2, 1, 'Estrategias pedagógicas','Pedagógia', '', '9:30', '11:00', '2023-05-10', '2023-05-18', 1),
+						(1,1,2, 1, 1, 2, 'Comunicación','Comunicación', '', '2:00', '3:00', '2023-07-01', '2023-07-11', 1);
 
 INSERT INTO evento_programado_grupo VALUES
 (1,1,10,1,0,'2023-06-10',10, '', 10,10,'Grande',1,'2023-06-11',10,'Entrevistas a estudiantes','2023-06-13', 1, '2023-06-13',1),

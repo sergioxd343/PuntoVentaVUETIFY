@@ -68,13 +68,19 @@
                         </v-card-title>
                         <v-container fluid>
                             <v-row justify="center" dense>
-                                <v-col md="12">
+                                <v-col md="6">
+                                    <v-autocomplete v-model="curso" @change="flagEditar = true" outlined label=" Curso"
+                                        :items="cursos" item-value="cve_curso"
+                                        item-text="nombre_curso"></v-autocomplete>
+                                </v-col>
+                                <v-col md="6">
                                     <template>
-                                        <v-file-input id="archivoInput" accept=".xlsx" v-model="files" counter
-                                            label="Importar" multiple placeholder="Seleccione los archivos"
-                                            prepend-icon="mdi-paperclip" persistent-hint outlined :show-size="1000"
-                                            v-validate="'required'" data-vv-name="Importar"
-                                            :error="errors.has('Importar')" :error-messages="errors.first('Importar')">
+                                        <v-file-input id="archivoInput" :disabled="!flagEditar" accept=".xlsx"
+                                            v-model="files" counter label="Importar" multiple
+                                            placeholder="Seleccione los archivos" prepend-icon="mdi-paperclip"
+                                            persistent-hint outlined :show-size="1000" v-validate="'required'"
+                                            data-vv-name="Importar" :error="errors.has('Importar')"
+                                            :error-messages="errors.first('Importar')">
                                             <template v-slot:selection="{ index, text }">
                                                 <v-chip v-if="index < 2" color="deep-purple accent-4" dark label small>
                                                     {{ text }}
@@ -95,8 +101,23 @@
                                         @click="fnGuardar()"><v-icon>mdi-content-save</v-icon>Guardar</v-btn>
                                     &nbsp;
                                     <v-btn color="error"
-                                        @click="fnExportar()"><v-icon>mdi-cancel</v-icon>Cancelar</v-btn>
+                                        @click="fnLimpiarCampos()"><v-icon>mdi-cancel</v-icon>Cancelar</v-btn>
                                 </v-row>
+                                <v-card>
+                                    <v-card-title class="text-h5 grey lighten-2">
+                                        Búsqueda Avanzada
+                                    </v-card-title>
+                                    <v-card-text>
+                                        <v-row justify="center">
+                                            <v-col md=8>
+                                                <v-text-field outlined
+                                                    label="Nombre instructor | Curso | Jornada | Fecha"
+                                                    v-model=" nombreBuscar" append-icon="mdi-magnify"
+                                                    @input="fnBusqueda()"></v-text-field>
+                                            </v-col>
+                                        </v-row>
+                                    </v-card-text>
+                                </v-card>
                                 <v-row justify="center">
                                     <v-col>
                                         <v-data-table :headers="headerCuestionario" :items="dataCuestionario"
@@ -201,6 +222,9 @@
                     const user = JSON.parse(currentUser);
                     const cve_usuario = user[0].cve_usuario;
                     const dataCuestionario = ref([]);
+                    const cursos = ref([]);
+                    const curso = ref("");
+                    const nombreBuscar = ref('');
 
 
                     //Otras variables
@@ -226,6 +250,7 @@
                     const headerCuestionario = ref([
                         { text: "No.", align: "left", sortable: true, value: "numero_fila" },
                         { text: "Nombre instructor", align: "left", sortable: true, value: "nombre_instructor" },
+                        { text: "Curso", align: "left", sortable: true, value: "nombre_curso" },
                         { text: "Jornada", align: "left", sortable: true, value: "nombre_jornada" },
                         { text: "Fecha", align: "left", sortable: true, value: "fecha" },
                         { text: "Calificación Curso y contenido", align: "center", sortable: true, value: "cali_curso_contenido" },
@@ -234,13 +259,11 @@
                         { text: "Calificación Impacto y aplicación", align: "center", sortable: true, value: "cali_impacto_aplicacion" },
                         { text: "Aprendizaje", align: "left", sortable: true, value: "principal_aprendizaje" },
                         { text: "Comentarios", align: "left", sortable: true, value: "comentarios" },
-                        { text: "Estatus", align: "left", sortable: true, value: "estatus" },
-                        { text: "Status", align: "left", sortable: true, value: "status" },
-                        { text: "Nota", align: "left", sortable: true, value: "comentario" },
                     ]);
 
                     onMounted(() => {
                         fnCargarTabla();
+                        fnObtenerCursos();
                         tablaReporte.value = [{
                             "id": 1,
                             "nombre": "Juan",
@@ -292,6 +315,7 @@
                                             break;
                                     }
                                     parametros.append("cve_jornada", cve_jornada);
+                                    parametros.append("cve_curso", curso.value);
                                     parametros.append("nombre_instructor", element.nombre);
                                     const numeroSerie = element.hora_fin;
                                     const fechaConvertida = new Date((numeroSerie - 25569) * 86400 * 1000);
@@ -313,6 +337,7 @@
                                                 "Registro actualizado correctamente."
                                             );
                                             fnCargarTabla();
+                                            fnLimpiarCampos();
                                             //fnConsultarTabla();
                                             // this.$validator.pause();
                                             // Vue.nextTick(() => {
@@ -370,6 +395,25 @@
                             if (status == 200) {
                                 if (data.length > 0) {
                                     dataCuestionario.value = data;
+                                }
+                            }
+                        } catch (error) {
+                            mostrarSnackbar("error");
+                            console.error(error);
+                        } finally {
+                            swal.close();
+                        }
+                    }
+
+                    async function fnObtenerCursos() {
+                        try {
+                            preloader("../../");
+                            let parametros = new URLSearchParams();
+                            parametros.append("accion", 4);
+                            let { data, status } = await axios.post(ctr, parametros);
+                            if (status == 200) {
+                                if (data.length > 0) {
+                                    cursos.value = data;
                                 }
                             }
                         } catch (error) {
@@ -532,18 +576,28 @@
                         }
                     };
 
+                    function fnBusqueda() {
+                        if (this.nombreBuscar === '') {
+                            this.fnCargarTabla();
+                        } else {
+                            this.dataCuestionario = this.dataCuestionario.filter(item => {
+                                const nombre_instructor_b = item.nombre_instructor.toLowerCase().includes(this.nombreBuscar.toLowerCase());
+                                const fecha_b = item.fecha.toLowerCase().includes(this.nombreBuscar.toLowerCase());
+                                const nombre_curso_b = item.nombre_curso.toLowerCase().includes(this.nombreBuscar.toLowerCase());
+                                const nombre_jornada_b = item.nombre_jornada.toString().includes(this.nombreBuscar);
+
+                                return nombre_instructor_b || fecha_b || nombre_curso_b || nombre_jornada_b;
+                            });
+                        }
+                    }
+
 
                     function fnLimpiarCampos(cx) {
                         //cx = contexto
-                        nombre.value = "";
-                        primer_apellido.value = "";
-                        segundo_apellido.value = "";
-                        nombre_usuario.value = "";
-                        rfc.value = "";
-                        genero.value = "";
-                        email.value = "";
-                        movil.value = "";
-                        perfil.value = "";
+                        curso.value = "";
+                        files.value = [];
+
+                        nombreBuscar.value = '';
 
                         flagEditar.value = false;
                         itemEditar.value = {};
@@ -575,6 +629,9 @@
                         headerCuestionario,
                         user,
                         cve_usuario,
+                        cursos,
+                        curso,
+                        nombreBuscar,
                         mostrarSnackbar,
                         fnLeerArchivo,
                         fnCambiarEstatus,
@@ -583,6 +640,8 @@
                         fnGuardar,
                         fnLimpiarCampos,
                         fnCargarTabla,
+                        fnObtenerCursos,
+                        fnBusqueda,
                         itemEditar,
                     };
                 },

@@ -155,24 +155,28 @@ FROM            modalidad_evento INNER JOIN
                          puesto ON empleado.cve_puesto = puesto.cve_puesto
 GO
 
-IF OBJECT_ID('v_cuestionario_jornada', 'V') IS NOT NULL
-    DROP VIEW v_cuestionario_jornada;
+IF OBJECT_ID('v_cuestionario', 'V') IS NOT NULL
+    DROP VIEW v_cuestionario;
 GO
-CREATE VIEW v_cuestionario_jornada AS
-SELECT					ROW_NUMBER() OVER (ORDER BY cuestionario_evalucion_curso.cve_cuest_eval_curso) AS numero_fila, 
-						cuestionario_evalucion_curso.cve_cuest_eval_curso, 
-						cuestionario_evalucion_curso.cve_jornada, 
-						cuestionario_evalucion_curso.nombre_instructor, 
-						cuestionario_evalucion_curso.fecha, 
-                        cuestionario_evalucion_curso.cali_curso_contenido, 
-						cuestionario_evalucion_curso.cali_facilitador, 
-						cuestionario_evalucion_curso.cali_organizacion, 
-						cuestionario_evalucion_curso.cali_impacto_aplicacion,
-                        cuestionario_evalucion_curso.principal_aprendizaje, 
-						cuestionario_evalucion_curso.comentarios, 
-						jornada.nombre_jornada,
-						cuestionario_evalucion_curso.activo
+CREATE VIEW v_cuestionario AS
+SELECT			ROW_NUMBER() OVER (ORDER BY cuestionario_evalucion_curso.cve_cuest_eval_curso) AS numero_fila,
+				cuestionario_evalucion_curso.cve_cuest_eval_curso, 
+				cuestionario_evalucion_curso.cve_jornada, 
+				cuestionario_evalucion_curso.cve_curso, 
+				cuestionario_evalucion_curso.nombre_instructor, 
+				cuestionario_evalucion_curso.fecha, 
+				cuestionario_evalucion_curso.cali_curso_contenido, 
+				cuestionario_evalucion_curso.cali_facilitador, 
+				cuestionario_evalucion_curso.cali_organizacion, 
+				cuestionario_evalucion_curso.cali_impacto_aplicacion, 
+				cuestionario_evalucion_curso.principal_aprendizaje, 
+				cuestionario_evalucion_curso.comentarios, 
+				cuestionario_evalucion_curso.activo, 
+				cuestionario_evalucion_curso.usuario_registro, 
+				jornada.nombre_jornada, 
+				curso.nombre_curso
 FROM            
-						cuestionario_evalucion_curso INNER JOIN
-                        jornada ON cuestionario_evalucion_curso.cve_jornada = jornada.cve_jornada
+				cuestionario_evalucion_curso INNER JOIN
+				jornada ON cuestionario_evalucion_curso.cve_jornada = jornada.cve_jornada INNER JOIN
+				curso ON cuestionario_evalucion_curso.cve_curso = curso.cve_curso
 GO

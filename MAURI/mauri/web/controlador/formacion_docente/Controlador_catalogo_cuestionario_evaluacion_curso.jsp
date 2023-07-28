@@ -43,6 +43,7 @@
     int accion = request.getParameter("accion") != null && !request.getParameter("accion").equals("") ? Integer.parseInt(request.getParameter("accion")) : 0;
     
     int cve_jornada = request.getParameter("cve_jornada") != null && !request.getParameter("cve_jornada").equals("") ? Integer.parseInt(request.getParameter("cve_jornada")) : 0;
+    int cve_curso = request.getParameter("cve_curso") != null && !request.getParameter("cve_curso").equals("") ? Integer.parseInt(request.getParameter("cve_curso")) : 0;
     int cve_usuario = request.getParameter("cve_usuario") != null && !request.getParameter("cve_usuario").equals("") ? Integer.parseInt(request.getParameter("cve_usuario")) : 0;
     int cve_cuest_eval_curso = request.getParameter("cve_cuest_eval_curso") != null && !request.getParameter("cve_cuest_eval_curso").equals("") ? Integer.parseInt(request.getParameter("cve_cuest_eval_curso")) : 0;
     int activo = request.getParameter("activo") != null && !request.getParameter("activo").equals("") ? Integer.parseInt(request.getParameter("activo")) : 0;
@@ -60,6 +61,7 @@
         case 1:
             temp_obj = new JsonObject();
             temp_obj.addProperty("cve_jornada", cve_jornada);
+            temp_obj.addProperty("cve_curso", cve_curso);
             temp_obj.addProperty("nombre_instructor", nombre_instructor);
             temp_obj.addProperty("fecha", fecha);
             temp_obj.addProperty("cali_curso_contenido", cali_curso_contenido);
@@ -81,6 +83,10 @@
             temp_obj.addProperty("cve_cuest_eval_curso", cve_cuest_eval_curso);
             parametros.add(temp_obj);
             out.println(datos.Registro(parametros, "cambiarEstatus"));
+        break;
+        case 4:
+            out.println(datos.Consultas(parametros, "obtenerCursos"));
+        break;
     }
     
 
