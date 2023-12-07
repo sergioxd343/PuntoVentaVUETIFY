@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<CatalogoProveedores>
+	<tablaDNAP>
+		<query>
+		SELECT   TOP (200) asesoria.cve_asesoria, asesoria.cve_empleado, asesoria.cve_academia, asesoria.docente, asesoria.materia, asesoria.fecha, asesoria.motivo_solicitud, asesoria.sugerencias, asesoria.entrevista, 
+                         asesoria.activo, asesoria.fecha_registro, asesoria.usuario_registro, asesoria_d.cve_asesoria AS Expr1, asesoria_d.compromiso, asesoria_d.fecha_seguimiento, 
+                         asesoria_d.cve_responsable,persona.cve_persona, persona.nombre, persona.apellido_paterno, persona.apellido_materno,
+                         persona.nombre + ' ' + persona.apellido_paterno + ' ' + persona.apellido_materno AS nombre_completo, academia.cve_academia AS Expr2, 
+                         academia.nombre_academia, academia.cve_unidad_academica, empleado.cve_empleado AS Expr3, empleado.cve_persona AS Expr4,
+						 persona_1.nombre AS Expr5, persona_1.cve_persona AS Expr6, persona_1.apellido_paterno AS Expr7, persona_1.apellido_materno AS Expr8,
+                         persona_1.nombre + ' ' + persona_1.apellido_paterno + ' ' + persona_1.apellido_materno AS nombre_completo_solicitante,
+						 persona_2.nombre AS Expr9, persona_2.cve_persona AS Expr10, persona_2.apellido_paterno AS Expr7, persona_2.apellido_materno AS Expr11,
+						  persona_2.nombre + ' ' + persona_2.apellido_paterno + ' ' + persona_2.apellido_materno AS nombre_completo_docente,
+						   persona_3.nombre AS Expr12, persona_3.cve_persona AS Expr13, persona_3.apellido_paterno AS Expr14, persona_3.apellido_materno AS Expr15,
+						  persona_3.nombre + ' ' + persona_3.apellido_paterno + ' ' + persona_3.apellido_materno AS nombre_completo_responsable
+FROM         asesoria 
+							LEFT JOIN persona ON asesoria.usuario_registro = persona.cve_persona LEFT JOIN
+                         academia ON asesoria.cve_academia = academia.cve_academia LEFT JOIN
+                         empleado ON asesoria.cve_empleado = empleado.cve_empleado LEFT JOIN
+                         asesoria_d ON asesoria.cve_asesoria = asesoria_d.cve_asesoria
+						 LEFT JOIN persona AS persona_1 ON empleado.cve_persona = persona_1.cve_persona
+						 LEFT JOIN persona AS persona_2 ON asesoria.docente = persona_2.cve_persona
+						 LEFT JOIN persona AS persona_3 ON asesoria_d.cve_responsable = persona_3.cve_persona
+		</query>
+	</tablaDNAP>
+	<guardarDNAP>
+		<query>
+			EXEC InsertarAsesoria
+				@cve_empleado = ?,
+				@cve_academia = ?,
+				@docente = ?,
+				@materia = ?,
+				@fecha = ?,
+				@motivo_solicitud = ?,
+				@sugerencias = ?,
+				@entrevista = ?,
+				@cve_responsable = ?,
+				@compromiso = ?,
+				@fecha_seguimiento = ?,
+				@usuario_registro = ?;
+
+		</query>
+	</guardarDNAP>
+	<consultarEmpleado>
+		<query>
+			SELECT TOP (200) 
+    empleado.cve_empleado, 
+    empleado.cve_persona, 
+    persona.cve_persona AS Expr1,
+	CONCAT(persona.nombre, ' ', persona.apellido_paterno, ' ', persona.apellido_materno) AS nombre_completo
+FROM empleado
+INNER JOIN persona ON empleado.cve_persona = persona.cve_persona
+
+		</query>
+	</consultarEmpleado>
+	<consultarAcademia>
+		<query>
+			SELECT        TOP (200) cve_academia, cve_unidad_academica, nombre_academia, activo, fecha_registro, usuario_registro
+FROM            academia
+
+		</query>
+	</consultarAcademia>
+	<consultarUsuario>
+		<query>
+			SELECT   TOP (200) cve_grupo_seguridad, cve_persona, activo, fecha_registro, usuario_registro
+FROM         usuario_grupo_seguridad
+		</query>
+	</consultarUsuario>
+	<editarDNAP>
+		<query>
+			UPDATE asesoria
+			SET
+				activo = ?
+			WHERE
+				cve_asesoria = ?;
+
+		</query>
+	</editarDNAP>
+</CatalogoProveedores>

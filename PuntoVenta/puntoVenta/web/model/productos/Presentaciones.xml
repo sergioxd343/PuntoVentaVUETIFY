@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<CatalogoProveedores>
+    <tablaPresentacion>
+		<query>
+			select * from Presentacion;
+		</query>
+	</tablaPresentacion>
+    <guardarPresentacion>
+		<query>
+			INSERT INTO Presentacion (IDProducto, NombrePresentacion, PrecioPresentacion, Descripcion)
+VALUES (?, ?, ?, ?);
+
+		</query>
+	</guardarPresentacion>
+    <desactivarPresentacion>
+		<query>
+			UPDATE Presentacion SET Activo = ? WHERE IDPresentacion = ?
+		</query>
+	</desactivarPresentacion>
+	<editarPresentacion>
+		<query>
+			UPDATE Presentacion SET IDProducto=?, NombrePresentacion = ?, PrecioPresentacion = ?, Descripcion = ? WHERE IDPresentacion = ?; 
+		</query>
+	</editarPresentacion>
+	<selectProducto>
+		<query>
+			select * from Productos;
+		</query>
+	</selectProducto>
+</CatalogoProveedores>
