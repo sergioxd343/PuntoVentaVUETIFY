@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<CatalogoProveedores>
+    <tablaUsuarios>
+		<query>
+			SELECT TOP (200) usuario.id_usuario, usuario.nombre, tipo_usuario.nombre AS Expr1, usuario.fecha, tipo_usuario.activo
+FROM     tipo_usuario INNER JOIN
+                  usuario ON tipo_usuario.id_tipo_usuario = usuario.id_tipo_usuario
+		</query>
+	</tablaUsuarios>
+    <guardarUsuario>
+		<query>
+			INSERT INTO usuario (id_tipo_usuario, nombre, fecha, activo)
+			VALUES
+			( ?, ?, ?, 1);
+
+
+		</query>
+	</guardarUsuario>
+    <tipoUsuario>
+		<query>
+			SELECT TOP (200)  id_tipo_usuario,nombre
+			FROM     tipo_usuario
+			WHERE     (activo = 1)
+			ORDER BY nombre;
+		</query>
+	</tipoUsuario>
+    <editarUsuario>
+		<query>
+			DECLARE @id_usuario INT = ?;
+			
+			UPDATE usuario
+			SET nombre = ?, id_tipo_usuario=?,fecha=?
+			WHERE id_usuario = @id_usuario;	
+		</query>
+	</editarUsuario>
+    <eliminarProveedor>
+		<query>
+			DELETE FROM usuario WHERE id_usuario = ?
+		</query>
+	</eliminarProveedor>
+
+	
+
+</CatalogoProveedores>

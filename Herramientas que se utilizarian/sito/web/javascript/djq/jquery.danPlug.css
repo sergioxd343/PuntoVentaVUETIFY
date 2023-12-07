@@ -1,0 +1,234 @@
+@charset "iso-8859-1";
+/* CSS Document */
+/*
+ *  danPlug (css) v1.3
+ *
+ *  Copyright 2013, DanyeL Sp.
+ *
+ *  Fecha: 09 de mayo de 2013
+ */
+
+.dPaginaUp-style, .dPaginaUp-style-negro, .dPaginaUp-style-verde
+{
+	display:none;
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:12px;
+	color:#FFF;
+	position:fixed;
+	background:#375E89; 
+	padding:5px;
+	-moz-border-radius:8px;
+	border-radius:8px;
+	box-shadow:2px 2px 5px #999; 
+	-webkit-box-shadow:2px 2px 5px #999;
+	filter:alpha(opacity=40); 
+	opacity:0.4; 
+	-moz-opacity:0.4;
+	cursor:pointer;
+}
+.dPaginaUp-style-negro
+{
+	background:#1D1D1D !important; 
+}
+.dPaginaUp-style-verde
+{
+	background:#008000 !important; 
+}
+
+.dPaginaUp-tl{top:8px; left:8px;}
+.dPaginaUp-tr{top:8px; right:8px;}
+.dPaginaUp-bl{bottom:8px; left:8px;}
+.dPaginaUp-br{bottom:8px; right:8px;}
+
+/** --- -------------------------------------------------- --- **/
+
+.dBotonPlus-style-base
+{
+	position:fixed;
+	bottom:12px;
+	left:0px;
+	padding:7px;
+	background:#375E89;
+	-moz-border-radius:1px 8px 8px 1px;
+	border-radius:1px 8px 8px 1px;
+	-webkit-box-shadow:-2px -2px 5px #999;
+	box-shadow:-2px -2px 5px #999;
+	filter:alpha(opacity=80); 
+	opacity:0.8;
+	-moz-opacity:0.8;
+	cursor:pointer;
+}
+
+.dBotonPlus-style-botones
+{
+	display:none;
+	position:fixed;
+	bottom:12px;
+	left:0px;
+	padding:1px;
+	border:2px solid #C2C6CD;
+	background:#F5F5F5;
+	-moz-border-radius:7px;
+	border-radius:7px;
+	-webkit-box-shadow:2px 2px 5px #C2C6CD;
+	box-shadow:2px 2px 5px #C2C6CD;
+	z-index:5;
+}
+.dBotonPlus-style-botones:hover
+{
+	filter:alpha(opacity=100); 
+	opacity:1.0;
+	-moz-opacity:1.0;
+}
+.dBotonPlus-style-botones-f
+{
+	filter:alpha(opacity=100); 
+	opacity:1.0;
+	-moz-opacity:1.0;
+}
+.dBotonPlus-style-botones-b
+{
+	filter:alpha(opacity=50); 
+	opacity:0.5;
+	-moz-opacity:0.5;
+}
+
+.dBotonPlus-style-botones ul
+{
+	list-style-type: none;
+	margin:0;
+	padding:0;
+}
+.dBotonPlus-style-botones ul>li
+{
+	padding:5px;
+}
+.dBotonPlus-style-botones div
+{
+	border:2px dotted #D1D9DE; 
+	padding:6px;
+	-moz-border-radius:20px;
+	border-radius:20px;
+	background:#DEE7E6;
+}
+.dBotonPlus-style-botones div:hover
+{
+	border:2px solid #004080;
+	box-shadow:0px 0px 10px #0080FF;
+	webkit-box-shadow:0px 0px 10px #0080FF;
+	background:#AFCFDC;
+	cursor:pointer;
+}
+
+.dBotonPlus-horizontal ul>li
+{
+	float: left;
+}
+
+.dBotonPlus-triangulo:after, .dBotonPlus-triangulo::after
+{
+	content:"\00A0";
+	display:block;
+	position:absolute;
+	bottom:5px;
+	left:-10px;
+	width:0px;
+	height:0px;
+	border-width:10px 10px 10px 0;
+	border-style:solid;
+	border-color:transparent #C2C6CD transparent transparent;
+	z-index:6;
+}
+.dBotonPlus-triangulo:before, .dBotonPlus-triangulo::before
+{
+	content:"\00A0";
+	display:block;
+	position:absolute;
+	bottom:7px;
+	left:-7px;
+	width:0px;
+	height:0px;
+	border-width:8px 8px 8px 0;
+	border-style:solid;
+	border-color:transparent #F5F5F5 transparent transparent;
+	z-index:7;
+}
+.dBotonPlus-title
+{
+	display:none;
+	border:2px solid #004080;
+	position:absolute;
+	height:14px;
+	box-shadow:0px 0px 10px #0080FF;
+	webkit-box-shadow:0px 0px 10px #0080FF;
+	background:#AFCFDC;
+	padding:3px;
+	-moz-border-radius:4px 8px 8px 4px;
+	border-radius:4px 8px 8px 4px;
+	font-family:Verdana, Geneva, sans-serif !important;
+	font-size:11px !important;
+	font-weight:bold;
+	color:#982F2C;
+	text-align:center;
+	z-index:8;
+}
+.dBotonPlus-title:after, .dBotonPlus-title::after
+{
+	content:"\00A0";
+	display:block;
+	position:absolute;
+	bottom:-3px;
+	left:-13px;
+	width:0px;
+	height:0px;
+	border-width:13px 13px 13px 0;
+	border-style:solid;
+	border-color:transparent #004080 transparent transparent;
+	z-index:9;
+}
+.dBotonPlus-title:before, .dBotonPlus-title::before
+{
+	content:"\00A0";
+	display:block;
+	position:absolute;
+	bottom:-1px;
+	left:-10px;
+	width:0px;
+	height:0px;
+	border-width:11px 11px 11px 0;
+	border-style:solid;
+	border-color:transparent #AFCFDC transparent transparent;
+	z-index:10;
+}
+
+.dmsgupClassCap
+{
+	position: fixed;
+	width: 100%;
+	left: 0px;
+	top: 0px;
+	height: 100%;
+	background:#E1E1E1;
+	opacity: 0.5;
+	z-index: 98;
+}
+.dmsgupClass
+{
+	position: fixed;
+	width: 100%;
+	left: 0px;
+	top: 0px;
+	height: auto;
+	background: #4577cc;
+	border-bottom: 2px solid #415c7a;
+	z-index: 99;
+	text-align:left;
+	padding: 5px;
+}
+.dmsgupClass ._conte
+{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:11px;
+	font-weight:bold;
+	color:#F3F3F3 !important;
+}

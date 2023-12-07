@@ -1,0 +1,48 @@
+        #file-label {
+            display: block;
+            line-height: 2%
+        }
+
+        #file-label:hover {
+            cursor: pointer;
+        }
+
+        #file-label #file-label-icon {
+            display: block;
+            font-size: 30px;
+            padding: 9px 15px;
+            text-align: center;
+        }
+
+        #xFile {
+            display: none;
+        }
+
+        #xbtnAgregar:hover {
+            cursor: pointer;
+        }
+
+        #text-alert{
+            padding-top: 7px !important
+        }
+        /* .dataTables_paginate .pagination .paginate_button a{
+            color: #00b293 !important;
+        } */
+
+        #xbtnAgregar {
+            right: 0;
+            bottom: 0;
+            position: fixed;
+            margin-right: 16px;
+            margin-bottom: 16px;
+            background: #007F69;
+            color: white;
+            border: none;
+            color: #FFF;
+            width: 50px;
+            height: 50px;
+            border: none;
+            outline: none;
+            border-radius: 100%;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+        }

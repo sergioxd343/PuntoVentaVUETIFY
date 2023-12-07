@@ -1,0 +1,83 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 13/03/2019, 10:30:06
+    Author     : lauraAguado
+*/
+
+/*!color de letras dentro del card*/
+.order-card {
+    color: #fff;
+}
+
+/*!color de letras(link)*/
+.a{
+    color: #fff;
+}
+
+
+/*!color de las tarjetas*/
+.bg-c-blue {
+    background: linear-gradient(45deg,#5aa7ff,#a6cfff);
+}
+
+.bg-c-green {
+    background: linear-gradient(45deg,#43dcbe,#84e8d4);
+}
+
+.bg-c-yellow {
+    background: linear-gradient(45deg,#FFB64D,#ffcb81);
+}
+
+.bg-c-pink {
+    background: linear-gradient(45deg,#FF5370,#ff869a);
+}
+
+.bg-c-purple {
+    background: linear-gradient(45deg,#7568ff,#a49bff);
+}
+.bg-c-gre {
+    background: linear-gradient(45deg,#db5bff,#eca8ff);
+}
+
+
+.card {
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+    box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+    border: none;
+    margin-bottom: 30px;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+.card .card-block {
+    padding: 25px;
+
+}
+
+.card  a {
+    color: white;
+    text-decoration:none;
+}
+
+
+.card  .card-block p {
+
+    margin-bottom: 0rem;
+}
+
+.order-card i {
+    font-size: 26px;
+}
+
+.f-left {
+    float: left;
+}
+
+.f-right {
+    float: right;
+}

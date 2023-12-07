@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<CatalogoProveedores>
+    <tablaProveedores>
+		<query>
+			SELECT * FROM proveedor ORDER BY cve_proveedor DESC
+		</query>
+	</tablaProveedores>
+    <guardarProveedor>
+		<query>
+			INSERT INTO proveedor VALUES ((SELECT TOP 1 cve_proveedor + 1 FROM proveedor ORDER BY cve_proveedor DESC),
+			?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+
+
+		</query>
+	</guardarProveedor>
+    <tipoProveedor>
+		<query>
+			SELECT     cve_tipo, tipo 
+			FROM         tipo_proveedor
+			WHERE     (activo = 1)
+			ORDER BY tipo
+		</query>
+	</tipoProveedor>
+    <editarProveedor>
+		<query>
+			DECLARE @pass VARCHAR(6) = ?;
+			DECLARE @cve_proveedor INT = ?;
+
+			UPDATE proveedor
+			SET 
+				cve_tipo = ?,
+				nombre_corto = ?,
+				nombre = ?,
+				rfc = ?,
+				clave_patron = ?,
+				nombre_contacto = ?,
+				correo = ?,
+				telefono = ?,
+				tipo_persona = ?
+			WHERE cve_proveedor = @cve_proveedor
+
+			IF (SELECT password FROM proveedor WHERE cve_proveedor = @cve_proveedor) IS NULL
+			BEGIN
+				UPDATE proveedor SET password = @pass WHERE cve_proveedor = @cve_proveedor
+			END
+		</query>
+	</editarProveedor>
+    <eliminarProveedor>
+		<query>
+			DELETE FROM proveedor WHERE cve_proveedor = ?
+		</query>
+	</eliminarProveedor>
+
+	
+
+</CatalogoProveedores>
