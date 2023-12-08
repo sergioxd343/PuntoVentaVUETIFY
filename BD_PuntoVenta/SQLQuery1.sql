@@ -11,15 +11,15 @@ CREATE TABLE Productos(
 	NombreProducto	VARCHAR(50),
 	PesoAproximado  FLOAT,
 	Descripcion		VARCHAR(300),
-	Foto			TEXT
+	Foto			TEXT,
+	Activo			BIT DEFAULT 1,
 );
 
 CREATE TABLE Ventas (
     IDVenta INT IDENTITY(1,1) PRIMARY KEY,
-	IDProducto				INT,
+	CantidadProductos				INT,
     FechaVenta				DATE,
-	Total					FLOAT,
-	FOREIGN KEY (IDProducto) REFERENCES Productos(IDProducto)
+	CostoTotal					FLOAT
 );
 
 
@@ -30,6 +30,7 @@ CREATE TABLE Presentacion(
 	NombrePresentacion		VARCHAR(50),
 	PrecioPresentacion		FLOAT,
 	Descripcion				VARCHAR(300),
+	Activo					BIT DEFAULT 1,
 	FOREIGN KEY (IDProducto) REFERENCES Productos(IDProducto)
 );
 

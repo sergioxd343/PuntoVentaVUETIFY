@@ -304,7 +304,6 @@
                             { text: 'Nombre de la presentacion', align: 'left', sortable: true, value: 'NombrePresentacion' },
                             { text: 'Precio de la presentacion', align: 'left', sortable: true, value: 'PrecioPresentacion' },
                             { text: 'Descripción', align: 'left', sortable: true, value: 'Descripcion' },
-                            { text: 'Foto', align: 'left', sortable: true, value: 'foto' },
                             { text: 'Editar', align: 'left', sortable: true, value: 'editar' },
                             { text: 'Estatus', align: 'left', sortable: true, value: 'estatus', valueFormat: (value) => value ? 'true' : 'false', color: (value) => value ? 'green' : 'red' },
                         ]);

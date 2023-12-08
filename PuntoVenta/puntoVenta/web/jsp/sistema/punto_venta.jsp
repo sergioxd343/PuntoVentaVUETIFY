@@ -149,13 +149,13 @@
                         //Variables POST
 
                         const productos = ref([
-                            { imageUrl: "../../images/vender.png", redirectUrl: "jsp/sistema/1.jsp", texto: "Vender" },
+                            { imageUrl: "../../images/vender.png", redirectUrl: "../ventas/vender.jsp", texto: "Vender" },
                             { imageUrl: "../../images/depositos.png", redirectUrl: "jsp/sistema/2.jsp", texto: "Retiros/Depositos" },
                             { imageUrl: "../../images/corteCaja.png", redirectUrl: "jsp/sistema/3.jsp", texto: "Corte de caja" },
                         ]);
 
                         const ventas = ref([
-                            { imageUrl: "../../images/monitorVenta.png", redirectUrl: "jsp/sistema/4.jsp", texto: "Monitor de ventas" },
+                            { imageUrl: "../../images/monitorVenta.png", redirectUrl: "../ventas/monitorVentas.jsp", texto: "Monitor de ventas" },
                             { imageUrl: "../../images/abrirTurno.png", redirectUrl: "jsp/sistema/5.jsp", texto: "Abrir turno" },
                             { imageUrl: "../../images/cerrarTurno.png", redirectUrl: "jsp/sistema/6.jsp", texto: "Cerrar turno" },
                         ]);

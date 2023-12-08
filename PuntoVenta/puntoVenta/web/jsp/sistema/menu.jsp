@@ -149,15 +149,15 @@
                         //Variables POST
 
                         const productos = ref([
-                            { imageUrl: "../../images/puntoVenta.png", redirectUrl: "jsp/sistema/1.jsp", texto: "Punto de venta" },
-                            { imageUrl: "../../images/1.2.jpg", redirectUrl: "jsp/sistema/2.jsp", texto: "Productos" },
-                            { imageUrl: "../../images/insumo.png", redirectUrl: "jsp/sistema/3.jsp", texto: "Insumos" },
+                            { imageUrl: "../../images/puntoVenta.png", redirectUrl: "punto_venta.jsp", texto: "Punto de venta" },
+                            { imageUrl: "../../images/productos.png", redirectUrl: "../productos/productos.jsp", texto: "Productos" },
+                            { imageUrl: "../../images/presentaciones.png", redirectUrl: "../productos/presentaciones.jsp", texto: "Presentaciones" },
                         ]);
 
                         const ventas = ref([
-                            { imageUrl: "../../images/monitorVenta.png", redirectUrl: "jsp/sistema/4.jsp", texto: "Monitor de ventas" },
+                            { imageUrl: "../../images/monitorVenta.png", redirectUrl: "../ventas/monitorVentas.jsp", texto: "Monitor de ventas" },
                             { imageUrl: "../../images/compras.png", redirectUrl: "jsp/sistema/5.jsp", texto: "Compras" },
-                            { imageUrl: "../../images/1.2.jpg", redirectUrl: "jsp/sistema/6.jsp", texto: "Presentaciones" },
+                            { imageUrl: "../../images/insumo.png", redirectUrl: "jsp/sistema/3.jsp", texto: "Insumos" },
                         ]);
 
                         const producto = ref([]);

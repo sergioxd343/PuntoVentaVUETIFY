@@ -30,27 +30,25 @@
         <div id="app">
             <v-app style="background-color: white;">
                 <!-- Componente de menu -->
-                <v-card color="grey lighten-4" flat height="50px">
-                    <v-toolbar dense style="background-color: #591607;">
-                        <v-app-bar-nav-icon></v-app-bar-nav-icon>
-
-                        <v-toolbar-title style="color: white">Title</v-toolbar-title>
-
+                <template>
+                    <div>
+                      <v-toolbar
+                        dark
+                        prominent
+                        src="../../images/OIG.jpg"
+                      >
+                        
+                  
+                        <v-toolbar-title style="color: black;">Vuetify</v-toolbar-title>
+                  
                         <v-spacer></v-spacer>
-
-                        <v-btn icon>
-                            <v-icon style="color:white">mdi-magnify</v-icon>
+                  
+                        <v-btn icon style="color: black; height: 100px; width: 100px;">
+                          <v-icon>mdi-export</v-icon>
                         </v-btn>
-
-                        <v-btn icon>
-                            <v-icon>mdi-heart</v-icon>
-                        </v-btn>
-
-                        <v-btn icon>
-                            <v-icon>mdi-dots-vertical</v-icon>
-                        </v-btn>
-                    </v-toolbar>
-                </v-card>
+                      </v-toolbar>
+                    </div>
+                  </template>
 
                 <v-row justify="center" class="align-center" style="padding: 0px 50px 0px 50px">
                     <!--Columna-->
@@ -65,24 +63,25 @@
 
                 <!-- Empieza la grafica -->
                 <v-card class="mt-12 mx-12" max-width="2000">
-                    <v-sheet class="v-sheet--offset mx-auto" color="grey" elevation="12" max-width="calc(100% - 32px)">
+                    <v-sheet class="v-sheet--offset mx-auto" color="#BF5D39" elevation="12"
+                        max-width="calc(100% - 32px)">
                         <v-sparkline :labels="labels" :value="value" color="white" line-width="2" padding="20"
                             :style="{ fontSize: '10px' }"></v-sparkline>
                     </v-sheet>
-
+                    <br>
                     <v-card-text class="pt-0">
                         <div class="text-h6 font-weight-light mb-2">
-                            User Registrations
+
                         </div>
                         <div class="subheading font-weight-light grey--text">
-                            Last Campaign Performance
+                            Ventas de productos
                         </div>
                         <v-divider class="my-2"></v-divider>
                         <v-icon class="mr-2" small>
                             mdi-clock
                         </v-icon>
-                        <span class="text-caption grey--text font-weight-light">last registration 26 minutes
-                            ago</span>
+                        <span class="text-caption grey--text font-weight-light">Las ventas mostradas son de las ultimas
+                            24 horas</span>
                     </v-card-text>
                 </v-card>
 

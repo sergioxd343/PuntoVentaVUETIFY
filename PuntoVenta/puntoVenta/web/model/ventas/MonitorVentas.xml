@@ -8,7 +8,7 @@ and open the template in the editor.
     <tablaVentas>
 
 		<query>
-			select Total from Ventas order by FechaVenta ASC;
+			select CostoTotal AS Total from Ventas order by FechaVenta ASC;
 		</query>
 
 	</tablaVentas>

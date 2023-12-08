@@ -33,69 +33,43 @@
                                 <!--Columna-->
 
                                 <v-col md="6" v-if="false">
-                                    <v-text-field 
-                                        v-model="id_producto"
-                                        outlined
-                                        label="IDProducto"
-                                        ></v-text-field>
+                                    <v-text-field v-model="id_producto" outlined label="IDProducto"></v-text-field>
                                 </v-col>
 
                                 <v-col md="6">
-                                    <v-text-field 
-                                        v-model="nombre_producto"
-                                        outlined
-                                        label="Nombre del producto"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="nombre del producto"
-                                        :error="errors.has('nombre del producto')"
+                                    <v-text-field v-model="nombre_producto" outlined label="Nombre del producto"
+                                        persistent-hint v-validate="'required|max:200'"
+                                        data-vv-name="nombre del producto" :error="errors.has('nombre del producto')"
                                         :error-messages="errors.first('nombre del producto')"
-                                        ref="nombreProductoField"
-                                    ></v-text-field>
+                                        ref="nombreProductoField"></v-text-field>
                                 </v-col>
 
                                 <v-col md=6>
-                                    <v-text-field 
-                                        v-model="peso_unidad"
-                                        outlined
-                                        label="Peso aproximado de la unidad"
-                                        persistent-hint
-                                        suffix="gramos"
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="peso de la unidad"
-                                        :error="errors.has('peso de la unidad')"
+                                    <v-text-field v-model="peso_unidad" outlined label="Peso aproximado de la unidad"
+                                        persistent-hint suffix="gramos" v-validate="'required|max:200'"
+                                        data-vv-name="peso de la unidad" :error="errors.has('peso de la unidad')"
                                         :error-messages="errors.first('peso de la unidad')"
-                                        type="number"
-                                    ></v-text-field>
+                                        type="number"></v-text-field>
                                 </v-col>
 
                                 <v-col md=6>
-                                    <v-file-input
-                                        v-model="foto"
-                                        outlined
-                                        @change="handleFileChange"
-                                        label="Foto del producto"
-                                        persistent-hint
-                                        v-validate="'required|max:200'"
-                                        data-vv-name="foto del producto"
-                                        :error="errors.has('foto del producto')"
-                                        :error-messages="errors.first('foto del producto')"
-                                        prepend-icon="mdi-camera" 
-                                        accept="image/png, image/jpeg, image/bmp" 
-                                        placeholder="Foto seleccionada"
-                                    ></v-file-input>
+                                    <v-file-input v-model="foto" outlined @change="handleFileChange"
+                                        label="Foto del producto" persistent-hint v-validate="'required|max:200'"
+                                        data-vv-name="foto del producto" :error="errors.has('foto del producto')"
+                                        :error-messages="errors.first('foto del producto')" prepend-icon="mdi-camera"
+                                        accept="image/png, image/jpeg, image/bmp"
+                                        placeholder="Foto seleccionada"></v-file-input>
                                 </v-col>
 
                                 <v-col md=6>
                                     <v-textarea v-model="descripcion" outlined label="Descripción del producto"
-                                        persistent-hint v-validate="'required|max:200'"
-                                        data-vv-name="descripcion"
+                                        persistent-hint v-validate="'required|max:200'" data-vv-name="descripcion"
                                         :error="errors.has('descripcion')"
                                         :error-messages="errors.first('descripciona')" :rows="3"
                                         :style="{ height: 'auto', 'max-height': '84px' }"></v-textarea>
                                 </v-col>
 
-                                
+
 
 
 
@@ -312,14 +286,14 @@
                         });
 
                         function decodeBase64(base64String) {
-                        try {
-                            var fotobase = 'data:image/png;base64,'+ base64String;
-                            
-                            return fotobase;
-                        } catch (error) {
-                            return null;
+                            try {
+                                var fotobase = 'data:image/png;base64,' + base64String;
+
+                                return fotobase;
+                            } catch (error) {
+                                return null;
+                            }
                         }
-                    }
 
                         function getImagenUrl(base64Foto) {
                             return decodeBase64(base64Foto);
@@ -413,7 +387,7 @@
                                                     "Registro actualizado correctamente."
                                                 );
                                                 fnConsultarTabla();
-                                                
+
                                             }
                                         }
                                     } catch (error) {
@@ -459,8 +433,8 @@
                         }
 
                         function fnLimpiarCampos(cx) {//cx = contexto
-                            id_producto.value="";
-                            nombre_producto.value="";
+                            id_producto.value = "";
+                            nombre_producto.value = "";
                             peso_unidad.value = "";
                             descripcion.value = "";
                             foto.value = "";
@@ -484,10 +458,10 @@
                         }
                         return {
                             color_snackbar, snackbar, mensaje_snackbar, loader, mostrarSnackbar, flagEditar,
-                            nombre_producto, peso_unidad, descripcion, foto,id_producto, handleFileChange, getImagenUrl, decodeBase64,
+                            nombre_producto, peso_unidad, descripcion, foto, id_producto, handleFileChange, getImagenUrl, decodeBase64,
                             dataProgramaDesarrollo, headersProgramaDesarrollo, searchProgramaDesarrollo, arrayTiposUsuario,
                             dialogBuscador, dialogDetallesCotizacion, dialogProveedor, search,
-                            fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar ,  fnCambiarEstatus, itemEditar
+                            fnConsultarTabla, fnGuardar, fnLimpiarCampos, fnEditar, fnCambiarEstatus, itemEditar
                         }
                     },
                 });
